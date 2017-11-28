@@ -14,7 +14,7 @@
 		private function _get_datatables_query()
 		{		
 			$this->db->from($this->table);
-			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id','left');			
+			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id');			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
