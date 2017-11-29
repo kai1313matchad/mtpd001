@@ -12,8 +12,6 @@
 		                    <label class="col-sm-3 control-label">Nomor Approval</label>
 		                    <div class="col-sm-4">
 		                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
-		                        <!-- dzaky -->
-		                        <!-- dzaky -->
 		                        <input class="form-control" type="text" name="appr_code" value="" readonly>
 		                	</div>
 						</div>
@@ -89,38 +87,26 @@
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Awal-Akhir Kontrak</label>
-	                                    <div class="col-sm-3">
+	                                    <div class="col-sm-4">
 	                                    	<div class='input-group date dtp' id='dtp2'>     
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_awal" placeholder="Tanggal" />
+				                                <input id="tgl" type='text' class="form-control" name="tgl_awal" placeholder="Awal Kontrak" />
 				                            </div>
 	                                    </div>
-	                                    <label class="col-sm-3 control-label">Akhir Kontrak</label>
-	                                    <div class="col-sm-3">
+	                                    <div class="col-sm-4">
 	                                    	<div class='input-group date dtp' id='dtp3'>     
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Tanggal" />
-				                            </div>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Akhir Kontrak</label>
-	                                    <div class="col-sm-3">
-	                                    	<div class='input-group date dtp' id='dtp3'>     
-				                                <span class="input-group-addon">
-				                                    <span class="glyphicon glyphicon-calendar"></span>
-				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Tanggal" />
+				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Free Recovering</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
