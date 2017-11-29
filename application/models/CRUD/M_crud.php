@@ -169,6 +169,38 @@
 			return  $insertId;
 		}
 
+		public function gen_appr()
+		{
+			$this->db->select_max('appr_code','code');
+			$que = $this->db->get('trx_approvalbill');
+			$ext = $que->row();
+			$max = $ext->code;
+			if($max == null)
+			{
+				$max = 'AB/'.date('dm').'/00000';
+			}
+			$num = (int) substr($max,8,5);
+			$num++;
+			$kode = 'AB/'.date('dm').'/';
+			$res = $kode . sprintf('%05s',$num);
+			$data = array(
+					'appr_code'=>$res,
+					'appr_sts'=>'0'
+				);			
+			$this->db->insert('trx_approvalbill',$data);
+			$insertId = $this->db->insert_id();
+			$data2 = array(
+					'appr_id' => $insertId,
+					'hisappr_sts' => 'Void By System',
+					'hisappr_old' => 'None',
+					'hisappr_new' => 'None',
+					'hisappr_info' => 'Create By System',
+					'hisappr_upcount' => 0
+				);
+			$this->db->insert('his_approvalbill',$data2);
+			return  $insertId;
+		}
+
 		//add bapp
 		public function add_bapp()
 		{

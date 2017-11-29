@@ -45,9 +45,10 @@
 
 		public function mkt_trx_approval()
 		{
-			$id=$this->crud->add_appr();
+			$id=$this->crud->gen_appr();
 			// $id = '6';
-			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			$data['appr'] = 'AB/1111/10101';
 			$data['pattyp'] = $this->crud->get_pattyp();
 			$data['loc'] = $this->crud->get_loc();
 			$data['title']='Match Terpadu - Dashboard Marketing';
