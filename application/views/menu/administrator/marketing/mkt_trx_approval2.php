@@ -13,6 +13,7 @@
 		                    <div class="col-sm-4">
 		                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
 		                        <!-- dzaky -->
+		                        <!-- dzaky -->
 		                	</div>
 						</div>
 						<div class="form-group">
