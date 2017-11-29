@@ -46,6 +46,7 @@
 		public function mkt_trx_approval()
 		{
 			$id=$this->crud->add_appr();
+			
 			// $id = '6';
 			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['pattyp'] = $this->crud->get_pattyp();
