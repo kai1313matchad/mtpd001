@@ -45,12 +45,7 @@
 
 		public function mkt_trx_approval()
 		{
-<<<<<<< HEAD
 			$id=$this->crud->gen_appr();
-=======
-			$id=$this->crud->add_appr();
-			
->>>>>>> Branch_001
 			// $id = '6';
 			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['appr'] = 'AB/1111/10101';
