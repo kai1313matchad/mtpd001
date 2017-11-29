@@ -4,8 +4,7 @@
 	{
 		public function __construct()
 		{
-			parent::__construct();
-			//$this->load->model('frontend/M_dashboard','M_dash');
+			parent::__construct();			
 		}
 
 		public function index()
