@@ -12,7 +12,8 @@
 		                    <label class="col-sm-3 control-label">Nomor Approval</label>
 		                    <div class="col-sm-4">
 		                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
-		                	</div>	                                    
+		                        <!-- dzaky -->
+		                	</div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-2 text-center">
