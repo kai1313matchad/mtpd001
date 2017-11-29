@@ -60,7 +60,7 @@
 	                            <input type="hidden" name="user_id" value="1">
 	                                <div class="form-group">
 	                                    <label class="col-sm-2 control-label">Nomor PO</label>
-	                                    <div class="col-sm-10">
+	                                    <div class="col-sm-9">
 	                                        <input class="form-control" type="text" name="appr_po">
 	                                    </div>
 	                                </div>
