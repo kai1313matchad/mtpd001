@@ -86,7 +86,7 @@
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Awal Kontrak</label>
+	                                    <label class="col-sm-3 control-label">Awal-Akhir Kontrak</label>
 	                                    <div class="col-sm-3">
 	                                    	<div class='input-group date dtp' id='dtp2'>     
 				                                <span class="input-group-addon">
