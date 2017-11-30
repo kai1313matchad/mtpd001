@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h1 class="page-header">Marketing - Approval</h1>
+                        <h1 class="page-header">Marketing - Approvalku/h1>
                     </div>                    
                 </div>
                 <div class="row">
