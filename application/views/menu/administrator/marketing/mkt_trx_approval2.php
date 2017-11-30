@@ -3,17 +3,13 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h1 class="page-header">Marketing - Approval123</h1>
+                        <h1 class="page-header">Marketing - Approval</h1>
                     </div>                    
                 </div>
                 <div class="row">
                 	<form class="form-horizontal">
-                		<div class="form-group">                      
-<<<<<<< HEAD
-		                    <label class="col-sm-3 control-label">Nomor Approval4561</label>
-=======
-		                    <label class="col-sm-3 control-label">Nomor Approval4560</label>
->>>>>>> 2c5f9d881baf3cb37c312c4527601568707baac1
+                		<div class="form-group">
+		                    <label class="col-sm-3 control-label">Nomor Approval</label>
 		                    <div class="col-sm-4">
 		                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
 		                        <input class="form-control" type="text" name="appr_code" value="" readonly>
