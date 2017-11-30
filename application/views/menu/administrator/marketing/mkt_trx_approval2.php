@@ -23,7 +23,7 @@
                 	</form>
                 </div>
                 <div class="row">
-                	<div class="col-xs-12">
+                	<!-- <div class="col-xs-12"> -->
                 		<ul class="nav nav-tabs">
                 			<li class="active">
                 				<a href="#1" data-toggle="tab">Data Approval</a>
@@ -36,7 +36,7 @@
                 			<div class="tab-content">
                 				<div class="tab-pane fade in active" id="1">
                 					<div class="form-group">
-		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
+		                            	<div class="col-xs-4 col-xs-offset-3 text-center">
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
@@ -45,21 +45,21 @@
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor Approval cabang</label>
 	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
 	                                    </div>
-	                                    <div class="col-sm-3">
+	                                    <div class="col-sm-7">
 	                                        <input class="form-control" type="text" name="appr_brc" readonly>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <input class="form-control" type="text" name="appr_po">
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Tanggal Pembuatan</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                    	<div class='input-group date dtp' id='dtp1'>     
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
@@ -96,7 +96,7 @@
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nama Klien</label>
 	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+	                                        <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
 	                                    </div>
 	                                    <div class="col-sm-3">
 	                                        <input class="form-control" type="text" name="cust_code" readonly>
@@ -121,26 +121,77 @@
 	                                        <input class="form-control" type="text" name="cust_fax" readonly>
 	                                    </div>
 	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Marketing</label>
+	                            		<div class="col-sm-1">
+			                            	<a href="javascript:void(0)" onclick="srch_mkt()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <input class="form-control" type="text" name="sales_code" readonly>
+			                            	<input type="hidden" name="sales_id" value="">
+			                            </div>
+			                            <div class="col-sm-4">
+			                                <input class="form-control" type="text" name="sales_name" readonly>
+			                            </div>										
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">No.Tlp || Email</label>
+			                            <div class="col-sm-4">
+			                                <input class="form-control" type="text" name="sales_phone" readonly>
+			                            </div>
+			                            <div class="col-sm-4">
+			                                <input class="form-control" type="mail" name="sales_email" readonly>
+			                            </div>
+	                            	</div>
+	                            	<div class="form-group">
+	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
+	                                    <div class="col-sm-8">
+	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+                            			<label class="col-sm-3 control-label">Pekerjaan</label>
+	                                    <div class="col-sm-8">
+	                                        <textarea name="jobdesc" class="form-control" rows="2" style="resize: vertical;"></textarea>
+	                                    </div>
+                            		</div>
+                            		<div class="form-group">
+                            			<label class="col-sm-3 control-label">Jenis Reklame</label>
+                            			<div class="col-sm-1">
+			                                <a href="javascript:void(0)" onclick="srch_bb()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-7">
+			                                <input class="form-control" type="text" name="jnsbb" readonly>
+			                                <input type="hidden" name="bb_id" value="">
+			                            </div>			                            
+                            		</div>
+                            		<div class="form-group">
+                            			<label class="col-sm-3 control-label">Lokasi</label>
+                            			<div class="col-sm-1">
+			                                <a href="javascript:void(0)" onclick="srch_loc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-7">
+			                                <input class="form-control" type="text" name="loc_name" readonly>
+			                                <input type="hidden" name="loc_id" value="">
+			                            </div>			                            
+                            		</div>
                 				</div>
                 				<div class="tab-pane fade" id="2">
                 					<div class="form-group">
-		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
+		                            	<div class="col-xs-4 col-xs-offset-3 text-center">
 		                                	<h2>Detail Biaya</h2>
 		                                </div>
 	                            	</div>
                 				</div>
                 			</div>
                 		</form>
-                	</div>
+                	<!-- </div> -->
                 </div>
                 <div class="row">
                 	<div class="col-sm-12 col-xs-12">
 	                	<ul class="nav nav-tabs">
 	                		<li class="active">
 	                			<a href="#appr" data-toggle="tab">Approval</a>
-	                		</li>
-	                		<li>
-	                			<a href="#customer" data-toggle="tab">Customer</a>
 	                		</li>
 	                		<li>
 	                			<a href="#mkt" data-toggle="tab">Marketing</a>
@@ -169,114 +220,14 @@
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
-	                                <div class="form-group">                              
-	                                    	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
-	                                <div class="form-group">                        
-	                                    
-	                                </div>
-	                                <div class="form-group">	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    
-	                                </div>
                             	</div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
-	                                    <div class="col-sm-4">
-	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-                            			<label class="col-sm-3 control-label">Pekerjaan</label>
-	                                    <div class="col-sm-4">
-	                                        <textarea name="jobdesc" class="form-control" rows="2" style="resize: vertical;"></textarea>
-	                                    </div>
-                            		</div>
-                            	</div>
-                            	<div class="tab-pane fade" id="customer">
-                            		<div class="form-group">
-                                    	<div class="col-sm-4 col-sm-offset-3 text-center">
-                                        	<h2>Data Customer</h2>
-                                    	</div>
-                                	</div>
-                                	<!-- <div class="form-group">                        
-	                                    <label class="col-sm-3 control-label">Kode</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="cust_code" readonly>
-	                                        <input type="hidden" name="cust_id" value="">
-	                                    </div>
-	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Nama</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="cust_name" readonly>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Alamat</label>
-	                                    <div class="col-sm-4">
-	                                        <textarea name="cust_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Kota</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="cust_city" readonly>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">No.Tlp || Fax</label>
-	                                    <div class="col-sm-2">
-	                                        <input class="form-control" type="text" name="cust_phone" readonly>
-	                                    </div>
-	                                    <div class="col-sm-2">
-	                                        <input class="form-control" type="text" name="cust_fax" readonly>
-	                                    </div>
-	                                </div>
-                            	</div> -->
+                            	</div>                            	
                             	<div class="tab-pane fade" id="mkt">
                             		<div class="form-group">
 			                            <div class="col-sm-4 col-sm-offset-3 text-center">
 			                                <h2>Data Marketing</h2>
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <div class="fgroup">
-			                                <label class="col-sm-3 control-label">Kode</label>
-			                                <div class="col-sm-4">
-			                                    <input class="form-control" type="text" name="sales_code" readonly>
-			                                    <input type="hidden" name="sales_id" value="">
-			                                </div>
-			                                <div class="col-sm-1">
-			                                    <a href="javascript:void(0)" onclick="srch_mkt()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-			                                </div>
-			                            </div>                            
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Nama</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="sales_name" readonly>
-			                            </div>
-			                        </div>
+			                        </div>			                        
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">No.Tlp || Email</label>
 			                            <div class="col-sm-2">
@@ -325,24 +276,10 @@
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Jenis Reklame</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="jnsbb" readonly>
-			                                <input type="hidden" name="bb_id" value="">
-			                            </div>
-			                            <div class="col-sm-1">
-			                                <a href="javascript:void(0)" onclick="srch_bb()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-			                            </div>
+			                            
 			                        </div>
 			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Lokasi</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="loc_name" readonly>
-			                                <input type="hidden" name="loc_id" value="">
-			                            </div>
-			                            <div class="col-sm-1">
-			                                <a href="javascript:void(0)" onclick="srch_loc()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-			                            </div>
+			                            
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Alamat</label>
