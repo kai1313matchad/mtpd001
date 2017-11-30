@@ -252,6 +252,38 @@
 			return  $insertId;
 		}
 
+		public function gen_ponumber()
+		{
+			$this->db->select_max('po_code','code');
+			$que = $this->db->get('trx_po');
+			$ext = $que->row();
+			$max = $ext->code;
+			if($max == null)
+			{
+				$max = 'PO/'.date('dm').'/00000';
+			}
+			$num = (int) substr($max,8,5);
+			$num++;
+			$kode = 'PO/'.date('dm').'/';
+			$res = $kode . sprintf('%05s',$num);
+			$data = array(
+					'po_code'=>$res,
+					'po_sts'=>'0'
+				);			
+			$this->db->insert('trx_po',$data);
+			$insertId = $this->db->insert_id();
+			$data2 = array(
+					'po_id' => $insertId,
+					'hispo_sts' => 'Void By System',
+					'hispo_old' => 'None',
+					'hispo_new' => 'None',
+					'hispo_info' => 'Create By System',
+					'hispo_upcount' => 0
+				);
+			$this->db->insert('his_po',$data2);
+			return  $insertId;
+		}
+
 		//get po sub
 		public function sub_po($id)
 		{					

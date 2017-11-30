@@ -43,7 +43,7 @@
 
 		public function lgt_trx_po()
 		{
-			$id=$this->crud->add_po();
+			$id=$this->crud->gen_ponumber();
 			$data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
