@@ -22,60 +22,43 @@
 						</div>
                 	</form>
                 </div>
-                <div class="row">                	
-                	<ul class="nav nav-tabs">
-                		<li class="active">
-                			<a href="#appr" data-toggle="tab">Approval</a>
-                		</li>
-                		<li>
-                			<a href="#customer" data-toggle="tab">Customer</a>
-                		</li>
-                		<li>
-                			<a href="#mkt" data-toggle="tab">Marketing</a>
-                		</li>
-                		<li>
-                			<a href="#reklame" data-toggle="tab">Reklame</a>
-                		</li>
-                		<li>
-                			<a href="#bayar" data-toggle="tab">Pembayaran</a>
-                		</li>
-                		<li>
-                			<a href="#cost" data-toggle="tab">Detail Biaya</a>
-                		</li>
-                		<li>
-                			<a href="#termin" data-toggle="tab">Detail Termin</a>
-                		</li>
-                		<li>
-                			<a href="#permit" data-toggle="tab">Detail Perijinan</a>
-                		</li>
-                	</ul>
-                	<form class="form-horizontal" id="form_appr">
-                		<div class="tab-content">
-                			<div class="tab-pane fade in active" id="appr">
-                            	<div class="form-group">
-	                            	<div class="col-sm-4 col-sm-offset-3 text-center">
-	                                	<h2>Data Approval</h2>
-	                                </div>
-	                            </div>
-	                            <!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->	                            
-	                            <input type="hidden" name="user_id" value="1">
-	                                <div class="form-group">                              
-	                                    <label class="col-sm-3 control-label">Nomor Approval cabang</label>
+                <div class="row">
+                	<div class="col-xs-12">
+                		<ul class="nav nav-tabs">
+                			<li class="active">
+                				<a href="#1" data-toggle="tab">Data Approval</a>
+                			</li>
+                			<li>
+                				<a href="#2" data-toggle="tab">Detail Biaya</a>
+                			</li>
+                		</ul>
+                		<form class="form-horizontal" id="form_bapp" enctype="multipart/form-data">
+                			<div class="tab-content">
+                				<div class="tab-pane fade in active" id="1">
+                					<div class="form-group">
+		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
+		                                	<h2>Data Approval</h2>
+		                                </div>
+	                            	</div>
+	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->	                            
+	                            	<input type="hidden" name="user_id" value="1">
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Nomor Approval cabang</label>
 	                                    <div class="col-sm-1">
 	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
 	                                    </div>
 	                                    <div class="col-sm-3">
 	                                        <input class="form-control" type="text" name="appr_brc" readonly>
-	                                    </div>	                                    
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Nomor PO</label>
+	                                    </div>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-4">
 	                                        <input class="form-control" type="text" name="appr_po">
 	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Tanggal Pembuatan</label>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Tanggal Pembuatan</label>
 	                                    <div class="col-sm-4">
 	                                    	<div class='input-group date dtp' id='dtp1'>     
 				                                <span class="input-group-addon">
@@ -84,9 +67,9 @@
 				                                <input id="tgl" type='text' class="form-control" name="tgl" placeholder="Tanggal" />
 				                            </div>
 	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Awal-Akhir Kontrak</label>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Awal-Akhir Kontrak</label>
 	                                    <div class="col-sm-4">
 	                                    	<div class='input-group date dtp' id='dtp2'>     
 				                                <span class="input-group-addon">
@@ -103,15 +86,15 @@
 				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Free Recovering</label>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Free Recovering</label>
 	                                    <div class="col-sm-8">
 	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
-	                                </div>
-	                                <div class="form-group">                        
-	                                    <label class="col-sm-3 control-label">Nama Klien</label>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Nama Klien</label>
 	                                    <div class="col-sm-1">
 	                                        <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
 	                                    </div>
@@ -122,29 +105,95 @@
 	                                    <div class="col-sm-4">
 	                                        <input class="form-control" type="text" name="cust_name" readonly>
 	                                    </div>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">Alamat</label>
+	                                    <div class="col-sm-8">
+	                                        <textarea name="cust_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+	                                    </div>
+	                            	</div>
+	                            	<div class="form-group">
+	                            		<label class="col-sm-3 control-label">No.Tlp || Fax</label>
+	                                    <div class="col-sm-4">
+	                                        <input class="form-control" type="text" name="cust_phone" readonly>
+	                                    </div>
+	                                    <div class="col-sm-4">
+	                                        <input class="form-control" type="text" name="cust_fax" readonly>
+	                                    </div>
+	                            	</div>
+                				</div>
+                				<div class="tab-pane fade" id="2">
+                					<div class="form-group">
+		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
+		                                	<h2>Detail Biaya</h2>
+		                                </div>
+	                            	</div>
+                				</div>
+                			</div>
+                		</form>
+                	</div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12 col-xs-12">
+	                	<ul class="nav nav-tabs">
+	                		<li class="active">
+	                			<a href="#appr" data-toggle="tab">Approval</a>
+	                		</li>
+	                		<li>
+	                			<a href="#customer" data-toggle="tab">Customer</a>
+	                		</li>
+	                		<li>
+	                			<a href="#mkt" data-toggle="tab">Marketing</a>
+	                		</li>
+	                		<li>
+	                			<a href="#reklame" data-toggle="tab">Reklame</a>
+	                		</li>
+	                		<li>
+	                			<a href="#bayar" data-toggle="tab">Pembayaran</a>
+	                		</li>
+	                		<li>
+	                			<a href="#cost" data-toggle="tab">Detail Biaya</a>
+	                		</li>
+	                		<li>
+	                			<a href="#termin" data-toggle="tab">Detail Termin</a>
+	                		</li>
+	                		<li>
+	                			<a href="#permit" data-toggle="tab">Detail Perijinan</a>
+	                		</li>
+	                	</ul>
+                		<form class="form-horizontal" id="form_appr">
+                			<div class="tab-content">
+                				<div class="tab-pane fade in active" id="appr">
+                            		<div class="form-group">
+		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
+		                                	<h2>Data Approval</h2>
+		                                </div>
+	                            	</div>
+	                                <div class="form-group">                              
+	                                    	                                    
+	                                </div>
+	                                <div class="form-group">
+	                                    
+	                                </div>
+	                                <div class="form-group">
+	                                    
+	                                </div>
+	                                <div class="form-group">
+	                                    
+	                                </div>
+	                                <div class="form-group">
+	                                    
+	                                </div>
+	                                <div class="form-group">                        
+	                                    
 	                                </div>
 	                                <div class="form-group">	                                    
 	                                </div>
 	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Alamat</label>
-	                                    <div class="col-sm-4">
-	                                        <textarea name="cust_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-	                                    </div>
+	                                    
 	                                </div>
 	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Kota</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="cust_city" readonly>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">No.Tlp || Fax</label>
-	                                    <div class="col-sm-2">
-	                                        <input class="form-control" type="text" name="cust_phone" readonly>
-	                                    </div>
-	                                    <div class="col-sm-2">
-	                                        <input class="form-control" type="text" name="cust_fax" readonly>
-	                                    </div>
+	                                    
 	                                </div>
                             	</div>
 	                                <div class="form-group">
@@ -639,7 +688,7 @@
                             	</div>
                 			</div>
                 		</form>
-                	<!-- </div> -->
+                	</div>
                 </div>
             </div>
             <!-- /.container-fluid -->
@@ -858,21 +907,21 @@
     		$('.dtp').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
-            $('[name="dpp"]').change(function(){
-            	$('[name="termdpp"]').val($('[name="dpp"]').val());
-            });
-            $('.hitgrt').on('input',function(e){
-            	grtotal();
-            	// dettermin();
-            });
-            $('.hitterm').on('input',function(e){
-            	dettermin();
-            });
-            // $('[name=gtotal]').val(gtotal);
-            var id = $('[name="appr_id"]').val();
-            ijinapp(id);
-            termapp(id);
-            costapp(id);
+            // $('[name="dpp"]').change(function(){
+            // 	$('[name="termdpp"]').val($('[name="dpp"]').val());
+            // });
+            // $('.hitgrt').on('input',function(e){
+            // 	grtotal();
+            // 	// dettermin();
+            // });
+            // $('.hitterm').on('input',function(e){
+            // 	dettermin();
+            // });
+            // // $('[name=gtotal]').val(gtotal);
+            // var id = $('[name="appr_id"]').val();
+            // ijinapp(id);
+            // termapp(id);
+            // costapp(id);
     	});
 
     	function simpan()
@@ -1226,8 +1275,8 @@
 	                $('[name="cust_id"]').val(data.CUST_ID);
 	                $('[name="cust_code"]').val(data.CUST_CODE);
 	                $('[name="cust_name"]').val(data.CUST_NAME);
-	                $('[name="cust_address"]').val(data.CUST_ADDRESS);
-	                $('[name="cust_city"]').val(data.CUST_CITY);
+	                $('[name="cust_address"]').val(data.CUST_ADDRESS+', '+data.CUST_CITY);
+	                // $('[name="cust_city"]').val(data.CUST_CITY);
 	                $('[name="cust_phone"]').val(data.CUST_PHONE);
 	                $('[name="cust_fax"]').val(data.CUST_FAX);
 	                $('#modal_cust').modal('hide');
