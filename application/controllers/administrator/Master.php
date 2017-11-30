@@ -346,7 +346,7 @@
 
 		public function gen_cust()
 		{			
-			$res = $this->crud->gen_numb('gd_code','master_goods','BRG');
+			$res = $this->crud->gen_numb('gd_code','master_goods','CST');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
 			echo json_encode($data);

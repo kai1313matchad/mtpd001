@@ -61,12 +61,12 @@
 	                            <input type="hidden" name="user_id" value="1">
 	                                <div class="form-group">                              
 	                                    <label class="col-sm-3 control-label">Nomor Approval cabang</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="appr_brc" readonly>
-	                                    </div>
 	                                    <div class="col-sm-1">
 	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
 	                                    </div>
+	                                    <div class="col-sm-3">
+	                                        <input class="form-control" type="text" name="appr_brc" readonly>
+	                                    </div>	                                    
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Nomor PO</label>
@@ -110,6 +110,43 @@
 	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
+	                                <div class="form-group">                        
+	                                    <label class="col-sm-3 control-label">Nama Klien</label>
+	                                    <div class="col-sm-1">
+	                                        <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+	                                    </div>
+	                                    <div class="col-sm-3">
+	                                        <input class="form-control" type="text" name="cust_code" readonly>
+	                                        <input type="hidden" name="cust_id" value="">
+	                                    </div>
+	                                    <div class="col-sm-4">
+	                                        <input class="form-control" type="text" name="cust_name" readonly>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">	                                    
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">Alamat</label>
+	                                    <div class="col-sm-4">
+	                                        <textarea name="cust_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">Kota</label>
+	                                    <div class="col-sm-4">
+	                                        <input class="form-control" type="text" name="cust_city" readonly>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">No.Tlp || Fax</label>
+	                                    <div class="col-sm-2">
+	                                        <input class="form-control" type="text" name="cust_phone" readonly>
+	                                    </div>
+	                                    <div class="col-sm-2">
+	                                        <input class="form-control" type="text" name="cust_fax" readonly>
+	                                    </div>
+	                                </div>
+                            	</div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
 	                                    <div class="col-sm-4">
@@ -129,7 +166,7 @@
                                         	<h2>Data Customer</h2>
                                     	</div>
                                 	</div>
-                                	<div class="form-group">                        
+                                	<!-- <div class="form-group">                        
 	                                    <label class="col-sm-3 control-label">Kode</label>
 	                                    <div class="col-sm-4">
 	                                        <input class="form-control" type="text" name="cust_code" readonly>
@@ -166,7 +203,7 @@
 	                                        <input class="form-control" type="text" name="cust_fax" readonly>
 	                                    </div>
 	                                </div>
-                            	</div>
+                            	</div> -->
                             	<div class="tab-pane fade" id="mkt">
                             		<div class="form-group">
 			                            <div class="col-sm-4 col-sm-offset-3 text-center">
