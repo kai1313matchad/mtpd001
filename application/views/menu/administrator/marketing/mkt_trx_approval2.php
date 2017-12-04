@@ -175,6 +175,70 @@
 			                                <input type="hidden" name="loc_id" value="">
 			                            </div>			                            
                             		</div>
+                            		<div class="form-group">
+			                            <label class="col-sm-3 control-label">Alamat</label>
+			                            <div class="col-sm-8">
+			                                <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Penempatan Reklame</label>
+			                            <div class="col-sm-1">
+			                                <a href="javascript:void(0)" onclick="srch_plc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-7">
+			                                <input class="form-control" type="text" name="appr_plc">
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Materi Visual</label>
+			                            <div class="col-sm-8">
+			                                <input class="form-control" type="text" name="appr_vis">
+			                            </div>
+			                        </div>
+                            		<div class="form-group">
+			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
+			                            <div class="col-sm-2">
+			                                <input class="form-control" type="text" name="appr_length" placeholder="panjang">
+			                            </div>
+			                            <div class="col-sm-2">
+			                                <input class="form-control" type="text" name="appr_width" placeholder="lebar">
+			                            </div>
+			                            <div class="col-sm-2">
+			                                <input class="form-control" type="text" name="appr_height" placeholder="tinggi">
+			                            </div>			                            
+			                            <label class="col-sm-1 control-label">Meter</label>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Luas</label>
+			                            <div class="col-sm-2">
+			                                <input class="form-control" type="text" name="appr_sumsize" placeholder="luas">
+			                            </div>			                            
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Sisi Muka || Jumlah</label>
+			                            <div class="col-sm-6">
+			                                <input class="form-control" type="text" name="appr_side" placeholder="depan/belakang/samping">
+			                            </div>			                            
+			                            <div class="col-sm-2">
+			                                <input class="form-control" type="text" name="appr_plcsum" placeholder="jumlah">
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="col-sm-3 control-label">Detail Biaya</label>
+	                                    <div class="col-sm-8">
+	                                        <label class="radio-inline"><input type="radio" onclick="show()" name="detail_biaya" value="0">Tampilkan</label>
+	                                        <label class="radio-inline"><input type="radio" onclick="hide()" name="detail_biaya" value="1">Sembunyikan</label> 
+	                                    </div>
+			                        </div>
+			                        <div id="det_biaya">
+			                        	<div class="form-group">
+			                        		
+			                        	</div>
+			                        </div>
+                            		<div class="form-group">
+                            			
+                            		</div>
                 				</div>
                 				<div class="tab-pane fade" id="2">
                 					<div class="form-group">
@@ -220,21 +284,11 @@
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
-                            	</div>
                             	</div>                            	
                             	<div class="tab-pane fade" id="mkt">
                             		<div class="form-group">
 			                            <div class="col-sm-4 col-sm-offset-3 text-center">
 			                                <h2>Data Marketing</h2>
-			                            </div>
-			                        </div>			                        
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">No.Tlp || Email</label>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="sales_phone" readonly>
-			                            </div>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="mail" name="sales_email" readonly>
 			                            </div>
 			                        </div>
                             	</div>
@@ -242,67 +296,6 @@
                             		<div class="form-group">
 			                            <div class="col-sm-4 col-sm-offset-3 text-center">
 			                                <h2>Data Reklame</h2>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
-			                            <div class="col-sm-1">
-			                                <input class="form-control" type="text" name="appr_length">
-			                            </div>
-			                            <div class="col-sm-1">
-			                                <input class="form-control" type="text" name="appr_width">
-			                            </div>
-			                            <div class="col-sm-1">
-			                                <input class="form-control" type="text" name="appr_height">
-			                            </div>
-			                            <div class="col-sm-1">
-			                                <label class="col-sm-1 control-label">Meter</label>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Luas</label>
-			                            <div class="col-sm-1">
-			                                <input class="form-control" type="text" name="appr_sumsize">
-			                            </div>                            
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Sisi Muka</label>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_side">
-			                            </div>
-			                            <label class="col-sm-1 control-label">Jumlah</label>
-			                            <div class="col-sm-1">
-			                                <input class="form-control" type="text" name="appr_plcsum">
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            
-			                        </div>
-			                        <div class="form-group">
-			                            
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Alamat</label>
-			                            <div class="col-sm-4">
-			                                <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Kota</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="loc_city" readonly>
-			                            </div>			                            
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Penempatan Reklame</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="appr_plc">
-			                            </div>			                            
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Materi Visual</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="appr_vis">
 			                            </div>
 			                        </div>
                             	</div>
@@ -1385,15 +1378,14 @@
     	function pick_loc(id)
     	{    		
 	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>/" + id,
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
 	            type: "GET",
 	            dataType: "JSON",
 	            success: function(data)
 	            {   
 	                $('[name="loc_id"]').val(data.LOC_ID);
 	                $('[name="loc_name"]').val(data.LOC_NAME);
-	                $('[name="loc_address"]').val(data.LOC_ADDRESS);
-	                $('[name="loc_city"]').val(data.LOC_CITY);
+	                $('[name="loc_address"]').val(data.LOC_ADDRESS+', '+data.LOC_CITY);
 	                $('#modal_loc').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
