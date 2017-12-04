@@ -2,10 +2,10 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_srchplc extends CI_Model 
 	{
-		var $table = 'master_location';
-		var $column_order = array(null,'loc_code','loc_name','loc_address','loc_city','loc_info');
-		var $column_search = array('loc_code','loc_name','loc_address','loc_city','loc_info');
-		var $order = array('loc_id' => 'desc');
+		var $table = 'master_placement';
+		var $column_order = array(null,'plc_code','plc_name');
+		var $column_search = array('plc_code','plc_name');
+		var $order = array('plc_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
@@ -13,7 +13,7 @@
 		private function _get_datatables_query()
 		{		
 			$this->db->from($this->table);
-			$this->db->where('loc_dtsts','1');
+			$this->db->where('plc_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

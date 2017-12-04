@@ -10,6 +10,7 @@
 			$this->load->model('datatables/Dt_srchbb','srch_bb');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchloc','srch_loc');
+			$this->load->model('datatables/Dt_srchplc','srch_plc');
 			$this->load->model('datatables/Dt_srchbapp','srch_bapp');
 			$this->load->model('datatables/Dt_ijinapp','ijinapp');
 			$this->load->model('datatables/Dt_termapp','termapp');
@@ -279,6 +280,35 @@
 		public function ajax_pick_loc($id)
 		{
 			$data = $this->crud->get_by_id('master_location',array('loc_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_srch_plc()
+		{
+			$list = $this->srch_plc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PLC_CODE;
+				$row[] = $dat->PLC_NAME;				
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_plc('."'".$dat->PLC_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_plc->count_all(),
+							"recordsFiltered" => $this->srch_plc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_pick_plc($id)
+		{
+			$data = $this->crud->get_by_id('master_placement',array('plc_id' => $id));
         	echo json_encode($data);
 		}
 

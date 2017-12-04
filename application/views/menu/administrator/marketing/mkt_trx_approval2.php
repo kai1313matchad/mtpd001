@@ -187,7 +187,8 @@
 			                                <a href="javascript:void(0)" onclick="srch_plc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
 			                            </div>
 			                            <div class="col-sm-7">
-			                                <input class="form-control" type="text" name="appr_plc">
+			                                <input type="hidden" name="plc_id">
+			                                <input class="form-control" type="text" name="plc_name">
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -231,14 +232,129 @@
 	                                        <label class="radio-inline"><input type="radio" onclick="hide()" name="detail_biaya" value="1">Sembunyikan</label> 
 	                                    </div>
 			                        </div>
-			                        <div id="det_biaya">
+			                        <div id="det_biaya" class="col-sm-offset-3">
 			                        	<div class="form-group">
-			                        		
+			                        		<label class="col-sm-3 control-label">Media Placement</label>
+			                        		<div class="col-sm-6">
+			                        			<div class="input-group">
+				                            		<span class="input-group-addon">Rp</span>
+				                                	<input onchange="grtotal()" class="form-control" type="text" name="media_plc">
+				                                </div>
+			                        		</div>
 			                        	</div>
 			                        </div>
                             		<div class="form-group">
-                            			
+                            			<label class="col-sm-3 control-label">DPP</label>
+			                            <div class="col-sm-8">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input onchange="grtotal()" class="form-control hitgrt" type="text" name="dpp">
+			                            	</div>			                                
+			                            </div>
                             		</div>
+                            		<div class="form-group">
+			                            <label class="col-sm-3 control-label">Disc. 1</label>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">%</span>
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp1">
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="discn1" readonly>
+			                            	</div>			                                
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Disc. 2</label>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">%</span>
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp2">          	
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="discn2" readonly>
+			                            	</div>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Sub Total</label>
+			                            <div class="col-sm-8">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="subtotal1" readonly>
+			                            	</div>			                                
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">PPN</label>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">%</span>
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="ppnp">             	
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="ppnn" readonly>
+			                            	</div>			                                
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
+			                            <div class="col-sm-8">
+			                                <input onchange="grtotal()" class="form-control" type="text" name="appr_bbtax">
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Sub Total</label>
+			                            <div class="col-sm-8">
+			                                <input class="form-control" type="text" name="subtotal2" readonly>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">PPH</label>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">%</span>
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="pphp">             	
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="pphn" readonly>
+			                            	</div>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
+			                            <div class="col-sm-1">
+			                            	<a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-3">
+			                            	<input class="form-control" type="text" name="curr_name" readonly>
+			                               	<input type="hidden" name="curr_id" value="">
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<input class="form-control" type="text" name="curr_rate" readonly>
+										</div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Grand Total</label>
+			                            <div class="col-sm-8">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="gtotal" readonly>
+			                            	</div>			                                
+			                            </div>
+			                        </div>
                 				</div>
                 				<div class="tab-pane fade" id="2">
                 					<div class="form-group">
@@ -310,104 +426,11 @@
 			                            <div class="col-sm-4">
 			                                <input class="form-control" type="text" name="appr_pay">
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <div class="fgroup">
-			                                <label class="col-sm-3 control-label">Mata Uang || Rate</label>
-			                                <div class="col-sm-2">
-			                                    <input class="form-control" type="text" name="curr_name" readonly>
-			                                    <input type="hidden" name="curr_id" value="">
-			                                </div>
-			                                <div class="col-sm-2">
-			                                    <input class="form-control" type="text" name="curr_rate" readonly>
-			                                </div>
-			                                <div class="col-sm-1">
-			                                    <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-			                                </div>
-			                            </div>                            
-			                        </div>
+			                        </div>			                        
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-4">
 			                                <input class="form-control" type="text" name="brc_nom" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">DPP</label>
-			                            <div class="col-sm-4">
-			                                <input onchange="grtotal()" class="form-control hitgrt" type="text" name="dpp">
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Disc. 1</label>
-			                            <div class="col-sm-2">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp1">
-			                                </div>
-			                            </div>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="discn1" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Disc. 2</label>
-			                            <div class="col-sm-2">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp2">          	
-			                                </div>
-			                            </div>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="discn2" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Sub Total</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="subtotal1" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">PPN</label>
-			                            <div class="col-sm-2">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="ppnp">             	
-			                                </div>
-			                            </div>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="ppnn" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
-			                            <div class="col-sm-4">
-			                                <input onchange="grtotal()" class="form-control" type="text" name="appr_bbtax">
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Sub Total</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="subtotal2" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">PPH</label>
-			                            <div class="col-sm-2">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="pphp">             	
-			                                </div>
-			                            </div>
-			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="pphn" readonly>
-			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Grand Total</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="gtotal" readonly>
 			                            </div>
 			                        </div>
                             	</div>
@@ -767,6 +790,35 @@
 	    								<th>Alamat</th>
 	    								<th>Kota</th>
 	    								<th>Info</th>
+	    								<th>Pilih</th>
+	    							</tr>
+	    						</thead>
+	    					</table>
+	    				</div>
+    				</div>    				
+    			</div>
+    			<div class="modal-footer">
+    				<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div class="modal fade" id="modal_plc" role="dialog">
+    	<div class="modal-dialog" role="document">
+    		<div class="modal-content">
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+    			</div>
+    			<div class="modal-body">
+    				<div class="row">
+    					<div class="col-sm-12 col-xs-12 table-responsive">
+	    					<table id="dtb_plc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	    						<thead>
+	    							<tr>
+	    								<th>No</th>
+	    								<th>Kode</th>
+	    								<th>Nama</th>
 	    								<th>Pilih</th>
 	    							</tr>
 	    						</thead>
@@ -1387,6 +1439,49 @@
 	                $('[name="loc_name"]').val(data.LOC_NAME);
 	                $('[name="loc_address"]').val(data.LOC_ADDRESS+', '+data.LOC_CITY);
 	                $('#modal_loc').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function srch_plc()
+    	{
+    		$('#modal_plc').modal('show');
+    		$('.modal-title').text('Cari Penempatan');
+	        table = $('#dtb_plc').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_srch_plc')?>",
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+
+    	function pick_plc(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_plc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="plc_id"]').val(data.PLC_ID);
+	                $('[name="plc_name"]').val(data.PLC_NAME);	                
+	                $('#modal_plc').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {
