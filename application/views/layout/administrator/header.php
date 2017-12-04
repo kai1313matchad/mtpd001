@@ -1,7 +1,8 @@
 <body>
     <div id="wrapper">
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-static-top iku" role="navigation" style="margin-bottom: 0">
+            
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -9,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a style="padding-top: 10px" class="navbar-brand" href="<?php echo base_url() ?>administrator/Dashboard">
+                <a style="padding-top: 10px; width: 250px" class="navbar-brand" href="<?php echo base_url() ?>administrator/Dashboard">
                     <img src="<?php echo base_url('assets/img/logo/mtpd.png')?>" class="img-responsive">
                 </a>
             </div>
@@ -30,10 +31,11 @@
                     </ul>                    
                 </li>                
             </ul>
+            
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">                        
+                    <ul class="nav iki" id="side-menu">                        
                         <li>
                             <a <?php if ($menu == 'dashboard') {echo 'class=active';} ?> href="<?php echo base_url() ?>administrator/Dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>

@@ -1,5 +1,5 @@
 <!-- Page Content -->
-        <div id="page-wrapper">
+        <div id="page-wrapper" class="bgisi">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -8,7 +8,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" >
                             <li class="active">
                                 <a href="#po" data-toggle="tab">Data PO</a>
                             </li>
@@ -41,15 +41,15 @@
                                             <input class="form-control" type="text" name="po_so">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Tanggal</label>
+                                    <div class="form-group">                              
+                                        <label class="col-sm-3 control-label">Supplier</label>
                                         <div class="col-sm-4">
-                                            <div class='input-group date' id='dtp1'>     
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input id="po_tgl" type='text' class="form-control" name="po_tgl" placeholder="Tanggal" />
-                                            </div>
+                                            <input class="form-control" type="text" name="supp_name" readonly>
+                                            <input type="hidden" name="supp_id">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_supp()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+
                                         </div>
                                     </div>
                                     <div class="form-group">                              
@@ -63,20 +63,20 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tanggal</label>
+                                        <div class="col-sm-4">
+                                            <div class='input-group date' id='dtp1'>     
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="po_tgl" type='text' class="form-control" name="po_tgl" placeholder="Tanggal" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Lokasi</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="loc_name" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">                              
-                                        <label class="col-sm-3 control-label">Supplier</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="supp_name" readonly>
-                                            <input type="hidden" name="supp_id">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_supp()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-
                                         </div>
                                     </div>
                                     <div class="form-group">
