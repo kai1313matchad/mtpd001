@@ -242,6 +242,57 @@
 				                                </div>
 			                        		</div>
 			                        	</div>
+			                        	<div class="form-group">
+	                            			<label class="col-sm-3 control-label">Jenis Biaya</label>
+	                            			<div class="col-sm-4">
+	                            				<input class="form-control" type="text" name="cost_code">
+	                            			</div>
+	                            		</div>
+	                            		<div class="form-group">
+	                            			<label class="col-sm-3 control-label">Jumlah Biaya</label>
+	                            			<div class="col-sm-4">
+	                            				<input class="form-control" type="text" name="cost_amount">
+	                            			</div>
+	                            		</div>
+	                            		<div class="form-group">
+	                            			<div class="col-sm-offset-3 col-sm-4">
+	                            				<a href="javascript:void(0)" onclick="add_costapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+	                            			</div>
+	                            		</div>
+	                            		<div class="row">
+	                            			<div class="col-sm-11 col-xs-11 table-responsive">
+	                            				<table id="dtb_biaya" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	                            					<thead>
+	                            						<tr>
+	                            							<th class="text-center">
+							                                    No
+							                                </th>
+							                                <th class="text-center">
+							                                    Deskripsi
+							                                </th>
+							                                <th class="text-center">
+							                                    Jumlah
+							                                </th>
+							                                <th class="text-center">
+							                                    Actions
+							                                </th>
+	                            						</tr>
+	                            					</thead>
+	                            				</table>
+	                            			</div>
+	                            		</div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Pembayaran</label>
+			                            <div class="col-sm-8">
+			                                <input class="form-control" type="text" name="appr_pay">
+			                            </div>
+			                        </div>			                        
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
+			                            <div class="col-sm-8">
+			                                <input class="form-control" type="text" name="brc_nom" readonly>
+			                            </div>
 			                        </div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">DPP</label>
@@ -421,18 +472,6 @@
 			                                <h2>Data Pembayaran</h2>
 			                            </div>
 			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Pembayaran</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="appr_pay">
-			                            </div>
-			                        </div>			                        
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
-			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="brc_nom" readonly>
-			                            </div>
-			                        </div>
                             	</div>
                             	<div class="tab-pane fade" id="permit">
                             		<div class="form-group">
@@ -543,7 +582,7 @@
 			                            	</div>
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="termpphn" readonly>			                                
+			                                <input class="form-control" type="text" name="termpphn" readonly>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -591,52 +630,12 @@
 						                    </table>
 						                </div>
                             		</div>                            		
-                            	</div>
-                            	<!-- <div class="tab-pane fade" id="jobdesc"> -->
+                            	</div>                            	
 								<div class="tab-pane fade" id="cost">
                             		<div class="form-group">
                             			<div class="col-sm-4 col-sm-offset-3 text-center">
 			                                <h2>Detail Biaya</h2>
 			                            </div>
-                            		</div>
-                            		<div class="form-group">
-                            			<label class="col-sm-3 control-label">Jenis Biaya</label>
-                            			<div class="col-sm-4">
-                            				<input class="form-control" type="text" name="cost_code">
-                            			</div>
-                            		</div>
-                            		<div class="form-group">
-                            			<label class="col-sm-3 control-label">Jumlah Biaya</label>
-                            			<div class="col-sm-4">
-                            				<input class="form-control" type="text" name="cost_amount">
-                            			</div>
-                            		</div>
-                            		<div class="form-group">
-                            			<div class="col-sm-offset-3 col-sm-4">
-                            				<a href="javascript:void(0)" onclick="add_costapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
-                            			</div>
-                            		</div>
-                            		<div class="row">
-                            			<div class="col-sm-12 col-xs-12 table-responsive">
-                            				<table id="dtb_biaya" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                            					<thead>
-                            						<tr>
-                            							<th class="text-center">
-						                                    No
-						                                </th>
-						                                <th class="text-center">
-						                                    Deskripsi
-						                                </th>
-						                                <th class="text-center">
-						                                    Jumlah
-						                                </th>
-						                                <th class="text-center">
-						                                    Actions
-						                                </th>
-                            						</tr>
-                            					</thead>
-                            				</table>
-                            			</div>
                             		</div>
                             	</div>
                 			</div>
