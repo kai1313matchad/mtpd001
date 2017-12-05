@@ -7,29 +7,16 @@
                     </div>                    
                 </div>
                 <div class="row">
-                	<form class="form-horizontal">
-                		<div class="form-group">
-		                    <label class="col-sm-3 control-label">Nomor Approval</label>
-		                    <div class="col-sm-4">
-		                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
-		                        <input class="form-control" type="text" name="appr_code" value="" readonly>
-		                	</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-offset-3 col-sm-2 text-center">
-                            	<a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                            </div>
-						</div>
-                	</form>
-                </div>
-                <div class="row">
                 	<!-- <div class="col-xs-12"> -->
                 		<ul class="nav nav-tabs">
                 			<li class="active">
                 				<a href="#1" data-toggle="tab">Data Approval</a>
                 			</li>
                 			<li>
-                				<a href="#2" data-toggle="tab">Detail Biaya</a>
+                				<a href="#2" data-toggle="tab">Detail Termin</a>
+                			</li>
+                			<li>
+                				<a href="#3" data-toggle="tab">Detail Perijinan</a>
                 			</li>
                 		</ul>
                 		<form class="form-horizontal" id="form_bapp" enctype="multipart/form-data">
@@ -40,8 +27,15 @@
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
-	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->	                            
+	                            	<input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>">
 	                            	<input type="hidden" name="user_id" value="1">
+	                            	<div class="form-group">
+					                    <label class="col-sm-3 control-label">Nomor Approval</label>
+					                    <div class="col-sm-8">
+					                        <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly>
+					                        <!-- <input class="form-control" type="text" name="appr_code" value="" readonly> -->
+					                	</div>
+									</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor Approval cabang</label>
 	                                    <div class="col-sm-1">
@@ -406,129 +400,19 @@
 			                            	</div>			                                
 			                            </div>
 			                        </div>
+			                        <div class="form-group">
+										<div class="col-sm-offset-3 col-sm-2 text-center">
+			                            	<a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
+			                            </div>
+									</div>
                 				</div>
                 				<div class="tab-pane fade" id="2">
                 					<div class="form-group">
 		                            	<div class="col-xs-4 col-xs-offset-3 text-center">
-		                                	<h2>Detail Biaya</h2>
+		                                	<h2>Detail Termin</h2>
 		                                </div>
 	                            	</div>
-                				</div>
-                			</div>
-                		</form>
-                	<!-- </div> -->
-                </div>
-                <div class="row">
-                	<div class="col-sm-12 col-xs-12">
-	                	<ul class="nav nav-tabs">
-	                		<li class="active">
-	                			<a href="#appr" data-toggle="tab">Approval</a>
-	                		</li>
-	                		<li>
-	                			<a href="#mkt" data-toggle="tab">Marketing</a>
-	                		</li>
-	                		<li>
-	                			<a href="#reklame" data-toggle="tab">Reklame</a>
-	                		</li>
-	                		<li>
-	                			<a href="#bayar" data-toggle="tab">Pembayaran</a>
-	                		</li>
-	                		<li>
-	                			<a href="#cost" data-toggle="tab">Detail Biaya</a>
-	                		</li>
-	                		<li>
-	                			<a href="#termin" data-toggle="tab">Detail Termin</a>
-	                		</li>
-	                		<li>
-	                			<a href="#permit" data-toggle="tab">Detail Perijinan</a>
-	                		</li>
-	                	</ul>
-                		<form class="form-horizontal" id="form_appr">
-                			<div class="tab-content">
-                				<div class="tab-pane fade in active" id="appr">
-                            		<div class="form-group">
-		                            	<div class="col-sm-4 col-sm-offset-3 text-center">
-		                                	<h2>Data Approval</h2>
-		                                </div>
-	                            	</div>
-                            	</div>                            	
-                            	<div class="tab-pane fade" id="mkt">
-                            		<div class="form-group">
-			                            <div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Data Marketing</h2>
-			                            </div>
-			                        </div>
-                            	</div>
-                            	<div class="tab-pane fade" id="reklame">
-                            		<div class="form-group">
-			                            <div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Data Reklame</h2>
-			                            </div>
-			                        </div>
-                            	</div>
-                            	<div class="tab-pane fade" id="bayar">
-                            		<div class="form-group">
-			                            <div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Data Pembayaran</h2>
-			                            </div>
-			                        </div>
-                            	</div>
-                            	<div class="tab-pane fade" id="permit">
-                            		<div class="form-group">
-                            			<div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Detail Perijinan</h2>
-			                            </div>
-                            		</div>
-                            		<div class="form-group">
-                            			<label class="col-sm-3 control-label">Jenis Ijin</label>
-	                                    <div class="col-sm-4">
-	                                        <select id="pattyp" name="pat_id" class="form-control" required>
-		                                        <option value="">--Pilih--</option>
-		                                    <?php
-		                                        for($i=0; $i<count($pattyp); $i++)
-		                                    { ?>
-		                                        <option value="<?php echo $pattyp[$i]->PRMTTYP_ID ; ?>"><?php echo $pattyp[$i]->PRMTTYP_NAME; ?></option>
-		                                    <?php
-		                                        }
-		                                    ?>
-		                                    </select>
-	                                    </div>
-                            		</div>
-                            		<div class="form-group">
-                            			<div class="col-sm-offset-3 col-sm-4">
-                            				<a href="javascript:void(0)" onclick="add_ijinapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
-                            			</div>
-                            		</div>
-                            		<div class="row">
-                            			<div class="col-sm-12 col-xs-12 table-responsive">
-						                    <table id="dtb_ijinapp" class="table table-striped table-bordered" cellspacing="0" width="100%">
-						                        <thead>
-						                            <tr>
-						                                <th class="text-center">
-						                                    No
-						                                </th>
-						                                <th class="text-center">
-						                                    Kode
-						                                </th>
-						                                <th class="text-center">
-						                                    Nama
-						                                </th>                              
-						                                <th class="text-center">
-						                                    Actions
-						                                </th>
-						                            </tr>                            
-						                        </thead>                        
-						                    </table>
-						                </div>
-                            		</div>
-                            	</div>
-                            	<div class="tab-pane fade" id="termin">
-                            		<div class="form-group">
-                            			<div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Detail Termin</h2>
-			                            </div>
-                            		</div>
-                            		<div class="form-group">
+	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Termin</label>
 	                                    <div class="col-sm-4">
 	                                        <input class="form-control" type="text" name="termcode">
@@ -629,18 +513,60 @@
 						                        </thead>                        
 						                    </table>
 						                </div>
-                            		</div>                            		
-                            	</div>                            	
-								<div class="tab-pane fade" id="cost">
-                            		<div class="form-group">
-                            			<div class="col-sm-4 col-sm-offset-3 text-center">
-			                                <h2>Detail Biaya</h2>
-			                            </div>
                             		</div>
-                            	</div>
+                				</div>
+                				<div class="tab-pane fade" id="3">
+                					<div class="form-group">
+		                            	<div class="col-xs-4 col-xs-offset-3 text-center">
+		                                	<h2>Detail Perijinan</h2>
+		                                </div>
+	                            	</div>
+	                            	<div class="form-group">
+                            			<label class="col-sm-3 control-label">Jenis Ijin</label>
+	                                    <div class="col-sm-4">
+	                                        <select id="pattyp" name="pat_id" class="form-control" required>
+		                                        <option value="">--Pilih--</option>
+		                                    <?php
+		                                        for($i=0; $i<count($pattyp); $i++)
+		                                    { ?>
+		                                        <option value="<?php echo $pattyp[$i]->PRMTTYP_ID ; ?>"><?php echo $pattyp[$i]->PRMTTYP_NAME; ?></option>
+		                                    <?php
+		                                        }
+		                                    ?>
+		                                    </select>
+	                                    </div>
+                            		</div>
+                            		<div class="form-group">
+                            			<div class="col-sm-offset-3 col-sm-4">
+                            				<a href="javascript:void(0)" onclick="add_ijinapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                            			</div>
+                            		</div>
+                            		<div class="row">
+                            			<div class="col-sm-12 col-xs-12 table-responsive">
+						                    <table id="dtb_ijinapp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						                        <thead>
+						                            <tr>
+						                                <th class="text-center">
+						                                    No
+						                                </th>
+						                                <th class="text-center">
+						                                    Kode
+						                                </th>
+						                                <th class="text-center">
+						                                    Nama
+						                                </th>                              
+						                                <th class="text-center">
+						                                    Actions
+						                                </th>
+						                            </tr>                            
+						                        </thead>                        
+						                    </table>
+						                </div>
+                            		</div>
+                				</div>
                 			</div>
                 		</form>
-                	</div>
+                	<!-- </div> -->
                 </div>
             </div>
             <!-- /.container-fluid -->
@@ -1487,6 +1413,16 @@
 	                alert('Error get data from ajax');
 	            }
 	        });
+    	}
+
+    	function show()
+    	{
+    		$('#det_biaya').css({'display':'block'});
+    	}
+
+    	function hide()
+    	{
+    		$('#det_biaya').css({'display':'none'});
     	}
     </script>
 </body>
