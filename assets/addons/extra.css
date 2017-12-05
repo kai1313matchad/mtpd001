@@ -21,6 +21,12 @@ background: linear-gradient(to right, #13A4FF, #2AC4C3); /* W3C, IE 10+/ Edge, F
   border-bottom: 5px white solid
 }
 
+/*.tab-content{
+  border-bottom : 5px solid white; border-right : 5px solid white; border-left : 5px solid white;
+  background-color: white;
+  border-radius: 8px;
+}*/
+
 #dtb_cust table,
 #dtb_loc table,
 #dtb_brc table,

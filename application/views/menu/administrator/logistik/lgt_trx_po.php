@@ -20,7 +20,7 @@
                             </li>
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_po">
-                            <div class="tab-content">
+                            <div class="tab-content" >
                                 <div class="tab-pane fade in active" id="po">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
@@ -91,6 +91,7 @@
                                             <input class="form-control" type="text" name="supp_city" readonly>
                                         </div>
                                     </div>
+                                    <br>
                                 </div>
                                 <div class="tab-pane fade" id="biaya">
                                     <div class="form-group">
@@ -213,6 +214,7 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <br>
                                 </div>
                             </div>
                         </form>

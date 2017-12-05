@@ -13,9 +13,9 @@
                             <li class="active">
                                 <a href="#usg" data-toggle="tab">Data Pemakaian</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#gd" data-toggle="tab">Data Barang</a>
-                            </li>
+                            </li> -->
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_usg">
                             <div class="tab-content">
@@ -72,16 +72,7 @@
                                             <textarea name="usg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="save_usg()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="gd">
+                                    <!-- mulai -->
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Barang</h2>
@@ -156,6 +147,19 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <!-- selesai -->
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-3 text-center">
+                                            <a href="javascript:void(0)" onclick="save_usg()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                        </div>
+                                        <div class="col-sm-3 text-center">
+                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="gd">
+                                    
                                 </div>
                             </div>
                         </form>

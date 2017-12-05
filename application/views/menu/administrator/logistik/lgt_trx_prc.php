@@ -100,6 +100,7 @@
                                             <input class="form-control" type="text" name="supp_city" readonly>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </div>
                                 <div class="tab-pane fade" id="biaya">
                                     <div class="form-group">
@@ -178,6 +179,7 @@
                                             <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </div>
                                 <div class="tab-pane fade" id="barang">
                                     <div class="form-group">
@@ -284,6 +286,7 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </div>
                             </div>
                         </form>
