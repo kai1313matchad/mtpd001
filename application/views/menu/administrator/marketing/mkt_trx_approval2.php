@@ -19,7 +19,7 @@
                 				<a href="#3" data-toggle="tab">Detail Perijinan</a>
                 			</li>
                 		</ul>
-                		<form class="form-horizontal" id="form_bapp" enctype="multipart/form-data">
+                		<form class="form-horizontal" id="form_appr" enctype="multipart/form-data">
                 			<div class="tab-content">
                 				<div class="tab-pane fade in active" id="1">
                 					<div class="form-group">
@@ -36,7 +36,7 @@
 					                        <!-- <input class="form-control" type="text" name="appr_code" value="" readonly> -->
 					                	</div>
 									</div>
-	                            	<div class="form-group">
+	                            	<!-- <div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor Approval cabang</label>
 	                                    <div class="col-sm-1">
 	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
@@ -44,7 +44,7 @@
 	                                    <div class="col-sm-7">
 	                                        <input class="form-control" type="text" name="appr_brc" readonly>
 	                                    </div>
-	                            	</div>
+	                            	</div> -->
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
@@ -143,12 +143,12 @@
 	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
-	                                <div class="form-group">
+	                                <!-- <div class="form-group">
                             			<label class="col-sm-3 control-label">Pekerjaan</label>
 	                                    <div class="col-sm-8">
 	                                        <textarea name="jobdesc" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
-                            		</div>
+                            		</div> -->
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">Jenis Reklame</label>
                             			<div class="col-sm-1">
@@ -228,23 +228,14 @@
 			                        </div>
 			                        <div id="det_biaya" class="col-sm-offset-3">
 			                        	<div class="form-group">
-			                        		<label class="col-sm-3 control-label">Media Placement</label>
-			                        		<div class="col-sm-6">
-			                        			<div class="input-group">
-				                            		<span class="input-group-addon">Rp</span>
-				                                	<input onchange="grtotal()" class="form-control" type="text" name="media_plc">
-				                                </div>
-			                        		</div>
-			                        	</div>
-			                        	<div class="form-group">
-	                            			<label class="col-sm-3 control-label">Jenis Biaya</label>
-	                            			<div class="col-sm-4">
+	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
+	                            			<div class="col-sm-7">
 	                            				<input class="form-control" type="text" name="cost_code">
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Jumlah Biaya</label>
-	                            			<div class="col-sm-4">
+	                            			<div class="col-sm-7">
 	                            				<input class="form-control" type="text" name="cost_amount">
 	                            			</div>
 	                            		</div>
@@ -276,18 +267,18 @@
 	                            			</div>
 	                            		</div>
 			                        </div>
-			                        <div class="form-group">
+			                        <!-- <div class="form-group">
 			                            <label class="col-sm-3 control-label">Pembayaran</label>
 			                            <div class="col-sm-8">
 			                                <input class="form-control" type="text" name="appr_pay">
 			                            </div>
-			                        </div>			                        
-			                        <div class="form-group">
+			                        </div> -->
+			                        <!-- <div class="form-group">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-8">
 			                                <input class="form-control" type="text" name="brc_nom" readonly>
 			                            </div>
-			                        </div>
+			                        </div> -->
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">DPP</label>
 			                            <div class="col-sm-8">
@@ -414,19 +405,19 @@
 	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Termin</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <input class="form-control" type="text" name="termcode">
 	                                    </div>
                             		</div>
                             		<div class="form-group">
 	                                    <label class="col-sm-3 control-label">Keterangan</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <textarea name="terminfo" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">Tagihan</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">%</span>
 	                                        	<input class="form-control hitterm" type="text" name="termperc">
@@ -435,43 +426,43 @@
                             		</div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">DPP</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <input onchange="dettermin()" class="form-control" type="text" name="termdpp" readonly>
 	                                    </div>
                             		</div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">Sub Total</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <input class="form-control hitterm" type="text" name="termsub" readonly>
 	                                    </div>
                             		</div>
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">PPN</label>
-			                            <div class="col-sm-2">
+			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
 			                            		<input onchange="dettermin()" class="form-control hitterm" type="text" name="termppnp">
 			                            	</div>			                                
 			                            </div>
-			                            <div class="col-sm-2">
+			                            <div class="col-sm-4">
 			                                <input class="form-control" type="text" name="termppnn" readonly>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">PPH</label>
-			                            <div class="col-sm-2">
+			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
 			                        			<input onchange="dettermin()" class="form-control hitterm" type="text" name="termpphp">
 			                            	</div>
 			                            </div>
-			                            <div class="col-sm-2">
+			                            <div class="col-sm-4">
 			                                <input class="form-control" type="text" name="termpphn" readonly>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
                             			<label class="col-sm-3 control-label">Grand Total</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <input class="form-control" type="text" name="termsum" readonly>
 	                                    </div>
                             		</div>
@@ -523,7 +514,7 @@
 	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Jenis Ijin</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <select id="pattyp" name="pat_id" class="form-control" required>
 		                                        <option value="">--Pilih--</option>
 		                                    <?php
@@ -825,10 +816,10 @@
             // 	dettermin();
             // });
             // // $('[name=gtotal]').val(gtotal);
-            // var id = $('[name="appr_id"]').val();
+            var id = $('[name="appr_id"]').val();
             // ijinapp(id);
-            // termapp(id);
-            // costapp(id);
+            termapp(id);
+            costapp(id);
     	});
 
     	function simpan()
@@ -931,50 +922,6 @@
 	            "order": [],	            
 	            "ajax": {
 	                "url": "<?php echo site_url('administrator/Marketing/ajax_ijinapp/')?>"+id,
-	                "type": "POST",                
-	            },	            
-	            "columnDefs": [
-	            { 
-	                "targets": [ 0 ],
-	                "orderable": false,
-	            },
-	            ],
-	        });
-    	}
-
-    	function termapp(id)
-    	{
-	        table = $('#dtb_termin').DataTable({
-	            "info": false,
-	            "destroy": true,
-	            "responsive": true,
-	            "processing": true,
-	            "serverSide": true,
-	            "order": [],	            
-	            "ajax": {
-	                "url": "<?php echo site_url('administrator/Marketing/ajax_termapp/')?>"+id,
-	                "type": "POST",                
-	            },	            
-	            "columnDefs": [
-	            { 
-	                "targets": [ 0 ],
-	                "orderable": false,
-	            },
-	            ],
-	        });
-    	}
-
-    	function costapp(id)
-    	{
-	        table = $('#dtb_biaya').DataTable({
-	            "info": false,
-	            "destroy": true,
-	            "responsive": true,
-	            "processing": true,
-	            "serverSide": true,
-	            "order": [],	            
-	            "ajax": {
-	                "url": "<?php echo site_url('administrator/Marketing/ajax_costapp/')?>"+id,
 	                "type": "POST",                
 	            },	            
 	            "columnDefs": [
@@ -1147,6 +1094,65 @@
             });
     	}
 
+    	function show()
+    	{
+    		$('#det_biaya').css({'display':'block'});
+    	}
+
+    	function hide()
+    	{
+    		$('#det_biaya').css({'display':'none'});
+    	}
+    </script>
+    <!-- Fungsi Tampilan Data Detail -->
+    <script>
+    	//Detail Biaya
+    	function costapp(id)
+    	{
+	        table = $('#dtb_biaya').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_costapp/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+    	//Detail Termin
+    	function termapp(id)
+    	{
+	        table = $('#dtb_termin').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_termapp/')?>"+id,
+	                "type": "POST",	                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+    </script>
+    <!-- Fungsi Search -->
+    <script>
     	function srch_cust()
     	{
     		$('#modal_cust').modal('show');
@@ -1168,30 +1174,6 @@
 	                "orderable": false,
 	            },
 	            ],
-	        });
-    	}
-
-    	function pick_cust(id)
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>/" + id,
-	            type: "GET",
-	            dataType: "JSON",
-	            success: function(data)
-	            {   
-	                $('[name="cust_id"]').val(data.CUST_ID);
-	                $('[name="cust_code"]').val(data.CUST_CODE);
-	                $('[name="cust_name"]').val(data.CUST_NAME);
-	                $('[name="cust_address"]').val(data.CUST_ADDRESS+', '+data.CUST_CITY);
-	                // $('[name="cust_city"]').val(data.CUST_CITY);
-	                $('[name="cust_phone"]').val(data.CUST_PHONE);
-	                $('[name="cust_fax"]').val(data.CUST_FAX);
-	                $('#modal_cust').modal('hide');
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error get data from ajax');
-	            }
 	        });
     	}
 
@@ -1219,28 +1201,6 @@
 	        });
     	}
 
-    	function pick_mkt(id)
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_mkt/')?>/" + id,
-	            type: "GET",
-	            dataType: "JSON",
-	            success: function(data)
-	            {   
-	                $('[name="sales_id"]').val(data.SALES_ID);
-	                $('[name="sales_code"]').val(data.SALES_CODE);
-	                $('[name="sales_name"]').val(data.PERSON_NAME);                
-	                $('[name="sales_phone"]').val(data.SALES_PHONE);
-	                $('[name="sales_email"]').val(data.SALES_EMAIL);
-	                $('#modal_mkt').modal('hide');
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error get data from ajax');
-	            }
-	        });
-    	}
-
     	function srch_bb()
     	{
     		$('#modal_bb').modal('show');
@@ -1262,69 +1222,6 @@
 	                "orderable": false,
 	            },
 	            ],
-	        });
-    	}
-
-    	function pick_bb(id)
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>/" + id,
-	            type: "GET",
-	            dataType: "JSON",
-	            success: function(data)
-	            {   
-	                $('[name="bb_id"]').val(data.BB_ID);	                
-	                $('[name="jnsbb"]').val(data.BB_NAME);                	                
-	                $('#modal_bb').modal('hide');
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error get data from ajax');
-	            }
-	        });
-    	}
-
-    	function srch_curr()
-    	{
-    		$('#modal_curr').modal('show');
-    		$('.modal-title').text('Cari Rate Mata Uang');	    		
-	        table = $('#dtb_curr').DataTable({
-	            "info": false,
-	            "destroy": true,
-	            "responsive": true,
-	            "processing": true,
-	            "serverSide": true,
-	            "order": [],	            
-	            "ajax": {
-	                "url": "<?php echo site_url('administrator/Marketing/ajax_srch_curr')?>",
-	                "type": "POST",                
-	            },	            
-	            "columnDefs": [
-	            { 
-	                "targets": [ 0 ],
-	                "orderable": false,
-	            },
-	            ],
-	        });
-    	}
-
-    	function pick_curr(id)
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_curr/')?>/" + id,
-	            type: "GET",
-	            dataType: "JSON",
-	            success: function(data)
-	            {   
-	                $('[name="curr_id"]').val(data.CURR_ID);	                
-	                $('[name="curr_name"]').val(data.CURR_NAME);
-	                $('[name="curr_rate"]').val(data.CURR_RATE);
-	                $('#modal_curr').modal('hide');
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error get data from ajax');
-	            }
 	        });
     	}
 
@@ -1352,26 +1249,6 @@
 	        });
     	}
 
-    	function pick_loc(id)
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
-	            type: "GET",
-	            dataType: "JSON",
-	            success: function(data)
-	            {   
-	                $('[name="loc_id"]').val(data.LOC_ID);
-	                $('[name="loc_name"]').val(data.LOC_NAME);
-	                $('[name="loc_address"]').val(data.LOC_ADDRESS+', '+data.LOC_CITY);
-	                $('#modal_loc').modal('hide');
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error get data from ajax');
-	            }
-	        });
-    	}
-
     	function srch_plc()
     	{
     		$('#modal_plc').modal('show');
@@ -1396,6 +1273,116 @@
 	        });
     	}
 
+    	function srch_curr()
+    	{
+    		$('#modal_curr').modal('show');
+    		$('.modal-title').text('Cari Rate Mata Uang');	    		
+	        table = $('#dtb_curr').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_srch_curr')?>",
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+    </script>
+    <!-- Fungsi Pick -->
+    <script>
+    	function pick_cust(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="cust_id"]').val(data.CUST_ID);
+	                $('[name="cust_code"]').val(data.CUST_CODE);
+	                $('[name="cust_name"]').val(data.CUST_NAME);
+	                $('[name="cust_address"]').val(data.CUST_ADDRESS+', '+data.CUST_CITY);
+	                $('[name="cust_phone"]').val(data.CUST_PHONE);
+	                $('[name="cust_fax"]').val(data.CUST_FAX);
+	                $('#modal_cust').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_mkt(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_mkt/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="sales_id"]').val(data.SALES_ID);
+	                $('[name="sales_code"]').val(data.SALES_CODE);
+	                $('[name="sales_name"]').val(data.PERSON_NAME);                
+	                $('[name="sales_phone"]').val(data.SALES_PHONE);
+	                $('[name="sales_email"]').val(data.SALES_EMAIL);
+	                $('#modal_mkt').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_bb(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="bb_id"]').val(data.BB_ID);	                
+	                $('[name="jnsbb"]').val(data.BB_NAME);                	                
+	                $('#modal_bb').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_loc(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="loc_id"]').val(data.LOC_ID);
+	                $('[name="loc_name"]').val(data.LOC_NAME);
+	                $('[name="loc_address"]').val(data.LOC_ADDRESS+', '+data.LOC_CITY);
+	                $('#modal_loc').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
     	function pick_plc(id)
     	{    		
 	        $.ajax({
@@ -1415,14 +1402,24 @@
 	        });
     	}
 
-    	function show()
-    	{
-    		$('#det_biaya').css({'display':'block'});
-    	}
-
-    	function hide()
-    	{
-    		$('#det_biaya').css({'display':'none'});
+    	function pick_curr(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_curr/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="curr_id"]').val(data.CURR_ID);	                
+	                $('[name="curr_name"]').val(data.CURR_NAME);
+	                $('[name="curr_rate"]').val(data.CURR_RATE);
+	                $('#modal_curr').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
     	}
     </script>
 </body>

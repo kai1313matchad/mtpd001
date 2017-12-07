@@ -3,26 +3,26 @@
 	class Dt_termapp extends CI_Model 
 	{
 		var $table = 'appr_terms_det';
-		var $column_order = array(null,'termsdet_code','termsdet_perc','termsdet_sum','termsdet_dpp','termsdet_ppn_perc','termsdet_pph_perc'); //set column field database for datatable orderable
-		var $column_search = array('termsdet_code','termsdet_perc','termsdet_sum','termsdet_dpp','termsdet_ppn_perc','termsdet_pph_perc'); //set column field database for datatable searchable 
-		var $order = array('termsdet_id' => 'desc'); // default order 
+		var $column_order = array(null,'termsdet_code','termsdet_perc','termsdet_sum','termsdet_dpp','termsdet_ppn_perc','termsdet_pph_perc');
+		var $column_search = array('termsdet_code','termsdet_perc','termsdet_sum','termsdet_dpp','termsdet_ppn_perc','termsdet_pph_perc');
+		var $order = array('termsdet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query($id)
-		{		
+		{			
 			$this->db->from($this->table);
 			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = appr_terms_det.appr_id');
 			$this->db->where('appr_terms_det.appr_id',$id);
 			$i = 0;
-			foreach ($this->column_search as $item) // loop column 
+			foreach ($this->column_search as $item)
 			{
-				if($_POST['search']['value']) // if datatable send POST for search
+				if($_POST['search']['value'])
 				{			
-					if($i===0) // first loop
+					if($i===0)
 					{
-						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+						$this->db->group_start();
 						$this->db->like($item, $_POST['search']['value']);
 					}
 					else
@@ -30,12 +30,12 @@
 						$this->db->or_like($item, $_POST['search']['value']);
 					}
 
-					if(count($this->column_search) - 1 == $i) //last loop
-						$this->db->group_end(); //close bracket
+					if(count($this->column_search) - 1 == $i)
+						$this->db->group_end();
 				}
 				$i++;
 			}		
-			if(isset($_POST['order'])) // here order processing
+			if(isset($_POST['order']))
 			{
 				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
 			} 
