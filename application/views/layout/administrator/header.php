@@ -90,6 +90,27 @@
                                     <a <?php if ($menulist == 'inv') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/fin_invoice') ?>"><i class="fa <?php if ($menulist == 'inv') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Invoice</a>
                                 </li>
                                 <li>
+                                    <a <?php if ($menulist == 'cashin') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/cash_in') ?>"><i class="fa <?php if ($menulist == 'cashin') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Kas Masuk</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'cashout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/cash_out') ?>"><i class="fa <?php if ($menulist == 'cashout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Kas Keluar</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'bankin') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bank_in') ?>"><i class="fa <?php if ($menulist == 'bankin') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Bank Masuk</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'bankout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bank_out') ?>"><i class="fa <?php if ($menulist == 'bankout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Bank Keluar</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'bgin') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_in') ?>"><i class="fa <?php if ($menulist == 'bgin') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Giro Masuk</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'bgout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_out') ?>"><i class="fa <?php if ($menulist == 'bgout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Giro Keluar</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'ppnbrc') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/branch_ppn') ?>"><i class="fa <?php if ($menulist == 'ppnbrc') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> PPN Cabang</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'report_finance') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/report') ?>"><i class="fa <?php if ($menulist == 'report_finance') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
                                 </li>
                             </ul>

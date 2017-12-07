@@ -24,5 +24,14 @@
 			$data['isi']='menu/administrator/finance/trx_fin_invoice';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function cash_in()
+		{
+			$data['title']='Match Terpadu - Dashboard Kas Masuk';
+			$data['menu']='finance';
+			$data['menulist']='cashin';
+			$data['isi']='menu/administrator/finance/fin_/trx_cashin';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
 	}
 ?>
