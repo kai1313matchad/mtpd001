@@ -4,8 +4,8 @@
 	{
 
 		var $table = 'trx_po';
-		var $column_order = array(null,'po_code','appr_code','po_ordnum','po_date');
-		var $column_search = array('po_code','appr_code','po_ordnum','po_date');
+		var $column_order = array(null,'po_code','appr_code','cust_name' ,'po_ordnum','po_date');
+		var $column_search = array('po_code','appr_code', 'cust_name', 'po_ordnum','po_date');
 		var $order = array('po_id' => 'desc');
 		public function __construct()
 		{
@@ -15,6 +15,7 @@
 		{		
 			$this->db->from($this->table);
 			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id');			
+			$this->db->join('master_customer','master_customer.cust_id = trx_approvalbill.cust_id');	
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

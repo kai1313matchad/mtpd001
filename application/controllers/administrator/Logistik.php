@@ -20,6 +20,7 @@
 			$this->load->model('datatables/Dt_usgrtdet','gdrtusg');
 			$this->load->model('datatables/Dt_retprcdet','gdretprc');
 			$this->load->model('CRUD/M_crud','crud');
+			$this->load->model('datatables/Dt_lap_po','lap_po');
 		}
 
 		//Menu Link
@@ -31,6 +32,15 @@
 			$data['isi']='menu/administrator/logistik/dashboard';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function lap_po()
+	    {
+	    	$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/lap_po';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
 
 		public function report()
 		{
@@ -176,6 +186,7 @@
 				$row[] = $no;
 				$row[] = $dat->PO_CODE;
 				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->CUST_NAME;
 				$row[] = $dat->PO_ORDNUM;				
 				$row[] = $dat->PO_DATE;				
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PO_ID."'".')">Pilih</a>';
@@ -185,6 +196,41 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_po->count_all(),
 							"recordsFiltered" => $this->srch_po->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_filter_po()
+		{
+			// $isi = $this->input->post('isi');
+			// if (isset($isi)) {
+			// 	$list = $this->lap_po->get_datatables($isi);
+			// }
+			// else {
+			// 	$list = $this->lap_po->get_datatables();
+			// }
+
+			$list = $this->lap_po->get_datatables();
+			
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PO_CODE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->PO_ORDNUM;				
+				$row[] = $dat->PO_DATE;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PO_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->lap_po->count_all(),
+							"recordsFiltered" => $this->lap_po->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1115,5 +1161,7 @@
 	            exit();
 	        }
 	    }
+
+	    
 	}
 ?>

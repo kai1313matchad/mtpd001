@@ -52,6 +52,7 @@
                             </a>
                         </div>
                     </div>
+                    <a href="<?php echo base_url('administrator/Logistik/lap_po')?>">lap_po</a>
                     <!-- <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">

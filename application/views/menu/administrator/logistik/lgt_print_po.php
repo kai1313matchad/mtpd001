@@ -128,6 +128,7 @@
                                         <th>No</th>
                                         <th>PO</th>
                                         <th>Approval</th>
+                                        <th>Nama Klien</th>
                                         <th>SO</th>
                                         <th>Tanggal</th>                                        
                                         <th>Pilih</th>
