@@ -448,7 +448,7 @@
                 format: 'YYYY-MM-DD'
             });
             id=$('[name="prc_id"]').val();            
-            barang(id);            
+            barang(id);
             prc = 0; qty = 0; sub = 0;
 
             $('[name=po_qty]').on('input', function() {

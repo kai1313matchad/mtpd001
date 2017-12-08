@@ -17,3 +17,15 @@ $("select").change(function(){
 	$(this).parent().parent().removeClass('has-error');
     $(this).next().empty();
  });
+$('select').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('input').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('textarea').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});

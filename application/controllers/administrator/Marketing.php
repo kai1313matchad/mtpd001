@@ -430,7 +430,8 @@
 		}
 
 		public function ajax_add_costapp()
-	    {	        
+	    {
+	    	$this->_validate_costapp();
 	        $table = 'appr_cost_det';
 	        $data = array(
 	                'appr_id' => $this->input->post('appr_id'),
@@ -447,19 +448,46 @@
         	echo json_encode(array("status" => TRUE));
 	    }
 
+	    public function _validate_costapp()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('cost_code') == '')
+	        {
+	            $data['inputerror'][] = 'cost_code';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('cost_amount') == '')
+	        {
+	            $data['inputerror'][] = 'cost_amount';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
 	    public function ajax_simpanapp()
 	    {	    	
 	    	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
 	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
-	    	$own = $get2->BRANCH_STATUS;
-	    	$data = array(	                
+	    	$own = $get2->BRANCH_CODE;
+	    	$data = array(
+	    			// Kumpulan Key
 	                'user_id' => $this->input->post('user_id'),
 	                'bb_id' => $this->input->post('bb_id'),
 	                'loc_id' => $this->input->post('loc_id'),
 	                'cust_id' => $this->input->post('cust_id'),
 	                'sales_id' => $this->input->post('sales_id'),
 	                'curr_id' => $this->input->post('curr_id'),
-	                // 'appr_code' => $this->input->post('appr_code'),
+	                // Data Tabel
 	                'appr_sts' => '1',
 	                'appr_own' => $own,
 	                'appr_branch' => $this->input->post('appr_brc'),	                
@@ -652,6 +680,15 @@
 			echo json_encode($data);
 		}
 
-		//terbilang
+		//Get DPP
+		public function get_subcost($id)
+		{
+			$this->db->select_sum('a.cstdt_amount', 'subtotal');
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id');
+			$this->db->where('a.appr_id',$id);
+			$query = $this->db->get('appr_cost_det a');
+	        $data = $query->row();
+	        echo json_encode($data);
+		}
 	}
 ?>

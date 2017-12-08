@@ -220,6 +220,19 @@
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
+			                            <div class="col-sm-1">
+			                            	<a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+			                            </div>
+			                            <div class="col-sm-3">
+			                            	<input class="form-control" type="text" name="curr_name" readonly>
+			                               	<input type="hidden" name="curr_id" value="">
+			                            </div>
+			                            <div class="col-sm-4">
+			                            	<input class="form-control" type="text" name="curr_rate" readonly>
+										</div>
+			                        </div>
+			                        <div class="form-group">
 			                        	<label class="col-sm-3 control-label">Detail Biaya</label>
 	                                    <div class="col-sm-8">
 	                                        <label class="radio-inline"><input type="radio" onclick="show()" name="detail_biaya" value="0">Tampilkan</label>
@@ -230,13 +243,16 @@
 			                        	<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">
+	                            				<input class="form-control" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">	                            				
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Jumlah Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
+	                            				<div class="input-group">
+	                            					<span class="input-group-addon curr">Rp</span>
+		                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
+	                            				</div>
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
@@ -283,8 +299,8 @@
                             			<label class="col-sm-3 control-label">DPP</label>
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
-			                            		<input onchange="grtotal()" class="form-control hitgrt" type="text" name="dpp" readonly>
+			                            		<span class="input-group-addon curr">Rp</span>
+			                            		<input class="form-control chgcount" type="text" name="dpp" readonly>
 			                            	</div>			                                
 			                            </div>
                             		</div>
@@ -293,12 +309,12 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp1" placeholder="Diskon 1">
+			                                	<input class="form-control chgcount" type="text" name="discp1" placeholder="Diskon 1">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
+			                            		<span class="input-group-addon curr">Rp</span>
 			                            		<input class="form-control" type="text" name="discn1" readonly>
 			                            	</div>			                                
 			                            </div>
@@ -308,12 +324,12 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp2" placeholder="Diskon 2">          	
+			                                	<input class="form-control chgcount" type="text" name="discp2" placeholder="Diskon 2">          	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
+			                            		<span class="input-group-addon curr">Rp</span>
 			                            		<input class="form-control" type="text" name="discn2" readonly>
 			                            	</div>
 			                            </div>
@@ -322,7 +338,7 @@
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
+			                            		<span class="input-group-addon curr">Rp</span>
 			                            		<input class="form-control" type="text" name="subtotal1" readonly>
 			                            	</div>			                                
 			                            </div>
@@ -332,12 +348,12 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="ppnp">             	
+			                                	<input class="form-control chgcount" type="text" name="ppnp">             	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
+			                            		<span class="input-group-addon curr">Rp</span>
 			                            		<input class="form-control" type="text" name="ppnn" readonly>
 			                            	</div>			                                
 			                            </div>
@@ -346,8 +362,8 @@
 			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
-			                            		<input onchange="grtotal()" class="form-control" type="text" name="appr_bbtax">
+			                            		<span class="input-group-addon curr">Rp</span>
+			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
 			                            	</div>
 			                            </div>
 			                        </div>
@@ -362,28 +378,15 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="pphp" placeholder="PPH">
+			                                	<input class="form-control chgcount" type="text" name="pphp" placeholder="PPH">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
-			                            		<span class="input-group-addon">Rp</span>
+			                            		<span class="input-group-addon curr">Rp</span>
 			                            		<input class="form-control" type="text" name="pphn" readonly>
 			                            	</div>
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
-			                            <div class="col-sm-1">
-			                            	<a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-			                            </div>
-			                            <div class="col-sm-3">
-			                            	<input class="form-control" type="text" name="curr_name" readonly>
-			                               	<input type="hidden" name="curr_id" value="">
-			                            </div>
-			                            <div class="col-sm-4">
-			                            	<input class="form-control" type="text" name="curr_rate" readonly>
-										</div>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Grand Total</label>
@@ -808,6 +811,7 @@
     		$('.dtp').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
+            inputchg();
             // $('[name="dpp"]').change(function(){
             // 	$('[name="termdpp"]').val($('[name="dpp"]').val());
             // });
@@ -824,6 +828,13 @@
             termapp(id);
             costapp(id);
     	});
+
+    	function inputchg()
+    	{
+    		$('.chgcount').on('input', function() {
+                hitung_();                
+            });
+    	}
 
     	function simpan()
     	{    		
@@ -846,34 +857,34 @@
 	        });
     	}
 
-    	function grtotal()
-    	{
-    		dpp = $('[name="dpp"]').val();
-    		discp1 = $('[name="discp1"]').val();
-    		discp2 = $('[name="discp2"]').val();
-    		ppnp = $('[name="ppnp"]').val();
-    		pphp = $('[name="pphp"]').val();
-    		bbtax = $('[name="appr_bbtax"]').val();
+    	// function grtotal()
+    	// {
+    	// 	dpp = $('[name="dpp"]').val();
+    	// 	discp1 = $('[name="discp1"]').val();
+    	// 	discp2 = $('[name="discp2"]').val();
+    	// 	ppnp = $('[name="ppnp"]').val();
+    	// 	pphp = $('[name="pphp"]').val();
+    	// 	bbtax = $('[name="appr_bbtax"]').val();
     		
-    		discn1 = discp1/100*dpp;
-    		hdsc1 = dpp - discn1;    		
-    		$('[name="discn1"]').val(discn1);
-    		discn2 = discp2/100*hdsc1;
-    		hdsc2 = hdsc1 - discn2;
-    		sub1 = hdsc2    		
-    		$('[name="discn2"]').val(discn2);
-    		$('[name="subtotal1"]').val(sub1);
-    		// ppnn = ppnp/100*dpp;
-    		ppnn = ppnp/100*hdsc2;
-    		sub2 = (sub1*1) + (ppnn*1) +(bbtax*1);
-    		$('[name="ppnn"]').val(ppnn);
-    		$('[name="subtotal2"]').val(sub2);
-    		// pphn = pphp/100*dpp;
-    		pphn = pphp/100*sub2;
-    		$('[name="pphn"]').val(pphn);
-    		gtotal = sub2 - pphn;
-    		$('[name=gtotal]').val(gtotal);
-    	}
+    	// 	discn1 = discp1/100*dpp;
+    	// 	hdsc1 = dpp - discn1;    		
+    	// 	$('[name="discn1"]').val(discn1);
+    	// 	discn2 = discp2/100*hdsc1;
+    	// 	hdsc2 = hdsc1 - discn2;
+    	// 	sub1 = hdsc2    		
+    	// 	$('[name="discn2"]').val(discn2);
+    	// 	$('[name="subtotal1"]').val(sub1);
+    	// 	// ppnn = ppnp/100*dpp;
+    	// 	ppnn = ppnp/100*hdsc2;
+    	// 	sub2 = (sub1*1) + (ppnn*1) +(bbtax*1);
+    	// 	$('[name="ppnn"]').val(ppnn);
+    	// 	$('[name="subtotal2"]').val(sub2);
+    	// 	// pphn = pphp/100*dpp;
+    	// 	pphn = pphp/100*sub2;
+    	// 	$('[name="pphn"]').val(pphn);
+    	// 	gtotal = sub2 - pphn;
+    	// 	$('[name=gtotal]').val(gtotal);
+    	// }
 
     	function dettermin()
     	{
@@ -914,6 +925,213 @@
 	        });
     	}
 
+    	function show()
+    	{
+    		$('#det_biaya').css({'display':'block'});
+    	}
+
+    	function hide()
+    	{
+    		$('#det_biaya').css({'display':'none'});
+    	}
+    </script>
+    <!-- Fungsi Hitung -->
+    <script>
+    	function hitung_()
+    	{
+    		var dpp = $('[name="dpp"]').val();
+    		var discp1 = $('[name="discp1"]').val();
+    		var discp2 = $('[name="discp2"]').val();
+    		var discn1 = dpp*discp1/100;
+    		$('[name="discn1"]').val(discn1);
+    		var discn2 = (dpp-discn1)*1*discp2/100;
+    		$('[name="discn2"]').val(discn2);
+    		var sub1 = (dpp-discn1-discn2)*1;
+			$('[name="subtotal1"]').val(sub1);
+			var ppnp = $('[name="ppnp"]').val();
+			var ppnn = sub1*ppnp/100;
+			$('[name="ppnn"]').val(ppnn);
+			var bbtax = $('[name="appr_bbtax"]').val();
+			var sub2 = (sub1*1)+(ppnn*1)+(bbtax*1);
+			$('[name="subtotal2"]').val(sub2);
+			var pphp = $('[name="pphp"]').val();
+			var pphn = sub2*pphp/100;
+			$('[name="pphn"]').val(pphn);
+			var gtotal = (dpp-disc1-disc2)+(ppnn*1)+(bbtax*1)+(pphn*1);
+			var total = (sub2*1)+(pphn*1);
+			$('[name="gtotal"]').val(gtotal+' - '+total);
+    	}
+    </script>
+    <!-- Fungsi Tampilan Data Detail -->
+    <script>
+    	//Detail Biaya
+    	function costapp(id)
+    	{
+	        table = $('#dtb_biaya').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_costapp/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+
+    	function add_costapp()
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_add_costapp')?>",
+	            type: "POST",
+	            data: $('#form_appr').serialize(),
+	            dataType: "JSON",
+	            success: function(data)
+	            {
+	                if(data.status)
+	                {
+	                	$('[name="cost_code"]').val('');
+	                	$('[name="cost_amount"]').val('');
+	                    alert('Data Berhasil Ditambahkan');
+	                    id = $('[name="appr_id"]').val();
+	                    costapp(id);
+	                    get_subcost(id);
+	                }
+	                else
+	                {
+	                	for (var i = 0; i < data.inputerror.length; i++) 
+	                    {
+	                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+	                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+	                    }
+	                }	                
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error adding / update data');
+	            }
+	        });
+    	}
+
+    	function del_costapp(id)
+    	{
+    		if(confirm('Are you sure delete this data?'))
+	        {	            
+	            $.ajax({
+	                url : "<?php echo site_url('administrator/Marketing/ajax_del_costapp/')?>"+id,
+	                type: "POST",
+	                dataType: "JSON",
+	                success: function(data)
+	                {
+	                    alert('Data Berhasil Dihapus');
+	                    id = $('[name="appr_id"]').val();
+	                    costapp(id);
+	                    get_subcost(id);
+	                },
+	                error: function (jqXHR, textStatus, errorThrown)
+	                {
+	                    alert('Error deleting data');
+	                }
+	            });
+	        }
+    	}
+
+    	function get_subcost(id)
+    	{
+    		$.ajax({
+    			url : "<?php echo site_url('administrator/Marketing/get_subcost/')?>"+id,
+    			type : "POST",
+    			dataType : "JSON",
+    			success : function(data)
+    			{
+    				if(data.subtotal != null)
+    				{
+    					$('[name="dpp"]').val(data.subtotal);
+    				}
+    				else
+    				{
+    					$('[name="dpp"]').val('0');
+    				}
+    				hitung_();
+    			}
+    		});
+    	}
+    	//Detail Termin
+    	function termapp(id)
+    	{
+	        table = $('#dtb_termin').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_termapp/')?>"+id,
+	                "type": "POST",	                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
+
+    	function add_termapp()
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/ajax_add_termapp')?>",
+	            type: "POST",
+	            data: $('#form_appr').serialize(),
+	            dataType: "JSON",
+	            success: function(data)
+	            {
+	                if(data.status)
+	                {
+	                    alert('Data Berhasil Ditambahkan');
+	                    id = $('[name="appr_id"]').val();
+	                    termapp(id);
+	                }	                
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error adding / update data');
+	            }
+	        });
+    	}
+
+    	function del_termapp(id)
+    	{
+    		if(confirm('Are you sure delete this data?'))
+	        {	            
+	            $.ajax({
+	                url : "<?php echo site_url('administrator/Marketing/ajax_del_termapp')?>/"+id,
+	                type: "POST",
+	                dataType: "JSON",
+	                success: function(data)
+	                {
+	                    alert('Data Berhasil Dihapus');
+	                    id = $('[name="appr_id"]').val();
+	                    termapp(id);
+	                },
+	                error: function (jqXHR, textStatus, errorThrown)
+	                {
+	                    alert('Error deleting data');
+	                }
+	            });
+	        }
+    	}
+    	//Detail Permit
     	function ijinapp(id)
     	{    		    		
 	        table = $('#dtb_ijinapp').DataTable({
@@ -980,99 +1198,9 @@
 	            });
 	        }
     	}
-
-    	function add_termapp()
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_add_termapp')?>",
-	            type: "POST",
-	            data: $('#form_appr').serialize(),
-	            dataType: "JSON",
-	            success: function(data)
-	            {
-	                if(data.status)
-	                {
-	                    alert('Data Berhasil Ditambahkan');
-	                    id = $('[name="appr_id"]').val();
-	                    termapp(id);
-	                }	                
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error adding / update data');
-	            }
-	        });
-    	}
-
-    	function del_termapp(id)
-    	{
-    		if(confirm('Are you sure delete this data?'))
-	        {	            
-	            $.ajax({
-	                url : "<?php echo site_url('administrator/Marketing/ajax_del_termapp')?>/"+id,
-	                type: "POST",
-	                dataType: "JSON",
-	                success: function(data)
-	                {
-	                    alert('Data Berhasil Dihapus');
-	                    id = $('[name="appr_id"]').val();
-	                    termapp(id);
-	                },
-	                error: function (jqXHR, textStatus, errorThrown)
-	                {
-	                    alert('Error deleting data');
-	                }
-	            });
-	        }
-    	}
-
-    	function add_costapp()
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_add_costapp')?>",
-	            type: "POST",
-	            data: $('#form_appr').serialize(),
-	            dataType: "JSON",
-	            success: function(data)
-	            {
-	                if(data.status)
-	                {
-	                	$('[name="cost_code"]').val('');
-	                	$('[name="cost_amount"]').val('');
-	                    alert('Data Berhasil Ditambahkan');
-	                    id = $('[name="appr_id"]').val();
-	                    costapp(id);
-	                }	                
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error adding / update data');
-	            }
-	        });
-    	}
-
-    	function del_costapp(id)
-    	{
-    		if(confirm('Are you sure delete this data?'))
-	        {	            
-	            $.ajax({
-	                url : "<?php echo site_url('administrator/Marketing/ajax_del_costapp/')?>"+id,
-	                type: "POST",
-	                dataType: "JSON",
-	                success: function(data)
-	                {
-	                    alert('Data Berhasil Dihapus');
-	                    id = $('[name="appr_id"]').val();
-	                    costapp(id);
-	                },
-	                error: function (jqXHR, textStatus, errorThrown)
-	                {
-	                    alert('Error deleting data');
-	                }
-	            });
-	        }
-    	}
-
+    </script>
+    <!-- Fungsi Search -->
+    <script>
     	function srch_appr()
     	{
     		$('#modal_appr').modal('show');
@@ -1097,65 +1225,6 @@
             });
     	}
 
-    	function show()
-    	{
-    		$('#det_biaya').css({'display':'block'});
-    	}
-
-    	function hide()
-    	{
-    		$('#det_biaya').css({'display':'none'});
-    	}
-    </script>
-    <!-- Fungsi Tampilan Data Detail -->
-    <script>
-    	//Detail Biaya
-    	function costapp(id)
-    	{
-	        table = $('#dtb_biaya').DataTable({
-	            "info": false,
-	            "destroy": true,
-	            "responsive": true,
-	            "processing": true,
-	            "serverSide": true,
-	            "order": [],	            
-	            "ajax": {
-	                "url": "<?php echo site_url('administrator/Marketing/ajax_costapp/')?>"+id,
-	                "type": "POST",                
-	            },	            
-	            "columnDefs": [
-	            { 
-	                "targets": [ 0 ],
-	                "orderable": false,
-	            },
-	            ],
-	        });
-    	}
-    	//Detail Termin
-    	function termapp(id)
-    	{
-	        table = $('#dtb_termin').DataTable({
-	            "info": false,
-	            "destroy": true,
-	            "responsive": true,
-	            "processing": true,
-	            "serverSide": true,
-	            "order": [],	            
-	            "ajax": {
-	                "url": "<?php echo site_url('administrator/Marketing/ajax_termapp/')?>"+id,
-	                "type": "POST",	                
-	            },	            
-	            "columnDefs": [
-	            { 
-	                "targets": [ 0 ],
-	                "orderable": false,
-	            },
-	            ],
-	        });
-    	}
-    </script>
-    <!-- Fungsi Search -->
-    <script>
     	function srch_cust()
     	{
     		$('#modal_cust').modal('show');
@@ -1413,9 +1482,10 @@
 	            dataType: "JSON",
 	            success: function(data)
 	            {   
-	                $('[name="curr_id"]').val(data.CURR_ID);	                
+	                $('[name="curr_id"]').val(data.CURR_ID);
 	                $('[name="curr_name"]').val(data.CURR_NAME);
 	                $('[name="curr_rate"]').val(data.CURR_RATE);
+	                $('.curr').text(data.CURR_SYMBOL);
 	                $('#modal_curr').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
