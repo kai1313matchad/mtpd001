@@ -48,7 +48,7 @@
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
-	                                        <input class="form-control" type="text" name="appr_po">
+	                                        <input class="form-control" type="text" name="appr_po" placeholder="Nomor PO">
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -84,7 +84,7 @@
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Free Recovering</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;"></textarea>
+	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Untuk Free Recovering (Cetak/Pasang)"></textarea>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -140,7 +140,7 @@
 	                            	<div class="form-group">
 	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
+	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Tambahan"></textarea>
 	                                    </div>
 	                                </div>
 	                                <!-- <div class="form-group">
@@ -182,13 +182,13 @@
 			                            </div>
 			                            <div class="col-sm-7">
 			                                <input type="hidden" name="plc_id">
-			                                <input class="form-control" type="text" name="plc_name">
+			                                <input class="form-control" type="text" name="plc_name" readonly>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Materi Visual</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="appr_vis">
+			                                <input class="form-control" type="text" name="appr_vis" placeholder="Materi Visual">
 			                            </div>
 			                        </div>
                             		<div class="form-group">
@@ -230,13 +230,13 @@
 			                        	<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_code">
+	                            				<input class="form-control" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Jumlah Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_amount">
+	                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
@@ -284,7 +284,7 @@
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">Rp</span>
-			                            		<input onchange="grtotal()" class="form-control hitgrt" type="text" name="dpp">
+			                            		<input onchange="grtotal()" class="form-control hitgrt" type="text" name="dpp" readonly>
 			                            	</div>			                                
 			                            </div>
                             		</div>
@@ -293,7 +293,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp1">
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp1" placeholder="Diskon 1">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -308,7 +308,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp2">          	
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="discp2" placeholder="Diskon 2">          	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -345,7 +345,10 @@
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
 			                            <div class="col-sm-8">
-			                                <input onchange="grtotal()" class="form-control" type="text" name="appr_bbtax">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input onchange="grtotal()" class="form-control" type="text" name="appr_bbtax">
+			                            	</div>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -359,7 +362,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="pphp">             	
+			                                	<input onchange="grtotal()" class="form-control hitgrt" type="text" name="pphp" placeholder="PPH">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
