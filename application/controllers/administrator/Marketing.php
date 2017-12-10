@@ -475,7 +475,8 @@
 	    }
 
 	    public function ajax_simpanapp()
-	    {	    	
+	    {
+	    	$this->_validate_appr();
 	    	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
 	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
 	    	$own = $get2->BRANCH_CODE;
@@ -487,12 +488,14 @@
 	                'cust_id' => $this->input->post('cust_id'),
 	                'sales_id' => $this->input->post('sales_id'),
 	                'curr_id' => $this->input->post('curr_id'),
+	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
-	                'appr_sts' => '1',
-	                'appr_own' => $own,
-	                'appr_branch' => $this->input->post('appr_brc'),	                
+	                'appr_sts' => '1', //Ubah status jadi posted
+	                'appr_own' => $own,	                
 	                'appr_po' => $this->input->post('appr_po'),
 	                'appr_date' => $this->input->post('tgl'),
+	                'appr_contract_start' => $this->input->post('tgl_awal'),
+	                'appr_contract_end' => $this->input->post('tgl_akhir'),
 	                'appr_recov' => $this->input->post('appr_rec'),
 	                'appr_info' => $this->input->post('appr_info'),
 	                'appr_height' => $this->input->post('appr_height'),
@@ -500,30 +503,113 @@
 	                'appr_length' => $this->input->post('appr_length'),
 	                'appr_sumsize' => $this->input->post('appr_sumsize'),
 	                'appr_side' => $this->input->post('appr_side'),
-	                'appr_plcsum' => $this->input->post('appr_plcsum'),
-	                'appr_placement' => $this->input->post('appr_plc'),
-	                'appr_contract_start' => $this->input->post('tgl_awal'),
-	                'appr_contract_end' => $this->input->post('tgl_akhir'),
-	                'appr_visual' => $this->input->post('appr_vis'),
-	                'appr_payment_type' => $this->input->post('appr_pay'),
-	                'appr_branch_income' => $this->input->post('brc_nom'),
+	                'appr_plcsum' => $this->input->post('appr_plcsum'),	                
+	                'appr_visual' => $this->input->post('appr_vis'),	                
 	                'appr_dpp_income' => $this->input->post('dpp'),
-	                'appr_bbtax' => $this->input->post('appr_bbtax'),
-	                'appr_sub_disc' => $this->input->post('subtotal1'),
-	                'appr_sub_ppn' => $this->input->post('subtotal2'),
 	                'appr_disc_perc1' => $this->input->post('discp1'),
 	                'appr_disc_perc2' => $this->input->post('discp2'),
 	                'appr_disc_sum1' => $this->input->post('discn1'),
 	                'appr_disc_sum2' => $this->input->post('discn2'),
+	                'appr_sub_disc' => $this->input->post('subtotal1'),
 	                'appr_ppn_perc' => $this->input->post('ppnp'),
-	                'appr_pph_perc' => $this->input->post('pphp'),
 	                'appr_ppn_sum' => $this->input->post('ppnn'),
+	                'appr_bbtax' => $this->input->post('appr_bbtax'),
+	                'appr_sub_ppn' => $this->input->post('subtotal2'),	                
+	                'appr_pph_perc' => $this->input->post('pphp'),	                
 	                'appr_pph_sum' => $this->input->post('pphn'),
 	                'appr_tot_income' => $this->input->post('gtotal'),
-	                'appr_jobdesc' => $this->input->post('jobdesc')
+	                // 'appr_branch' => $this->input->post('appr_brc'),
+	                // 'appr_placement' => $this->input->post('appr_plc'),
+	                // 'appr_payment_type' => $this->input->post('appr_pay'),
+	                // 'appr_branch_income' => $this->input->post('brc_nom'),
+	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
 	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function uphis_appr($id,$user)
+	    {
+	    	
+	    	$data = array(
+					'appr_id' => $insertId,
+					'hisappr_sts' => 'Posted by User'.,
+					'hisappr_old' => 'None',
+					'hisappr_new' => 'None',
+					'hisappr_info' => 'Update by appr form',
+					'hisappr_upcount' => 0
+				);
+			$this->db->insert('his_approvalbill',$data);
+	    }
+
+	    public function _validate_appr()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('bb_id') == '')
+	        {
+	            $data['inputerror'][] = 'jnsbb';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('loc_id') == '')
+	        {
+	            $data['inputerror'][] = 'loc_name';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('cust_id') == '')
+	        {
+	            $data['inputerror'][] = 'cust_code';
+	            $data['inputerror'][] = 'cust_name';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('sales_id') == '')
+	        {
+	            $data['inputerror'][] = 'sales_code';
+	            $data['inputerror'][] = 'sales_name';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('plc_id') == '')
+	        {
+	            $data['inputerror'][] = 'plc_name';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('curr_id') == '')
+	        {
+	            $data['inputerror'][] = 'curr_name';	            
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('tgl') == '')
+	        {
+	            $data['inputerror'][] = 'tgl';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('tgl_awal') == '')
+	        {
+	            $data['inputerror'][] = 'tgl_awal';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('tgl_akhir') == '')
+	        {
+	            $data['inputerror'][] = 'tgl_akhir';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
 	    }
 
 	    //ajax transaksi bapp

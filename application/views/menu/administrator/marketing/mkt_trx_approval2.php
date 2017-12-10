@@ -811,18 +811,10 @@
     		$('.dtp').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
-            inputchg();
-            // $('[name="dpp"]').change(function(){
-            // 	$('[name="termdpp"]').val($('[name="dpp"]').val());
-            // });
-            // $('.hitgrt').on('input',function(e){
-            // 	grtotal();
-            // 	// dettermin();
-            // });
+            inputchg();            
             // $('.hitterm').on('input',function(e){
             // 	dettermin();
-            // });
-            // // $('[name=gtotal]').val(gtotal);
+            // });            
             var id = $('[name="appr_id"]').val();
             // ijinapp(id);
             termapp(id);
@@ -834,75 +826,7 @@
     		$('.chgcount').on('input', function() {
                 hitung_();                
             });
-    	}
-
-    	function simpan()
-    	{    		
-	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/ajax_simpanapp')?>",
-	            type: "POST",
-	            data: $('#form_appr').serialize(),
-	            dataType: "JSON",
-	            success: function(data)
-	            {
-	                if(data.status)
-	                {
-	                    alert('Data Berhasil Disimpan');
-	                }	                
-	            },
-	            error: function (jqXHR, textStatus, errorThrown)
-	            {
-	                alert('Error adding / update data');
-	            }
-	        });
-    	}
-
-    	// function grtotal()
-    	// {
-    	// 	dpp = $('[name="dpp"]').val();
-    	// 	discp1 = $('[name="discp1"]').val();
-    	// 	discp2 = $('[name="discp2"]').val();
-    	// 	ppnp = $('[name="ppnp"]').val();
-    	// 	pphp = $('[name="pphp"]').val();
-    	// 	bbtax = $('[name="appr_bbtax"]').val();
-    		
-    	// 	discn1 = discp1/100*dpp;
-    	// 	hdsc1 = dpp - discn1;    		
-    	// 	$('[name="discn1"]').val(discn1);
-    	// 	discn2 = discp2/100*hdsc1;
-    	// 	hdsc2 = hdsc1 - discn2;
-    	// 	sub1 = hdsc2    		
-    	// 	$('[name="discn2"]').val(discn2);
-    	// 	$('[name="subtotal1"]').val(sub1);
-    	// 	// ppnn = ppnp/100*dpp;
-    	// 	ppnn = ppnp/100*hdsc2;
-    	// 	sub2 = (sub1*1) + (ppnn*1) +(bbtax*1);
-    	// 	$('[name="ppnn"]').val(ppnn);
-    	// 	$('[name="subtotal2"]').val(sub2);
-    	// 	// pphn = pphp/100*dpp;
-    	// 	pphn = pphp/100*sub2;
-    	// 	$('[name="pphn"]').val(pphn);
-    	// 	gtotal = sub2 - pphn;
-    	// 	$('[name=gtotal]').val(gtotal);
-    	// }
-
-    	function dettermin()
-    	{
-    		termprc = $('[name="termperc"]').val();
-    		termdpp = $('[name="dpp"]').val();
-    		termsub = termprc/100*termdpp;
-    		termppnp = $('[name="termppnp"]').val();
-    		termpphp = $('[name="termpphp"]').val();
-
-    		termppnn = termppnp/100*termsub;
-    		termpphn = termpphp/100*termsub;
-
-    		$('[name="termppnn"]').val(termppnn);
-    		$('[name="termpphn"]').val(termpphn);
-    		termsum = (termsub*1) + (termppnn*1) - (termpphn*1);
-    		$('[name="termsub"]').val(termsub);
-    		$('[name="termsum"]').val(termsum);
-    	}
+    	}   	
 
     	function saveapp()
     	{    		
@@ -916,7 +840,14 @@
 	                if(data.status)
 	                {
 	                    alert('Data Berhasil Disimpan');	                    
-	                }	                
+	                }
+	                else
+	                {
+	                	for (var i = 0; i < data.inputerror.length; i++) 
+	                    {
+	                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+	                    }
+	                }
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {
@@ -957,9 +888,27 @@
 			var pphp = $('[name="pphp"]').val();
 			var pphn = sub2*pphp/100;
 			$('[name="pphn"]').val(pphn);
-			var gtotal = (dpp-disc1-disc2)+(ppnn*1)+(bbtax*1)+(pphn*1);
-			var total = (sub2*1)+(pphn*1);
-			$('[name="gtotal"]').val(gtotal+' - '+total);
+			var currrate = $('[name="curr_rate"]').val();
+			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)+(pphn*1))*currrate;			
+			$('[name="gtotal"]').val(grandtotal);
+    	}
+
+    	function dettermin()
+    	{
+    		termprc = $('[name="termperc"]').val();
+    		termdpp = $('[name="dpp"]').val();
+    		termsub = termprc/100*termdpp;
+    		termppnp = $('[name="termppnp"]').val();
+    		termpphp = $('[name="termpphp"]').val();
+
+    		termppnn = termppnp/100*termsub;
+    		termpphn = termpphp/100*termsub;
+
+    		$('[name="termppnn"]').val(termppnn);
+    		$('[name="termpphn"]').val(termpphn);
+    		termsum = (termsub*1) + (termppnn*1) - (termpphn*1);
+    		$('[name="termsub"]').val(termsub);
+    		$('[name="termsum"]').val(termsum);
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->
@@ -1486,6 +1435,7 @@
 	                $('[name="curr_name"]').val(data.CURR_NAME);
 	                $('[name="curr_rate"]').val(data.CURR_RATE);
 	                $('.curr').text(data.CURR_SYMBOL);
+	                hitung_();
 	                $('#modal_curr').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
