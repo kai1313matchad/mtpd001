@@ -421,33 +421,39 @@
 	                                        <textarea name="terminfo" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
+	                                <div class="form-group">
+                            			<label class="col-sm-3 control-label">DPP Approval</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon"></span>
+	                                    		<input class="form-control termchgcount" type="text" name="dpp_appr" readonly>
+	                                    	</div>	                                        
+	                                    </div>
+                            		</div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">Tagihan</label>
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">%</span>
-	                                        	<input class="form-control hitterm" type="text" name="termperc">
+	                                        	<input class="form-control termchgcount" type="text" name="termperc">
 	                                        </div>
 	                                    </div>
                             		</div>
                             		<div class="form-group">
-                            			<label class="col-sm-3 control-label">DPP</label>
+                            			<label class="col-sm-3 control-label">DPP Termin</label>
 	                                    <div class="col-sm-8">
-	                                        <input onchange="dettermin()" class="form-control" type="text" name="termdpp" readonly>
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon">Rp</span>
+	                                    		<input class="form-control termchgcount" type="text" name="termdpp" readonly>
+	                                    	</div>	                                        
 	                                    </div>
-                            		</div>
-                            		<div class="form-group">
-                            			<label class="col-sm-3 control-label">Sub Total</label>
-	                                    <div class="col-sm-8">
-	                                        <input class="form-control hitterm" type="text" name="termsub" readonly>
-	                                    </div>
-                            		</div>
+                            		</div>                            		
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">PPN</label>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                            		<input onchange="dettermin()" class="form-control hitterm" type="text" name="termppnp">
+			                            		<input class="form-control termchgcount" type="text" name="termppnp">
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
@@ -455,21 +461,36 @@
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
+                            			<label class="col-sm-3 control-label">Sub Total</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon">Rp</span>
+	                                    		<input class="form-control termchgcount" type="text" name="termsub" readonly>
+	                                    	</div>	                                        
+	                                    </div>
+                            		</div>
+			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">PPH</label>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                        			<input onchange="dettermin()" class="form-control hitterm" type="text" name="termpphp">
+			                        			<input class="form-control termchgcount" type="text" name="termpphp">
 			                            	</div>
 			                            </div>
 			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="termpphn" readonly>
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="termpphn" readonly>
+			                            	</div>			                                
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
-                            			<label class="col-sm-3 control-label">Grand Total</label>
+                            			<label class="col-sm-3 control-label">Total Termin</label>
 	                                    <div class="col-sm-8">
-	                                        <input class="form-control" type="text" name="termsum" readonly>
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon">Rp</span>
+	                                    		<input class="form-control" type="text" name="termsum" readonly>
+	                                    	</div>	                                        
 	                                    </div>
                             		</div>
 			                        <div class="form-group">
@@ -884,6 +905,7 @@
     		$('[name="discn2"]').val(discn2);
     		var sub1 = (dpp-discn1-discn2)*1;
 			$('[name="subtotal1"]').val(sub1);
+			$('[name="dpp_appr"]').val(sub1);
 			var ppnp = $('[name="ppnp"]').val();
 			var ppnn = sub1*ppnp/100;
 			$('[name="ppnn"]').val(ppnn);
@@ -900,6 +922,8 @@
 
     	function hitungterm_()
     	{
+    		var dppappr = $('[name="dpp_appr"]').val();
+    		var trmp = $('[name="termperc"]').val();
     		termprc = $('[name="termperc"]').val();
     		termdpp = $('[name="dpp"]').val();
     		termsub = termprc/100*termdpp;

@@ -39,7 +39,7 @@
                                 <th class="text-center">
                                     NPKP
                                 </th>
-                                <th class="text-center col-md-2">
+                                <th class="text-center col-md-2"">
                                     Actions
                                 </th>
                             </tr>                            
