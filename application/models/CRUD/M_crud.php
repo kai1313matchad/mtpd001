@@ -439,5 +439,18 @@
 			$res = $kode . sprintf('%05s',$num);
 			return $res;
 		}
+
+		public function get_cst()
+		{
+			$this->db->where('cust_dtsts','1');
+			$que=$this->db->get('master_customer');
+			return $que->result();
+		}
+		public function get_mu()
+		{
+			$this->db->where('curr_dtsts','1');
+			$que=$this->db->get('master_currency');
+			return $que->result();
+		}
 	}
 ?>
