@@ -203,13 +203,6 @@
 
 		public function ajax_filter_po()
 		{
-			// $isi = $this->input->post('isi');
-			// if (isset($isi)) {
-			// 	$list = $this->lap_po->get_datatables($isi);
-			// }
-			// else {
-			// 	$list = $this->lap_po->get_datatables();
-			// }
 
 			$list = $this->lap_po->get_datatables();
 			
@@ -224,7 +217,7 @@
 				$row[] = $dat->CUST_NAME;
 				$row[] = $dat->PO_ORDNUM;				
 				$row[] = $dat->PO_DATE;				
-				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PO_ID."'".')">Pilih</a>';
+				$row[] = '<center><a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PO_ID."'".')"><span class="glyphicon glyphicon-print"></span> Print</a></center>';
 				$data[] = $row;
 			}
 			$output = array(

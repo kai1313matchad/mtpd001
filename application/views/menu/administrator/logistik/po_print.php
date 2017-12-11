@@ -58,6 +58,7 @@
 </head>
 <body>
     <page size="A4">
+    <div id="ygdiprint">
         <input type="hidden" name="idpo" value="<?php echo $id;?>">
         <div class="container-fluid">                
             <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
@@ -172,7 +173,12 @@
                 </div>
             </div>        
         </div>
+    </div>
+    <button type="button" id="print" class="btn btn-default col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
     </page>
+    
+
+    
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -330,4 +336,19 @@
             });
         }
     </script>
+
+    <!-- print area -->
+    <script type="text/javascript">
+    function printContent(printpage){
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr+newstr+footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+    </script>
+    
 </body>
