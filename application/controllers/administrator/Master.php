@@ -2312,7 +2312,7 @@
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'gd_code' => $this->input->post('code'),
-	                'supp_id' => $this->input->post('supp_id'),
+	                'supp_id' => $this->input->post('supp'),
 	                'gd_name' => $this->input->post('nama'),
 	                'gd_unit' => $this->input->post('unit'),	                
 	                'gd_measure' => $this->input->post('ukuran'),

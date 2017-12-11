@@ -532,8 +532,8 @@
 	    {
 	    	
 	    	$data = array(
-					'appr_id' => $insertId,
-					'hisappr_sts' => 'Posted by User'.,
+					'appr_id' => $id,
+					'hisappr_sts' => 'Posted by User',
 					'hisappr_old' => 'None',
 					'hisappr_new' => 'None',
 					'hisappr_info' => 'Update by appr form',

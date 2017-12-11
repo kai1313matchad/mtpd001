@@ -811,10 +811,8 @@
     		$('.dtp').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
-            inputchg();            
-            // $('.hitterm').on('input',function(e){
-            // 	dettermin();
-            // });            
+            inputchg();
+            inputtermchg();
             var id = $('[name="appr_id"]').val();
             // ijinapp(id);
             termapp(id);
@@ -826,7 +824,14 @@
     		$('.chgcount').on('input', function() {
                 hitung_();                
             });
-    	}   	
+    	}
+
+    	function inputtermchg()
+    	{
+    		$('.termchgcount').on('input', function() {
+    			hitungterm_();
+    		});
+    	}
 
     	function saveapp()
     	{    		
@@ -893,7 +898,7 @@
 			$('[name="gtotal"]').val(grandtotal);
     	}
 
-    	function dettermin()
+    	function hitungterm_()
     	{
     		termprc = $('[name="termperc"]').val();
     		termdpp = $('[name="dpp"]').val();
