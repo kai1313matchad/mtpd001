@@ -49,6 +49,9 @@
                                     <a <?php if ($menulist == 'branch') {echo 'class=active';} ?> href="<?php echo base_url() ?>administrator/Master/branch"><i class="fa <?php if ($menulist == 'branch') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Cabang</a>
                                 </li>
                                 <li>
+                                    <a <?php if ($menulist == 'department') {echo 'class=active';} ?> href="<?php echo base_url() ?>administrator/Master/department"><i class="fa <?php if ($menulist == 'department') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Departemen</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'coa') {echo 'class=active';} ?> href="<?php echo base_url() ?>administrator/Master/coa"><i class="fa <?php if ($menulist == 'coa') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Chart of Account</a>
                                 </li> 
                                 <li>

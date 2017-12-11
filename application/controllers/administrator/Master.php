@@ -2400,5 +2400,107 @@
 	            exit();
 	        }
 	    }
+
+	    //Master Departemen
+	    public function department()
+	    {	    	
+			$data['title']='Match Terpadu - Master Departemen';
+			$data['menu']='master';
+			$data['menulist']='department';
+			$data['isi']='menu/administrator/master/department';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
+	    public function gen_dept()
+		{
+			$res = $this->crud->gen_numb('dept_code','master_dept','DPT');
+			$data['kode'] = $res;
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function ajax_edit_dept($id)
+	    {	    
+	    	$data = $this->crud->get_by_id('master_dept',array('dept_id' => $id));
+        	echo json_encode($data);
+	    }
+
+		public function ajax_add_dept()
+	    {
+	        $this->_validate_dept();
+	        $table = $this->input->post('tb');
+	        $data = array(
+	        		'dept_code' => $this->input->post('code'),
+	                'dept_name' => $this->input->post('dept_name'),
+	                'dept_info' => $this->input->post('dept_info'),
+	                'dept_dtsts' => $this->input->post('sts')
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_update_dept()
+	    {
+	    	$this->_validate_dept();
+	    	$table = $this->input->post('tb');
+	    	$data = array(
+	                'dept_code' => $this->input->post('code'),
+	                'dept_name' => $this->input->post('dept_name'),
+	                'dept_info' => $this->input->post('dept_info')
+	            );
+	    	$update = $this->crud->update($table,$data,array('dept_id' => $this->input->post('id')));
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_delete_dept($id)
+	    {
+	    	$data = array(
+	                'dept_dtsts' => '0'
+	            );
+	    	$update = $this->crud->update('master_dept',$data,array('dept_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function _validate_dept()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('code') == '')
+	        {
+	            $data['inputerror'][] = 'code';
+	            $data['error_string'][] = 'Kode Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('check') == '0')
+	        {
+	        	$this->form_validation->set_rules('code', 'Kode', 'is_unique[master_dept.DEPT_CODE]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'code';
+		            $data['error_string'][] = 'Kode Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
+	        }
+	        if($this->input->post('dept_name') == '')
+	        {
+	            $data['inputerror'][] = 'dept_name';
+	            $data['error_string'][] = 'Nama Barang Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('dept_info') == '')
+	        {
+	            $data['inputerror'][] = 'dept_info';
+	            $data['error_string'][] = 'Satuan Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
 	}
 ?>
