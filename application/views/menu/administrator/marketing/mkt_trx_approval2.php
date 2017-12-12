@@ -422,6 +422,17 @@
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
+	                            		<label class="col-sm-3 control-label">Tanggal Bayar</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class='input-group date dtp' id='dtp1'>     
+				                                <span class="input-group-addon">
+				                                    <span class="glyphicon glyphicon-calendar"></span>
+				                                </span>
+				                                <input id="tgl" type='text' class="form-control" name="tgl_term" placeholder="Tanggal" />
+				                            </div>
+	                                    </div>
+	                            	</div>
+	                                <div class="form-group">
                             			<label class="col-sm-3 control-label">DPP Approval</label>
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
@@ -457,7 +468,10 @@
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="termppnn" readonly>
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="termppnn" readonly>
+			                            	</div>			                                
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -905,7 +919,6 @@
     		$('[name="discn2"]').val(discn2);
     		var sub1 = (dpp-discn1-discn2)*1;
 			$('[name="subtotal1"]').val(sub1);
-			$('[name="dpp_appr"]').val(sub1);
 			var ppnp = $('[name="ppnp"]').val();
 			var ppnn = sub1*ppnp/100;
 			$('[name="ppnn"]').val(ppnn);
@@ -918,26 +931,25 @@
 			var currrate = $('[name="curr_rate"]').val();
 			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)+(pphn*1))*currrate;			
 			$('[name="gtotal"]').val(grandtotal);
+			$('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
     	}
 
     	function hitungterm_()
     	{
     		var dppappr = $('[name="dpp_appr"]').val();
     		var trmp = $('[name="termperc"]').val();
-    		termprc = $('[name="termperc"]').val();
-    		termdpp = $('[name="dpp"]').val();
-    		termsub = termprc/100*termdpp;
-    		termppnp = $('[name="termppnp"]').val();
-    		termpphp = $('[name="termpphp"]').val();
-
-    		termppnn = termppnp/100*termsub;
-    		termpphn = termpphp/100*termsub;
-
-    		$('[name="termppnn"]').val(termppnn);
-    		$('[name="termpphn"]').val(termpphn);
-    		termsum = (termsub*1) + (termppnn*1) - (termpphn*1);
-    		$('[name="termsub"]').val(termsub);
-    		$('[name="termsum"]').val(termsum);
+    		var dppterm = dppappr*trmp/100;
+    		$('[name="termdpp"]').val(dppterm);
+    		var ppnptrm = $('[name="termppnp"]').val();
+    		var ppnntrm = dppterm*ppnptrm/100;
+    		$('[name="termppnn"]').val(ppnntrm);
+    		var sub1 = (dppterm+ppnntrm)*1;
+    		$('[name="termsub"]').val(sub1);
+    		var pphptrm = $('[name="termpphp"]').val();
+    		var pphntrm = sub1*pphptrm/100;
+    		$('[name="termpphn"]').val(pphntrm);
+    		var sub2 = (sub1+pphntrm)*1;
+    		$('[name="termsum"]').val(sub2);
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->
