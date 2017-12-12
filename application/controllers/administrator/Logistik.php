@@ -21,6 +21,7 @@
 			$this->load->model('datatables/Dt_retprcdet','gdretprc');
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('datatables/Dt_lap_po','lap_po');
+			$this->load->model('datatables/Dt_lap_prc','lap_prc');
 		}
 
 		//Menu Link
@@ -35,10 +36,19 @@
 
 		public function lap_po()
 	    {
-	    	$data['title']='Match Terpadu - Dashboard Logistik';
+	    	$data['title']='Match Terpadu - Laporan PO Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
 			$data['isi']='menu/administrator/logistik/lap_po';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
+	    public function lap_pembelian()
+	    {
+	    	$data['title']='Match Terpadu - Laporan Pembelian Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/lap_pembelian';
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
@@ -224,6 +234,37 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->lap_po->count_all(),
 							"recordsFiltered" => $this->lap_po->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_filter_prc()
+		{
+
+			$list = $this->lap_prc->get_datatables();
+			
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRC_CODE;
+				$row[] = $dat->PO_CODE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->CUST_NAME;
+				// $row[] = $dat->PO_CODE;
+				// $row[] = $dat->APPR_CODE;
+				// $row[] = $dat->CUST_NAME;
+				$row[] = $dat->PRC_DATE;				
+				$row[] = '<center><a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-print"></span> Print</a></center>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->lap_prc->count_all(),
+							"recordsFiltered" => $this->lap_prc->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

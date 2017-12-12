@@ -5,7 +5,7 @@
 
 		var $table = 'trx_po';
 		var $column_order = array(null,'po_code','appr_code','cust_name' ,'po_ordnum','po_date');
-		var $column_search = array('po_code','appr_code', 'cust_name', 'po_ordnum','po_date');
+		var $column_search = array('po_code','appr_code', 'po_ordnum','po_date');
 		var $order = array('po_id' => 'desc');
 		public function __construct()
 		{
@@ -14,7 +14,7 @@
 		private function _get_datatables_query()
 		{	
 			if ($this->input->post('klien')) {
-				$this->db->where('cust_name', $this->input->post('klien') );
+				$this->db->like('cust_name', $this->input->post('klien') );
 			}
 
 			if ($this->input->post('tgl1') != null AND $this->input->post('tgl2') != null ) {

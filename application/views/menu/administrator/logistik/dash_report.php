@@ -52,8 +52,8 @@
                             </a>
                         </div>
                     </div>
-                    <a href="<?php echo base_url('administrator/Logistik/lap_po')?>">lap_po</a>
-                    <!-- <div class="col-lg-3 col-md-6">
+
+                    <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="row">
@@ -62,11 +62,11 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"></div>
-                                        <div>Pemakaian</div>
+                                        <div>Laporan PO</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?php echo base_url('administrator/Logistik/print_prc')?>">
+                            <a href="<?php echo base_url('administrator/Logistik/lap_po')?>">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -74,7 +74,30 @@
                                 </div>
                             </a>
                         </div>
-                    </div> -->
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-print fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"></div>
+                                        <div>Laporan Pembelian</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo base_url('administrator/Logistik/lap_pembelian')?>">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <!-- <div class="col-lg-3 col-md-6">
