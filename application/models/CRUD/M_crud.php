@@ -133,6 +133,7 @@
 		}
 		public function get_coa()
 		{
+			$this->db->order_by('coa_acc','asc');
 			$this->db->where('coa_dtsts','1');
 			$que=$this->db->get('chart_of_account');
 			return $que->result();

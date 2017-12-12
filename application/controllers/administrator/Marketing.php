@@ -47,7 +47,7 @@
 		public function mkt_trx_approval()
 		{
 			// $id=$this->crud->gen_appr();
-			$id = '34';
+			$id = '1';
 			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['pattyp'] = $this->crud->get_pattyp();
 			$data['loc'] = $this->crud->get_loc();
@@ -510,7 +510,7 @@
 	                'appr_disc_perc2' => $this->input->post('discp2'),
 	                'appr_disc_sum1' => $this->input->post('discn1'),
 	                'appr_disc_sum2' => $this->input->post('discn2'),
-	                'appr_sub_disc' => $this->input->post('subtotal1'),
+	                'appr_sub_dsc' => $this->input->post('subtotal1'),
 	                'appr_ppn_perc' => $this->input->post('ppnp'),
 	                'appr_ppn_sum' => $this->input->post('ppnn'),
 	                'appr_bbtax' => $this->input->post('appr_bbtax'),
@@ -525,19 +525,23 @@
 	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
+	        $this->uphis_appr($this->input->post('appr_id'),$get->USER_NAME);
 	        echo json_encode(array("status" => TRUE));
 	    }
 
 	    public function uphis_appr($id,$user)
 	    {
-	    	
+	    	$this->db->where('appr_id',$id);
+	    	$this->db->where('hisappr_id = (select max(hisappr_id) from his_approvalbill)');
+			$que = $this->db->get('his_approvalbill');
+			$get = $que->row();
 	    	$data = array(
 					'appr_id' => $id,
-					'hisappr_sts' => 'Posted by User',
-					'hisappr_old' => 'None',
-					'hisappr_new' => 'None',
+					'hisappr_sts' => 'Posted by User '.$user,
+					'hisappr_old' => $get->HISAPPR_STS,
+					'hisappr_new' => 'Posted By User '.$user,
 					'hisappr_info' => 'Update by appr form',
-					'hisappr_upcount' => 0
+					'hisappr_upcount' => $get->HISAPPR_UPCOUNT+1
 				);
 			$this->db->insert('his_approvalbill',$data);
 	    }

@@ -425,7 +425,7 @@
                             			<label class="col-sm-3 control-label">DPP Approval</label>
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
-	                                    		<span class="input-group-addon"></span>
+	                                    		<span class="input-group-addon">Rp</span>
 	                                    		<input class="form-control termchgcount" type="text" name="dpp_appr" readonly>
 	                                    	</div>	                                        
 	                                    </div>
