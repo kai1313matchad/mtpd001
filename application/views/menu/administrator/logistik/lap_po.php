@@ -109,7 +109,8 @@
 
     function ambildata(){
         table = $('#dtb_po').DataTable({
-            "lengthMenu": [[25, 50, -1], [25, 50, "All"]],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            // "bFilter": false,
             "info": false,
             "destroy": true,
             "responsive": true,
