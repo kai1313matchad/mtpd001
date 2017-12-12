@@ -50,7 +50,7 @@
 				$row[] = $dat->COA_ACC;
 				$row[] = $dat->CSHINDET_REFF;				
 				$row[] = $dat->CSHINDET_INFO;
-				$row[] = $dat->CSHINDET_AMOUNT;
+				$row[] = $dat->CSHDETIN_AMOUNT;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_cshindet('."'".$dat->CSHINDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}

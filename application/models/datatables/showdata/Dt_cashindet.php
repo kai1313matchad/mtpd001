@@ -49,7 +49,7 @@
 		}
 		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
@@ -57,7 +57,7 @@
 		}
 		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
