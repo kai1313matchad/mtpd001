@@ -16,6 +16,7 @@
 			$this->load->model('datatables/Dt_termapp','termapp');
 			$this->load->model('datatables/Dt_costapp','costapp');
 			$this->load->model('CRUD/M_crud','crud');
+			$this->load->model('CRUD/M_gen','gen');
 		}
 
 		public function index()
@@ -47,7 +48,8 @@
 		public function mkt_trx_approval()
 		{
 			// $id=$this->crud->gen_appr();
-			$id = '1';
+			$id=$this->gen->gen_numappr();
+			// $id = '1';
 			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['pattyp'] = $this->crud->get_pattyp();
 			$data['loc'] = $this->crud->get_loc();

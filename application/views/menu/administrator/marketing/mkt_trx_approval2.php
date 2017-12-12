@@ -931,7 +931,8 @@
 			var currrate = $('[name="curr_rate"]').val();
 			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)+(pphn*1))*currrate;			
 			$('[name="gtotal"]').val(grandtotal);
-			$('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
+			// $('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
+			$('[name="dpp_appr"]').val(sub1);
     	}
 
     	function hitungterm_()
