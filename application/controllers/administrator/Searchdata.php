@@ -42,7 +42,7 @@
 		}
 
 		//Search Master Departemen
-		public function srch_apprbranch()
+		public function srch_dept()
 		{
 			$list = $this->s_dept->get_datatables();
 			$data = array();
