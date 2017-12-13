@@ -28,19 +28,13 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
-		public function gen_apprcode()
+		public function gen_appr()
 		{
-			$nomor = $this->db->count_all_results('trx_approvalbill') + 1;
-			$kode = 'AB/'.date('dm').'/';
-			$res = $kode . sprintf('%05s',$nomor);			
-			$check = $this->db->get_where('trx_approvalbill',array('appr_code' => $res));
-	        if($check->num_rows()>0)
-	        {
-	        	$nomor = $this->db->count_all_results('trx_approvalbill') + 1;
-				$kode = 'AB/'.date('dm').'/';
-				$res = $kode . sprintf('%05s',$nomor);				
-	        }
-			$data['kode'] = $res;
+			// $gen = $this->gen->gen_numappr();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['appr_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'AB/1212/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -48,11 +42,10 @@
 		public function mkt_trx_approval()
 		{
 			// $id=$this->crud->gen_appr();
-			$id=$this->gen->gen_numappr();
+			// $id=$this->gen->gen_numappr();
 			// $id = '1';
-			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
-			$data['pattyp'] = $this->crud->get_pattyp();
-			$data['loc'] = $this->crud->get_loc();
+			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			$data['pattyp'] = $this->crud->get_pattyp();			
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='approval';
@@ -481,8 +474,7 @@
 	    {
 	    	$this->_validate_appr();
 	    	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
-	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
-	    	$own = $get2->BRANCH_CODE;
+	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));	    	
 	    	$data = array(
 	    			// Kumpulan Key
 	                'user_id' => $this->input->post('user_id'),
@@ -494,7 +486,8 @@
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
 	                'appr_sts' => '1', //Ubah status jadi posted
-	                'appr_own' => $own,	                
+	                'appr_own' => $get2->BRANCH_STATUS,
+	                'appr_branch' => $get2->BRANCH_NAME,
 	                'appr_po' => $this->input->post('appr_po'),
 	                'appr_date' => $this->input->post('tgl'),
 	                'appr_contract_start' => $this->input->post('tgl_awal'),
@@ -520,8 +513,7 @@
 	                'appr_sub_ppn' => $this->input->post('subtotal2'),	                
 	                'appr_pph_perc' => $this->input->post('pphp'),	                
 	                'appr_pph_sum' => $this->input->post('pphn'),
-	                'appr_tot_income' => $this->input->post('gtotal'),
-	                // 'appr_branch' => $this->input->post('appr_brc'),
+	                'appr_tot_income' => $this->input->post('gtotal'),	                
 	                // 'appr_placement' => $this->input->post('appr_plc'),
 	                // 'appr_payment_type' => $this->input->post('appr_pay'),
 	                // 'appr_branch_income' => $this->input->post('brc_nom'),

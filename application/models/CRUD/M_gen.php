@@ -9,32 +9,21 @@
 			$que = $this->db->get($tb);
 			$ext = $que->row();
 			$max = $ext->code;
-			if($max == null)
+			$mon = substr($max,3,4);			
+			if($max == null || $mon != date('ym'))
 			{
-				$max = $affix.'/'.date('dm').'/00000';
+				$max = $affix.'/'.date('ym').'/000000';
 			}
-			$num = (int) substr($max,8,5);
+			$num = (int) substr($max,8,6);
 			$num++;
-			$kode = $affix.'/'.date('dm').'/';
-			$res = $kode . sprintf('%05s',$num);
+			$kode = $affix.'/'.date('ym').'/';
+			$res = $kode . sprintf('%06s',$num);
 			return $res;
 		}
 
 		//Gen Nomor Kas Masuk
 		public function gen_numcashin()
 		{
-			// $this->db->select_max('csh_code','code');
-			// $que = $this->db->get('trx_cash_in');
-			// $ext = $que->row();
-			// $max = $ext->code;
-			// if($max == null)
-			// {
-			// 	$max = 'KM/'.date('dm').'/00000';
-			// }
-			// $num = (int) substr($max,8,5);
-			// $num++;
-			// $kode = 'KM/'.date('dm').'/';
-			// $res = $kode . sprintf('%05s',$num);
 			$res = $this->gen_num_('trx_cash_in','csh_code','KM');
 			$check = $this->db->get_where('trx_cash_in',array('csh_code' => $res));
 			if($check->row() > 0)
@@ -64,8 +53,19 @@
 					'appr_sts'=>'0'
 				);			
 			$this->db->insert('trx_approvalbill',$data);
-			$insertId = $this->db->insert_id();
-			return  $insertId;
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['appr_code'] = $res;
+			$data2 = array(
+					'appr_id' => $insID,
+					'hisappr_sts' => 'Void By System',
+					'hisappr_old' => 'None',
+					'hisappr_new' => 'None',
+					'hisappr_info' => 'Create By System',
+					'hisappr_upcount' => 0
+				);
+			$this->db->insert('his_approvalbill',$data2);
+			return  $out;
 		}
 	}
 ?>
