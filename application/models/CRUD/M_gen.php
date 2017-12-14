@@ -34,9 +34,11 @@
 					'csh_code'=>$res,
 					'csh_sts'=>'0'
 				);			
-			$this->db->insert('trx_cash_in',$data);
-			$insertId = $this->db->insert_id();
-			return  $insertId;
+			$this->db->insert('trx_cash_in',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['csh_code'] = $res;
+			return  $out;
 		}
 
 		//Gen Nomor PO GA
@@ -52,9 +54,11 @@
 					'poga_code'=>$res,
 					'poga_sts'=>'0'
 				);			
-			$this->db->insert('trx_po_ga',$data);
-			$insertId = $this->db->insert_id();
-			return  $insertId;
+			$this->db->insert('trx_po_ga',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['poga_code'] = $res;
+			return  $out;
 		}
 
 		//Gen Nomor Approval

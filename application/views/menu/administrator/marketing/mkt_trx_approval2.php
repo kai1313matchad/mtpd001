@@ -1,4 +1,4 @@
-		<!-- Page Content -->
+r		<!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
@@ -339,6 +339,15 @@
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
+			                            <div class="col-sm-8">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon curr">Rp</span>
+			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
+			                            	</div>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
@@ -361,16 +370,7 @@
 			                            		<input class="form-control" type="text" name="ppnn" readonly>
 			                            	</div>			                                
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
-			                            <div class="col-sm-8">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
-			                            	</div>
-			                            </div>
-			                        </div>
+			                        </div>			                        
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
