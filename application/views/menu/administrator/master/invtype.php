@@ -181,7 +181,7 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <!-- Select Bst -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js')?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>    
@@ -214,7 +214,7 @@
                     option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                     select.add(option);
                 }
-                $('#accrcv').selectpicker({});
+                $('#accrcv').selectpicker({});                
             },
         error: function (jqXHR, textStatus, errorThrown)
             {

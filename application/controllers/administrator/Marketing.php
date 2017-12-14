@@ -16,6 +16,7 @@
 			$this->load->model('datatables/Dt_termapp','termapp');
 			$this->load->model('datatables/Dt_costapp','costapp');
 			$this->load->model('CRUD/M_crud','crud');
+			$this->load->model('CRUD/M_gen','gen');
 		}
 
 		public function index()
@@ -27,19 +28,13 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
-		public function gen_apprcode()
+		public function gen_appr()
 		{
-			$nomor = $this->db->count_all_results('trx_approvalbill') + 1;
-			$kode = 'AB/'.date('dm').'/';
-			$res = $kode . sprintf('%05s',$nomor);			
-			$check = $this->db->get_where('trx_approvalbill',array('appr_code' => $res));
-	        if($check->num_rows()>0)
-	        {
-	        	$nomor = $this->db->count_all_results('trx_approvalbill') + 1;
-				$kode = 'AB/'.date('dm').'/';
-				$res = $kode . sprintf('%05s',$nomor);				
-	        }
-			$data['kode'] = $res;
+			// $gen = $this->gen->gen_numappr();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['appr_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'AB/1212/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -47,10 +42,10 @@
 		public function mkt_trx_approval()
 		{
 			// $id=$this->crud->gen_appr();
-			$id = '34';
-			$data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
-			$data['pattyp'] = $this->crud->get_pattyp();
-			$data['loc'] = $this->crud->get_loc();
+			// $id=$this->gen->gen_numappr();
+			// $id = '1';
+			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			$data['pattyp'] = $this->crud->get_pattyp();			
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='approval';
@@ -387,10 +382,11 @@
 	                'appr_id' => $this->input->post('appr_id'),
 	                'termsdet_code' => $this->input->post('termcode'),
 	                'termsdet_info' => $this->input->post('terminfo'),
+	                'termsdet_date' => $this->input->post('tgl_term'),
 	                'termsdet_perc' => $this->input->post('termperc'),
-	                'termsdet_sub' => $this->input->post('termsub'),
-	                'termsdet_sum' => $this->input->post('termsum'),
 	                'termsdet_dpp' => $this->input->post('termdpp'),
+	                'termsdet_sub' => $this->input->post('termsub'),
+	                'termsdet_sum' => $this->input->post('termsum'),	                
 	                'termsdet_ppn_perc' => $this->input->post('termppnp'),
 	                'termsdet_pph_perc' => $this->input->post('termpphp'),
 	                'termsdet_ppn_sum' => $this->input->post('termppnn'),
@@ -478,8 +474,7 @@
 	    {
 	    	$this->_validate_appr();
 	    	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
-	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
-	    	$own = $get2->BRANCH_CODE;
+	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));	    	
 	    	$data = array(
 	    			// Kumpulan Key
 	                'user_id' => $this->input->post('user_id'),
@@ -491,7 +486,8 @@
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
 	                'appr_sts' => '1', //Ubah status jadi posted
-	                'appr_own' => $own,	                
+	                'appr_own' => $get2->BRANCH_STATUS,
+	                'appr_branch' => $get2->BRANCH_NAME,
 	                'appr_po' => $this->input->post('appr_po'),
 	                'appr_date' => $this->input->post('tgl'),
 	                'appr_contract_start' => $this->input->post('tgl_awal'),
@@ -510,34 +506,37 @@
 	                'appr_disc_perc2' => $this->input->post('discp2'),
 	                'appr_disc_sum1' => $this->input->post('discn1'),
 	                'appr_disc_sum2' => $this->input->post('discn2'),
-	                'appr_sub_disc' => $this->input->post('subtotal1'),
+	                'appr_sub_dsc' => $this->input->post('subtotal1'),
 	                'appr_ppn_perc' => $this->input->post('ppnp'),
 	                'appr_ppn_sum' => $this->input->post('ppnn'),
 	                'appr_bbtax' => $this->input->post('appr_bbtax'),
 	                'appr_sub_ppn' => $this->input->post('subtotal2'),	                
 	                'appr_pph_perc' => $this->input->post('pphp'),	                
 	                'appr_pph_sum' => $this->input->post('pphn'),
-	                'appr_tot_income' => $this->input->post('gtotal'),
-	                // 'appr_branch' => $this->input->post('appr_brc'),
+	                'appr_tot_income' => $this->input->post('gtotal'),	                
 	                // 'appr_placement' => $this->input->post('appr_plc'),
 	                // 'appr_payment_type' => $this->input->post('appr_pay'),
 	                // 'appr_branch_income' => $this->input->post('brc_nom'),
 	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
+	        $this->uphis_appr($this->input->post('appr_id'),$get->USER_NAME);
 	        echo json_encode(array("status" => TRUE));
 	    }
 
 	    public function uphis_appr($id,$user)
 	    {
-	    	
+	    	$this->db->where('appr_id',$id);
+	    	$this->db->where('hisappr_id = (select max(hisappr_id) from his_approvalbill)');
+			$que = $this->db->get('his_approvalbill');
+			$get = $que->row();
 	    	$data = array(
 					'appr_id' => $id,
-					'hisappr_sts' => 'Posted by User',
-					'hisappr_old' => 'None',
-					'hisappr_new' => 'None',
+					'hisappr_sts' => 'Posted by User '.$user,
+					'hisappr_old' => $get->HISAPPR_STS,
+					'hisappr_new' => 'Posted By User '.$user,
 					'hisappr_info' => 'Update by appr form',
-					'hisappr_upcount' => 0
+					'hisappr_upcount' => $get->HISAPPR_UPCOUNT+1
 				);
 			$this->db->insert('his_approvalbill',$data);
 	    }

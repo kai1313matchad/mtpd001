@@ -27,24 +27,28 @@
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
-	                            	<input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>">
+	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
+	                            	<input type="hidden" name="appr_id" value="0">
 	                            	<input type="hidden" name="user_id" value="1">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
-					                    <div class="col-sm-8">
-					                        <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly>
-					                        <!-- <input class="form-control" type="text" name="appr_code" value="" readonly> -->
+					                    <div class="col-sm-1">
+	                                        <a id="genbtn" href="javascript:void(0)" onclick="gen_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+	                                    </div>
+					                    <div class="col-sm-7">
+					                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
+					                        <input class="form-control" type="text" name="appr_code" value="" readonly>
 					                	</div>
 									</div>
-	                            	<!-- <div class="form-group">
-	                            		<label class="col-sm-3 control-label">Nomor Approval cabang</label>
+	                            	<div class="form-group hid-form">
+	                            		<label class="col-sm-3 control-label">Nomor Approval Cabang</label>
 	                                    <div class="col-sm-1">
 	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
 	                                    </div>
 	                                    <div class="col-sm-7">
 	                                        <input class="form-control" type="text" name="appr_brc" readonly>
 	                                    </div>
-	                            	</div> -->
+	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
@@ -289,12 +293,12 @@
 			                                <input class="form-control" type="text" name="appr_pay">
 			                            </div>
 			                        </div> -->
-			                        <!-- <div class="form-group">
+			                        <div class="form-group hid-form">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-8">
 			                                <input class="form-control" type="text" name="brc_nom" readonly>
 			                            </div>
-			                        </div> -->
+			                        </div>
                             		<div class="form-group">
                             			<label class="col-sm-3 control-label">DPP</label>
 			                            <div class="col-sm-8">
@@ -422,10 +426,21 @@
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
+	                            		<label class="col-sm-3 control-label">Tanggal Bayar</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class='input-group date dtp' id='dtp1'>     
+				                                <span class="input-group-addon">
+				                                    <span class="glyphicon glyphicon-calendar"></span>
+				                                </span>
+				                                <input id="tgl" type='text' class="form-control" name="tgl_term" placeholder="Tanggal" />
+				                            </div>
+	                                    </div>
+	                            	</div>
+	                                <div class="form-group">
                             			<label class="col-sm-3 control-label">DPP Approval</label>
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
-	                                    		<span class="input-group-addon"></span>
+	                                    		<span class="input-group-addon">Rp</span>
 	                                    		<input class="form-control termchgcount" type="text" name="dpp_appr" readonly>
 	                                    	</div>	                                        
 	                                    </div>
@@ -457,7 +472,10 @@
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
-			                                <input class="form-control" type="text" name="termppnn" readonly>
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control" type="text" name="termppnn" readonly>
+			                            	</div>			                                
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -790,9 +808,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Approval</th>
-                                        <th>PO</th>
+                                        <th class="col-xs-4">Nama Cabang</th>
                                         <th>Tanggal</th>
-                                        <th>Customer</th>
+                                        <th>Klien</th>
                                         <th>Lokasi</th>
                                         <th>Pilih</th>
                                     </tr>
@@ -854,6 +872,27 @@
     		});
     	}
 
+    	function gen_appr()
+    	{
+    		$.ajax({
+    			url : "<?php echo site_url('administrator/Marketing/gen_appr')?>",
+    			type: "GET",
+    			dataType: "JSON",
+    			success: function(data)
+    			{
+    				$('[name="appr_id"]').val(data.id);
+    				$('[name="appr_code"]').val(data.kode);
+					$('#genbtn').attr('disabled',true);
+    				termapp(data.id);
+            		costapp(data.id);
+    			},
+    			error: function (jqXHR, textStatus, errorThrown)
+    			{
+    				alert('Gagal Ambil Nomor Approval');
+    			}
+    		});
+    	}
+
     	function saveapp()
     	{    		
 	        $.ajax({
@@ -896,6 +935,7 @@
     <script>
     	function hitung_()
     	{
+    		var currrate = $('[name="curr_rate"]').val();
     		var dpp = $('[name="dpp"]').val();
     		var discp1 = $('[name="discp1"]').val();
     		var discp2 = $('[name="discp2"]').val();
@@ -905,7 +945,6 @@
     		$('[name="discn2"]').val(discn2);
     		var sub1 = (dpp-discn1-discn2)*1;
 			$('[name="subtotal1"]').val(sub1);
-			$('[name="dpp_appr"]').val(sub1);
 			var ppnp = $('[name="ppnp"]').val();
 			var ppnn = sub1*ppnp/100;
 			$('[name="ppnn"]').val(ppnn);
@@ -914,30 +953,29 @@
 			$('[name="subtotal2"]').val(sub2);
 			var pphp = $('[name="pphp"]').val();
 			var pphn = sub2*pphp/100;
-			$('[name="pphn"]').val(pphn);
-			var currrate = $('[name="curr_rate"]').val();
-			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)+(pphn*1))*currrate;			
+			$('[name="pphn"]').val(pphn);			
+			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)-(pphn*1))*currrate;			
 			$('[name="gtotal"]').val(grandtotal);
+			// $('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
+			$('[name="dpp_appr"]').val(sub1);
     	}
 
     	function hitungterm_()
     	{
     		var dppappr = $('[name="dpp_appr"]').val();
     		var trmp = $('[name="termperc"]').val();
-    		termprc = $('[name="termperc"]').val();
-    		termdpp = $('[name="dpp"]').val();
-    		termsub = termprc/100*termdpp;
-    		termppnp = $('[name="termppnp"]').val();
-    		termpphp = $('[name="termpphp"]').val();
-
-    		termppnn = termppnp/100*termsub;
-    		termpphn = termpphp/100*termsub;
-
-    		$('[name="termppnn"]').val(termppnn);
-    		$('[name="termpphn"]').val(termpphn);
-    		termsum = (termsub*1) + (termppnn*1) - (termpphn*1);
-    		$('[name="termsub"]').val(termsub);
-    		$('[name="termsum"]').val(termsum);
+    		var dppterm = dppappr*trmp/100;
+    		$('[name="termdpp"]').val(dppterm);
+    		var ppnptrm = $('[name="termppnp"]').val();
+    		var ppnntrm = dppterm*ppnptrm/100;
+    		$('[name="termppnn"]').val(ppnntrm);
+    		var sub1 = (dppterm+ppnntrm)*1;
+    		$('[name="termsub"]').val(sub1);
+    		var pphptrm = $('[name="termpphp"]').val();
+    		var pphntrm = sub1*pphptrm/100;
+    		$('[name="termpphn"]').val(pphntrm);
+    		var sub2 = (sub1+pphntrm)*1;
+    		$('[name="termsum"]').val(sub2);
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->
@@ -1191,7 +1229,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbranch')?>",
                     "type": "POST",                
                 },                
                 "columnDefs": [

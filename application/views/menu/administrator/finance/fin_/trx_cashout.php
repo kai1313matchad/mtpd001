@@ -9,34 +9,28 @@
               }
               #myKas {
                     width: 100%;
-                    /*padding: 50px 0;*/
                     text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
               }
               #mySave {
                     width: 100%;
-                    /*padding: 50px 0;*/
                     text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
               }
         </style>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Kas Masuk</h1>
+                        <h1 class="page-header">Kas Keluar</h1>
                     </div>                    
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#myKas" data-toggle="tab">Kas Masuk</a>
+                                <a href="#myKas" data-toggle="tab">Kas Keluar</a>
                             </li>
                             <li>
-                                <a href="#2" data-toggle="tab">Detail Kas Masuk</a>
+                                <a href="#2" data-toggle="tab">Detail Kas Keluar</a>
                             </li>
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_kas">
@@ -44,7 +38,7 @@
                                 <div class="tab-pane fade in active" id="myKas">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Kas Masuk</h2>
+                                            <h2>Data Kas Keluar</h2>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -52,7 +46,6 @@
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" name="kas_nomor">
                                         </div>
-                                        <input type="hidden" value="9" class="form-control" name="kas_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
@@ -69,38 +62,72 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="add_gd('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input class="form-control" type="hidden" name="acc_id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">No.Approval </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_approval" readonly>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info" onclick="add_app()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Lokasi </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_lokasi" readonly>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_lokasi_ket" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Supplier </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_sup" readonly>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_sup_ket" readonly>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info" onclick="add_sup()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_info">
+                                            <input class="form-control" type="text" name="kas_keterangan">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Customer</label>
+                                        <label class="col-sm-3 control-label">Departemen</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_kode_customer" readonly>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_nama_customer" readonly>
+                                            <input class="form-control" type="text" name="kas_departemen" readonly>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="add_cst()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                            <button type="button" class="btn btn-info" onclick="add_dep()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input class="form-control" type="hidden" name="kas_customer_id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">No.Anggaran</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_anggaran" readonly>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info" onclick="add_ang()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                        </div>
                                     </div>
                                 </div>      
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Kas Masuk</h2>
+                                            <h2>Data Kas Keluar</h2>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Kas Masuk</button>
+                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Kas Keluar</button>
                                         </div>
                                     </div><br>
                                     <div id="myDIV">
@@ -112,12 +139,11 @@
                                              <div class="col-sm-1">
                                                   <button type="button" class="btn btn-info" onclick="add_gd('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
-                                             <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Jual</label>
+                                             <label class="col-sm-3 control-label">No Beli</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="no_jual">
+                                                  <input class="form-control" type="text" name="no_beli">
                                              </div>
                                         </div>
                                         <div class="form-group">
@@ -133,11 +159,11 @@
                                              </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_cash_in_detail()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <button type="button" class="btn btn-success" onclick="add_gd()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_kas_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                         <table id="dtb_goods" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                  <thead>
                                                     <tr>
                                                         <th class="text-center">
@@ -147,7 +173,7 @@
                                                             No Acc
                                                         </th>
                                                         <th class="text-center">
-                                                            No Jual
+                                                            No Beli
                                                         </th>
                                                         <th class="text-center">
                                                             Keterangan
@@ -177,29 +203,12 @@
                                             <div class="col-sm-4">
                                                   <input class="form-control" type="text" name="total">
                                             </div>
-                                            <div class="col-sm-4">
-                                                  <input type="hidden" class="form-control" type="text" name="curr_id">
-                                            </div>
                                     </div> 
                                     <div id="mySave" class="row">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_cash_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-success" onclick=""><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                     </div>
                                     </div>
-                                    <!-- <div>
-                                          <label class="col-sm-2 control-label">MU Rate</label>
-                                          <div class="col-sm-2">
-                                               <select class="form-control" type="text" name="kas_mu">
-                                                      <?php foreach($mu as $c) { ?>
-                                                      <option value="p">pilih</option>
-                                                      <option value="<?php echo $c->CURR_ID ?>"><?php echo $c->CURR_SYMBOL ?></option>
-                                                      <?php }?>
-                                               </select> 
-                                          </div>
-                                          <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="kas_kurs" readonly>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                         </form>
@@ -222,12 +231,7 @@
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dataTables9" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -245,8 +249,6 @@
                                     
                                     <tr>
                                         <form action="" method="post">
-                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
-                                              
                                               <td><center><?php echo $i++ ?></center></td>
                                               <td><center><?php echo $c->COA_ACC; ?></center></td>
                                               <td><center><?php echo $c->COA_ACCNAME; ?></center></td>
@@ -262,10 +264,6 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
                 </form>
             </div>
         </div>
@@ -299,11 +297,8 @@
                                 $i=1;
                                  foreach($customer as $d){ 
                                 ?>
-                                    
                                     <tr>
                                         <form action="" method="post">
-                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
-                                              
                                               <td><center><?php echo $i++ ?></center></td>
                                               <td><center><?php echo $d->CUST_CODE; ?></center></td>
                                               <td><center><?php echo $d->CUST_NAME; ?></center></td>
@@ -319,10 +314,6 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
                 </form>
             </div>
         </div>
@@ -384,8 +375,6 @@ $(document).ready(function() {
     $('[name="kas_mu"]').change(function(){
         curr($('select :selected').val());
     })
-    var id = $('[name="kas_id"]').val();
-    kas_masuk_detail(id);
 })
 
         var sts;
@@ -399,15 +388,11 @@ $(document).ready(function() {
             dataType: "JSON",
             success: function(data)
             {   
-                sts=id;
                 if (sts=='1'){
                     $('[name="kas_acc"]').val(data.COA_ACC);
-                    $('[name="acc_id"]').val(data.COA_ID);
                 } else {
                     $('[name="acc_detail"]').val(data.COA_ACC);
-                    $('[name="acc_id_detail"]').val(data.COA_ID);
                 }  
-               
                  $('#modal_account').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -427,7 +412,6 @@ $(document).ready(function() {
             {   
                 $('[name="kas_kode_customer"]').val(data.CUST_CODE);
                 $('[name="kas_nama_customer"]').val(data.CUST_NAME);
-                $('[name="kas_customer_id"]').val(data.CUST_ID);
                 $('#modal_customer').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -439,18 +423,8 @@ $(document).ready(function() {
 
         function add_gd(t)
     {        
-        // save_method = 'add';
-        // $('#form')[0].reset();
-        // $('.form-group').removeClass('has-error');
-        // $('.help-block').empty();
         $('#modal_account').modal('show');
         $('.modal-title').text('Daftar Account');
-        sts=t;
-        // $('[name="tb"]').val("master_goods");
-        // $('[name="sts"]').val("1");
-        // $('[name="check"]').val("0");
-        // $('[name="gen"]').prop('disabled',false);
-        // gen_gd();
     }
 
     function add_cst(t)
@@ -478,9 +452,7 @@ $(document).ready(function() {
             success: function(data)
             {   
                 if (data.CURR_RATE=='NULL') {$('[name="kas_kurs"]').val('')}else{
-                $('[name="kas_kurs"]').val(data.CURR_RATE);
-                $('[name="curr_id"]').val(data.CURR_ID);}
-                // $('#modal_customer').modal('hide');                 
+                $('[name="kas_kurs"]').val(data.CURR_RATE);}                
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -528,93 +500,6 @@ $(document).ready(function() {
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
-                }
-            });
-        }
-    function save_cash_in()
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_in')?>",
-                type: "POST",
-                data: $('#form_kas').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    if(data.status)
-                    {
-                        alert('Data Berhasil Disimpan');                        
-                    }                   
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
-            });
-        }
-    function save_cash_in_detail()
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_in_detail')?>",
-                type: "POST",
-                data: $('#form_kas').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    if(data.status)
-                    {
-                        alert('Data Berhasil Disimpan');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_masuk_detail(id);                     
-                    }                   
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
-            });
-        }
-
-         function kas_masuk_detail(id)
-        {
-            table = $('#dtb_kas_in_detail').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_cashin')?>/"+id,
-                    "type": "POST",                
-                },
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
-
-        function delete_cshindet(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_hapus_cash_in_detail')?>/"+id,
-                type: "POST",
-                data: $('#form_kas').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    if(data.status)
-                    {
-                        alert('Data Berhasil Dihapus');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_masuk_detail(id);                     
-                    }                   
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
                 }
             });
         }
