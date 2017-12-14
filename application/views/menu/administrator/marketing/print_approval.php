@@ -53,6 +53,9 @@
     </style>
 </head>
 <body>
+    <div class="container">
+        
+    </div>
     <page size="A4">
         <input type="hidden" name="appr_id" value="<?php echo $id;?>">
         <div class="">                

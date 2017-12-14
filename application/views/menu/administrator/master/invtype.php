@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Akun Piutang</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control text-center" name="accrcv" id="accrcv" data-live-search="true" data-max-options="5">
+                                    <select class="form-control text-center" name="accrcv" id="accrcv" data-live-search="true">
                                         <option value="">Pilih</option>
                                     </select>                                    
                                     <span class="help-block"></span>
@@ -89,7 +89,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Akun Pendapatan</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control text-center" name="accinc" id="accinc" data-live-search="true" data-max-options="5">
+                                    <select class="form-control text-center" name="accinc" id="accinc" data-live-search="true">
                                         <option value="">Pilih</option>
                                     </select>                                    
                                     <span class="help-block"></span>
