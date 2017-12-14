@@ -39,6 +39,24 @@
 			return  $insertId;
 		}
 
+		//Gen Nomor PO GA
+		public function gen_numpoga()
+		{
+			$res = $this->gen_num_('trx_po_ga','poga_code','PG');
+			$check = $this->db->get_where('trx_po_ga',array('poga_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_po_ga','poga_code','PG');
+			}
+			$data = array(
+					'poga_code'=>$res,
+					'poga_sts'=>'0'
+				);			
+			$this->db->insert('trx_po_ga',$data);
+			$insertId = $this->db->insert_id();
+			return  $insertId;
+		}
+
 		//Gen Nomor Approval
 		public function gen_numappr()
 		{
