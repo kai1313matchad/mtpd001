@@ -7,6 +7,8 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
+
+			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
 		}
 
 		public function index()
@@ -14,6 +16,7 @@
 
 		}
 
+		//Tampil Master Departemen
 		public function showmaster_dept()
 		{
 			$list = $this->master_dept->get_datatables();
@@ -38,6 +41,35 @@
 			echo json_encode($output);
 		}
 
+		//Tampil Laporan Approval
+		public function showrpt_appr()
+		{
+			$list = $this->showrptappr->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_CONTRACT_START.'s/d'.$dat->APPR_CONTRACT_END;
+				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->APPR_BRANCH;
+				$row[] = 'Rp '.$dat->APPR_TOT_INCOME;
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_appr('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->showrptappr->count_all(),
+							"recordsFiltered" => $this->showrptappr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Kas Masuk
 		public function showdetail_cashin($id)
 		{
 			$list = $this->det_cashin->get_datatables($id);

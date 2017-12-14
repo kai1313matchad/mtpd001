@@ -62,7 +62,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl" value="<?= date('Y-m-d')?>" readonly />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl" value="<?= date('Y-m-d')?>" readonly />
 				                            </div>
 	                                    </div>
 	                            	</div>
@@ -73,7 +73,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_awal" placeholder="Awal Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_awal" placeholder="Awal Kontrak" />
 				                            </div>
 	                                    </div>
 	                                    <div class="col-sm-4">
@@ -81,7 +81,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Akhir Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
 	                            	</div>
