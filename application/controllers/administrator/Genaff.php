@@ -6,6 +6,7 @@
 		{
 			parent::__construct();
 			//$this->load->model('frontend/M_dashboard','M_dash');
+			$this->load->model('CRUD/M_crud','crud');
 		}
 
 		//menu link
@@ -34,7 +35,7 @@
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='po';
-			$data['isi']='menu/administrator/ga/lgt_trx_po';
+			$data['isi']='menu/administrator/ga/ga_trx_po';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 

@@ -125,7 +125,7 @@
                                     <a <?php if ($menulist == 'dash_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff') ?>"><i class="fa <?php if ($menulist == 'dash_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'po_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_po') ?>"><i class="fa <?php if ($menulist == 'po_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form PO</a>
+                                    <a <?php if ($menulist == 'po_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_po') ?>"><i class="fa <?php if ($menulist == 'po_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form PO</a>
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'prc_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_prc') ?>"><i class="fa <?php if ($menulist == 'prc_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Pembelian</a>
