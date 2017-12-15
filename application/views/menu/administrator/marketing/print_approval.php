@@ -23,100 +23,82 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
-        body {
-          background: rgb(204,204,204);
-          font-size: 12px;
-        }        
-        page {          
-          background: white;
-          display: block;
-          margin: 0 auto;
-          margin-bottom: 0.5cm;
-          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-        }
-        page[size="A4"] {  
-          /*width: 21cm;
-          height: 29.7cm; */
-          width: 21.5cm;
-          height: 29.7cm; 
-        }
-        page[size="A4"][layout="portrait"] {
-          width: 29.7cm;
-          height: 21cm;  
-        }
-        @media print {
-          body {
-            margin: 0;
-            box-shadow: 0;
-          }
-        }
         .happroval 
-{
-    text-align: right;
-    font-weight: 800;
-}
-.border-prime
-{
-    border: solid 2px blue;
-}
-.font-pr
-{
-   font-size: 16px; 
-}
-.font-nd
-{
-    font-size: 15px;
-}
-.font-txt
-{
-    font-size: 14px;
-}
-.top-row
-{
-    border-top: solid 2px blue;
-}
-.top-row-count
-{
-    border-top: solid 2px black;
-}
-.row-ins
-{
-    margin-left: 10px;
-}
-.row-ins-tb
-{
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.left-bd
-{
-    border-left: solid 2px blue;
-}
-.div-height
-{
-    height: 120px;
-}
-.div-bd
-{
-    height: 120px;
-    border-left: solid 2px blue;
-}
-.col-height
-{
-    min-height: 100px;
-}
-.col-height-cost
-{
-    min-height: 600px;
-}
-.td-amount
-{
-    text-align: right;
-}
-.td-center
-{
-    text-align: center;
-}
+        {
+            text-align: right;
+            font-weight: 800;
+        }
+        .border-prime
+        {
+            border: solid 2px blue;
+        }
+        .font-pr
+        {
+           font-size: 11px; 
+        }
+        .font-nd
+        {
+            font-size: 10px;
+        }
+        .font-3rd
+        {
+            font-size: 9px;
+            font-weight: bold;
+        }
+        .font-txt
+        {
+            font-size: 9px;
+        }
+        .top-row
+        {
+            border-top: solid 2px blue;
+        }
+        .top-row-count
+        {
+            border-top: solid 2px black;
+        }
+        .row-ins
+        {
+            margin-left: 10px;
+        }
+        .row-ins-tb
+        {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .left-bd
+        {
+            border-left: solid 2px blue;
+        }
+        .div-height
+        {
+            height: 120px;
+        }
+        .div-bd
+        {
+            height: 120px;
+            border-left: solid 2px blue;
+        }
+        .col-height
+        {
+            min-height: 100px;
+        }
+        .col-height-cost
+        {
+            min-height: 600px;
+        }
+        .td-amount
+        {
+            text-align: right;
+        }
+        .td-center
+        {
+            text-align: center;
+        }
+        table
+        {
+            border: solid 3px black;
+        }
     </style>
 </head>
 <body>
@@ -310,7 +292,7 @@
         </div>
         <div class="row row-ins-tb">
             <div class="col-sm-12 col-xs-12">
-                <table class="table table-bordered">
+                <table class="table table-bordered tb-body">
                     <thead>
                         <th class="col-sm-1 col-xs-1 td-center">No</th>
                         <th class="col-sm-9 col-xs-9 td-center">Description</th>
@@ -346,26 +328,26 @@
     </div>
     <div class="row top-row">
         <div class="col-sm-2 col-xs-2 text-center">
-            <label class="font-nd">Director</label>
+            <label class="font-3rd">Director</label>
+        </div>
+        <div class="col-sm-3 col-xs-3 left-bd text-center">
+            <label class="font-3rd">Account SPV/Manager</label>
         </div>
         <div class="col-sm-2 col-xs-2 left-bd text-center">
-            <label class="font-nd">Account SPV/Manager</label>
+            <label class="font-3rd">Corp. Secretary</label>
         </div>
         <div class="col-sm-2 col-xs-2 left-bd text-center">
-            <label class="font-nd">Corp. Secretary</label>
+            <label class="font-3rd">Finance Dept.</label>
         </div>
-        <div class="col-sm-2 col-xs-2 left-bd text-center">
-            <label class="font-nd">Finance Dept.</label>
-        </div>
-        <div class="col-sm-4 col-xs-4 left-bd text-center">
-            <label class="font-nd">CLIENT APPROVAL</label>
+        <div class="col-sm-3 col-xs-3 left-bd text-center">
+            <label class="font-3rd">CLIENT APPROVAL</label>
         </div>
     </div>
     <div class="row top-row">
         <div class="col-sm-2 col-xs-2 div-height text-center">
             
         </div>
-        <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
+        <div class="col-sm-3 col-xs-3 div-height div-bd text-center">
             
         </div>
         <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
@@ -374,13 +356,13 @@
         <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
             
         </div>
-        <div class="col-sm-4 col-xs-4 div-height div-bd">
+        <div class="col-sm-3 col-xs-3 div-height div-bd">
             <label class="font-nd">DATE</label><br>
             <label class="font-nd">REMARKS</label>
         </div>
     </div>
 </div>
-    <page size="A4">
+    <!-- <page size="A4">
         <input type="hidden" name="appr_id" value="<?php echo $id;?>">
         <div class="">                
             <div class="row">
@@ -593,7 +575,7 @@
                 </div>
             </div>            
         </div>
-    </page>
+    </page> -->
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
