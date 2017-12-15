@@ -49,10 +49,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">No Kas Masuk </label>
+                                        <div class="col-sm-1">
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_cashin()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </div>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" name="kas_nomor">
                                         </div>
-                                        <input type="hidden" value="9" class="form-control" name="kas_id">
+                                        <input type="hidden" value='4' class="form-control" name="kas_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
@@ -186,20 +189,6 @@
                                         <button type="button" class="btn btn-success" onclick="save_cash_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                     </div>
                                     </div>
-                                    <!-- <div>
-                                          <label class="col-sm-2 control-label">MU Rate</label>
-                                          <div class="col-sm-2">
-                                               <select class="form-control" type="text" name="kas_mu">
-                                                      <?php foreach($mu as $c) { ?>
-                                                      <option value="p">pilih</option>
-                                                      <option value="<?php echo $c->CURR_ID ?>"><?php echo $c->CURR_SYMBOL ?></option>
-                                                      <?php }?>
-                                               </select> 
-                                          </div>
-                                          <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="kas_kurs" readonly>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                         </form>
@@ -251,7 +240,7 @@
                                               <td><center><?php echo $c->COA_ACC; ?></center></td>
                                               <td><center><?php echo $c->COA_ACCNAME; ?></center></td>
                                               <td><center>
-                                        <button type="button" onclick="edit_sch('<?php echo $c->COA_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
+                                        <button type="button" onclick="edit_sch('<?php echo $c->COA_ID; ?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
                                     </center></td>                     
                                         </form>
                                     </tr> 
@@ -381,9 +370,9 @@
 <script>
 $(document).ready(function() {
     $('#myDIV').css({'display':'none'});
-    $('[name="kas_mu"]').change(function(){
-        curr($('select :selected').val());
-    })
+    // $('[name="kas_mu"]').change(function(){
+    //     curr($('select :selected').val());
+    // })
     var id = $('[name="kas_id"]').val();
     kas_masuk_detail(id);
 })
@@ -391,15 +380,12 @@ $(document).ready(function() {
         var sts;
         function edit_sch(id)
     {
-        
-
         $.ajax({
             url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
             {   
-                sts=id;
                 if (sts=='1'){
                     $('[name="kas_acc"]').val(data.COA_ACC);
                     $('[name="acc_id"]').val(data.COA_ID);
@@ -416,6 +402,27 @@ $(document).ready(function() {
             }
         });
     }
+
+    function gen_cashin()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/gen_cashin')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="kas_id"]').val(data.id);
+                    $('[name="kas_nomor"]').val(data.kode);
+                    $('#genbtn').attr('disabled',true);
+                    // termapp(data.id);
+                    // costapp(data.id);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Kas Masuk');
+                }
+            });
+        }
 
     function edit_cst(id)
     {

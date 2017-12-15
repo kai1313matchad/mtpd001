@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
+			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 		}
 
 		public function index()
@@ -58,6 +59,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->det_cashin->count_all(),
 							"recordsFiltered" => $this->det_cashin->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function showdetail_cashout($id)
+		{
+			$list = $this->det_cashout->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->CSHODET_REFF;				
+				$row[] = $dat->CSHODET_INFO;
+				$row[] = $dat->CSHODET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_cshodet('."'".$dat->CSHODET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->det_cashout->count_all(),
+							"recordsFiltered" => $this->det_cashout->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
