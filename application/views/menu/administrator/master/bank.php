@@ -139,6 +139,7 @@
                                 <label class="col-sm-2 control-label">Akun Bank</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="vacc_bank" readonly>
+                                    <span class="help-block"></span>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +246,8 @@
                 $('[name="code"]').val(data.BANK_CODE);
                 $('[name="nama"]').val(data.BANK_NAME);
                 var sts = data.COA_ID;
-                document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
+                // document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
+                $('#acc_bank').selectpicker('val', sts);
                 $('[name="info"]').val(data.BANK_INFO);                
                 $('[name="sts"]').val(data.BANK_DTSTS);
                 $('[name="check"]').val("1");
@@ -363,7 +365,7 @@
                     option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                     select.add(option);
                 }
-                $('#acc_bank').selectpicker({});
+                $('#acc_bank').selectpicker({});                
             },
         error: function (jqXHR, textStatus, errorThrown)
             {

@@ -12,6 +12,8 @@
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
 			$this->load->model('datatables/showdata/Dt_bankintrxdet','bankin_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
+			$this->load->model('datatables/showdata/Dt_bankouttrxdet','bankout_trxdet');
+			$this->load->model('datatables/showdata/Dt_bankoutdet','bankout_det');
 		}
 
 		public function index()
@@ -198,6 +200,60 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->bankin_det->count_all(),
 							"recordsFiltered" => $this->bankin_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Giro Bank Keluar
+		public function showdetail_trxbankout($id)
+		{
+			$list = $this->bankout_trxdet->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKTRXO_TYPE;
+				$row[] = $dat->BNKTRXO_NUM;
+				$row[] = $dat->BNKTRXO_DATE;
+				$row[] = $dat->BNKTRXO_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankouttrxdet('."'".$dat->BNKTRXO_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->bankout_trxdet->count_all(),
+							"recordsFiltered" => $this->bankout_trxdet->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Bank Keluar
+		public function showdetail_bankin($id)
+		{
+			$list = $this->bankout_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->BNKODET_TYPE;
+				$row[] = $dat->BNKODET_NUM;
+				$row[] = $dat->BNKODET_REFF;
+				$row[] = $dat->BNKODET_INFO;
+				$row[] = $dat->BNKODET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankoutdet('."'".$dat->BNKODET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->bankout_det->count_all(),
+							"recordsFiltered" => $this->bankout_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
