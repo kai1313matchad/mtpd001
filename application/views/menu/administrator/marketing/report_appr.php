@@ -6,47 +6,53 @@
                         <h1 class="page-header">Laporan Approval</h1>
                     </div>                    
                 </div>
-                <div class="row">
-                    <div class="col-sm-2 col-sm-offset-1"> 
-                        <h4>Nama Klien :</h4>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nama Klien</label>
+                        <div class="col-sm-6">
+                            <input class="form-control text-center" type="text" name="cust_name">
+                        </div>
                     </div>
-
-                    <div class="col-lg-6 text-center">
-                        <input class="form-control" type="text" name="isi" value="">
-                    </div>                  
-                </div>
-                <div class="row">
-                    <div class="col-sm-2 col-sm-offset-1"> 
-                        <h4>Pilih Tanggal :</h4>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nama Lokasi</label>
+                        <div class="col-sm-6">
+                            <input class="form-control text-center" type="text" name="loc_name">
+                        </div>
                     </div>
-                    <div class="col-lg-3 text-center">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker1' style="color: black">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nama Cabang</label>
+                        <div class="col-sm-6">
+                            <input class="form-control text-center" type="text" name="brc_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tanggal Habis Kontrak</label>
+                        <div class="col-sm-3">
+                            <div class='input-group date dtp' id='dtp2'>     
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
-                                <input style="background-color: white" type='text' class="form-control input-group-addon" name="tglstart" placeholder="Start" />
+                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_start" placeholder="Tanggal Awal" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-3 text-center">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker2' style="color: black;">
+                        <div class="col-sm-3">
+                            <div class='input-group date dtp' id='dtp3'>     
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
-                                <input style="background-color: white" type='text' class="form-control input-group-addon" name="tglend" placeholder="End" />
+                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_end" placeholder="Akhir Akhir" />
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-offset-3 text-center" style="padding-bottom: 15px" > <button id="filter" type="button" name="input"  class="btn btn-danger col-sm-12"><span style="color: white" class="glyphicon glyphicon-zoom-in"></span> Tampilkan</button>
+                    <div class="form-group">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <button id="filterBtn" class="btn btn-danger btn-block" type="button">
+                                <span class="glyphicon glyphicon-zoom-in"></span> Tampilkan
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                <div id="ygdiprint">
+                </form>
+                <div id="printArea">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_rptappr" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -54,7 +60,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Approval</th>
-                                        <th>Kontrak</th>
+                                        <th>Kontrak Habis</th>
                                         <th>Lokasi</th>
                                         <th>Klien</th>
                                         <th>Cabang</th>
@@ -66,7 +72,11 @@
                         </div>
                     </div>  
                 </div>
-                <button type="button" id="print" class="btn btn-primary col-md-2" data-toggle="modal" onclick="ayo(); printContent('ygdiprint'); window.location.reload();return false;"><span style="color: white" class="glyphicon glyphicon-print"></span> Print / Save</button>
+                <div class="col-sm-2">
+                    <button type="button" id="print" class="btn btn-primary btn-block" onclick="printContent('printArea')">
+                        <span class="glyphicon glyphicon-print"></span> Print
+                    </button>
+                </div>
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -93,94 +103,43 @@
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
-    $(document).ready(function(){
-        show_rptappr();
-    
-        $('#filter').click(function(){
-            $('#dtb_po').DataTable().ajax.reload(null,false);
-        })
-    });
-
-    function show_rptappr()
-    {
-        table = $('#dtb_rptappr').DataTable({            
-            "info": false,
-            "destroy": true,
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "order": [],            
-            "ajax": {
-                "url": "<?php echo base_url('administrator/Showdata/showrpt_appr')?>",
-                "type": "POST",      
-                "data": function(data){
-                    data.cust_name = $('[name="isi"]').val();
-                    data.loc_name = $('[name="tglstart"]').val();
-                    data.appr_branch = $('[name="tglend"]').val();
-                    data.tgl_start = $('[name="tglend"]').val();
-                    data.tgl_end = $('[name="tglend"]').val();
-                },
-            },            
-            "columnDefs": [
-            { 
-                "targets": [ 0 ],
-                "orderable": false,
-            },
-            ],
+        $(document).ready(function(){
+            show_rptappr();
+            $('#filterBtn').click(function()
+            {
+                $('#dtb_rptappr').DataTable().ajax.reload(null,false);
+            });
         });
-    }
 
-    function ambildata(){
-        table = $('#dtb_po').DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            // "bFilter": false,
-            "info": false,
-            "destroy": true,
-            "responsive": true,
-            "processing": true, //Feature control the processing indicator.
-            "serverSide": true, //Feature control DataTables' server-side processing mode.
-            "order": [], //Initial no order.
-            // Load data for the table's content from an Ajax source
-            "ajax": {
-                "url": "<?php echo base_url('administrator/Logistik/ajax_filter_po')?>",
-                "type": "POST",      
-                "data": function(data){
-                    data.klien = $('[name="isi"]').val();
-                    data.tgl1 = $('[name="tglstart"]').val();
-                    data.tgl2 = $('[name="tglend"]').val();
+        function show_rptappr()
+        {
+            table = $('#dtb_rptappr').DataTable({            
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],            
+                "ajax": {
+                    "url": "<?php echo base_url('administrator/Showdata/showrpt_appr')?>",
+                    "type": "POST",      
+                    "data": function(data){
+                        data.cust_name = $('[name="cust_name"]').val();
+                        data.loc_name = $('[name="loc_name"]').val();
+                        data.appr_branch = $('[name="brc_name"]').val();
+                        data.tgl_start = $('[name="tgl_start"]').val();
+                        data.tgl_end = $('[name="tgl_end"]').val();
+                    },
+                },            
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
-
-            },
-            //Set column definition initialisation properties.
-            "columnDefs": [
-            { 
-                "targets": [ 0 ], //first column / numbering column
-                "orderable": false, //set not orderable
-            },
-            ],
-        });
-    }
+                ],
+            });
+        }
     </script>
-
-    <!-- UNTUK DATETIMEPICKER -->
-    <script>
-        $(function() {
-          $('input[id^=MyDate]').datetimepicker({ format: 'YYYY-MM-DD' });
-        }); 
-
-        $(function () {
-                    $('#datetimepicker1').datetimepicker({
-                        format: 'YYYY-MM-DD'
-                    });         
-                });
-        $(function () {
-                    $('#datetimepicker2').datetimepicker({
-                        //format: 'DD/MM/YYYY'
-                        format: 'YYYY-MM-DD'
-                    });         
-                });
-    </script>
-
 
     <!-- untuk print area -->
     <script type="text/javascript">

@@ -7,9 +7,7 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
-
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
-
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
 		}
 
@@ -54,7 +52,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_CONTRACT_START.'s/d'.$dat->APPR_CONTRACT_END;
+				$row[] = $dat->APPR_CONTRACT_END;
 				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
 				$row[] = $dat->CUST_NAME;
 				$row[] = $dat->APPR_BRANCH;

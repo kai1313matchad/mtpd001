@@ -30,11 +30,11 @@
 
 		public function gen_appr()
 		{
-			// $gen = $this->gen->gen_numappr();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['appr_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'AB/1212/000001';
+			$gen = $this->gen->gen_numappr();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['appr_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'AB/1212/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

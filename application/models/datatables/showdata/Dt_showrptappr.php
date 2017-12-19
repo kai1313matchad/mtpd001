@@ -26,8 +26,8 @@
 				$this->db->like('appr_branch', $this->input->post('appr_branch') );
 			}
 			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('appr_date >=', $this->input->post('tgl_start'));
-        		$this->db->where('appr_date <=', $this->input->post('tgl_end'));  
+				$this->db->where('appr_contract_end >=', $this->input->post('tgl_start'));
+        		$this->db->where('appr_contract_end <=', $this->input->post('tgl_end'));  
 			}
 
 			$this->db->from($this->table);

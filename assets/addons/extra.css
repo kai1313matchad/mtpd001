@@ -177,3 +177,11 @@ div.table .file-row:nth-child(odd) {
 .approw-side {
   margin-left: 7px;
 }
+
+/*Datetimepicker styling for report*/
+.dtp {
+  color: black;
+}
+.dtp input {
+  background-color: white;
+}

@@ -858,9 +858,6 @@ r		<!-- Page Content -->
     <script>
     	$(document).ready(function()
     	{
-    		$('.dtp').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
              $('#pattyp').selectpicker({});
             inputchg();
             inputtermchg();
