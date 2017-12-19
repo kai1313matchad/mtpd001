@@ -9,7 +9,7 @@
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
-			// $this->load->model('datatables/Dt_srchdept','srch_dept');
+		    $this->load->model('datatables/Dt_srchbank','srch_bank');
 		}
 
 		public function index()
@@ -40,8 +40,16 @@
 
 		public function gen_bankin()
 		{
-			$data['id'] = '1';
+			$data['id'] = '6';
 			$data['kode'] = 'BM/1712/000001';
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_bankout()
+		{
+			$data['id'] = '1';
+			$data['kode'] = 'BK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -86,8 +94,22 @@
 			$data['menulist']='bankin';
 			$data['account'] = $this->crud->get_coa();
 			$data['customer'] = $this->crud->get_cst();
+			$data['bank'] = $this->crud->get_bank();
 			$data['mu'] = $this->crud->get_mu();
 			$data['isi']='menu/administrator/finance/fin_/trx_bankin';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function bank_out()
+		{
+			$data['title']='Match Terpadu - Dashboard Bank Keluar';
+			$data['menu']='finance';
+			$data['menulist']='bankout';
+			$data['account'] = $this->crud->get_coa();
+			$data['supplier'] = $this->crud->get_supplier();
+			$data['bank'] = $this->crud->get_bank();
+			$data['mu'] = $this->crud->get_mu();
+			$data['isi']='menu/administrator/finance/fin_/trx_bankout';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -243,13 +265,13 @@
 				$row[] = $no;
 				$row[] = $dat->BANK_CODE;
 				$row[] = $dat->BANK_NAME;
-				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_supp('."'".$dat->BANK_ID."'".')">Pilih</a>';
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bank('."'".$dat->BANK_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->srch_supp->count_all(),
-							"recordsFiltered" => $this->srch_supp->count_filtered(),
+							"recordsTotal" => $this->srch_bank->count_all(),
+							"recordsFiltered" => $this->srch_bank->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -365,7 +387,7 @@
 	                
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'BNK_STS' => '1',
-	                'BNK_date' => $this->input->post('bank_tgl'),
+	                'BNK_DATE' => $this->input->post('bank_tgl'),
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'BNK_INFO' => $this->input->post('bank_info')
@@ -383,7 +405,7 @@
                     'BNKTRX_TYPE' => $this->input->post('bank_type1'),
                     'BNKTRX_NUM' => $this->input->post('bank_no_giro1'),
                     'BNKTRX_DATE' => $this->input->post('bank_giro_tgl'),
-                    'BNKTRX_AMOUNT' => $this->input->post('nominal')
+                    'BNKTRX_AMOUNT' => $this->input->post('nominal1')
                 );
             $update = $this->crud->save('bankin_trxdet',$data);
 	        echo json_encode(array("status" => TRUE)); 
@@ -394,10 +416,11 @@
             $data = array(
                     'BNK_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
-                    'BNKTRX_NUM' => $this->input->post('bank_no_giro2'),
+                    'BNKDET_NUM' => $this->input->post('bank_no_giro2'),
+                    'BNKDET_TYPE' => $this->input->post('bank_type2'),
                     'BNKDET_REFF' => $this->input->post('no_jual'),
                     'BNKDET_INFO' => $this->input->post('ket_detail'),
-                    'BNKDET_AMOUNT' => $this->input->post('nominal')
+                    'BNKDET_AMOUNT' => $this->input->post('nominal2')
                 );
             $update = $this->crud->save('bankin_det',$data);
 	        echo json_encode(array("status" => TRUE)); 
@@ -412,6 +435,68 @@
 		public function ajax_hapus_bank_in_detail2($id)
 		{
             $hapus = $this->crud->delete_by_id('bankin_det',array('bnkdet_id'=>$id));
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_simpan_bank_out()
+		{
+			// $appr = null;
+			// if($this->input->post('appr_id') != null)
+			// {
+			// 	$appr = $this->input->post('appr_id');
+			// }
+			$data = array(	                
+	                // 'user_id' => $this->input->post('user_id'),
+                    'BNKO_CODE' => $this->input->post('bank_nomor'),
+                    'BNKO_ID' => $this->input->post('bank_id'),
+                    'COA_ID' => $this->input->post('acc_id'),
+                    'BNKO_SUPP' => $this->input->post('supp_id'),
+	                'CURR_ID' => $this->input->post('curr_id'),
+	                'BNKO_STS' => '1',
+	                'BNKO_DATE' => $this->input->post('bank_tgl'),
+	                'BNKO_INFO' => $this->input->post('bank_info')               
+	            );
+	        $update = $this->crud->save('trx_bankout',$data);
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_simpan_bank_out_detail1()
+		{
+            $data = array(
+                    'BNKO_ID' => $this->input->post('bank_id'),
+                    'BNKTRXO_TYPE' => $this->input->post('bank_type1'),
+                    'BNKTRXO_NUM' => $this->input->post('bank_no_giro1'),
+                    'BNKTRXO_DATE' => $this->input->post('bank_giro_tgl'),
+                    'BNKTRXO_AMOUNT' => $this->input->post('nominal1')
+                );
+            $update = $this->crud->save('bankout_trxdet',$data);
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_simpan_bank_out_detail2()
+		{
+            $data = array(
+                    'BNKO_ID' => $this->input->post('bank_id'),
+                    'COA_ID' => $this->input->post('acc_id_detail'),
+                    'BNKODET_NUM' => $this->input->post('bank_no_giro2'),
+                    'BNKODET_TYPE' => $this->input->post('bank_type2'),
+                    'BNKODET_REFF' => $this->input->post('no_jual'),
+                    'BNKODET_INFO' => $this->input->post('ket_detail'),
+                    'BNKODET_AMOUNT' => $this->input->post('nominal2')
+                );
+            $update = $this->crud->save('bankout_det',$data);
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_hapus_bank_out_detail1($id)
+		{
+            $hapus = $this->crud->delete_by_id('bankout_trxdet',array('bnktrxo_id'=>$id));
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_hapus_bank_out_detail2($id)
+		{
+            $hapus = $this->crud->delete_by_id('bankout_det',array('bnkodet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
 	}

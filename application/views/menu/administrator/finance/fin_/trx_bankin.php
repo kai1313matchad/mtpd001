@@ -151,11 +151,11 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal">
+                                                  <input class="form-control" type="text" name="nominal1">
                                              </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_cash_in_detail1()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <button type="button" class="btn btn-success" onclick="save_bank_in_detail1()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
@@ -230,11 +230,11 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal">
+                                                  <input class="form-control" type="text" name="nominal2">
                                              </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_cash_in_detail2()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <button type="button" class="btn btn-success" onclick="save_bank_in_detail2()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
@@ -366,7 +366,7 @@
     <!-- modal account selesai -->
 
      <!-- Modal Kode Bank -->
-    <div class="modal fade" id="modal_bank" name="modal_account" role="dialog">
+    <div class="modal fade" id="modal_bank" name="modal_bank" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <form id="formku" action="<?php echo base_url('Finance/bank_in') ; ?>" method="post">
@@ -389,13 +389,13 @@
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Info</th>
+                                        <th>Pilih</th>
                                     </tr>
                                 </thead>
                                         
                                 <?php 
                                 $i=1;
-                                 foreach($account as $c){ 
+                                 foreach($bank as $c){ 
                                 ?>
                                     
                                     <tr>
@@ -405,9 +405,8 @@
                                               <td><center><?php echo $i++ ?></center></td>
                                               <td><center><?php echo $c->BANK_CODE; ?></center></td>
                                               <td><center><?php echo $c->BANK_NAME; ?></center></td>
-                                              <td><center><?php echo $c->BANK_INFO; ?></center></td>
                                               <td><center>
-                                        <button type="button" onclick="edit_sch('<?php echo $c->BANK_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
+                                        <button type="button" onclick="edit_bank('<?php echo $c->BANK_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
                                     </center></td>                     
                                         </form>
                                     </tr> 
@@ -542,7 +541,8 @@ $(document).ready(function() {
     //     curr($('select :selected').val());
     // })
     var id = $('[name="bank_id"]').val();
-    bank_masuk_detail(id);
+    bank_masuk_detail1(id);
+    bank_masuk_detail2(id);
 })
 
         var sts;
@@ -603,8 +603,27 @@ $(document).ready(function() {
             {   
                 $('[name="bank_kode_customer"]').val(data.CUST_CODE);
                 $('[name="bank_nama_customer"]').val(data.CUST_NAME);
-                $('[name="kas_customer_id"]').val(data.CUST_ID);
+                $('[name="bank_customer_id"]').val(data.CUST_ID);
                 $('#modal_customer').modal('hide');                 
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+
+    function edit_bank(id)
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {   
+                $('[name="bank_kode"]').val(data.BANK_CODE);
+                 $('[name="bank_id"]').val(data.BANK_ID);
+                $('#modal_bank').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -653,6 +672,50 @@ $(document).ready(function() {
         }
     }
     }
+
+    function bank_masuk_detail1(id)
+        {
+            table = $('#dtb_bank_in_detail1').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_trxbankin')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function bank_masuk_detail2(id)
+        {
+            table = $('#dtb_bank_in_detail2').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankin')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
 
     function curr(id)
     {   
@@ -750,7 +813,8 @@ $(document).ready(function() {
             success: function(data)
             {   
                 $('[name="bank_kode"]').val(data.BANK_CODE);
-                $('#modal_customer').modal('hide');                 
+                $('[name="bank_id"]').val(data.BANK_ID);
+                $('#modal_bank').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -778,10 +842,10 @@ $(document).ready(function() {
                 }
             });
         }
-    function save_bank_in_detail()
+    function save_bank_in_detail1()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_in_detail')?>",
+                url : "<?php echo site_url('administrator/Finance/ajax_simpan_bank_in_detail1')?>",
                 type: "POST",
                 data: $('#form_bank').serialize(),
                 dataType: "JSON",
@@ -790,8 +854,8 @@ $(document).ready(function() {
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_masuk_detail(id);                     
+                        var id = $('[name="bank_id"]').val();
+                        bank_masuk_detail1(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -801,9 +865,54 @@ $(document).ready(function() {
             });
         }
 
-         function bank_masuk_detail(id)
+        function save_bank_in_detail2()
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_simpan_bank_in_detail2')?>",
+                type: "POST",
+                data: $('#form_bank').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Disimpan');   
+                        var id = $('[name="bank_id"]').val();
+                        bank_masuk_detail2(id);                   
+                    }                   
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+         function bank_masuk_detail1(id)
         {
-            table = $('#dtb_bank_in_detail').DataTable({
+            table = $('#dtb_bank_in_detail1').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_trxbankin')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function bank_masuk_detail2(id)
+        {
+            table = $('#dtb_bank_in_detail2').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -823,10 +932,10 @@ $(document).ready(function() {
             });
         }
 
-        function delete_bankindet(id)
+        function delete_bankintrxdet(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_in_detail')?>/"+id,
+                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_in_detail1')?>/"+id,
                 type: "POST",
                 data: $('#form_bank').serialize(),
                 dataType: "JSON",
@@ -836,7 +945,30 @@ $(document).ready(function() {
                     {
                         alert('Data Berhasil Dihapus');   
                         var id = $('[name="bank_id"]').val();
-                        kas_masuk_detail(id);                     
+                        bank_masuk_detail1(id);                     
+                    }                   
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+        function delete_bankindet(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_in_detail2')?>/"+id,
+                type: "POST",
+                data: $('#form_bank').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Dihapus');   
+                        var id = $('[name="bank_id"]').val();
+                        bank_masuk_detail2(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)

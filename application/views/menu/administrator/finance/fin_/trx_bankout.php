@@ -1,67 +1,93 @@
 <!-- Page Content -->
         <style>
-              #myDIV {
+              #myDIV1 {
                     width: 100%;
                     padding: 50px 0;
                     text-align: center;
                     background-color: lightblue;
                     margin-top: 20px;
               }
-              #myKas {
+              #myDIV2 {
                     width: 100%;
+                    padding: 50px 0;
                     text-align: center;
+                    background-color: lightblue;
+                    margin-top: 20px;
+              }
+              #myBank {
+                    width: 100%;
+                    /*padding: 50px 0;*/
+                    text-align: center;
+                    /*background-color: lightblue;*/
+                    /*margin-top: 5px;*/
               }
               #mySave {
                     width: 100%;
+                    /*padding: 50px 0;*/
                     text-align: center;
+                    /*background-color: lightblue;*/
+                    /*margin-top: 5px;*/
               }
         </style>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Kas Keluar</h1>
+                        <h1 class="page-header">Bank Keluar</h1>
                     </div>                    
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#myKas" data-toggle="tab">Kas Keluar</a>
+                                <a href="#myKas" data-toggle="tab">Bank Keluar</a>
                             </li>
                             <li>
-                                <a href="#2" data-toggle="tab">Detail Kas Keluar</a>
+                                <a href="#2" data-toggle="tab">Detail Bank Keluar</a>
                             </li>
                         </ul>
-                        <form action="#" method="post" class="form-horizontal" id="form_kas">
+                        <form action="#" method="post" class="form-horizontal" id="form_bank">
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="myKas">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Kas Keluar</h2>
+                                            <h2>Data Bank Keluar</h2>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No Kas Keluar </label>
+                                        <label class="col-sm-3 control-label">No Bank Keluar </label>
                                         <div class="col-sm-1">
-                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_cashout()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_bankout()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="kas_nomor" readonly>
+                                            <input type="text" class="form-control" name="bank_nomor">
                                         </div>
-                                        <input type="hidden" value='9' class="form-control" name="kas_id">
+                                        <input type="hidden" value='9' class="form-control" name="bank_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_tgl" value="<?php echo date("d/m/Y"); ?>" readonly>
+                                            <input class="form-control" type="text" name="bank_tgl" value="<?php echo date("d/m/Y"); ?>" readonly>
                                             <!-- <input type="hidden" name="inv_typeid"> -->
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Acc </label>
+                                        <label class="col-sm-3 control-label">Kode Bank </label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_acc" readonly>
+                                            <input type="text" class="form-control" name="bank_kode" readonly>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                        </div>
+                                        <input type="hidden" value='9' class="form-control" name="bank_id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Acc </label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="text" name="bank_acc" readonly>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" name="bank_acc_info" readonly>
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="add_gd('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
@@ -69,30 +95,21 @@
                                         <input class="form-control" type="hidden" name="acc_id">
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No.Approval </label>
+                                        <label class="col-sm-3 control-label">No. Approval</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_approval" readonly>
+                                            <input class="form-control" type="text" name="bank_nomor_approval" readonly>
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_appr()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Lokasi </label>
+                                        <label class="col-sm-3 control-label">Supplier</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_lokasi" readonly>
+                                            <input class="form-control" type="text" name="bank_kode_supplier" readonly>
                                         </div>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_lokasi_ket" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Supplier </label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_sup" readonly>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_sup_ket" readonly>
+                                            <input class="form-control" type="text" name="bank_nama_supplier" readonly>
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_supp()"><span class="glyphicon glyphicon-search"></span> Cari</button>
@@ -102,23 +119,23 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_keterangan">
+                                            <input class="form-control" type="text" name="bank_info">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Departemen</label>
+                                        <label class="col-sm-3 control-label">Departemen </label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_dept" readonly>
+                                            <input type="text" class="form-control" name="bank_dept">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_dept()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input class="form-control" type="hidden" name="dept_id">
+                                        <input type="hidden" value='9' class="form-control" name="bank_id">
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No.Anggaran</label>
+                                        <label class="col-sm-3 control-label">No. Anggaran</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="kas_anggaran" readonly>
+                                            <input class="form-control" type="text" name="bank_angaran">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="add_ang()"><span class="glyphicon glyphicon-search"></span> Cari</button>
@@ -128,16 +145,79 @@
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Kas Keluar</h2>
+                                            <h2>Data Bank Masuk</h2>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Kas Keluar</button>
+                                            <button type="button" class="btn btn-success" onclick="myFunction(1)"><i class="glyphicon glyphicon-plus"></i> Tambah Giro/Transfer</button>
                                         </div>
                                     </div><br>
-                                    <div id="myDIV">
+                                    <div id="myDIV1">
+                                        <div class="form-group">
+                                             <label class="col-sm-3 control-label">Type</label>
+                                             <div class="col-sm-4">
+                                                  <select class="form-control" type="text" name="bank_type1">
+                                                          <option value="G">Giro</option>
+                                                          <option value="T">Transfer</option>
+                                                  </select>
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                             <label class="col-sm-3 control-label">No.Giro/Transfer</label>
+                                             <div class="col-sm-4">
+                                                  <input class="form-control" type="text" name="bank_no_giro1">
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                             <label class="col-sm-3 control-label">Tanggal</label>
+                                             <div class="col-sm-4">
+                                             <input class="form-control" type="date" name="bank_giro_tgl" value="<?php echo date("d/m/Y"); ?>">
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                             <label class="col-sm-3 control-label">Nominal</label>
+                                             <div class="col-sm-4">
+                                                  <input class="form-control" type="text" name="nominal1">
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success" onclick="save_bank_out_detail1()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 table-responsive">
+                                         <table id="dtb_bank_in_detail1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                 <thead>
+                                                    <tr>
+                                                        <th class="text-center">
+                                                            No
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Type
+                                                        </th>
+                                                        <th class="text-center">
+                                                            No. Giro/Transfer
+                                                        </th>
+                                                        <th class="text-center">
+                                                           Tgl Giro
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Nominal
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Actions
+                                                        </th>
+                                                    </tr>                            
+                                                </thead>                        
+                                         </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <button type="button" class="btn btn-success" onclick="myFunction(2)"><i class="glyphicon glyphicon-plus"></i> Tambah Giro/Transfer Detail</button>
+                                        </div>
+                                    </div><br>
+                                    <div id="myDIV2">
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">No Account</label>
                                              <div class="col-sm-4">
@@ -149,9 +229,24 @@
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
                                         <div class="form-group">
+                                             <label class="col-sm-3 control-label">Type</label>
+                                             <div class="col-sm-4">
+                                                  <select class="form-control" type="text" name="bank_type2">
+                                                          <option value="G">Giro</option>
+                                                          <option value="T">Transfer</option>
+                                                  </select>
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                             <label class="col-sm-3 control-label">No.Giro/Transfer</label>
+                                             <div class="col-sm-4">
+                                                  <input class="form-control" type="text" name="bank_no_giro2">
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
                                              <label class="col-sm-3 control-label">No Beli</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="no_beli">
+                                                  <input class="form-control" type="text" name="no_jual">
                                              </div>
                                         </div>
                                         <div class="form-group">
@@ -163,15 +258,15 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal">
+                                                  <input class="form-control" type="text" name="nominal2">
                                              </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_cash_out_detail()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <button type="button" class="btn btn-success" onclick="save_bank_out_detail2()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_kas_out_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                         <table id="dtb_bank_in_detail2" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                  <thead>
                                                     <tr>
                                                         <th class="text-center">
@@ -179,6 +274,12 @@
                                                         </th>
                                                         <th class="text-center">
                                                             No Acc
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Type
+                                                        </th>
+                                                        <th class="text-center">
+                                                            No. Giro/Transfer
                                                         </th>
                                                         <th class="text-center">
                                                             No Beli
@@ -211,10 +312,13 @@
                                             <div class="col-sm-4">
                                                   <input class="form-control" type="text" name="total">
                                             </div>
+                                            <div class="col-sm-4">
+                                                  <input type="hidden" class="form-control" type="text" name="curr_id">
+                                            </div>
                                     </div> 
                                     <div id="mySave" class="row">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_cash_out()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-success" onclick="save_bank_out()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                     </div>
                                     </div>
                                 </div>
@@ -239,7 +343,12 @@
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
+                        <!-- <input type="text" name="id_meeting" >
+                        <input type="text" name="title" >
+                        <input type="text" name="tgl" >
+                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dataTables9" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -257,6 +366,8 @@
                                     
                                     <tr>
                                         <form action="" method="post">
+                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
+                                              
                                               <td><center><?php echo $i++ ?></center></td>
                                               <td><center><?php echo $c->COA_ACC; ?></center></td>
                                               <td><center><?php echo $c->COA_ACCNAME; ?></center></td>
@@ -272,11 +383,178 @@
                         </div>
                     </div>                  
                 </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div> -->
                 </form>
             </div>
         </div>
     </div>
     <!-- modal account selesai -->
+
+     <!-- Modal Kode Bank -->
+    <div class="modal fade" id="modal_bank" name="modal_bank" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="formku" action="<?php echo base_url('Finance/bank_in') ; ?>" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- <input type="text" class="form-control" name="dept"> -->
+                    <div class="row">
+                        <!-- <input type="text" name="id_meeting" >
+                        <input type="text" name="title" >
+                        <input type="text" name="tgl" >
+                        <input type="text" name="jam" > -->
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <div class="maxh">
+                            <table id="dtb_bank" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                                        
+                                <?php 
+                                $i=1;
+                                 foreach($bank as $c){ 
+                                ?>
+                                    
+                                    <tr>
+                                        <form action="" method="post">
+                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
+                                              
+                                              <td><center><?php echo $i++ ?></center></td>
+                                              <td><center><?php echo $c->BANK_CODE; ?></center></td>
+                                              <td><center><?php echo $c->BANK_NAME; ?></center></td>
+                                              <td><center>
+                                        <button type="button" onclick="edit_bank('<?php echo $c->BANK_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
+                                    </center></td>                     
+                                        </form>
+                                    </tr> 
+                                
+                                <?php } ?> 
+                            </table>
+                        </div>
+                        </div>
+                    </div>                  
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- modal bank selesai -->
+
+    <!-- Modal Approval -->
+    <div class="modal fade" id="modal_appr" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomor Approval</th>
+                                        <th>Kode Lokasi</th>
+                                        <th>Alamat</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="srch_appr()"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Approval selesai -->
+
+     <!-- Modal Supplier Search -->
+    <div class="modal fade" id="modal_supplier" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_supp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>No.Tlp</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Supplier selesai -->
+
+     <!-- Modal Departemen Search -->
+    <div class="modal fade" id="modal_dept" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_dept" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Departemen selesai -->
 
     <!-- Modal Currency -->
     <div class="modal fade" id="modal_curr" role="dialog">
@@ -311,107 +589,6 @@
     </div>
     <!-- modal customer selesai -->
     
-    <!-- Modal Approval -->
-    <div class="modal fade" id="modal_appr" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nomor Approval</th>
-                                        <th>Kode Lokasi</th>
-                                        <th>Alamat</th>
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="srch_appr()"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal Approval selesai -->
-
-    <!-- Modal Supplier Search -->
-    <div class="modal fade" id="modal_supp" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_supp" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Alamat</th>
-                                        <th>Kota</th>
-                                        <th>No.Tlp</th>
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal Supplier selesai -->
-
-    <!-- Modal Departemen Search -->
-    <div class="modal fade" id="modal_dept" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_dept" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Info</th>
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal Supplier selesai -->
-
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -430,12 +607,13 @@
 </html>
 <script>
 $(document).ready(function() {
-    $('#myDIV').css({'display':'none'});
-    // $('[name="kas_mu"]').change(function(){
+    $('#myDIV1').css({'display':'none'});
+    $('#myDIV2').css({'display':'none'});
+    // $('[name="bank_mu"]').change(function(){
     //     curr($('select :selected').val());
     // })
-    var id = $('[name="kas_id"]').val();
-    kas_keluar_detail(id);
+    var id = $('[name="bank_id"]').val();
+    bank_masuk_detail(id);
 })
 
         var sts;
@@ -448,12 +626,14 @@ $(document).ready(function() {
             success: function(data)
             {   
                 if (sts=='1'){
-                    $('[name="kas_acc"]').val(data.COA_ACC);
+                    $('[name="bank_acc"]').val(data.COA_ACC);
+                    $('[name="bank_acc_info"]').val(data.COA_ACCNAME);
                     $('[name="acc_id"]').val(data.COA_ID);
                 } else {
                     $('[name="acc_detail"]').val(data.COA_ACC);
                     $('[name="acc_id_detail"]').val(data.COA_ID);
                 }  
+               
                  $('#modal_account').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -463,16 +643,16 @@ $(document).ready(function() {
         });
     }
 
-    function gen_cashout()
+    function gen_bankout()
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/gen_cashout')?>",
+                url : "<?php echo site_url('administrator/Finance/gen_bankout')?>",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {
-                    $('[name="kas_id"]').val(data.id);
-                    $('[name="kas_nomor"]').val(data.kode);
+                    $('[name="bank_id"]').val(data.id);
+                    $('[name="bank_nomor"]').val(data.kode);
                     $('#genbtn').attr('disabled',true);
                     // termapp(data.id);
                     // costapp(data.id);
@@ -483,6 +663,41 @@ $(document).ready(function() {
                 }
             });
         }
+
+    function edit_bank(id)
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {   
+                $('[name="bank_kode"]').val(data.BANK_CODE);
+                 $('[name="bank_id"]').val(data.BANK_ID);
+                $('#modal_bank').modal('hide');                 
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+
+        function add_gd(t)
+    {        
+        // save_method = 'add';
+        // $('#form')[0].reset();
+        // $('.form-group').removeClass('has-error');
+        // $('.help-block').empty();
+        $('#modal_account').modal('show');
+        $('.modal-title').text('Daftar Account');
+        sts=t;
+        // $('[name="tb"]').val("master_goods");
+        // $('[name="sts"]').val("1");
+        // $('[name="check"]').val("0");
+        // $('[name="gen"]').prop('disabled',false);
+        // gen_gd();
+    }
 
     function srch_appr()
         {            
@@ -508,31 +723,13 @@ $(document).ready(function() {
             });
         }
 
-         function srch_supp()
-        {            
-            $('#modal_supp').modal('show');
-            $('.modal-title').text('Cari Supplier');            
-            table = $('#dtb_supp').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_supp')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
+    function add_supp(t)
+    {        
+        $('#modal_supplier').modal('show');
+        $('.modal-title').text('Daftar Supplier');
+    }
 
-        function srch_dept()
+    function srch_dept()
         {            
             $('#modal_dept').modal('show');
             $('.modal-title').text('Cari Departemen');            
@@ -556,45 +753,85 @@ $(document).ready(function() {
             });
         }
 
-    function edit_cst(id)
+    function pick_dept(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_dept/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="dept_id"]').val(data.DEPT_ID);
+                    $('[name="bank_dept"]').val(data.DEPT_CODE);                  
+                    $('#modal_dept').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_supp(id)
+        {            
+            $('#modal_supplier').modal('show');
+            $('.modal-title').text('Cari Supplier');            
+            table = $('#dtb_supp').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_supp')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_supp(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="supp_id"]').val(data.SUPP_ID);
+                    $('[name="bank_kode_supplier"]').val(data.SUPP_CODE);
+                    $('[name="bank_nama_supplier"]').val(data.SUPP_NAME);                   
+                    $('#modal_supplier').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function myFunction(id) 
     {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_cst/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="kas_kode_customer"]').val(data.CUST_CODE);
-                $('[name="kas_nama_customer"]').val(data.CUST_NAME);
-                $('#modal_customer').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-        function add_gd(t)
-    {        
-        sts=t;
-        $('#modal_account').modal('show');
-        $('.modal-title').text('Daftar Account');
-    }
-
-    function add_cst(t)
-    {        
-        $('#modal_customer').modal('show');
-        $('.modal-title').text('Daftar Customer');
-    }
-
-        function myFunction() 
-    {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
+    if (id=='1') {
+        var x = document.getElementById("myDIV1");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }else {
+        var x = document.getElementById("myDIV2");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
     }
 
@@ -607,7 +844,9 @@ $(document).ready(function() {
             success: function(data)
             {   
                 if (data.CURR_RATE=='NULL') {$('[name="kas_kurs"]').val('')}else{
-                $('[name="kas_kurs"]').val(data.CURR_RATE);}                
+                $('[name="bank_kurs"]').val(data.CURR_RATE);
+                $('[name="curr_id"]').val(data.CURR_ID);}
+                // $('#modal_customer').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -639,7 +878,6 @@ $(document).ready(function() {
                 ],
             });
         }
-
     function pick_curr(id)
         {            
             $.ajax({
@@ -660,71 +898,54 @@ $(document).ready(function() {
             });
         }
 
-        function pick_appr(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_appr/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="kas_approval"]').val(data.APPR_CODE);
-                    $('[name="Kas_lokasi"]').val(data.LOC_NAME);                   
-                    $('#modal_appr').modal('hide');
+    function srch_bank()
+        {
+            $('#modal_bank').modal('show');
+            $('.modal-title').text('Cari Kode Bank');            
+            table = $('#dtb_bank').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_bank')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
+                ],
             });
         }
 
-        function pick_supp(id)
+    function pick_bank(id)
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {   
+                $('[name="bank_kode"]').val(data.BANK_CODE);
+                $('[name="bank_id"]').val(data.BANK_ID);
+                $('#modal_bank').modal('hide');                 
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+    function save_bank_out()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="supp_id"]').val(data.SUPP_ID);
-                    $('[name="kas_sup"]').val(data.SUPP_NAME);
-                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
-                    $('#modal_supp').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_dept(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_dept/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="dept_id"]').val(data.DEPT_ID);
-                    $('[name="kas_dept"]').val(data.DEPT_NAME);                  
-                    $('#modal_dept').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function save_cash_out()
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_out')?>",
+                url : "<?php echo site_url('administrator/Finance/ajax_simpan_bank_out')?>",
                 type: "POST",
-                data: $('#form_kas').serialize(),
+                data: $('#form_bank').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -739,12 +960,12 @@ $(document).ready(function() {
                 }
             });
         }
-    function save_cash_out_detail()
+    function save_bank_out_detail1()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_out_detail')?>",
+                url : "<?php echo site_url('administrator/Finance/ajax_simpan_bank_out_detail1')?>",
                 type: "POST",
-                data: $('#form_kas').serialize(),
+                data: $('#form_bank').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -752,7 +973,7 @@ $(document).ready(function() {
                     {
                         alert('Data Berhasil Disimpan');   
                         var id = $('[name="kas_id"]').val();
-                        kas_keluar_detail(id);                     
+                        bank_masuk_detail(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -762,9 +983,32 @@ $(document).ready(function() {
             });
         }
 
-        function kas_keluar_detail(id)
+        function save_bank_out_detail2()
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_simpan_bank_out_detail2')?>",
+                type: "POST",
+                data: $('#form_bank').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Disimpan');   
+                        var id = $('[name="kas_id"]').val();
+                        bank_masuk_detail2(id);                     
+                    }                   
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+         function bank_out_detail1(id)
         {
-            table = $('#dtb_kas_out_detail').DataTable({
+            table = $('#dtb_bank_in_detail').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -772,7 +1016,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_cashout')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout1')?>/"+id,
                     "type": "POST",                
                 },
                 "columnDefs": [
@@ -784,20 +1028,42 @@ $(document).ready(function() {
             });
         }
 
-        function delete_cshodet(id)
+        function bank_out_detail2(id)
+        {
+            table = $('#dtb_bank_in_detail').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout2')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function delete_bankoutdet(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_hapus_cash_out_detail')?>/"+id,
+                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_out_detail')?>/"+id,
                 type: "POST",
-                data: $('#form_kas').serialize(),
+                data: $('#form_bank').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
                     if(data.status)
                     {
                         alert('Data Berhasil Dihapus');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_keluar_detail(id);                     
+                        var id = $('[name="bank_id"]').val();
+                        kas_masuk_detail(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
