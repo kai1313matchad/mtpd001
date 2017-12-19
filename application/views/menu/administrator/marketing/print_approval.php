@@ -49,6 +49,10 @@
         {
             font-size: 9px;
         }
+        .font-red
+        {
+            color: red;
+        }
         .top-row
         {
             border-top: solid 2px blue;
@@ -121,6 +125,14 @@
             <label class="font-pr">: </label><span class="font-txt"> aaaaa</span>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">NPWP</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label><span class="font-txt"> 1234578</span>
+        </div>
+    </div>
     <div class="row top-row">
         <div class="col-sm-2 col-xs-2">
             <label class="font-pr">APPROVAL NO</label>
@@ -128,7 +140,7 @@
         <div class="col-sm-5 col-xs-5">
             <label class="font-pr">: </label><span class="font-txt"> aaaaa</span>
         </div>
-        <div class="col-sm-2 col-xs-2 left-bd">
+        <div class="col-sm-1 col-xs-1 left-bd">
             <label class="font-pr">DATE</label>
         </div>
         <div class="col-sm-3 col-xs-3">
@@ -201,7 +213,7 @@
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right"> 10,000,000</span>
+                <span class="font-txt font-red pull-right"> 10,000,000</span>
             </div>
         </div>
         <div class="row row-ins">
@@ -213,7 +225,7 @@
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right"> 0</span>
+                <span class="font-txt font-red pull-right"> 0</span>
             </div>
         </div>
         <div class="row row-ins">
@@ -264,7 +276,7 @@
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right"> 0</span>
+                <span class="font-txt font-red pull-right"> 0</span>
             </div>
         </div>
         <div class="row row-ins">
