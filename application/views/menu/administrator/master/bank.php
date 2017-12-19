@@ -242,19 +242,16 @@
             success: function(data)
             {   
                 $('[name="id"]').val(data.BANK_ID);
-                $('[name="code"]').val(data.BRANCH_CODE);
-                $('[name="nama"]').val(data.BRANCH_NAME);
-                var sts = data.BRANCH_STATUS;
-                document.querySelector('#stat [value="' + sts + '"]').selected = true;
-                $('[name="alamat"]').val(data.BRANCH_ADDRESS);
-                $('[name="kota"]').val(data.BRANCH_CITY);
-                $('[name="notlp"]').val(data.BRANCH_PHONE);
-                $('[name="fax"]').val(data.BRANCH_FAX);
-                $('[name="sts"]').val(data.BRANCH_DTSTS);
+                $('[name="code"]').val(data.BANK_CODE);
+                $('[name="nama"]').val(data.BANK_NAME);
+                var sts = data.COA_ID;
+                document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
+                $('[name="info"]').val(data.BANK_INFO);                
+                $('[name="sts"]').val(data.BANK_DTSTS);
                 $('[name="check"]').val("1");
-                $('[name="tb"]').val("master_branch");
+                $('[name="tb"]').val("master_bank");
                 $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Cabang');
+                $('.modal-title').text('Edit Bank');
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -263,17 +260,17 @@
         });
     }
 
-    function lihat_brc(id)
+    function lihat_bank(id)
     {        
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
             {   
-                $('[name="id"]').val(data.BRANCH_ID);
-                $('[name="vcode"]').val(data.BRANCH_CODE);
-                $('[name="vnama"]').val(data.BRANCH_NAME);
+                $('[name="id"]').val(data.BANK_ID);
+                $('[name="vcode"]').val(data.BANK_CODE);
+                $('[name="vnama"]').val(data.BANK_NAME);
                 var status = data.BRANCH_STATUS;
                 if(status == '0')
                 {
