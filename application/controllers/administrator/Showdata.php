@@ -232,7 +232,7 @@
 		}
 
 		//Tampil Detail Bank Keluar
-		public function showdetail_bankin($id)
+		public function showdetail_bankout($id)
 		{
 			$list = $this->bankout_det->get_datatables($id);
 			$data = array();
