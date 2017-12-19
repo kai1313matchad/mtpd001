@@ -22,9 +22,6 @@
                                 <th class="text-center">
                                     Kode
                                 </th>
-                                <th class="text-center">
-                                    Account
-                                </th>
                                 <th class="col-sm-3 col-xs-3 text-center">
                                     Nama
                                 </th>
@@ -178,11 +175,14 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Select Bst -->
+    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js')?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>    
     $(document).ready(function() {
         dt_bank();
+        drop_acc();
     });
 
     function dt_bank()
@@ -270,22 +270,11 @@
             {   
                 $('[name="id"]').val(data.BANK_ID);
                 $('[name="vcode"]').val(data.BANK_CODE);
-                $('[name="vnama"]').val(data.BANK_NAME);
-                var status = data.BRANCH_STATUS;
-                if(status == '0')
-                {
-                    $('[name="vstat"]').val('Pusat');
-                }
-                if(status == '1')
-                {
-                    $('[name="vstat"]').val('Cabang');
-                }                
-                $('[name="valamat"]').val(data.BRANCH_ADDRESS);
-                $('[name="vkota"]').val(data.BRANCH_CITY);
-                $('[name="vnotlp"]').val(data.BRANCH_PHONE);
-                $('[name="vfax"]').val(data.BRANCH_FAX);
+                $('[name="vnama"]').val(data.BANK_NAME);              
+                $('[name="vacc_bank"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
+                $('[name="vinfo"]').val(data.BANK_INFO);
                 $('#modal_view').modal('show');
-                $('.modal-title').text('Lihat Cabang');
+                $('.modal-title').text('Lihat Bank');
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -300,9 +289,9 @@
         $('#btnSave').attr('disabled',true);
         var url;        
         if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/ajax_add_brc')?>";
+            url = "<?php echo site_url('administrator/Master/ajax_add_bank')?>";
         } else {
-            url = "<?php echo site_url('administrator/Master/ajax_update_brc')?>";
+            url = "<?php echo site_url('administrator/Master/ajax_update_bank')?>";
         }
 
         $.ajax({
@@ -337,12 +326,12 @@
         });
     }
 
-    function delete_brc(id)
+    function delete_bank(id)
     {
         if(confirm('Are you sure delete this data?'))
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc')?>/"+id,
+                url : "<?php echo site_url('administrator/Master/ajax_delete_bank/')?>"+id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data)
@@ -358,10 +347,35 @@
         }
     }
 
-    function gen_brc()
+    function drop_acc()
     {
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_brc')?>",
+        url : "<?php echo site_url('administrator/Master/getcoa')?>",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+            {   
+                var select = document.getElementById('acc_bank');
+                var option;
+                for (var i = 0; i < data.length; i++) {
+                    option = document.createElement('option');
+                    option.value = data[i]["COA_ID"]
+                    option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
+                    select.add(option);
+                }
+                $('#acc_bank').selectpicker({});
+            },
+        error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+
+    function gen_bank()
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Master/gen_bank')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)

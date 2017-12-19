@@ -6,6 +6,7 @@
 		{
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
+			$this->load->model('datatables/showdata/Dt_bank','master_bank');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
@@ -38,6 +39,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->master_dept->count_all(),
 							"recordsFiltered" => $this->master_dept->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Master Bank
+		public function showmaster_bank()
+		{
+			$list = $this->master_bank->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BANK_CODE;
+				$row[] = $dat->BANK_NAME;				
+				$row[] = $dat->BANK_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->master_bank->count_all(),
+							"recordsFiltered" => $this->master_bank->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

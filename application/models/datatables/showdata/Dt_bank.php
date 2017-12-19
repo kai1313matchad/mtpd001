@@ -1,22 +1,20 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_bankindet extends CI_Model 
+	class Dt_bank extends CI_Model 
 	{
 
-		var $table = 'bankin_det a';
-		var $column_order = array(null,'coa_acc','bnkdet_type','bnkdet_num','bnkdet_reff','bnkdet_info','bnkdet_amount');
-		var $column_search = array('coa_acc','bnkdet_type','bnkdet_num','bnkdet_reff','bnkdet_info','bnkdet_amount');
-		var $order = array('bnkdet_id' => 'desc');
+		var $table = 'master_bank';
+		var $column_order = array(null,'bank_code','bank_name','bank_info');
+		var $column_search = array('bank_code','bank_name','bank_info');
+		var $order = array('bank_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query($id)
-		{
-			$this->db->join('trx_bankin b','b.bnk_id = a.bnk_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+		private function _get_datatables_query()
+		{		
 			$this->db->from($this->table);
-			$this->db->where('a.bnk_id',$id);
+			$this->db->where('bank_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -47,17 +45,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables($id)
+		public function get_datatables()
 		{
-			$this->_get_datatables_query($id);
+			$this->_get_datatables_query();
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered($id)
+		public function count_filtered()
 		{
-			$this->_get_datatables_query($id);
+			$this->_get_datatables_query();
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
