@@ -3,7 +3,7 @@
 	class Dt_invtype extends CI_Model 
 	{
 
-		var $table = 'income_type';
+		var $table = 'invoice_type';
 		var $column_order = array(null,'inc_code','inc_name','inc_accrcvname','inc_accincname');
 		var $column_search = array('inc_code','inc_name','inc_accrcvname','inc_accincname');
 		var $order = array('inc_id' => 'desc');

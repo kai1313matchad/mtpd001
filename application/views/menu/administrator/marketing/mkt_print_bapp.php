@@ -54,26 +54,18 @@
                                     <div class="row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Nama</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm"><strong>Rudy Wijaya</strong></div> -->
                                             <strong>Rudy Wijaya</strong>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Perusahaan</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <strong>PT. Multi Artistikacithra (Match Ad.)</strong>
-                                            </div> -->
                                             <strong>PT. Multi Artistikacithra (Match Ad.)</strong>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Perusahaan</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <strong>Jl. Lesti No.42</strong><br>
-                                                <strong>Surabaya - 60241</strong>
-                                            </div> -->
                                             <strong>Jl. Lesti No.42</strong><br>
                                             <strong>Surabaya - 60241</strong>
                                         </div>
@@ -84,9 +76,6 @@
                                     <div class="row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Dokumen</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Isinya Dokumen</span>
-                                            </div> -->
                                             <span name="bapp_doc">Isinya Dokumen</span>
                                         </div>
                                     </div>
@@ -96,72 +85,48 @@
                                     <div class="row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Client</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Nama Client</span>
-                                            </div> -->
                                             <span name="bapp_client">Nama Client</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Jenis</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Keterangan Reklame</span>
-                                            </div> -->
                                             <span name="bapp_bboard">Keterangan Reklame</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Ukuran</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Ukuran Reklame</span>
-                                            </div> -->
                                             <span name="bapp_size">Ukuran Reklame</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Teks Lama</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Teks Reklame Lama</span>
-                                            </div> -->
                                             <span name="bapp_oldtxt">Teks Reklame Lama</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Teks Baru</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Teks Reklame Baru</span>
-                                            </div> -->
                                             <span name="bapp_newtxt">Teks Reklame Baru</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Lokasi</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Lokasi Reklame</span>
-                                            </div> -->
                                             <span name="bapp_loc">Lokasi Reklame</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Nomor AB</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>No Approval</span>
-                                            </div> -->
                                             <span name="bapp_appr">No Approval</span>
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Tanggal Penyeleseian</label>
                                         <div class="col-sm-9 bapp-border">
-                                            <!-- <div class="well well-sm">
-                                                <span>Tanggal Penyelesaian BAPP</span>
-                                            </div> -->
                                             <span name="bapp_findate">Tanggal Penyelesaian BAPP</span>
                                         </div>
                                     </div>
@@ -171,69 +136,42 @@
                                     <div class="row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Hari/Tanggal</label>
                                         <div class="col-sm-7 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Jam</label>
                                         <div class="col-sm-5 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Kondisi Fisik</label>
                                         <div class="col-sm-1 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                         <label class="col-sm-2 control-label">Layak</label>
                                         <div class="col-sm-1 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                         <label class="col-sm-2 control-label">Tidak Layak</label>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Penerangan</label>
                                         <div class="col-sm-1 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                         <label class="col-sm-2 control-label">Menyala Optimal</label>
                                         <div class="col-sm-1 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                         <label class="col-sm-2 control-label">Mati Sebagian</label>
                                         <div class="col-sm-1 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                         <label class="col-sm-2 control-label">Mati Total</label>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Produk</label>
                                         <div class="col-sm-9 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">Keterangan</label>
                                         <div class="col-sm-9 bapp-border-empty">
-                                            <!-- <div class="well">
-                                                <span></span>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="row">
@@ -241,7 +179,6 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-offset-3 col-sm-9 bapp-border" style="padding-top: 88px;">
-                                            <!-- <textarea name="" class="form-control bapp-border" rows="4" style="resize: vertical;"></textarea> -->
                                         </div>
                                     </div>
                                     <div class="row bapp-row">
@@ -289,7 +226,6 @@
                                 <div class="row">
                                     <div class="panel panel-default">
                                         <div id="foo" class="panel-body">
-                                                
                                         </div>
                                     </div>
                                 </div>
@@ -299,14 +235,28 @@
                                 <div class="row">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <img id="img_siang" class="img-responsive" src="">
+                                            <div class="col-sm-12">
+                                                <img id="img_siang" class="img-responsive" src="">
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 5px;">
+                                                <button class="btn btn-block btn-danger" type="button" onclick="remImgSiang()">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <img id="img_malam" class="img-responsive" src="">
+                                            <div class="col-sm-12">
+                                                <img id="img_malam" class="img-responsive" src="">
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 5px;">
+                                                <button class="btn btn-block btn-danger" type="button" onclick="remImgMalam()">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -417,33 +367,29 @@
         function srch_bapp()
         {            
             $('#modal_bapp').modal('show');
-            $('.modal-title').text('Cari BAPP'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari BAPP');
             table = $('#dtb_bapp').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Marketing/ajax_srch_bapp')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
 
         function pick_bapp(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/ajax_pick_bapp/')?>/" + id,
                 type: "GET",
@@ -467,8 +413,7 @@
         }
 
         function pick_appr(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
@@ -492,8 +437,7 @@
         }
 
         function pick_cust(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
                 type: "GET",
@@ -509,8 +453,7 @@
             });
         }
         function pick_loc(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
                 type: "GET",
@@ -535,8 +478,7 @@
         }
 
         function get_images(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/temp_gallery/')?>"+id,
                 type: "GET",
@@ -576,11 +518,22 @@
                 }
             });
         }
+
+        function remImgSiang()
+        {
+            $('#img_siang').attr('src', '');
+            $('[name="img_siang"]').val('');
+        }
+
+        function remImgMalam()
+        {
+            $('#img_malam').attr('src', '');
+            $('[name="img_malam"]').val('');
+        }
     </script>
     <script>
         function pick_img(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/getimgbapp/')?>" + id,
                 type: "GET",
