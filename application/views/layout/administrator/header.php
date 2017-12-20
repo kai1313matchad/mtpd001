@@ -196,23 +196,20 @@
                                 </li>                                
                             </ul>                            
                         </li>
-                        <li>
+                        <li <?php if ($menu == 'accounting') {echo 'class=active';} ?>>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Accounting<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<?php echo base_url() ?>Akuntansi/Rekening">Rekening</a>
+                                    <a <?php if ($menulist == 'dash_account') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting')?>"><i class="fa <?php if ($menulist == 'dash_account') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url() ?>Akuntansi/saldo">Saldo Awal</a>
+                                    <a <?php if ($menulist == 'journal') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_acc')?>"><i class="fa <?php if ($menulist == 'journal') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Umum</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url() ?>Akuntansi/Jurnalumum">Jurnal Umum</a>
+                                    <a <?php if ($menulist == 'journal_adj') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journaladj_acc')?>"><i class="fa <?php if ($menulist == 'journal_adj') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Penyesuaian</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url() ?>Akuntansi/jurnalpenyesuaian">Jurnal Penyesuaian</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url() ?>Akuntansi/Bukubesar">Buku Besar</a>
+                                    <a <?php if ($menulist == 'journal_book') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journalbook_acc')?>"><i class="fa <?php if ($menulist == 'journal_book') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Buku Besar</a>
                                 </li>
                             </ul>                            
                         </li>

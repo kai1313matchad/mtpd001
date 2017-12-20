@@ -26,53 +26,56 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">No Invoice</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_invo()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input type="text" class="form-control" name="inv_code">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis Invoice</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="inv_typename" readonly>
-                                            <input type="hidden" name="inv_typeid">
-                                        </div>
                                         <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_invtype()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                         </div>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="inv_typename" readonly>
+                                            <input type="hidden" name="inv_typeid">
+                                        </div>                                        
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_incacc">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_incacc">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Rek. Piutang</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_debt">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_incacc">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_term">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Info</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <textarea name="inv_info" class="form-control" rows="2" style="resize: vertical;"></textarea> 
                                         </div>
                                     </div>

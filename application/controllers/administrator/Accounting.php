@@ -10,7 +10,11 @@
 
 		public function index()
 		{
-
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='dash_account';
+			$data['isi']='menu/administrator/accounting/dashboard';
+			$this->load->view('layout/administrator/wrapper',$data);
 		}
 	}
 ?>
