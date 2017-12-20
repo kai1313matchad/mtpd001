@@ -89,5 +89,34 @@
 			$this->db->insert('his_approvalbill',$data2);
 			return  $out;
 		}
+
+		//Gen Nomor BAPP
+		public function gen_numbapp()
+		{
+			$res = $this->gen_num_('trx_bapp','bapp_code','BA');			
+			$check = $this->db->get_where('trx_bapp',array('bapp_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_bapp','bapp_code','BA');
+			}
+			$data = array(
+					'bapp_code'=>$res,
+					'bapp_sts'=>'0'
+				);			
+			$this->db->insert('trx_bapp',$data);
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['bapp_code'] = $res;
+			// $data2 = array(
+			// 		'appr_id' => $insID,
+			// 		'hisappr_sts' => 'Void By System',
+			// 		'hisappr_old' => 'None',
+			// 		'hisappr_new' => 'None',
+			// 		'hisappr_info' => 'Create By System',
+			// 		'hisappr_upcount' => 0
+			// 	);
+			// $this->db->insert('his_approvalbill',$data2);
+			return  $out;
+		}
 	}
 ?>

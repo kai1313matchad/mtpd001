@@ -23,37 +23,358 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
-        body {
-          background: rgb(204,204,204);
-          font-size: 12px;
-        }        
-        page {          
-          background: white;
-          display: block;
-          margin: 0 auto;
-          margin-bottom: 0.5cm;
-          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        .happroval 
+        {
+            text-align: right;
+            font-weight: 800;
         }
-        page[size="A4"] {  
-          /*width: 21cm;
-          height: 29.7cm; */
-          width: 21.5cm;
-          height: 29.7cm; 
+        .border-prime
+        {
+            border: solid 2px blue;
         }
-        page[size="A4"][layout="portrait"] {
-          width: 29.7cm;
-          height: 21cm;  
+        .font-pr
+        {
+           font-size: 11px; 
         }
-        @media print {
-          body {
-            margin: 0;
-            box-shadow: 0;
-          }
+        .font-nd
+        {
+            font-size: 10px;
+        }
+        .font-3rd
+        {
+            font-size: 9px;
+            font-weight: bold;
+        }
+        .font-txt
+        {
+            font-size: 9px;
+        }
+        .font-red
+        {
+            color: red;
+        }
+        .top-row
+        {
+            border-top: solid 2px blue;
+        }
+        .top-row-count
+        {
+            border-top: solid 2px black;
+        }
+        .row-ins
+        {
+            margin-left: 10px;
+        }
+        .row-ins-tb
+        {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .left-bd
+        {
+            border-left: solid 2px blue;
+        }
+        .div-height
+        {
+            height: 120px;
+        }
+        .div-bd
+        {
+            height: 120px;
+            border-left: solid 2px blue;
+        }
+        .col-height
+        {
+            min-height: 100px;
+        }
+        .col-height-cost
+        {
+            min-height: 600px;
+        }
+        .td-amount
+        {
+            text-align: right;
+        }
+        .td-center
+        {
+            text-align: center;
+        }
+        table
+        {
+            border: solid 3px black;
         }
     </style>
 </head>
 <body>
-    <page size="A4">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-xs-6">
+            <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+        </div>
+        <div class="col-sm-6 col-xs-6">
+            <h3 class="happroval">A P P R O V A L</h3>
+        </div>
+    </div>
+</div>
+<div class="container border-prime">
+    <div class="row">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">CLIENT</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label><span class="font-txt"> aaaaa</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">NPWP</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label><span class="font-txt"> 1234578</span>
+        </div>
+    </div>
+    <div class="row top-row">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">APPROVAL NO</label>
+        </div>
+        <div class="col-sm-5 col-xs-5">
+            <label class="font-pr">: </label><span class="font-txt"> aaaaa</span>
+        </div>
+        <div class="col-sm-1 col-xs-1 left-bd">
+            <label class="font-pr">DATE</label>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+            <label class="font-pr">: </label><span class="font-txt"> 14-12-2017</span>
+        </div>
+    </div>
+    <div class="row top-row col-height">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">JOB DESCRIPTION</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label>
+            <span class="font-txt">
+                Perpanjangan Penggunaan Billboard selama 1 Tahun
+                Perpanjangan Penggunaan Billboard selama 1 Tahun
+                Perpanjangan Penggunaan Billboard selama 1 Tahun
+                Perpanjangan Penggunaan Billboard selama 1 Tahun
+            </span>
+        </div>
+    </div>
+    <div class="row top-row col-height-cost">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">COST</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">Lokasi</label>
+            </div>
+            <div class="col-sm-10 col-xs-10">
+                <label class="font-nd">: </label>
+                <span class="font-txt"> DEPAN PASAR LAWANG</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">Tanggal</label>
+            </div>
+            <div class="col-sm-10 col-xs-10">
+                <label class="font-nd">: </label>
+                <span class="font-txt"> 18-12-2017 s/d 18-03-2018</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">Materi</label>
+            </div>
+            <div class="col-sm-10 col-xs-10">
+                <label class="font-nd">: </label>
+                <span class="font-txt"> SEKAR LAUT ALL BRANDS</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Media Placement Sebelum Discount</label>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 100,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-1 col-xs-1">
+                <label class="font-nd">Disc 1</label>
+            </div>
+            <div class="col-sm-2 col-xs-1">
+                <span class="font-txt">10 %</span>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt font-red pull-right"> 10,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-1 col-xs-1">
+                <label class="font-nd">Disc 2</label>
+            </div>
+            <div class="col-sm-2 col-xs-1">
+                <span class="font-txt">0 %</span>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt font-red pull-right"> 0</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Media Placement Sesudah Discount</label>
+            </div>
+            <div class="col-sm-2 col-xs-2 top-row-count">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 90,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-1 col-xs-1">
+                <label class="font-nd">PPN</label>
+            </div>
+            <div class="col-sm-2 col-xs-1">
+                <span class="font-txt">10 %</span>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 9,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Pajak Reklame</label>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 1,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Media Placement Setelah Pajak</label>
+            </div>
+            <div class="col-sm-2 col-xs-2 top-row-count">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 100,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-1 col-xs-1">
+                <label class="font-nd">PPH</label>
+            </div>
+            <div class="col-sm-2 col-xs-1">
+                <span class="font-txt">0 %</span>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <label class="font-nd">: </label>
+                <span class="font-txt font-red pull-right"> 0</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Total</label>
+            </div>
+            <div class="col-sm-2 col-xs-2 top-row-count">
+                <label class="font-nd">: </label>
+                <span class="font-txt pull-right"> 100,000,000</span>
+            </div>
+        </div>
+        <div class="row row-ins">
+            <div class="col-sm-3 col-xs-3">
+                <label class="font-nd">Terbilang</label>
+            </div>
+            <div class="col-sm-9 col-xs-9">
+                <label class="font-nd">: </label>
+                <span class="font-txt">
+                    Seratus Juta Rupiah Seratus Juta Rupiah
+                    Seratus Juta Rupiah Seratus Juta Rupiah
+                    Seratus Juta Rupiah Seratus Juta Rupiah
+                    Seratus Juta Rupiah
+                </span>
+            </div>
+        </div>
+        <div class="row row-ins-tb">
+            <div class="col-sm-12 col-xs-12">
+                <table class="table table-bordered tb-body">
+                    <thead>
+                        <th class="col-sm-1 col-xs-1 td-center">No</th>
+                        <th class="col-sm-9 col-xs-9 td-center">Description</th>
+                        <th class="col-sm-2 col-xs-2 td-center">Amount</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-center">1</td>
+                            <td>Biaya Media Placement</td>
+                            <td class="td-amount">100,000,000</td>
+                        </tr>
+                        <tr>
+                            <td class="td-center">2</td>
+                            <td>Pajak Reklame</td>
+                            <td class="td-amount">1,000,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row top-row col-height">
+        <div class="col-sm-2 col-xs-2">
+            <label class="font-pr">PAYMENT</label>
+        </div>
+        <div class="col-sm-10 col-xs-10">
+            <label class="font-pr">: </label>
+            <span class="font-txt">
+                FREE 1x Cetak Visual dan 1x Pemasangan<br>
+                Tahap 1 50% Setelah Approval, Tahap 2 50% Setelah BAPP
+            </span>
+        </div>
+    </div>
+    <div class="row top-row">
+        <div class="col-sm-2 col-xs-2 text-center">
+            <label class="font-3rd">Director</label>
+        </div>
+        <div class="col-sm-3 col-xs-3 left-bd text-center">
+            <label class="font-3rd">Account SPV/Manager</label>
+        </div>
+        <div class="col-sm-2 col-xs-2 left-bd text-center">
+            <label class="font-3rd">Corp. Secretary</label>
+        </div>
+        <div class="col-sm-2 col-xs-2 left-bd text-center">
+            <label class="font-3rd">Finance Dept.</label>
+        </div>
+        <div class="col-sm-3 col-xs-3 left-bd text-center">
+            <label class="font-3rd">CLIENT APPROVAL</label>
+        </div>
+    </div>
+    <div class="row top-row">
+        <div class="col-sm-2 col-xs-2 div-height text-center">
+            
+        </div>
+        <div class="col-sm-3 col-xs-3 div-height div-bd text-center">
+            
+        </div>
+        <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
+            
+        </div>
+        <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
+            
+        </div>
+        <div class="col-sm-3 col-xs-3 div-height div-bd">
+            <label class="font-nd">DATE</label><br>
+            <label class="font-nd">REMARKS</label>
+        </div>
+    </div>
+</div>
+    <!-- <page size="A4">
         <input type="hidden" name="appr_id" value="<?php echo $id;?>">
         <div class="">                
             <div class="row">
@@ -266,7 +587,7 @@
                 </div>
             </div>            
         </div>
-    </page>
+    </page> -->
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->

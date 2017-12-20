@@ -62,7 +62,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl" placeholder="Tanggal" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl" value="<?= date('Y-m-d')?>" readonly />
 				                            </div>
 	                                    </div>
 	                            	</div>
@@ -73,7 +73,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_awal" placeholder="Awal Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_awal" placeholder="Awal Kontrak" />
 				                            </div>
 	                                    </div>
 	                                    <div class="col-sm-4">
@@ -81,7 +81,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control" name="tgl_akhir" placeholder="Akhir Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
 	                            	</div>
@@ -328,7 +328,7 @@ r		<!-- Page Content -->
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount" type="text" name="discp2" placeholder="Diskon 2">          	
+			                                	<input class="form-control chgcount" type="text" name="discp2" placeholder="Diskon 2">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -337,16 +337,7 @@ r		<!-- Page Content -->
 			                            		<input class="form-control" type="text" name="discn2" readonly>
 			                            	</div>
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
-			                            <div class="col-sm-8">
-			                            	<div class="input-group">
-			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
-			                            	</div>
-			                            </div>
-			                        </div>
+			                        </div>			                        
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
@@ -370,7 +361,16 @@ r		<!-- Page Content -->
 			                            		<input class="form-control" type="text" name="ppnn" readonly>
 			                            	</div>			                                
 			                            </div>
-			                        </div>			                        
+			                        </div>
+			                        <div class="form-group">
+			                            <label class="col-sm-3 control-label">Pajak Reklame</label>
+			                            <div class="col-sm-8">
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon curr">Rp</span>
+			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
+			                            	</div>
+			                            </div>
+			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
@@ -442,7 +442,16 @@ r		<!-- Page Content -->
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
 	                                    		<input class="form-control termchgcount" type="text" name="dpp_appr" readonly>
-	                                    	</div>	                                        
+	                                    	</div>
+	                                    </div>
+                            		</div>
+                            		<div class="form-group">
+                            			<label class="col-sm-3 control-label">Pajak Reklame Approval</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon">Rp</span>
+	                                    		<input class="form-control termchgcount" type="text" name="bbtax_appr" readonly>
+	                                    	</div>
 	                                    </div>
                             		</div>
                             		<div class="form-group">
@@ -462,7 +471,16 @@ r		<!-- Page Content -->
 	                                    		<input class="form-control termchgcount" type="text" name="termdpp" readonly>
 	                                    	</div>	                                        
 	                                    </div>
-                            		</div>                            		
+                            		</div>
+                            		<div class="form-group">
+                            			<label class="col-sm-3 control-label">Sub Total</label>
+	                                    <div class="col-sm-8">
+	                                    	<div class="input-group">
+	                                    		<span class="input-group-addon">Rp</span>
+	                                    		<input class="form-control termchgcount" type="text" name="termsub" readonly>
+	                                    	</div>
+	                                    </div>
+                            		</div>
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">PPN</label>
 			                            <div class="col-sm-4">
@@ -477,16 +495,7 @@ r		<!-- Page Content -->
 			                            		<input class="form-control" type="text" name="termppnn" readonly>
 			                            	</div>			                                
 			                            </div>
-			                        </div>
-			                        <div class="form-group">
-                            			<label class="col-sm-3 control-label">Sub Total</label>
-	                                    <div class="col-sm-8">
-	                                    	<div class="input-group">
-	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control termchgcount" type="text" name="termsub" readonly>
-	                                    	</div>	                                        
-	                                    </div>
-                            		</div>
+			                        </div>			                        
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">PPH</label>
 			                            <div class="col-sm-4">
@@ -560,7 +569,7 @@ r		<!-- Page Content -->
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Jenis Ijin</label>
 	                                    <div class="col-sm-8">
-	                                        <select id="pattyp" name="pat_id" class="form-control" required>
+	                                        <select id="pattyp" name="pat_id" class="form-control" data-live-search="true">
 		                                        <option value="">--Pilih--</option>
 		                                    <?php
 		                                        for($i=0; $i<count($pattyp); $i++)
@@ -842,18 +851,18 @@ r		<!-- Page Content -->
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Select Bst -->
+    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
     	$(document).ready(function()
     	{
-    		$('.dtp').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
+             $('#pattyp').selectpicker({});
             inputchg();
             inputtermchg();
             var id = $('[name="appr_id"]').val();
-            // ijinapp(id);
+            ijinapp(id);
             termapp(id);
             costapp(id);
     	});
@@ -904,7 +913,8 @@ r		<!-- Page Content -->
 	            {
 	                if(data.status)
 	                {
-	                    alert('Data Berhasil Disimpan');	                    
+	                    alert('Data Berhasil Disimpan');
+	                    $('.nav-tabs a[href="#2"]').tab('show');	                    
 	                }
 	                else
 	                {
@@ -943,38 +953,42 @@ r		<!-- Page Content -->
     		$('[name="discn1"]').val(discn1);
     		var discn2 = (dpp-discn1)*1*discp2/100;
     		$('[name="discn2"]').val(discn2);
-    		var sub1 = (dpp-discn1-discn2)*1;
+    		var sub1 = (dpp-discn1-discn2)*1;//PPH dan PPN didapat dari ini
 			$('[name="subtotal1"]').val(sub1);
 			var ppnp = $('[name="ppnp"]').val();
 			var ppnn = sub1*ppnp/100;
 			$('[name="ppnn"]').val(ppnn);
 			var bbtax = $('[name="appr_bbtax"]').val();
 			var sub2 = (sub1*1)+(ppnn*1)+(bbtax*1);
+			var sub3 = (sub1*1)+(bbtax*1);
 			$('[name="subtotal2"]').val(sub2);
 			var pphp = $('[name="pphp"]').val();
-			var pphn = sub2*pphp/100;
+			var pphn = sub1*pphp/100;
 			$('[name="pphn"]').val(pphn);			
 			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)-(pphn*1))*currrate;			
 			$('[name="gtotal"]').val(grandtotal);
 			// $('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
 			$('[name="dpp_appr"]').val(sub1);
+			$('[name="bbtax_appr"]').val(bbtax);
     	}
 
     	function hitungterm_()
     	{
     		var dppappr = $('[name="dpp_appr"]').val();
+    		var bbappr = $('[name="bbtax_appr"]').val();
     		var trmp = $('[name="termperc"]').val();
     		var dppterm = dppappr*trmp/100;
+    		var bbterm = bbappr*trmp/100;
     		$('[name="termdpp"]').val(dppterm);
+    		var sub1 = (dppterm+bbterm)*1;
+    		$('[name="termsub"]').val(sub1);
     		var ppnptrm = $('[name="termppnp"]').val();
     		var ppnntrm = dppterm*ppnptrm/100;
     		$('[name="termppnn"]').val(ppnntrm);
-    		var sub1 = (dppterm+ppnntrm)*1;
-    		$('[name="termsub"]').val(sub1);
     		var pphptrm = $('[name="termpphp"]').val();
-    		var pphntrm = sub1*pphptrm/100;
+    		var pphntrm = dppterm*pphptrm/100;
     		$('[name="termpphn"]').val(pphntrm);
-    		var sub2 = (sub1+pphntrm)*1;
+    		var sub2 = (sub1*1)+(ppnntrm*1)-(pphntrm*1);
     		$('[name="termsum"]').val(sub2);
     	}
     </script>

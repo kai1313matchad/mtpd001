@@ -3,16 +3,17 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Master Jenis Invoice</h1>
+                        <h1 class="page-header">Master Bank</h1>
                     </div>
+                    <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
-                        <button class="btn btn-success" onclick="add_invtype()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Invoice</button>
+                        <button class="btn btn-success" onclick="add_bank()"><i class="glyphicon glyphicon-plus"></i> Tambah Bank</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">                    
-                    <table id="dtb_invtype" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="dtb_bank" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="text-center">
@@ -21,19 +22,16 @@
                                 <th class="text-center">
                                     Kode
                                 </th>
-                                <th class="text-center">
+                                <th class="col-sm-3 col-xs-3 text-center">
                                     Nama
                                 </th>
                                 <th class="text-center">
-                                    Piutang
-                                </th>
-                                <th class="text-center">
-                                    Pendapatan
-                                </th>
+                                    Info
+                                </th>                                
                                 <th class="text-center">
                                     Actions
                                 </th>
-                            </tr>
+                            </tr>                            
                         </thead>                        
                     </table>
                 </div>
@@ -61,7 +59,7 @@
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                    <button name="gen" type="button" onclick="gen_invtype()" class="btn btn-block btn-sm btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
+                                    <button name="gen" type="button" onclick="gen_bank()" class="btn btn-block btn-sm btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +74,9 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Akun Piutang</label>
+                                <label class="col-sm-2 control-label">Akun Bank</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control text-center" name="accrcv" id="accrcv" data-live-search="true">
+                                    <select class="form-control text-center" name="acc_bank" id="acc_bank" data-live-search="true">
                                         <option value="">Pilih</option>
                                     </select>                                    
                                     <span class="help-block"></span>
@@ -87,17 +85,13 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Akun Pendapatan</label>
+                                <label class="col-sm-2 control-label">Info</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control text-center" name="accinc" id="accinc" data-live-search="true">
-                                        <option value="">Pilih</option>
-                                    </select>                                    
+                                    <textarea name="info" class="form-control" rows="2" style="resize:vertical;"></textarea>
                                     <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="accrcvname">
-                        <input type="hidden" name="accincname">
+                                </div> 
+                            </div> 
+                        </div>                  
                         <input type="hidden" name="id" value="">
                         <input type="hidden" name="tb" value="">
                         <input type="hidden" name="sts" value="">
@@ -142,20 +136,22 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Akun Piutang</label>
+                                <label class="col-sm-2 control-label">Akun Bank</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="vaccrcv" readonly>
+                                    <input class="form-control" type="text" name="vacc_bank" readonly>
+                                    <span class="help-block"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Akun Pendapatan</label>
+                                <label class="col-sm-2 control-label">Info</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="vaccinc" readonly>
-                                </div>
-                            </div>
-                        </div>                        
+                                    <textarea name="vinfo" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                    <span class="help-block"></span>
+                                </div> 
+                            </div> 
+                        </div>                 
                         <input type="hidden" name="id" value="">
                         <input type="hidden" name="tb" value="">
                     </form>
@@ -186,78 +182,20 @@
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>    
     $(document).ready(function() {
-        dt_invtype();
-        drop_coa1();
-        drop_coa2();
-        $('#accrcv').change(function(){            
-            $('[name="accrcvname"]').val($('#accrcv option:selected').text());
-        });
-        $('#accinc').change(function(){            
-            $('[name="accincname"]').val($('#accinc option:selected').text());
-        });
-        // $('.sel').selectpicker({});
+        dt_bank();
+        drop_acc();
     });
 
-    function drop_coa1()
-    {
-        $.ajax({
-        url : "<?php echo site_url('administrator/Master/getcoa')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-            {   
-                var select = document.getElementById('accrcv');
-                var option;
-                for (var i = 0; i < data.length; i++) {
-                    option = document.createElement('option');
-                    option.value = data[i]["COA_ID"]
-                    option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
-                    select.add(option);
-                }
-                $('#accrcv').selectpicker({});                
-            },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function drop_coa2()
-    {
-        $.ajax({
-        url : "<?php echo site_url('administrator/Master/getcoa')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-            {   
-                var select = document.getElementById('accinc');
-                var option;
-                for (var i = 0; i < data.length; i++) {
-                    option = document.createElement('option');
-                    option.value = data[i]["COA_ID"]
-                    option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
-                    select.add(option);
-                }
-                $('#accinc').selectpicker({});
-            },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function dt_invtype()
+    function dt_bank()
     {        
-        table = $('#dtb_invtype').DataTable({ 
+        table = $('#dtb_bank').DataTable({ 
             "info": false,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "<?php echo site_url('administrator/Master/ajax_invtype')?>",
+                "url": "<?php echo site_url('administrator/Showdata/showmaster_bank')?>",
                 "type": "POST",                
             },
             "columnDefs": [
@@ -271,25 +209,25 @@
 
     function reload_table()
     {
-        table.ajax.reload(null,false); //reload datatable ajax 
+        table.ajax.reload(null,false);
     }
 
-    function add_invtype()
+    function add_bank()
     {        
         save_method = 'add';
         $('#form')[0].reset();
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah Jenis Invoice');
-        $('[name="tb"]').val("income_type");
+        $('.modal-title').text('Tambah Bank');
+        $('[name="tb"]').val("master_bank");
         $('[name="sts"]').val("1");
         $('[name="check"]').val("0");
         $('[name="gen"]').prop('disabled',false);
-        gen_invtype();
+        gen_bank();        
     }
 
-    function edit_invtype(id)
+    function edit_bank(id)
     {
         save_method = 'update';
         $('#form')[0].reset();
@@ -299,25 +237,23 @@
         $('[name="gen"]').prop('disabled',true);
 
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/edit_invtype/')?>" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
             {   
-                $('[name="id"]').val(data.INC_ID);
-                $('[name="code"]').val(data.INC_CODE);
-                $('[name="nama"]').val(data.INC_NAME);
-                var sts = data.INC_ACCRCV;
-                document.querySelector('#accrcv [value="' + sts + '"]').selected = true;
-                $('[name="accrcvname"]').val($('#accrcv option:selected').text());
-                var sts = data.INC_ACCINC;
-                document.querySelector('#accinc [value="' + sts + '"]').selected = true;
-                $('[name="accincname"]').val($('#accinc option:selected').text());
-                $('[name="sts"]').val(data.BRANCH_DTSTS);
+                $('[name="id"]').val(data.BANK_ID);
+                $('[name="code"]').val(data.BANK_CODE);
+                $('[name="nama"]').val(data.BANK_NAME);
+                var sts = data.COA_ID;
+                // document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
+                $('#acc_bank').selectpicker('val', sts);
+                $('[name="info"]').val(data.BANK_INFO);                
+                $('[name="sts"]').val(data.BANK_DTSTS);
                 $('[name="check"]').val("1");
-                $('[name="tb"]').val("income_type");
+                $('[name="tb"]').val("master_bank");
                 $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Jenis Invoice');
+                $('.modal-title').text('Edit Bank');
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -326,22 +262,21 @@
         });
     }
 
-    function lihat_invtype(id)
+    function lihat_bank(id)
     {        
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/edit_invtype/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
             {   
-                $('[name="id"]').val(data.INC_ID);
-                $('[name="vcode"]').val(data.INC_CODE);
-                $('[name="vnama"]').val(data.INC_NAME);
-                $('[name="vaccrcv"]').val(data.INC_ACCRCVNAME);
-                $('[name="vaccinc"]').val(data.INC_ACCINCNAME);
-                var sts = data.INC_ACCRCV;
+                $('[name="id"]').val(data.BANK_ID);
+                $('[name="vcode"]').val(data.BANK_CODE);
+                $('[name="vnama"]').val(data.BANK_NAME);              
+                $('[name="vacc_bank"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
+                $('[name="vinfo"]').val(data.BANK_INFO);
                 $('#modal_view').modal('show');
-                $('.modal-title').text('Lihat Cabang');
+                $('.modal-title').text('Lihat Bank');
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -356,9 +291,9 @@
         $('#btnSave').attr('disabled',true);
         var url;        
         if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/add_invtype')?>";
+            url = "<?php echo site_url('administrator/Master/ajax_add_bank')?>";
         } else {
-            url = "<?php echo site_url('administrator/Master/update_invtype')?>";
+            url = "<?php echo site_url('administrator/Master/ajax_update_bank')?>";
         }
 
         $.ajax({
@@ -393,12 +328,12 @@
         });
     }
 
-    function delete_invtype(id)
+    function delete_bank(id)
     {
         if(confirm('Are you sure delete this data?'))
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc')?>/"+id,
+                url : "<?php echo site_url('administrator/Master/ajax_delete_bank/')?>"+id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data)
@@ -414,10 +349,35 @@
         }
     }
 
-    function gen_invtype()
+    function drop_acc()
     {
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_invtype')?>",
+        url : "<?php echo site_url('administrator/Master/getcoa')?>",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+            {   
+                var select = document.getElementById('acc_bank');
+                var option;
+                for (var i = 0; i < data.length; i++) {
+                    option = document.createElement('option');
+                    option.value = data[i]["COA_ID"]
+                    option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
+                    select.add(option);
+                }
+                $('#acc_bank').selectpicker({});                
+            },
+        error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+
+    function gen_bank()
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Master/gen_bank')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)

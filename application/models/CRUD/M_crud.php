@@ -463,5 +463,11 @@
 			$que=$this->db->get('master_currency');
 			return $que->result();
 		}
+		public function get_bank()
+		{
+			$this->db->where('bank_dtsts','1');
+			$que=$this->db->get('master_bank');
+			return $que->result();
+		}
 	}
 ?>

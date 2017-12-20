@@ -11,44 +11,44 @@
                 	<div class="col-sm-12 col-xs-12">
                 		<ul class="nav nav-tabs">
                 			<li class="active">
-                				<a href="#bapp" data-toggle="tab">BAPP</a>
+                				<a href="#1" data-toggle="tab">BAPP</a>
                 			</li>
                 			<li>
-                				<a href="#pict" data-toggle="tab">Gambar</a>
+                				<a href="#2" data-toggle="tab">Gambar</a>
                 			</li>
-                            <li>
-                                <a href="#data" data-toggle="tab">Info</a>
-                            </li>
                 		</ul>
                 		<form class="form-horizontal" id="form_bapp" enctype="multipart/form-data">
                 			<div class="tab-content">
-                				<div class="tab-pane fade in active" id="bapp">
+                				<div class="tab-pane fade in active" id="1">
                                 	<div class="form-group">
-	                                    <div class="col-sm-4 col-sm-offset-3 text-center">
+	                                    <div class="col-xs-4 col-xs-offset-3 text-center">
 	                                        <h2>Data BAPP</h2>
 	                                    </div>
 	                                </div>	                                
 	                                <div class="form-group">                      
 	                                    <label class="col-sm-3 control-label">Nomor BAPP</label>
-	                                    <div class="col-sm-4">
-	                                        <input class="form-control" type="text" name="bapp_code" value="<?php echo $bapp->BAPP_CODE; ?>" readonly>
-	                                        <input type="hidden" name="bapp_id" value="<?php echo $bapp->BAPP_ID;?>">
+                                        <div class="col-sm-1">
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_bapp()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </div>
+	                                    <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="bapp_code" value="" readonly>
+	                                        <input type="hidden" name="bapp_id" value="0">
 	                                        <input type="hidden" name="user_id" value="1">
 	                                    </div>	                                    
 	                                </div>
 	                                <div class="form-group">                              
 	                                    <label class="col-sm-3 control-label">Nomor Approval</label>
-	                                    <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+	                                    <div class="col-sm-7">
 	                                        <input class="form-control" type="text" name="appr_code" readonly>
                                             <input type="hidden" name="appr_id">
 	                                    </div>
-	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-	                                    </div>
 	                                </div>
 	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Tanggal</label>
-	                                    <div class="col-sm-4">
+	                                    <label class="col-sm-3 control-label">Tanggal Pembuatan</label>
+	                                    <div class="col-sm-8">
 	                                    	<div class='input-group date dtp' id='dtp1'>     
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
@@ -58,47 +58,106 @@
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Awal BAPP</label>
+	                                    <label class="col-sm-3 control-label">Awal - Akhir BAPP</label>
 	                                    <div class="col-sm-4">
 	                                    	<div class='input-group date dtp' id='dtp2'>     
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startdate" placeholder="Tanggal" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startdate" placeholder="Awal" />
 				                            </div>
 	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="col-sm-3 control-label">Akhir BAPP</label>
-	                                    <div class="col-sm-4">
-	                                    	<div class='input-group date dtp' id='dtp3'>     
-				                                <span class="input-group-addon">
-				                                    <span class="glyphicon glyphicon-calendar"></span>
-				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_enddate" placeholder="Tanggal" />
-				                            </div>
-	                                    </div>
+                                        <div class="col-sm-4">
+                                            <div class='input-group date dtp' id='dtp3'>     
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_enddate" placeholder="Akhir" />
+                                            </div>
+                                        </div>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Dokumen</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <textarea name="bapp_doc" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Teks Lama</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <textarea name="bapp_oldtxt" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label class="col-sm-3 control-label">Teks Baru</label>
-	                                    <div class="col-sm-4">
+	                                    <div class="col-sm-8">
 	                                        <textarea name="bapp_newtxt" class="form-control" rows="2" style="resize: vertical;"></textarea>
 	                                    </div>
 	                                </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Client</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="client" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Jenis</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="appr_jenis" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ukuran</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="appr_size" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tanggal Selesai</label>
+                                        <div class="col-sm-8">
+                                            <div class='input-group date dtp' id='dtp4'>     
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_finishdate" placeholder="Tanggal" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Awal - Akhir Periode</label>
+                                        <div class="col-sm-4">
+                                            <div class='input-group date dtp' id='dtp5'>     
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startper" placeholder="Tanggal" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class='input-group date dtp' id='dtp6'>     
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_endper" placeholder="Tanggal" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Keterangan Tambahan</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="bapp_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="savebapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
+                                        </div>
+                                    </div>
                             	</div>
-                            	<div class="tab-pane fade" id="pict">
+                            	<div class="tab-pane fade" id="2">
                             		<div class="form-group">
                                     	<div class="col-sm-4 col-sm-offset-3 text-center">
                                         	<h2>Data Gambar</h2>
@@ -117,78 +176,6 @@
                                         </div>
                                     </div>
                             	</div>
-                                <div class="tab-pane fade" id="data">
-                                    <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Info BAPP</h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Client</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="client" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Jenis</label>
-                                        <div class="col-sm-4">
-                                            <textarea name="appr_jenis" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Ukuran</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="appr_size" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Tanggal Selesai</label>
-                                        <div class="col-sm-4">
-                                            <div class='input-group date dtp' id='dtp4'>     
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_finishdate" placeholder="Tanggal" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Awal Periode</label>
-                                        <div class="col-sm-4">
-                                            <div class='input-group date dtp' id='dtp5'>     
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startper" placeholder="Tanggal" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Akhir Periode</label>
-                                        <div class="col-sm-4">
-                                            <div class='input-group date dtp' id='dtp6'>     
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_endper" placeholder="Tanggal" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Keterangan Tambahan</label>
-                                        <div class="col-sm-4">
-                                            <textarea name="bapp_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="savebapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
-                                        </div>
-                                    </div>
-                                </div>
                 			</div>
                 		</form>
                 	</div>
@@ -329,24 +316,26 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Addon -->
+    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
     	$(document).ready(function()
     	{
-    		$('.dtp').datetimepicker({                
-                format: 'YYYY-MM-DD'
-            });
-            $("textarea").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $("input").on('click',function(){
-                $(this).parent().parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
+    		// $('.dtp').datetimepicker({                
+      //           format: 'YYYY-MM-DD'
+      //       });
+      //       $("textarea").change(function(){
+      //           $(this).parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
+      //       $("input").change(function(){
+      //           $(this).parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
+      //       $("input").on('click',function(){
+      //           $(this).parent().parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
             get_images();
     	});
 
@@ -359,35 +348,31 @@
     	function srch_appr()
     	{
     		$('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Approval');
             table = $('#dtb_appr').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
     	}
 
         function pick_appr(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -409,10 +394,9 @@
         }
 
         function pick_cust(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -435,7 +419,7 @@
 
         function get_images(id)
         {
-            //Ajax Load data from ajax
+            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/temp_gallery/')?>"+id,
                 type: "GET",
@@ -477,12 +461,30 @@
         }
     </script>
     <script>
+        function gen_bapp()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_bapp')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="bapp_id"]').val(data.id);
+                    $('[name="bapp_code"]').val(data.kode);
+                    get_images(data.id);
+                    $('#genbtn').attr('disabled',true);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Approval');
+                }
+            });
+        }
         function savebapp()
         {
             validate();
             if ($('.form-group').hasClass('has-error') != 1)
-            {
-                // ajax adding data to database
+            {                
                 $.ajax({
                     url : "<?php echo site_url('administrator/Marketing/simpan_bapp')?>",
                     type: "POST",
@@ -490,7 +492,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
-                        if(data.status) //if success close modal and reload ajax table
+                        if(data.status)
                         {
                             alert('Data Berhasil Disimpan');                        
                         }                   
@@ -509,8 +511,7 @@
         function del_img(id)
         {
             if(confirm('Are you sure delete this data?'))
-            {
-                // ajax delete data to database
+            {                
                 $.ajax({
                     url : "<?php echo site_url('administrator/Marketing/bapp_delimg')?>/"+id,
                     type: "POST",

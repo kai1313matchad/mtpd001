@@ -346,7 +346,7 @@
 
 		public function gen_cust()
 		{			
-			$res = $this->crud->gen_numb('gd_code','master_goods','CST');
+			$res = $this->crud->gen_numb('gd_code','master_customer','CST');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -2331,7 +2331,7 @@
 	    	$data = array(
 	                'gd_dtsts' => '0'
 	            );
-	    	$update = $this->crud->update('master_supplier',$data,array('gd_id' => $id));
+	    	$update = $this->crud->update('master_goods',$data,array('gd_id' => $id));
         	echo json_encode(array("status" => TRUE));
 	    }
 
@@ -2494,6 +2494,116 @@
 	        {
 	            $data['inputerror'][] = 'dept_info';
 	            $data['error_string'][] = 'Satuan Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    //Master Bank
+	    public function bank()
+	    {	    	
+			$data['title']='Match Terpadu - Master Bank';
+			$data['menu']='master';
+			$data['menulist']='bank';
+			$data['isi']='menu/administrator/master/bank';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
+	    public function gen_bank()
+		{
+			$res = $this->crud->gen_numb('bank_code','master_bank','BNK');
+			$data['kode'] = $res;
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function ajax_edit_bank($id)
+	    {	    
+	    	$data = $this->crud->get_by_id2('master_bank a','chart_of_account b',array('bank_id' => $id),'b.coa_id = a.coa_id');
+        	echo json_encode($data);
+	    }
+
+		public function ajax_add_bank()
+	    {
+	        $this->_validate_bank();
+	        $table = $this->input->post('tb');
+	        $data = array(
+	        		'bank_code' => $this->input->post('code'),
+	        		'coa_id' => $this->input->post('acc_bank'),
+	                'bank_name' => $this->input->post('nama'),
+	                'bank_info' => $this->input->post('info'),
+	                'bank_dtsts' => $this->input->post('sts')
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_update_bank()
+	    {
+	    	$this->_validate_bank();
+	    	$table = $this->input->post('tb');
+	    	$data = array(
+	                'bank_code' => $this->input->post('code'),
+	                'coa_id' => $this->input->post('acc_bank'),
+	                'bank_name' => $this->input->post('nama'),
+	                'bank_info' => $this->input->post('info')
+	            );
+	    	$update = $this->crud->update($table,$data,array('bank_id' => $this->input->post('id')));
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_delete_bank($id)
+	    {
+	    	$data = array(
+	                'bank_dtsts' => '0'
+	            );
+	    	$update = $this->crud->update('master_bank',$data,array('bank_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function _validate_bank()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('code') == '')
+	        {
+	            $data['inputerror'][] = 'code';
+	            $data['error_string'][] = 'Kode Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('check') == '0')
+	        {
+	        	$this->form_validation->set_rules('code', 'Kode', 'is_unique[master_bank.BANK_CODE]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'code';
+		            $data['error_string'][] = 'Kode Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
+	        }
+	        if($this->input->post('nama') == '')
+	        {
+	            $data['inputerror'][] = 'nama';
+	            $data['error_string'][] = 'Nama Bank Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('acc_bank') == '')
+	        {
+	            $data['inputerror'][] = 'acc_bank';
+	            $data['error_string'][] = 'Nama Akun Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('info') == '')
+	        {
+	            $data['inputerror'][] = 'info';
+	            $data['error_string'][] = 'Info Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)

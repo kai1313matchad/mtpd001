@@ -5,6 +5,10 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         .responsive.recalc();
  });
 
+$('.dtp').datetimepicker({
+    format: 'YYYY-MM-DD'
+ });
+
 $("input").change(function(){
 	$(this).parent().parent().removeClass('has-error');
     $(this).next().empty();

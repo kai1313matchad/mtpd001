@@ -65,5 +65,29 @@
 					);			
 			echo json_encode($output);
 		}
+
+		public function srch_bank()
+		{
+			$list = $this->s_bank->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->BANK_CODE;
+				$row[] = $dat->BANK_NAME;				
+				$row[] = $dat->BANK_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_dept('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_dept->count_all(),
+							"recordsFiltered" => $this->s_dept->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
 	}
 ?>

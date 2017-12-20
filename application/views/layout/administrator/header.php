@@ -43,6 +43,9 @@
                             <a href="#"><i class="fa fa-database fa-fw"></i> Data Master<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
+                                    <a <?php if ($menulist == 'bank') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Master/bank')?>"><i class="fa <?php if ($menulist == 'bank') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Bank</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'barang') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Master/goods')?>"><i class="fa <?php if ($menulist == 'barang') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Barang</a>
                                 </li>
                                 <li>
