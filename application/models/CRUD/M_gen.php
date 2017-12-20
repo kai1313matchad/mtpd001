@@ -61,6 +61,45 @@
 			return  $out;
 		}
 
+		public function gen_numpolgt()
+		{
+			$res = $this->gen_num_('trx_po','po_code','PO');
+			$check = $this->db->get_where('trx_po',array('po_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_po','po_code','PO');
+			}
+			$data = array(
+					'po_code'=>$res,
+					'po_sts'=>'0'
+				);			
+			$this->db->insert('trx_po',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['po_code'] = $res;
+			return  $out;
+		}
+
+		public function gen_numbllgt()
+		{
+			$res = $this->gen_num_('trx_procument','po_code','PO');
+			$check = $this->db->get_where('trx_po',array('po_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_po','po_code','PO');
+			}
+			$data = array(
+					'po_code'=>$res,
+					'po_sts'=>'0'
+				);			
+			$this->db->insert('trx_po',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['po_code'] = $res;
+			return  $out;
+		}
+
+
 		//Gen Nomor Approval
 		public function gen_numappr()
 		{

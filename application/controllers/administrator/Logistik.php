@@ -20,6 +20,7 @@
 			$this->load->model('datatables/Dt_usgrtdet','gdrtusg');
 			$this->load->model('datatables/Dt_retprcdet','gdretprc');
 			$this->load->model('CRUD/M_crud','crud');
+			$this->load->model('CRUD/M_gen','gen');
 			$this->load->model('datatables/Dt_lap_po','lap_po');
 			$this->load->model('datatables/Dt_lap_prc','lap_prc');
 		}
@@ -61,10 +62,28 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function gen_po_lgt()
+		{
+			$gen = $this->gen->gen_numpolgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['po_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_bl_lgt()
+		{
+			$gen = $this->gen->gen_numbllgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['po_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function lgt_trx_po()
 		{
-			$id=$this->crud->gen_ponumber();
-			$data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
+			// $id=$this->crud->gen_ponumber();
+			// $data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='po';

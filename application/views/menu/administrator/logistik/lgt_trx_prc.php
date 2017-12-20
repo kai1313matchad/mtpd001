@@ -30,9 +30,16 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor BL</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="prc_code" value="<?php echo $prc->PRC_CODE;?>" readonly>
+                                            <!-- <input class="form-control" type="text" name="prc_code" value="<?php echo $prc->PRC_CODE;?>" readonly>
                                             <input type="hidden" name="prc_id" value="<?php echo $prc->PRC_ID;?>">
+                                            <input type="hidden" name="user_id" value="1"> -->
+
+                                             <input class="form-control" type="text" name="prc_code" value="" readonly>
+                                            <input type="hidden" name="prc_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -442,6 +449,24 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
+        function tambah(){
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/gen_bl_lgt') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="prc_code"]').val(data.kode);
+                    $('[name="prc_id"]').val(data.id);
+
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
+
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
