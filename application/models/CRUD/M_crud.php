@@ -295,6 +295,16 @@
 	        return $query->row();
 		}
 
+		//get po sub
+		public function sub_po_ga($id)
+		{					
+			$this->db->select_sum('poga_details.pgdet_sub', 'Subtotal');
+			$this->db->join('trx_po_ga','trx_po_ga.poga_id = poga_details.poga_id');
+			$this->db->where('trx_po_ga.poga_id',$id);
+			$query = $this->db->get('poga_details');
+	        return $query->row();
+		}
+
 		//add BL
 		public function add_bl()
 		{

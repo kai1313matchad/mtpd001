@@ -59,12 +59,12 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Approval</th>
+                                        <th class="col-sm-2">Approval</th>
                                         <th>Kontrak Habis</th>
-                                        <th>Lokasi</th>
-                                        <th>Klien</th>
-                                        <th>Cabang</th>
-                                        <th>Nominal</th>                                        
+                                        <th class="col-sm-2">Lokasi</th>
+                                        <th class="col-sm-2">Klien</th>
+                                        <th class="col-sm-2">Cabang</th>
+                                        <th class="col-sm-2">Nominal</th>                    
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>

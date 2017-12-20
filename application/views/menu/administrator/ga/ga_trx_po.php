@@ -30,9 +30,12 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor PO</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="po_code" value="<?php echo $po->PO_CODE;?>" readonly>
-                                            <input type="hidden" name="po_id" value="<?php echo $po->PO_ID;?>">
+                                            <input class="form-control" type="text" name="po_code" value="" readonly>
+                                            <input type="hidden" name="po_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -52,7 +55,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="form-group">                              
+                                    <!-- <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="appr_code" readonly>
@@ -61,7 +64,7 @@
                                         <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
                                         <div class="col-sm-4">
@@ -370,6 +373,24 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
+
+        function tambah(){
+            $.ajax({
+                url : "<?php echo site_url('administrator/Genaff/gen_po_ga') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="po_code"]').val(data.kode);
+                    $('[name="po_id"]').val(data.id);
+
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
@@ -387,7 +408,7 @@
         function savepo()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_simpanpo')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_simpanpo')?>",
                 type: "POST",
                 data: $('#form_po').serialize(),
                 dataType: "JSON",
@@ -416,7 +437,7 @@
         function sub_total(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_sub_ga/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -440,7 +461,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_barang')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_barang')?>/"+id,
                     "type": "POST",                
                 },
                 "columnDefs": [
@@ -455,7 +476,7 @@
         function add_barang()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_add_brg')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_add_brg')?>",
                 type: "POST",
                 data: $('#form_po').serialize(),
                 dataType: "JSON",

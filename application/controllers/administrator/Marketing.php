@@ -59,7 +59,7 @@
 			// $data['id'] = $gen['insertId'];
 			// $data['kode'] = $gen['bapp_code'];
 			$data['id'] = '1';
-			$data['kode'] = 'BA/1212/000001';
+			$data['kode'] = 'BA/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

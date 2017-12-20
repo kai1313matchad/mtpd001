@@ -28,10 +28,9 @@
 	                                <div class="form-group">                      
 	                                    <label class="col-sm-3 control-label">Nomor BAPP</label>
                                         <div class="col-sm-1">
-                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_bapp()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
 	                                    <div class="col-sm-7">
-	                                        <!-- <input class="form-control" type="text" name="bapp_code" value="<?php echo $bapp->BAPP_CODE; ?>" readonly> -->
                                             <input class="form-control" type="text" name="bapp_code" value="" readonly>
 	                                        <input type="hidden" name="bapp_id" value="0">
 	                                        <input type="hidden" name="user_id" value="1">
@@ -317,24 +316,26 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Addon -->
+    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
     	$(document).ready(function()
     	{
-    		$('.dtp').datetimepicker({                
-                format: 'YYYY-MM-DD'
-            });
-            $("textarea").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $("input").on('click',function(){
-                $(this).parent().parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
+    		// $('.dtp').datetimepicker({                
+      //           format: 'YYYY-MM-DD'
+      //       });
+      //       $("textarea").change(function(){
+      //           $(this).parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
+      //       $("input").change(function(){
+      //           $(this).parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
+      //       $("input").on('click',function(){
+      //           $(this).parent().parent().parent().removeClass('has-error');
+      //           $(this).next().empty();
+      //       });
             get_images();
     	});
 
@@ -347,35 +348,31 @@
     	function srch_appr()
     	{
     		$('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Approval');
             table = $('#dtb_appr').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
     	}
 
         function pick_appr(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -397,10 +394,9 @@
         }
 
         function pick_cust(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -423,7 +419,7 @@
 
         function get_images(id)
         {
-            //Ajax Load data from ajax
+            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/temp_gallery/')?>"+id,
                 type: "GET",
@@ -465,12 +461,30 @@
         }
     </script>
     <script>
+        function gen_bapp()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_bapp')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="bapp_id"]').val(data.id);
+                    $('[name="bapp_code"]').val(data.kode);
+                    get_images(data.id);
+                    $('#genbtn').attr('disabled',true);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Approval');
+                }
+            });
+        }
         function savebapp()
         {
             validate();
             if ($('.form-group').hasClass('has-error') != 1)
-            {
-                // ajax adding data to database
+            {                
                 $.ajax({
                     url : "<?php echo site_url('administrator/Marketing/simpan_bapp')?>",
                     type: "POST",
@@ -478,7 +492,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
-                        if(data.status) //if success close modal and reload ajax table
+                        if(data.status)
                         {
                             alert('Data Berhasil Disimpan');                        
                         }                   
@@ -497,8 +511,7 @@
         function del_img(id)
         {
             if(confirm('Are you sure delete this data?'))
-            {
-                // ajax delete data to database
+            {                
                 $.ajax({
                     url : "<?php echo site_url('administrator/Marketing/bapp_delimg')?>/"+id,
                     type: "POST",

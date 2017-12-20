@@ -47,7 +47,11 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 col-md-offset-3 text-center" style="padding-bottom: 15px" > <button id="filter" type="button" name="input"  class="btn btn-danger col-sm-12"><span style="color: white" class="glyphicon glyphicon-zoom-in"></span> Tampilkan</button>
+                    <div class="col-sm-4 col-md-offset-3 text-center" style="padding-bottom: 15px" > 
+                        <button id="filter" type="button" name="input"  class="btn btn-danger col-sm-12"><span style="color: white" class="glyphicon glyphicon-zoom-in"></span> Tampilkan</button>
+                    </div>
+                    <div class="col-sm-2 text-center" style="padding-bottom: 15px" >
+                        <a href="<?php echo base_url(); ?>administrator/Logistik/lap_pembelian"><button id="filter" type="button" name="input"  class="btn btn-primary col-sm-12"><span style="color: white" class="glyphicon glyphicon-refresh"></span> Reset</button></a>
                     </div>
                 </div>
 
