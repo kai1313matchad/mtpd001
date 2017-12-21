@@ -30,6 +30,7 @@ r		<!-- Page Content -->
 	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
 	                            	<input type="hidden" name="appr_id" value="0">
 	                            	<input type="hidden" name="user_id" value="2">
+	                            	<input type="hidden" name="user_brc" value="0">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
 					                    <div class="col-sm-1">
@@ -39,17 +40,17 @@ r		<!-- Page Content -->
 					                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
 					                        <input class="form-control" type="text" name="appr_code" value="" readonly>
 					                	</div>
-									</div>
-	                            	<div class="form-group hid-form">
-	                            		<label class="col-sm-3 control-label">Nomor Approval Cabang</label>
-	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-	                                    </div>
-	                                    <div class="col-sm-7">
-	                                        <input class="form-control" type="text" name="appr_brc" readonly>
-	                                        <input type="hidden" name="appr_brcid" value="0">
-	                                    </div>
-	                            	</div>
+									</div>									
+									<div class="form-group hid-form">
+		                            	<label class="col-sm-3 control-label">Nomor Approval Cabang</label>
+		                                <div class="col-sm-1">
+		                                	<a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+		                                </div>
+		                                <div class="col-sm-7">
+		                                	<input class="form-control" type="text" name="appr_brc" readonly>
+		                                    <input type="hidden" name="appr_brcid" value="0">
+		                                </div>
+									</div>									
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
@@ -245,7 +246,7 @@ r		<!-- Page Content -->
 	                                    </div>
 			                        </div>
 			                        <div id="det_biaya" class="col-sm-offset-3">
-			                        	<div id="det_biayabranch">
+			                        	<div id="det_biayabranch" class="hid-form">
 			                        		<div class="form-group">
 			                        			<div class="col-xs-4 col-xs-offset-3 text-center">
 				                                	<h4>Detail Biaya Cabang</h4>
@@ -277,7 +278,7 @@ r		<!-- Page Content -->
 			                        	<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control apprbrc" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">	                            				
+	                            				<input class="form-control apprbrc" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
@@ -285,7 +286,7 @@ r		<!-- Page Content -->
 	                            			<div class="col-sm-7">
 	                            				<div class="input-group">
 	                            					<span class="input-group-addon curr">Rp</span>
-		                            				<input class="form-control apprbrc" type="text" name="cost_amount" placeholder="Jumlah Biaya">
+		                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
 	                            				</div>
 	                            			</div>
 	                            		</div>
@@ -443,6 +444,42 @@ r		<!-- Page Content -->
 		                                	<h2>Detail Termin</h2>
 		                                </div>
 	                            	</div>
+	                            	<div id="termappbrc" class="hid-form">
+	                            		<div class="row">
+	                            			<div class="col-sm-12 col-xs-12 table-responsive">
+							                    <table id="dtb_terminbranch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+							                        <thead>
+							                            <tr>
+							                                <th class="text-center">
+							                                    No
+							                                </th>
+							                                <th class="text-center">
+							                                    Termin
+							                                </th>                              
+							                                <th class="text-center">
+							                                    Tagihan
+							                                </th>
+							                                <th class="text-center">
+							                                    Nominal
+							                                </th>
+							                                <th class="text-center">
+							                                    DPP
+							                                </th>
+							                                <th class="text-center">
+							                                    PPN
+							                                </th>
+							                                <th class="text-center">
+							                                    PPH
+							                                </th>
+							                                <th class="text-center">
+							                                    Actions
+							                                </th>
+							                            </tr>                            
+							                        </thead>                        
+							                    </table>
+							                </div>
+	                            		</div>
+	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Termin</label>
 	                                    <div class="col-sm-8">
@@ -595,6 +632,30 @@ r		<!-- Page Content -->
 		                            	<div class="col-xs-4 col-xs-offset-3 text-center">
 		                                	<h2>Detail Perijinan</h2>
 		                                </div>
+	                            	</div>
+	                            	<div id="permitappbrc" class="hid-form">
+	                            		<div class="row">
+	                            			<div class="col-sm-12 col-xs-12 table-responsive">
+							                    <table id="dtb_ijinappbrc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+							                        <thead>
+							                            <tr>
+							                                <th class="text-center">
+							                                    No
+							                                </th>
+							                                <th class="text-center">
+							                                    Kode
+							                                </th>
+							                                <th class="text-center">
+							                                    Nama
+							                                </th>                              
+							                                <th class="text-center">
+							                                    Actions
+							                                </th>
+							                            </tr>                            
+							                        </thead>                        
+							                    </table>
+							                </div>
+	                            		</div>
 	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Jenis Ijin</label>
@@ -972,7 +1033,11 @@ r		<!-- Page Content -->
             if($('#det_radio0').is(':checked'))
             {
                 $('#det_biaya').css({'display':'block'});
-            }            
+            }
+            if($('[name="user_brc"]').val() != '0')
+            {
+            	$('.hid-form').css({'display':'none'});
+            }
         }
     </script>
     <!-- Fungsi Hitung -->
@@ -1217,6 +1282,28 @@ r		<!-- Page Content -->
 	            });
 	        }
     	}
+    	//Detail Termin Cabang
+    	function termappbrc(id)
+    	{
+	        table = $('#dtb_terminbranch').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_termappbrc/')?>"+id,
+	                "type": "POST",	                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
     	//Detail Permit
     	function ijinapp(id)
     	{    		    		
@@ -1283,6 +1370,28 @@ r		<!-- Page Content -->
 	                }
 	            });
 	        }
+    	}
+    	//Detail Permit Cabang
+    	function ijinappbrc(id)
+    	{    		    		
+	        table = $('#dtb_ijinappbrc').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_ijinappbrc/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
     	}
     </script>
     <!-- Fungsi Search -->
@@ -1592,6 +1701,8 @@ r		<!-- Page Content -->
 	            {   
 	                $('.apprbrc').attr('readonly',true);
 	                costappbrc(id);
+	                termappbrc(id);
+	                ijinappbrc(id);
 	                $('#modal_appr').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
@@ -1603,7 +1714,20 @@ r		<!-- Page Content -->
 
     	function pick_costapprbrc(id)
     	{
-
+    		$.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_costapprbrc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name=""]').val(data.CSTDT_CODE);
+	                $('[name=""]').val(data.CSTDT_AMOUNT);	                
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
     	}
     </script>
 </body>

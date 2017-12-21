@@ -351,6 +351,29 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_ijinappbrc($id)
+		{
+			$list = $this->ijinapp->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRMTTYP_CODE;
+				$row[] = $dat->PRMTTYP_NAME;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_ijinappbrc('."'".$dat->APPRPRMT_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->ijinapp->count_all(),
+							"recordsFiltered" => $this->ijinapp->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_add_ijinapp()
 	    {	        
 	        $table = 'appr_permit_det';
@@ -383,7 +406,34 @@
 				$row[] = $dat->TERMSDET_DPP;
 				$row[] = $dat->TERMSDET_PPN_PERC.'%';
 				$row[] = $dat->TERMSDET_PPH_PERC.'%';
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a> <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-info btn-responsive" onclick="edit_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->termapp->count_all(),
+							"recordsFiltered" => $this->termapp->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_termappbrc($id)
+		{
+			$list = $this->termapp->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->TERMSDET_CODE;
+				$row[] = $dat->TERMSDET_PERC.'%';
+				$row[] = $dat->TERMSDET_SUM;
+				$row[] = $dat->TERMSDET_DPP;
+				$row[] = $dat->TERMSDET_PPN_PERC.'%';
+				$row[] = $dat->TERMSDET_PPH_PERC.'%';
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_termappbrc('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
 				$data[] = $row;
 			}
 			$output = array(
@@ -823,6 +873,12 @@
 		public function pick_apprbranch($id)
 		{
 			$data = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_costappbrc($id)
+		{
+			$data = $this->crud->get_by_id('appr_cost_det',array('cstdt_id' => $id));
 			echo json_encode($data);
 		}
 	}
