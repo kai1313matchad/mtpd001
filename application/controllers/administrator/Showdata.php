@@ -299,7 +299,7 @@
 				$row[] = $dat->GROUTDET_CODE;
 				$row[] = $dat->GROUTDET_DATE;
 				$row[] = $dat->GROUTDET_AMOUNT;
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_grindet('."'".$dat->GROUTDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_groutdet('."'".$dat->GROUTDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
 			$output = array(

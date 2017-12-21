@@ -54,6 +54,22 @@
 			echo json_encode($data);
 		}
 
+		public function gen_giroin()
+		{
+			$data['id'] = '5';
+			$data['kode'] = 'GM/1712/000001';
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_giroout()
+		{
+			$data['id'] = '1';
+			$data['kode'] = 'GK/1712/000001';
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function fin_invoice()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -110,6 +126,26 @@
 			$data['bank'] = $this->crud->get_bank();
 			$data['mu'] = $this->crud->get_mu();
 			$data['isi']='menu/administrator/finance/fin_/trx_bankout';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function bg_in()
+		{
+			$data['title']='Match Terpadu - Dashboard Giro Masuk';
+			$data['menu']='finance';
+			$data['menulist']='bgin';
+			$data['bank'] = $this->crud->get_bank();
+			$data['isi']='menu/administrator/finance/fin_/trx_giroin';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function bg_out()
+		{
+			$data['title']='Match Terpadu - Dashboard Giro Keluar';
+			$data['menu']='finance';
+			$data['menulist']='bgout';
+			$data['bank'] = $this->crud->get_bank();
+			$data['isi']='menu/administrator/finance/fin_/trx_giroout';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -265,6 +301,7 @@
 				$row[] = $no;
 				$row[] = $dat->BANK_CODE;
 				$row[] = $dat->BANK_NAME;
+				$row[] = $dat->COA_ACC;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bank('."'".$dat->BANK_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -497,6 +534,100 @@
 		public function ajax_hapus_bank_out_detail2($id)
 		{
             $hapus = $this->crud->delete_by_id('bankout_det',array('bnkodet_id'=>$id));
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_simpan_giro_in()
+		{
+			// $appr = null;
+			// if($this->input->post('appr_id') != null)
+			// {
+			// 	$appr = $this->input->post('appr_id');
+			// }
+			$data = array(	                
+	                // 'user_id' => $this->input->post('user_id'),
+	                // 'appr_id' => $appr,
+                    'GRIN_CODE' => $this->input->post('giro_nomor'),
+                    'BANK_ID' => $this->input->post('giro_bank_id'),
+                 //    'CUST_ID' => $this->input->post('kas_customer_id'),
+	                // 'COA_ID' => $this->input->post('acc_id'),
+	                // 'CURR_ID' => $this->input->post('curr_id'),
+	                'GRIN_STS' => '1',
+	                'GRIN_DATE' => $this->input->post('giro_tgl'),
+	                // 'po_ordnum' => $this->input->post('po_so'),
+	                // 'po_term' => $this->input->post('po_term'),
+	                'GRIN_INFO' => $this->input->post('giro_info')
+	                // 'po_sub' => $this->input->post('po_subs'),
+	                // 'po_gtotal' => $this->input->post('po_subs')	                
+	            );
+	        $update = $this->crud->save('trx_giro_in',$data);
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_simpan_giro_in_detail()
+		{
+            $data = array(
+                    'GRIN_ID' => $this->input->post('giro_id'),
+                    // 'COA_ID' => $this->input->post('acc_id_detail'),
+                    // 'CSHINDET_REFF' => $this->input->post('no_jual'),
+                    'GRINDET_DATE' => $this->input->post('tgl_giro'),
+                    'GRINDET_CODE' => $this->input->post('giro_nomor'),
+                    'GRINDET_AMOUNT' => $this->input->post('nominal')
+                );
+            $update = $this->crud->save('giroin_det',$data);
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_hapus_giro_in_detail($id)
+		{
+            $hapus = $this->crud->delete_by_id('giroin_det',array('grindet_id'=>$id));
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_simpan_giro_out()
+		{
+			// $appr = null;
+			// if($this->input->post('appr_id') != null)
+			// {
+			// 	$appr = $this->input->post('appr_id');
+			// }
+			$data = array(	                
+	                // 'user_id' => $this->input->post('user_id'),
+	                // 'appr_id' => $appr,
+                    'GROUT_CODE' => $this->input->post('giro_nomor'),
+                    'BANK_ID' => $this->input->post('giro_bank_id'),
+                 //    'CUST_ID' => $this->input->post('kas_customer_id'),
+	                // 'COA_ID' => $this->input->post('acc_id'),
+	                // 'CURR_ID' => $this->input->post('curr_id'),
+	                'GROUT_STS' => '1',
+	                'GROUT_DATE' => $this->input->post('giro_tgl'),
+	                // 'po_ordnum' => $this->input->post('po_so'),
+	                // 'po_term' => $this->input->post('po_term'),
+	                'GROUT_INFO' => $this->input->post('giro_info')
+	                // 'po_sub' => $this->input->post('po_subs'),
+	                // 'po_gtotal' => $this->input->post('po_subs')	                
+	            );
+	        $update = $this->crud->save('trx_giro_out',$data);
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_simpan_giro_out_detail()
+		{
+            $data = array(
+                    'GROUT_ID' => $this->input->post('giro_id'),
+                    // 'COA_ID' => $this->input->post('acc_id_detail'),
+                    // 'CSHINDET_REFF' => $this->input->post('no_jual'),
+                    'GROUTDET_DATE' => $this->input->post('tgl_giro'),
+                    'GROUTDET_CODE' => $this->input->post('giro_nomor'),
+                    'GROUTDET_AMOUNT' => $this->input->post('nominal')
+                );
+            $update = $this->crud->save('giroout_det',$data);
+	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_hapus_giro_out_detail($id)
+		{
+            $hapus = $this->crud->delete_by_id('giroout_det',array('groutdet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
 	}
