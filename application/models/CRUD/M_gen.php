@@ -157,5 +157,25 @@
 			// $this->db->insert('his_approvalbill',$data2);
 			return  $out;
 		}
+
+		//Gen Nomor Invoice
+		public function gen_numinvo()
+		{
+			$res = $this->gen_num_('trx_invoice','inv_code','IV');			
+			$check = $this->db->get_where('trx_invoice',array('inv_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_invoice','inv_code','IV');
+			}
+			$data = array(
+					'inv_code'=>$res,
+					'INV_sts'=>'0'
+				);			
+			$this->db->insert('trx_invoice',$data);
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['invo_code'] = $res;
+			return  $out;
+		}
 	}
 ?>

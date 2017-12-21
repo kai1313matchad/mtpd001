@@ -271,7 +271,7 @@
 
     function reload_table()
     {
-        table.ajax.reload(null,false); //reload datatable ajax 
+        table.ajax.reload(null,false);
     }
 
     function add_invtype()
@@ -282,11 +282,15 @@
         $('.help-block').empty();
         $('#modal_form').modal('show');
         $('.modal-title').text('Tambah Jenis Invoice');
-        $('[name="tb"]').val("income_type");
+        $('[name="tb"]').val("invoice_type");
         $('[name="sts"]').val("1");
         $('[name="check"]').val("0");
         $('[name="gen"]').prop('disabled',false);
         gen_invtype();
+        $('#accrcv').val('default');
+        $('#accrcv').selectpicker('refresh');
+        $('#accinc').val('default');
+        $('#accinc').selectpicker('refresh');
     }
 
     function edit_invtype(id)
@@ -315,7 +319,7 @@
                 $('[name="accincname"]').val($('#accinc option:selected').text());
                 $('[name="sts"]').val(data.BRANCH_DTSTS);
                 $('[name="check"]').val("1");
-                $('[name="tb"]').val("income_type");
+                $('[name="tb"]').val("invoice_type");
                 $('#modal_form').modal('show');
                 $('.modal-title').text('Edit Jenis Invoice');
             },
@@ -329,7 +333,7 @@
     function lihat_invtype(id)
     {        
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/edit_invtype/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/edit_invtype/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -398,7 +402,7 @@
         if(confirm('Are you sure delete this data?'))
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc')?>/"+id,
+                url : "<?php echo site_url('administrator/Master/ajax_delete_brc/')?>"+id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data)
