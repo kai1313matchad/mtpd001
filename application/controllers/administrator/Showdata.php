@@ -14,6 +14,8 @@
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
 			$this->load->model('datatables/showdata/Dt_bankouttrxdet','bankout_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankoutdet','bankout_det');
+			$this->load->model('datatables/showdata/Dt_giroindet','giroin_det');
+			$this->load->model('datatables/showdata/Dt_girooutdet','giroout_det');
 		}
 
 		public function index()
@@ -254,6 +256,56 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->bankout_det->count_all(),
 							"recordsFiltered" => $this->bankout_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Giro Masuk
+		public function showdetail_giroin($id)
+		{
+			$list = $this->giroin_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GRINDET_CODE;
+				$row[] = $dat->GRINDET_DATE;
+				$row[] = $dat->GRINDET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_grindet('."'".$dat->GRINDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->giroin_det->count_all(),
+							"recordsFiltered" => $this->giroin_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Giro Keluar
+		public function showdetail_giroout($id)
+		{
+			$list = $this->giroout_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GROUTDET_CODE;
+				$row[] = $dat->GROUTDET_DATE;
+				$row[] = $dat->GROUTDET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_grindet('."'".$dat->GROUTDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->giroout_det->count_all(),
+							"recordsFiltered" => $this->giroout_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
