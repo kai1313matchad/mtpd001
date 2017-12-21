@@ -858,7 +858,7 @@ r		<!-- Page Content -->
     <script>
     	$(document).ready(function()
     	{
-             $('#pattyp').selectpicker({});
+            $('#pattyp').selectpicker({});
             inputchg();
             inputtermchg();
             var id = $('[name="appr_id"]').val();

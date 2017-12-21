@@ -30,11 +30,11 @@
 
 		public function gen_appr()
 		{
-			$gen = $this->gen->gen_numappr();
-			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['appr_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'AB/1212/000001';
+			// $gen = $this->gen->gen_numappr();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['appr_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'AB/1212/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -383,7 +383,7 @@
 				$row[] = $dat->TERMSDET_DPP;
 				$row[] = $dat->TERMSDET_PPN_PERC.'%';
 				$row[] = $dat->TERMSDET_PPH_PERC.'%';
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a> <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-info btn-responsive" onclick="edit_termapp('."'".$dat->TERMSDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
 				$data[] = $row;
 			}
 			$output = array(
@@ -433,7 +433,7 @@
 				$row[] = $no;
 				$row[] = $dat->CSTDT_CODE;
 				$row[] = $dat->CSTDT_AMOUNT;				
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a> <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-info btn-responsive" onclick="edit_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
 				$data[] = $row;
 			}
 			$output = array(

@@ -12,9 +12,6 @@
                             <li class="active">
                                 <a href="#1" data-toggle="tab">Data Invoice</a>
                             </li>
-                            <li>
-                                <a href="#2" data-toggle="tab">Data Approval</a>
-                            </li>
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_inv">
                             <div class="tab-content">
@@ -31,12 +28,13 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" name="inv_code">
+                                            <input type="hidden" name="inv_id" value="0">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis Invoice</label>
                                         <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_invtype()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+                                            <a href="javascript:void(0)" onclick="srch_invtype()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_typename" readonly>
@@ -79,100 +77,133 @@
                                             <textarea name="inv_info" class="form-control" rows="2" style="resize: vertical;"></textarea> 
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="2">
                                     <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Approval</h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">                              
                                         <label class="col-sm-3 control-label">No Approval</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_apprcode" readonly>
                                             <input type="hidden" name="inv_apprid">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Client</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="inv_clientname">
+                                        <label class="col-sm-3 control-label">Detail Approval</label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio0" name="det_radio">Tampilkan</label>
+                                            <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio1" name="det_radio">Sembunyikan</label> 
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Alamat</label>
-                                        <div class="col-sm-4">
-                                            <textarea name="inv_clientadd" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Termin</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="inv_clientloc">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
+                                    <div id="det_approval" class="col-sm-offset-3">
                                         <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-6">
-                                                <h4>Approval Data</h4>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Sub Total</label>
+                                            <label class="col-sm-2 control-label">Client</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_subappr">
+                                                <input class="form-control" type="text" name="inv_clientname">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">PPN</label>
+                                            <label class="col-sm-2 control-label">Alamat</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_ppnappr">
+                                                <textarea name="inv_clientadd" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">PPH</label>
+                                            <label class="col-sm-2 control-label">Termin</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_pphappr">
+                                                <input class="form-control" type="text" name="inv_clientloc">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Grand Total</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_gtotappr">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                                <table id="dtb_invdet" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">
+                                                                No
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Approval
+                                                            </th>                              
+                                                            <th class="text-center">
+                                                                Lokasi
+                                                            </th>
+                                                            <th class="text-center">
+                                                                PO
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Termin
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Nominal
+                                                            </th>                       
+                                                            <th class="text-center">
+                                                                Actions
+                                                            </th>
+                                                        </tr>                            
+                                                    </thead>                        
+                                                </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-6">
-                                                <h4>Approval Cabang</h4>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-6">
+                                                    <h4>Approval Data</h4>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Sub Total</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_subappr">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">PPN</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_ppnappr">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">PPH</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_pphappr">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Grand Total</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_gtotappr">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Sub Total</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_subapprbrc">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-6">
+                                                    <h4>Approval Cabang</h4>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">PPN</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_ppnapprbrc">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Sub Total</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_subapprbrc">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">PPH</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_pphapprbrc">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">PPN</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_ppnapprbrc">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Grand Total</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_gtotapprbrc">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">PPH</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_pphapprbrc">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Grand Total</label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="text" name="inv_gtotapprbrc">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -188,6 +219,70 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    <!-- Modal Search -->
+    <div class="modal fade" id="modal_appr" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Approval</th>
+                                        <th class="col-xs-4">Nama Cabang</th>
+                                        <th>Tanggal</th>
+                                        <th>Klien</th>
+                                        <th>Lokasi</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_invtype" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_invtype" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th class="col-sm-4">Acc Piutang</th>
+                                        <th class="col-sm-4">Acc Pendapatan</th>                 
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -196,5 +291,104 @@
     <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
+    <!-- Datetime -->
+    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
+    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
+    <!-- Datatables -->
+    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Select Bst -->
+    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
+    <!-- Addon -->
+    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $('#det_radio1').prop('checked',true);
+            check_();
+        })
+
+        function check_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_approval').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_approval').css({'display':'block'});
+            }            
+        }
+
+        function gen_invo()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/gen_invo')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="inv_id"]').val(data.id);
+                    $('[name="inv_code"]').val(data.kode);
+                    $('#genbtn').attr('disabled',true);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Approval');
+                }
+            });
+        }
+    </script>
+    <!-- Search -->
+    <script>
+        function srch_invtype()
+        {
+            $('#modal_invtype').modal('show');
+            $('.modal-title').text('Cari Jenis Invoice');            
+            table = $('#dtb_invtype').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invtype')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function srch_appr()
+        {
+            $('#modal_appr').modal('show');
+            $('.modal-title').text('Cari Approval');            
+            table = $('#dtb_appr').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbranch')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+    </script>
 </body>
 </html>

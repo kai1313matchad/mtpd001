@@ -6,6 +6,7 @@
 		{
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
+			$this->load->model('CRUD/M_gen','gen');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -21,6 +22,14 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function gen_invo()
+		{
+			$gen = $this->gen->gen_numinvo();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['invo_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
 
         public function gen_cashin()
 		{

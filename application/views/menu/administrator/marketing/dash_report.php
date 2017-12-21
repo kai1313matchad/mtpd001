@@ -21,13 +21,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                            <!-- <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </a> -->
+
+                                <div class="panel-footer">
+                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>                            
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
