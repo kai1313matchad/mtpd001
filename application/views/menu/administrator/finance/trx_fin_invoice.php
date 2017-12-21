@@ -39,7 +39,27 @@
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_typename" readonly>
                                             <input type="hidden" name="inv_typeid">
-                                        </div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Cabang</label>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="inv_branch" readonly>
+                                            <input type="hidden" name="inv_branchid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Client</label>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="inv_cust" readonly>
+                                            <input type="hidden" name="inv_custid">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Rek. Pendapatan</label>
@@ -78,16 +98,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No Approval</label>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input class="form-control" type="text" name="inv_apprcode" readonly>
-                                            <input type="hidden" name="inv_apprid">
-                                        </div>                                        
-                                    </div>
-                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Detail Approval</label>
                                         <div class="col-sm-8">
                                             <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio0" name="det_radio">Tampilkan</label>
@@ -95,6 +105,16 @@
                                         </div>
                                     </div>
                                     <div id="det_approval" class="col-sm-offset-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">No Approval</label>
+                                            <div class="col-sm-2">
+                                                <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" name="inv_apprcode" readonly>
+                                                <input type="hidden" name="inv_apprid">
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Client</label>
                                             <div class="col-sm-7">
@@ -110,7 +130,30 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Termin</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_clientloc">
+                                                <input class="form-control" type="text" name="invdet_term">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Nominal</label>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" type="text" name="invdet_sub">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Termin Cabang</label>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" type="text" name="invdet_brcterm">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Nominal Cabang</label>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" type="text" name="invdet_brcsub">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-4">
+                                                <a href="javascript:void(0)" onclick="add_invdet()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -205,6 +248,11 @@
                                                     <input class="form-control" type="text" name="inv_gtotapprbrc">
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
                                     </div>
                                 </div>

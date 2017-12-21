@@ -29,7 +29,7 @@ r		<!-- Page Content -->
 	                            	</div>
 	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
 	                            	<input type="hidden" name="appr_id" value="0">
-	                            	<input type="hidden" name="user_id" value="1">
+	                            	<input type="hidden" name="user_id" value="2">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
 					                    <div class="col-sm-1">
@@ -47,12 +47,13 @@ r		<!-- Page Content -->
 	                                    </div>
 	                                    <div class="col-sm-7">
 	                                        <input class="form-control" type="text" name="appr_brc" readonly>
+	                                        <input type="hidden" name="appr_brcid" value="0">
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
-	                                        <input class="form-control" type="text" name="appr_po" placeholder="Nomor PO">
+	                                        <input class="form-control apprbrc" type="text" name="appr_po" placeholder="Nomor PO">
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -73,7 +74,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_awal" placeholder="Awal Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon apprbrc" name="tgl_awal" placeholder="Awal Kontrak" />
 				                            </div>
 	                                    </div>
 	                                    <div class="col-sm-4">
@@ -81,14 +82,14 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_akhir" placeholder="Akhir Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon apprbrc" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Free Recovering</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Untuk Free Recovering (Cetak/Pasang)"></textarea>
+	                                        <textarea name="appr_rec" class="form-control apprbrc" rows="2" style="resize: vertical;" placeholder="Keterangan Untuk Free Recovering (Cetak/Pasang)"></textarea>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -144,7 +145,7 @@ r		<!-- Page Content -->
 	                            	<div class="form-group">
 	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Tambahan"></textarea>
+	                                        <textarea name="appr_info" class="form-control apprbrc" rows="2" style="resize: vertical;" placeholder="Keterangan Tambahan"></textarea>
 	                                    </div>
 	                                </div>
 	                                <!-- <div class="form-group">
@@ -192,35 +193,35 @@ r		<!-- Page Content -->
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Materi Visual</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="appr_vis" placeholder="Materi Visual">
+			                                <input class="form-control apprbrc" type="text" name="appr_vis" placeholder="Materi Visual">
 			                            </div>
 			                        </div>
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_length" placeholder="panjang">
+			                                <input class="form-control apprbrc" type="text" name="appr_length" placeholder="panjang">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_width" placeholder="lebar">
+			                                <input class="form-control apprbrc" type="text" name="appr_width" placeholder="lebar">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_height" placeholder="tinggi">
+			                                <input class="form-control apprbrc" type="text" name="appr_height" placeholder="tinggi">
 			                            </div>			                            
 			                            <label class="col-sm-1 control-label">Meter</label>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Luas</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_sumsize" placeholder="luas">
+			                                <input class="form-control apprbrc" type="text" name="appr_sumsize" placeholder="luas">
 			                            </div>			                            
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sisi Muka || Jumlah</label>
 			                            <div class="col-sm-6">
-			                                <input class="form-control" type="text" name="appr_side" placeholder="depan/belakang/samping">
+			                                <input class="form-control apprbrc" type="text" name="appr_side" placeholder="depan/belakang/samping">
 			                            </div>			                            
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_plcsum" placeholder="jumlah">
+			                                <input class="form-control apprbrc" type="text" name="appr_plcsum" placeholder="jumlah">
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -239,15 +240,44 @@ r		<!-- Page Content -->
 			                        <div class="form-group">
 			                        	<label class="col-sm-3 control-label">Detail Biaya</label>
 	                                    <div class="col-sm-8">
-	                                        <label class="radio-inline"><input type="radio" onclick="show()" name="detail_biaya" value="0">Tampilkan</label>
-	                                        <label class="radio-inline"><input type="radio" onclick="hide()" name="detail_biaya" value="1">Sembunyikan</label> 
+	                                        <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio0" name="detail_biaya" value="0">Tampilkan</label>
+	                                        <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio1" name="detail_biaya" value="1">Sembunyikan</label> 
 	                                    </div>
 			                        </div>
 			                        <div id="det_biaya" class="col-sm-offset-3">
+			                        	<div id="det_biayabranch">
+			                        		<div class="form-group">
+			                        			<div class="col-xs-4 col-xs-offset-3 text-center">
+				                                	<h4>Detail Biaya Cabang</h4>
+				                                </div>
+			                        		</div>
+			                        		<div class="row">
+		                            			<div class="col-sm-11 col-xs-11 table-responsive">
+		                            				<table id="dtb_biayabranch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		                            					<thead>
+		                            						<tr>
+		                            							<th class="text-center">
+								                                    No
+								                                </th>
+								                                <th class="text-center">
+								                                    Deskripsi
+								                                </th>
+								                                <th class="text-center">
+								                                    Jumlah
+								                                </th>
+								                                <th class="text-center">
+								                                    Actions
+								                                </th>
+		                            						</tr>
+		                            					</thead>
+		                            				</table>
+		                            			</div>
+		                            		</div>
+			                        	</div>			                        	
 			                        	<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">	                            				
+	                            				<input class="form-control apprbrc" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">	                            				
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
@@ -255,7 +285,7 @@ r		<!-- Page Content -->
 	                            			<div class="col-sm-7">
 	                            				<div class="input-group">
 	                            					<span class="input-group-addon curr">Rp</span>
-		                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
+		                            				<input class="form-control apprbrc" type="text" name="cost_amount" placeholder="Jumlah Biaya">
 	                            				</div>
 	                            			</div>
 	                            		</div>
@@ -859,6 +889,8 @@ r		<!-- Page Content -->
     	$(document).ready(function()
     	{
             $('#pattyp').selectpicker({});
+            $('#det_radio1').prop('checked',true);
+            check_()
             inputchg();
             inputtermchg();
             var id = $('[name="appr_id"]').val();
@@ -931,15 +963,17 @@ r		<!-- Page Content -->
 	        });
     	}
 
-    	function show()
-    	{
-    		$('#det_biaya').css({'display':'block'});
-    	}
-
-    	function hide()
-    	{
-    		$('#det_biaya').css({'display':'none'});
-    	}
+    	function check_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_biaya').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_biaya').css({'display':'block'});
+            }            
+        }
     </script>
     <!-- Fungsi Hitung -->
     <script>
@@ -1093,6 +1127,28 @@ r		<!-- Page Content -->
     				hitung_();
     			}
     		});
+    	}
+    	//Detail Biaya Cabang
+    	function costappbrc(id)
+    	{
+	        table = $('#dtb_biayabranch').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_costappbrc/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
     	}
     	//Detail Termin
     	function termapp(id)
@@ -1524,6 +1580,30 @@ r		<!-- Page Content -->
 	                alert('Error get data from ajax');
 	            }
 	        });
+    	}
+
+    	function pick_apprbranch(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_apprbranch/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('.apprbrc').attr('readonly',true);
+	                costappbrc(id);
+	                $('#modal_appr').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_costapprbrc(id)
+    	{
+
     	}
     </script>
 </body>

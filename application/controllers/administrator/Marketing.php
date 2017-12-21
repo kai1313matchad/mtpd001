@@ -33,8 +33,8 @@
 			// $gen = $this->gen->gen_numappr();
 			// $data['id'] = $gen['insertId'];
 			// $data['kode'] = $gen['appr_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'AB/1212/000001';
+			$data['id'] = '3';
+			$data['kode'] = 'AB/1712/000003';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -433,7 +433,30 @@
 				$row[] = $no;
 				$row[] = $dat->CSTDT_CODE;
 				$row[] = $dat->CSTDT_AMOUNT;				
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a> <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-info btn-responsive" onclick="edit_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_costapp('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->costapp->count_all(),
+							"recordsFiltered" => $this->costapp->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_costappbrc($id)
+		{
+			$list = $this->costapp->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSTDT_CODE;
+				$row[] = $dat->CSTDT_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_costappbrc('."'".$dat->CSTDT_ID."'".')"><span class="glyphicon glyphicon-pencil"></span></a>';
 				$data[] = $row;
 			}
 			$output = array(
@@ -794,6 +817,13 @@
 			$query = $this->db->get('appr_cost_det a');
 	        $data = $query->row();
 	        echo json_encode($data);
+		}
+
+		//Get Data Untuk Approval Cabang
+		public function pick_apprbranch($id)
+		{
+			$data = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			echo json_encode($data);
 		}
 	}
 ?>
