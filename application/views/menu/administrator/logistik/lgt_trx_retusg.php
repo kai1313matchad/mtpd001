@@ -28,9 +28,12 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor Retur</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="rtusg_code" value="<?php echo $usg->RTUSG_CODE?>" readonly>
-                                            <input type="hidden" name="rtusg_id" value="<?php echo $usg->RTUSG_ID?>">
+                                            <input class="form-control" type="text" name="rtusg_code" value="" readonly>
+                                            <input type="hidden" name="rtusg_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -253,6 +256,23 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
+        function tambah(){
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/gen_retusage_lgt') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="rtusg_code"]').val(data.kode);
+                    $('[name="rtusg_id"]').val(data.id);
+
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
         $(document).ready(function(){
             $('#dtp1').datetimepicker({                
                 format: 'YYYY-MM-DD'

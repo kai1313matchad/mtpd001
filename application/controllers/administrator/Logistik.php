@@ -75,7 +75,43 @@
 		{
 			$gen = $this->gen->gen_numbllgt();
 			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['po_code'];
+			$data['kode'] = $gen['prc_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_ret_lgt()
+		{
+			$gen = $this->gen->gen_numretlgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['rtprc_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_usage_lgt()
+		{
+			$gen = $this->gen->gen_numusagelgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['usg_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_retusage_lgt()
+		{
+			$gen = $this->gen->gen_num_retusagelgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['rtusg_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_adj_lgt()
+		{
+			$gen = $this->gen->gen_num_adjlgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['adj_code'];
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -93,8 +129,8 @@
 
 		public function lgt_trx_prc()
 		{
-			$id=$this->crud->add_bl();
-			$data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
+			// $id=$this->crud->add_bl();
+			// $data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='prc';
@@ -104,8 +140,8 @@
 
 		public function lgt_trx_retprc()
 		{
-			$id=$this->crud->add_rb();
-			$data['rb'] = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
+			// $id=$this->crud->add_rb();
+			// $data['rb'] = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='retprc';
@@ -115,9 +151,9 @@
 
 		public function lgt_trx_usage()
 		{
-			$id=$this->crud->add_usg();
-			// $id = '1';
-			$data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
+			// $id=$this->crud->add_usg();
+			// // $id = '1';
+			// $data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='usage';
@@ -127,9 +163,9 @@
 
 		public function lgt_trx_retusage()
 		{
-			$id=$this->crud->add_retusg();
-			// $id = '1';
-			$data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
+			// $id=$this->crud->add_retusg();
+			// // $id = '1';
+			// $data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='retusg';
@@ -139,9 +175,9 @@
 
 		public function lgt_trx_adjust()
 		{
-			$id=$this->crud->add_adj();
-			// $id = '1';
-			$data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
+			// $id=$this->crud->add_adj();
+			// // $id = '1';
+			// $data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='adjust';
