@@ -10,7 +10,8 @@
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
-			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');			
+			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
+			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');			
 		}
 
 		public function index()
@@ -156,6 +157,30 @@
 		{
 			$data = $this->crud->get_by_id('invoice_type',array('inc_id' => $id));
 			echo json_encode($data);
+		}
+
+		//Search Kas Masuk
+		public function srch_invtype()
+		{
+			$list = $this->s_cashin->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->CSH_CODE;
+				$row[] = $dat->CSH_DATE;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashin('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashin->count_all(),
+							"recordsFiltered" => $this->s_cashin->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 	}
 ?>

@@ -510,6 +510,30 @@
                 ],
             });
         }
+
+        function srch_cust()
+        {
+            $('#modal_cust').modal('show');
+            $('.modal-title').text('Cari Customer');            
+            table = $('#dtb_cust').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_cust')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -544,6 +568,24 @@
                     $('[name="inv_branchid"]').val(data.BRANCH_ID);
                     $('[name="inv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_cust(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="cust_id"]').val(data.CUST_ID);
+                    $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

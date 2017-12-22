@@ -43,7 +43,7 @@
 			return  $out;
 		}
 
-		//Gen Nomor PO GA
+		//Gen Nomor PO GAgit 
 		public function gen_numpoga()
 		{
 			$res = $this->gen_num_('trx_po_ga','poga_code','PG');
