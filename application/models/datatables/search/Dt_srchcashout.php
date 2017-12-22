@@ -1,12 +1,12 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchcashin extends CI_Model 
+	class Dt_srchcashout extends CI_Model 
 	{
 
-		var $table = 'trx_cash_in a';
-		var $column_order = array(null,'csh_code','csh_date','coa_accname','csh_info');
-		var $column_search = array('csh_code','csh_date','coa_accname','csh_info');
-		var $order = array('csh_id' => 'desc');
+		var $table = 'trx_cash_out a';
+		var $column_order = array(null,'csho_code','csho_date','coa_accname','csho_info');
+		var $column_search = array('csho_code','csho_date','coa_accname','csho_info');
+		var $order = array('csho_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		

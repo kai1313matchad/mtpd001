@@ -11,7 +11,8 @@
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
-			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');			
+			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
+			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');			
 		}
 
 		public function index()
@@ -160,7 +161,7 @@
 		}
 
 		//Search Kas Masuk
-		public function srch_invtype()
+		public function srch_cashin()
 		{
 			$list = $this->s_cashin->get_datatables();
 			$data = array();
@@ -171,6 +172,8 @@
 				$row[] = $no;				
 				$row[] = $dat->CSH_CODE;
 				$row[] = $dat->CSH_DATE;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->CSH_INFO;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashin('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 				$data[] = $row;
 			}
@@ -178,6 +181,32 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->s_cashin->count_all(),
 							"recordsFiltered" => $this->s_cashin->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Kas Keluar
+		public function srch_cashout()
+		{
+			$list = $this->s_cashout->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->CSHO_CODE;
+				$row[] = $dat->CSHO_DATE;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->CSHO_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashout('."'".$dat->CSHO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashout->count_all(),
+							"recordsFiltered" => $this->s_cashout->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

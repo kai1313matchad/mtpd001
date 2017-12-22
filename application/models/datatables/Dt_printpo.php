@@ -4,9 +4,9 @@
 	{
 
 		var $table = 'po_details';
-		var $column_order = array(null,'gd_name','podet_qtyunit','podet_sub'); //set column field database for datatable orderable
-		var $column_search = array('gd_name','podet_qtyunit','podet_sub'); //set column field database for datatable searchable 
-		var $order = array('podet_id' => 'desc'); // default order 
+		var $column_order = array(null,'gd_name','podet_qtyunit','podet_sub');
+		var $column_search = array('gd_name','podet_qtyunit','podet_sub');
+		var $order = array('podet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
