@@ -584,7 +584,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="cust_id"]').val(data.CUST_ID);
+                    $('[name="inv_custid"]').val(data.CUST_ID);
+                    $('[name="inv_cust"]').val(data.CUST_NAME);
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
