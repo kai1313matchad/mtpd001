@@ -733,7 +733,7 @@ r		<!-- Page Content -->
 	    						</thead>
 	    					</table>
 	    				</div>
-    				</div>    				
+    				</div>
     			</div>
     			<div class="modal-footer">
     				<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
@@ -1567,7 +1567,7 @@ r		<!-- Page Content -->
     <!-- Fungsi Pick -->
     <script>
     	function pick_cust(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
 	            type: "GET",

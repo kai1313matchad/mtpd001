@@ -42,6 +42,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">Rek. Pendapatan</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="inv_incacc" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Rek. Piutang</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="inv_rcvacc" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Cabang</label>
                                         <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
@@ -59,30 +71,6 @@
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_cust" readonly>
                                             <input type="hidden" name="inv_custid">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="inv_incacc">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="inv_incacc">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Rek. Piutang</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="inv_debt">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Rek. Pendapatan</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="inv_incacc">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -331,6 +319,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_branch" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_branch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>                
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -435,6 +453,71 @@
                     "orderable": false,
                 },
                 ],
+            });
+        }
+
+        function srch_brc()
+        {
+            $('#modal_branch').modal('show');
+            $('.modal-title').text('Cari Cabang');            
+            table = $('#dtb_branch').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_branch')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+    </script>
+    <!-- Pick -->
+    <script>
+        function pick_invtype(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_invtype/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="inv_typeid"]').val(data.INC_ID);
+                    $('[name="inv_incacc"]').val(data.INC_ACCINCNAME);
+                    $('[name="inv_rcvacc"]').val(data.INC_ACCRCVNAME);
+                    $('#modal_invtype').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="inv_branchid"]').val(data.BRANCH_ID);
+                    $('[name="inv_branch"]').val(data.BRANCH_NAME);
+                    $('#modal_branch').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
     </script>

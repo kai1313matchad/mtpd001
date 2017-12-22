@@ -5,8 +5,10 @@
 		public function __construct()
 		{
 			parent::__construct();
+			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
+			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');			
 		}
@@ -86,11 +88,42 @@
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->s_dept->count_all(),
-							"recordsFiltered" => $this->s_dept->count_filtered(),
+							"recordsTotal" => $this->s_bank->count_all(),
+							"recordsFiltered" => $this->s_bank->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		//Search Master Cabang
+		public function srch_branch()
+		{
+			$list = $this->s_branch->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->BRANCH_CODE;
+				$row[] = $dat->BRANCH_NAME;				
+				$row[] = $dat->BRANCH_ADDRESS.', '.$dat->BRANCH_CITY;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_branch('."'".$dat->BRANCH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_branch->count_all(),
+							"recordsFiltered" => $this->s_branch->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_branch($id)
+		{
+			$data = $this->crud->get_by_id('master_branch',array('branch_id' => $id));
+			echo json_encode($data);
 		}
 
 		//Search Jenis Invoice
@@ -117,6 +150,12 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		public function pick_invtype($id)
+		{
+			$data = $this->crud->get_by_id('invoice_type',array('inc_id' => $id));
+			echo json_encode($data);
 		}
 	}
 ?>
