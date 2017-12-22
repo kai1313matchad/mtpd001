@@ -346,7 +346,7 @@
 
 		public function gen_cust()
 		{			
-			$res = $this->crud->gen_numb('gd_code','master_customer','CST');
+			$res = $this->crud->gen_numb('cust_code','master_customer','CST');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -1242,7 +1242,7 @@
 
 		public function gen_invtype()
 		{
-			$res = $this->crud->gen_numb('inc_code','income_type','IVT');
+			$res = $this->crud->gen_numb('inc_code','invoice_type','IVT');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -1275,7 +1275,7 @@
 
 		public function edit_invtype($id)
 	    {	    
-	    	$data = $this->crud->get_by_id('income_type',array('inc_id' => $id));
+	    	$data = $this->crud->get_by_id('invoice_type',array('inc_id' => $id));
         	echo json_encode($data);
 	    }
 
@@ -1317,7 +1317,7 @@
 	    	$data = array(	                
 	                'inc_dtsts' => '0'
 	            );
-	    	$update = $this->crud->update('income_type',$data,array('inc_id' => $id));
+	    	$update = $this->crud->update('invoice_type',$data,array('inc_id' => $id));
         	echo json_encode(array("status" => TRUE));
 	    }
 
@@ -1336,7 +1336,7 @@
 	        }
 	        if($this->input->post('check') == '0')
 	        {
-	        	$this->form_validation->set_rules('code', 'Kode', 'is_unique[master_branch.BRANCH_CODE]');
+	        	$this->form_validation->set_rules('code', 'Kode', 'is_unique[invoice_type.INC_CODE]');
 	        	if($this->form_validation->run() == FALSE)
 		        {
 		        	$data['inputerror'][] = 'code';

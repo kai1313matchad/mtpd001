@@ -1,20 +1,21 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_invtype extends CI_Model 
+	class Dt_giroindet extends CI_Model 
 	{
 
-		var $table = 'invoice_type';
-		var $column_order = array(null,'inc_code','inc_name','inc_accrcvname','inc_accincname');
-		var $column_search = array('inc_code','inc_name','inc_accrcvname','inc_accincname');
-		var $order = array('inc_id' => 'desc');
+		var $table = 'giroin_det a';
+		var $column_order = array(null,'grindet_code','grindet_date','grindet_amount');
+		var $column_search = array('grindet_code','grindet_date','grindet_amount');
+		var $order = array('grindet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
-		{		
+		private function _get_datatables_query($id)
+		{
+			$this->db->join('trx_giro_in b','b.grin_id = a.grin_id');
 			$this->db->from($this->table);
-			$this->db->where("inc_dtsts","1");
+			$this->db->where('a.grin_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -29,6 +30,7 @@
 					{
 						$this->db->or_like($item, $_POST['search']['value']);
 					}
+
 					if(count($this->column_search) - 1 == $i)
 						$this->db->group_end();
 				}
@@ -44,17 +46,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}

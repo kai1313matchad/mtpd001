@@ -1,20 +1,20 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_invtype extends CI_Model 
+	class Dt_srchbank extends CI_Model 
 	{
 
-		var $table = 'invoice_type';
-		var $column_order = array(null,'inc_code','inc_name','inc_accrcvname','inc_accincname');
-		var $column_search = array('inc_code','inc_name','inc_accrcvname','inc_accincname');
-		var $order = array('inc_id' => 'desc');
+		var $table = 'master_bank';
+		var $column_order = array(null,'bank_code','bank_name','bank_info');
+		var $column_search = array('bank_code','bank_name','bank_info');
+		var $order = array('bank_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{		
+		{
 			$this->db->from($this->table);
-			$this->db->where("inc_dtsts","1");
+			$this->db->where('bank_dtsts','1');			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -29,6 +29,7 @@
 					{
 						$this->db->or_like($item, $_POST['search']['value']);
 					}
+
 					if(count($this->column_search) - 1 == $i)
 						$this->db->group_end();
 				}

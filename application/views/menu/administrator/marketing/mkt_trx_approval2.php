@@ -29,7 +29,8 @@ r		<!-- Page Content -->
 	                            	</div>
 	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
 	                            	<input type="hidden" name="appr_id" value="0">
-	                            	<input type="hidden" name="user_id" value="1">
+	                            	<input type="hidden" name="user_id" value="2">
+	                            	<input type="hidden" name="user_brc" value="0">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
 					                    <div class="col-sm-1">
@@ -39,20 +40,21 @@ r		<!-- Page Content -->
 					                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
 					                        <input class="form-control" type="text" name="appr_code" value="" readonly>
 					                	</div>
-									</div>
-	                            	<div class="form-group hid-form">
-	                            		<label class="col-sm-3 control-label">Nomor Approval Cabang</label>
-	                                    <div class="col-sm-1">
-	                                        <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-	                                    </div>
-	                                    <div class="col-sm-7">
-	                                        <input class="form-control" type="text" name="appr_brc" readonly>
-	                                    </div>
-	                            	</div>
+									</div>									
+									<div class="form-group hid-form">
+		                            	<label class="col-sm-3 control-label">Nomor Approval Cabang</label>
+		                                <div class="col-sm-1">
+		                                	<a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+		                                </div>
+		                                <div class="col-sm-7">
+		                                	<input class="form-control" type="text" name="appr_brc" readonly>
+		                                    <input type="hidden" name="appr_brcid" value="0">
+		                                </div>
+									</div>									
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Nomor PO</label>
 	                                    <div class="col-sm-8">
-	                                        <input class="form-control" type="text" name="appr_po" placeholder="Nomor PO">
+	                                        <input class="form-control apprbrc" type="text" name="appr_po" placeholder="Nomor PO">
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -73,7 +75,7 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_awal" placeholder="Awal Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon apprbrc" name="tgl_awal" placeholder="Awal Kontrak" />
 				                            </div>
 	                                    </div>
 	                                    <div class="col-sm-4">
@@ -81,14 +83,14 @@ r		<!-- Page Content -->
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl_akhir" placeholder="Akhir Kontrak" />
+				                                <input id="tgl" type='text' class="form-control input-group-addon apprbrc" name="tgl_akhir" placeholder="Akhir Kontrak" />
 				                            </div>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
 	                            		<label class="col-sm-3 control-label">Free Recovering</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_rec" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Untuk Free Recovering (Cetak/Pasang)"></textarea>
+	                                        <textarea name="appr_rec" class="form-control apprbrc" rows="2" style="resize: vertical;" placeholder="Keterangan Untuk Free Recovering (Cetak/Pasang)"></textarea>
 	                                    </div>
 	                            	</div>
 	                            	<div class="form-group">
@@ -144,7 +146,7 @@ r		<!-- Page Content -->
 	                            	<div class="form-group">
 	                                    <label class="col-sm-3 control-label">Keterangan Tambahan</label>
 	                                    <div class="col-sm-8">
-	                                        <textarea name="appr_info" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan Tambahan"></textarea>
+	                                        <textarea name="appr_info" class="form-control apprbrc" rows="2" style="resize: vertical;" placeholder="Keterangan Tambahan"></textarea>
 	                                    </div>
 	                                </div>
 	                                <!-- <div class="form-group">
@@ -192,35 +194,35 @@ r		<!-- Page Content -->
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Materi Visual</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="appr_vis" placeholder="Materi Visual">
+			                                <input class="form-control apprbrc" type="text" name="appr_vis" placeholder="Materi Visual">
 			                            </div>
 			                        </div>
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_length" placeholder="panjang">
+			                                <input class="form-control apprbrc" type="text" name="appr_length" placeholder="panjang">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_width" placeholder="lebar">
+			                                <input class="form-control apprbrc" type="text" name="appr_width" placeholder="lebar">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_height" placeholder="tinggi">
+			                                <input class="form-control apprbrc" type="text" name="appr_height" placeholder="tinggi">
 			                            </div>			                            
 			                            <label class="col-sm-1 control-label">Meter</label>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Luas</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_sumsize" placeholder="luas">
+			                                <input class="form-control apprbrc" type="text" name="appr_sumsize" placeholder="luas">
 			                            </div>			                            
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sisi Muka || Jumlah</label>
 			                            <div class="col-sm-6">
-			                                <input class="form-control" type="text" name="appr_side" placeholder="depan/belakang/samping">
+			                                <input class="form-control apprbrc" type="text" name="appr_side" placeholder="depan/belakang/samping">
 			                            </div>			                            
 			                            <div class="col-sm-2">
-			                                <input class="form-control" type="text" name="appr_plcsum" placeholder="jumlah">
+			                                <input class="form-control apprbrc" type="text" name="appr_plcsum" placeholder="jumlah">
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -239,15 +241,44 @@ r		<!-- Page Content -->
 			                        <div class="form-group">
 			                        	<label class="col-sm-3 control-label">Detail Biaya</label>
 	                                    <div class="col-sm-8">
-	                                        <label class="radio-inline"><input type="radio" onclick="show()" name="detail_biaya" value="0">Tampilkan</label>
-	                                        <label class="radio-inline"><input type="radio" onclick="hide()" name="detail_biaya" value="1">Sembunyikan</label> 
+	                                        <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio0" name="detail_biaya" value="0">Tampilkan</label>
+	                                        <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio1" name="detail_biaya" value="1">Sembunyikan</label> 
 	                                    </div>
 			                        </div>
 			                        <div id="det_biaya" class="col-sm-offset-3">
+			                        	<div id="det_biayabranch" class="hid-form">
+			                        		<div class="form-group">
+			                        			<div class="col-xs-4 col-xs-offset-3 text-center">
+				                                	<h4>Detail Biaya Cabang</h4>
+				                                </div>
+			                        		</div>
+			                        		<div class="row">
+		                            			<div class="col-sm-11 col-xs-11 table-responsive">
+		                            				<table id="dtb_biayabranch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		                            					<thead>
+		                            						<tr>
+		                            							<th class="text-center">
+								                                    No
+								                                </th>
+								                                <th class="text-center">
+								                                    Deskripsi
+								                                </th>
+								                                <th class="text-center">
+								                                    Jumlah
+								                                </th>
+								                                <th class="text-center">
+								                                    Actions
+								                                </th>
+		                            						</tr>
+		                            					</thead>
+		                            				</table>
+		                            			</div>
+		                            		</div>
+			                        	</div>			                        	
 			                        	<div class="form-group">
 	                            			<label class="col-sm-3 control-label">Ket Biaya</label>
 	                            			<div class="col-sm-7">
-	                            				<input class="form-control" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">	                            				
+	                            				<input class="form-control apprbrc" type="text" name="cost_code" placeholder="Keterangan Detail Biaya">
 	                            			</div>
 	                            		</div>
 	                            		<div class="form-group">
@@ -413,6 +444,42 @@ r		<!-- Page Content -->
 		                                	<h2>Detail Termin</h2>
 		                                </div>
 	                            	</div>
+	                            	<div id="termappbrc" class="hid-form">
+	                            		<div class="row">
+	                            			<div class="col-sm-12 col-xs-12 table-responsive">
+							                    <table id="dtb_terminbranch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+							                        <thead>
+							                            <tr>
+							                                <th class="text-center">
+							                                    No
+							                                </th>
+							                                <th class="text-center">
+							                                    Termin
+							                                </th>                              
+							                                <th class="text-center">
+							                                    Tagihan
+							                                </th>
+							                                <th class="text-center">
+							                                    Nominal
+							                                </th>
+							                                <th class="text-center">
+							                                    DPP
+							                                </th>
+							                                <th class="text-center">
+							                                    PPN
+							                                </th>
+							                                <th class="text-center">
+							                                    PPH
+							                                </th>
+							                                <th class="text-center">
+							                                    Actions
+							                                </th>
+							                            </tr>                            
+							                        </thead>                        
+							                    </table>
+							                </div>
+	                            		</div>
+	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Termin</label>
 	                                    <div class="col-sm-8">
@@ -566,6 +633,30 @@ r		<!-- Page Content -->
 		                                	<h2>Detail Perijinan</h2>
 		                                </div>
 	                            	</div>
+	                            	<div id="permitappbrc" class="hid-form">
+	                            		<div class="row">
+	                            			<div class="col-sm-12 col-xs-12 table-responsive">
+							                    <table id="dtb_ijinappbrc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+							                        <thead>
+							                            <tr>
+							                                <th class="text-center">
+							                                    No
+							                                </th>
+							                                <th class="text-center">
+							                                    Kode
+							                                </th>
+							                                <th class="text-center">
+							                                    Nama
+							                                </th>                              
+							                                <th class="text-center">
+							                                    Actions
+							                                </th>
+							                            </tr>                            
+							                        </thead>                        
+							                    </table>
+							                </div>
+	                            		</div>
+	                            	</div>
 	                            	<div class="form-group">
                             			<label class="col-sm-3 control-label">Jenis Ijin</label>
 	                                    <div class="col-sm-8">
@@ -642,7 +733,7 @@ r		<!-- Page Content -->
 	    						</thead>
 	    					</table>
 	    				</div>
-    				</div>    				
+    				</div>
     			</div>
     			<div class="modal-footer">
     				<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
@@ -858,7 +949,9 @@ r		<!-- Page Content -->
     <script>
     	$(document).ready(function()
     	{
-             $('#pattyp').selectpicker({});
+            $('#pattyp').selectpicker({});
+            $('#det_radio1').prop('checked',true);
+            check_()
             inputchg();
             inputtermchg();
             var id = $('[name="appr_id"]').val();
@@ -931,15 +1024,21 @@ r		<!-- Page Content -->
 	        });
     	}
 
-    	function show()
-    	{
-    		$('#det_biaya').css({'display':'block'});
-    	}
-
-    	function hide()
-    	{
-    		$('#det_biaya').css({'display':'none'});
-    	}
+    	function check_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_biaya').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_biaya').css({'display':'block'});
+            }
+            if($('[name="user_brc"]').val() != '0')
+            {
+            	$('.hid-form').css({'display':'none'});
+            }
+        }
     </script>
     <!-- Fungsi Hitung -->
     <script>
@@ -1094,6 +1193,28 @@ r		<!-- Page Content -->
     			}
     		});
     	}
+    	//Detail Biaya Cabang
+    	function costappbrc(id)
+    	{
+	        table = $('#dtb_biayabranch').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_costappbrc/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
     	//Detail Termin
     	function termapp(id)
     	{
@@ -1161,6 +1282,28 @@ r		<!-- Page Content -->
 	            });
 	        }
     	}
+    	//Detail Termin Cabang
+    	function termappbrc(id)
+    	{
+	        table = $('#dtb_terminbranch').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_termappbrc/')?>"+id,
+	                "type": "POST",	                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
+    	}
     	//Detail Permit
     	function ijinapp(id)
     	{    		    		
@@ -1227,6 +1370,28 @@ r		<!-- Page Content -->
 	                }
 	            });
 	        }
+    	}
+    	//Detail Permit Cabang
+    	function ijinappbrc(id)
+    	{    		    		
+	        table = $('#dtb_ijinappbrc').DataTable({
+	            "info": false,
+	            "destroy": true,
+	            "responsive": true,
+	            "processing": true,
+	            "serverSide": true,
+	            "order": [],	            
+	            "ajax": {
+	                "url": "<?php echo site_url('administrator/Marketing/ajax_ijinappbrc/')?>"+id,
+	                "type": "POST",                
+	            },	            
+	            "columnDefs": [
+	            { 
+	                "targets": [ 0 ],
+	                "orderable": false,
+	            },
+	            ],
+	        });
     	}
     </script>
     <!-- Fungsi Search -->
@@ -1402,7 +1567,7 @@ r		<!-- Page Content -->
     <!-- Fungsi Pick -->
     <script>
     	function pick_cust(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
 	            type: "GET",
@@ -1518,6 +1683,45 @@ r		<!-- Page Content -->
 	                $('.curr').text(data.CURR_SYMBOL);
 	                hitung_();
 	                $('#modal_curr').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_apprbranch(id)
+    	{    		
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_apprbranch/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('.apprbrc').attr('readonly',true);
+	                costappbrc(id);
+	                termappbrc(id);
+	                ijinappbrc(id);
+	                $('#modal_appr').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_costapprbrc(id)
+    	{
+    		$.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_costapprbrc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name=""]').val(data.CSTDT_CODE);
+	                $('[name=""]').val(data.CSTDT_AMOUNT);	                
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {

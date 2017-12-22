@@ -9,12 +9,14 @@
 			$que = $this->db->get($tb);
 			$ext = $que->row();
 			$max = $ext->code;
-			$mon = substr($max,3,4);			
+			$len = strlen($affix)+1;
+			$mon = substr($max,$len,-7);			
 			if($max == null || $mon != date('ym'))
 			{
 				$max = $affix.'/'.date('ym').'/000000';
 			}
-			$num = (int) substr($max,8,6);
+			// $num = (int) substr($max,8,6);
+			$num = (int) substr($max,-6);
 			$num++;
 			$kode = $affix.'/'.date('ym').'/';
 			$res = $kode . sprintf('%06s',$num);
@@ -231,6 +233,26 @@
 			// 		'hisappr_upcount' => 0
 			// 	);
 			// $this->db->insert('his_approvalbill',$data2);
+			return  $out;
+		}
+
+		//Gen Nomor Invoice
+		public function gen_numinvo()
+		{
+			$res = $this->gen_num_('trx_invoice','inv_code','IV');			
+			$check = $this->db->get_where('trx_invoice',array('inv_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_invoice','inv_code','IV');
+			}
+			$data = array(
+					'inv_code'=>$res,
+					'INV_sts'=>'0'
+				);			
+			$this->db->insert('trx_invoice',$data);
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['invo_code'] = $res;
 			return  $out;
 		}
 	}

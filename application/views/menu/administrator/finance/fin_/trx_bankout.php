@@ -187,7 +187,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_bank_in_detail1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                         <table id="dtb_bank_out_detail1" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                  <thead>
                                                     <tr>
                                                         <th class="text-center">
@@ -266,7 +266,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_bank_in_detail2" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                         <table id="dtb_bank_out_detail2" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                  <thead>
                                                     <tr>
                                                         <th class="text-center">
@@ -613,7 +613,8 @@ $(document).ready(function() {
     //     curr($('select :selected').val());
     // })
     var id = $('[name="bank_id"]').val();
-    bank_masuk_detail(id);
+    bank_keluar_detail1(id);
+    bank_keluar_detail2(id);
 })
 
         var sts;
@@ -835,6 +836,50 @@ $(document).ready(function() {
     }
     }
 
+    function bank_keluar_detail1(id)
+        {
+            table = $('#dtb_bank_out_detail1').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_trxbankout')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function bank_keluar_detail2(id)
+        {
+            table = $('#dtb_bank_out_detail2').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout')?>/"+id,
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
     function curr(id)
     {   
         $.ajax({
@@ -972,8 +1017,8 @@ $(document).ready(function() {
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');   
-                        var id = $('[name="kas_id"]').val();
-                        bank_masuk_detail(id);                     
+                        var id = $('[name="bank_id"]').val();
+                        bank_keluar_detail1(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -995,8 +1040,8 @@ $(document).ready(function() {
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');   
-                        var id = $('[name="kas_id"]').val();
-                        bank_masuk_detail2(id);                     
+                        var id = $('[name="bank_id"]').val();
+                        bank_keluar_detail2(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -1006,9 +1051,9 @@ $(document).ready(function() {
             });
         }
 
-         function bank_out_detail1(id)
+         function bank_keluar_detail1(id)
         {
-            table = $('#dtb_bank_in_detail').DataTable({
+            table = $('#dtb_bank_out_detail1').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -1016,7 +1061,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout1')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_trxbankout')?>/"+id,
                     "type": "POST",                
                 },
                 "columnDefs": [
@@ -1028,9 +1073,9 @@ $(document).ready(function() {
             });
         }
 
-        function bank_out_detail2(id)
+        function bank_keluar_detail2(id)
         {
-            table = $('#dtb_bank_in_detail').DataTable({
+            table = $('#dtb_bank_out_detail2').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -1038,7 +1083,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout2')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_bankout')?>/"+id,
                     "type": "POST",                
                 },
                 "columnDefs": [
@@ -1050,10 +1095,10 @@ $(document).ready(function() {
             });
         }
 
-        function delete_bankoutdet(id)
+        function delete_bankouttrxdet(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_out_detail')?>/"+id,
+                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_out_detail1')?>/"+id,
                 type: "POST",
                 data: $('#form_bank').serialize(),
                 dataType: "JSON",
@@ -1063,7 +1108,30 @@ $(document).ready(function() {
                     {
                         alert('Data Berhasil Dihapus');   
                         var id = $('[name="bank_id"]').val();
-                        kas_masuk_detail(id);                     
+                        bank_keluar_detail1(id);                     
+                    }                   
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+        function delete_bankoutdet(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_hapus_bank_out_detail2')?>/"+id,
+                type: "POST",
+                data: $('#form_bank').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Dihapus');   
+                        var id = $('[name="bank_id"]').val();
+                        bank_keluar_detail2(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)

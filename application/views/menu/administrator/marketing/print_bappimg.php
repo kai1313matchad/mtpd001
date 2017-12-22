@@ -24,7 +24,8 @@
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
         body {
-          background: rgb(204,204,204);
+          /*background: rgb(204,204,204);*/
+          background-color: white;
           font-size: 12px;
         }        
         page {          
@@ -57,10 +58,10 @@
     <![endif]-->
 </head>
 <body>
-    <page size="A4">
+    <!-- <page size="A4"> -->    
         <input type="hidden" name="img_siang" value="<?php echo $img_siang;?>">
         <input type="hidden" name="img_malam" value="<?php echo $img_malam;?>">
-        <div class="container-fluid">                
+        <div class="container">                
             <div class="row">
                 <hr style="border: solid 2px; color: black;"">
                 <div class="text-center">
@@ -83,7 +84,7 @@
                 </div>
             </div>
         </div>
-    </page>
+    <!-- </page> -->
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
