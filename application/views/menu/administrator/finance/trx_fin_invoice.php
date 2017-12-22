@@ -349,6 +349,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_cust" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_cust" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->

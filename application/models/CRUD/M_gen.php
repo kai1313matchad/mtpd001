@@ -9,12 +9,14 @@
 			$que = $this->db->get($tb);
 			$ext = $que->row();
 			$max = $ext->code;
-			$mon = substr($max,3,4);			
+			$len = strlen($affix)+1;
+			$mon = substr($max,$len,-7);			
 			if($max == null || $mon != date('ym'))
 			{
 				$max = $affix.'/'.date('ym').'/000000';
 			}
-			$num = (int) substr($max,8,6);
+			// $num = (int) substr($max,8,6);
+			$num = (int) substr($max,-6);
 			$num++;
 			$kode = $affix.'/'.date('ym').'/';
 			$res = $kode . sprintf('%06s',$num);
