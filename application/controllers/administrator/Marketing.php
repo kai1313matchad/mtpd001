@@ -579,6 +579,7 @@
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
 	                'appr_sts' => '1', //Ubah status jadi posted
+	                'appr_branchid' => $this->input->post('appr_brcid'),
 	                'appr_own' => $get2->BRANCH_STATUS,
 	                'appr_branch' => $this->input->post('appr_brc'),
 	                'appr_brcname' => $get2->BRANCH_NAME,

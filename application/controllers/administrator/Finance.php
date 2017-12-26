@@ -639,5 +639,17 @@
             $hapus = $this->crud->delete_by_id('giroout_det',array('groutdet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
+
+		public function get_apprterm($id)
+		{
+			$data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			echo json_encode($data);
+		}
+
+		public function get_apprtermnom($id)
+		{
+			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id'=>$id));
+			echo json_encode($data);
+		}
 	}
 ?>

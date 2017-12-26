@@ -533,7 +533,7 @@
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
         $('#modal_form2').modal('show');
-        $('#person').empty()
+        $('#person').empty();
         dropperson();        
         $('.modal-title').text('Tambah User');
         $('[name="tbu"]').val("master_user");

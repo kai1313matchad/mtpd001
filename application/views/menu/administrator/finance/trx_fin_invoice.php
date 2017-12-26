@@ -100,7 +100,8 @@
                                             </div>
                                             <div class="col-sm-5">
                                                 <input class="form-control" type="text" name="inv_apprcode" readonly>
-                                                <input type="hidden" name="inv_apprid">
+                                                <input type="hidden" name="inv_apprid" value="0">
+                                                <input type="hidden" name="inv_apprbrcid" value="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -118,7 +119,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Termin</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="invdet_term">
+                                                <!-- <input class="form-control" type="text" name="invdet_term"> -->
+                                                <select class="form-control text-center" name="inv_term" id="inv_term" data-live-search="true">
+                                                    <option>Pilih</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -130,7 +134,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Termin Cabang</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="invdet_brcterm">
+                                                <!-- <input class="form-control" type="text" name="invdet_brcterm"> -->
+                                                <select class="form-control text-center" name="inv_termbrc" id="inv_termbrc" data-live-search="true">
+                                                    <option>Pilih</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -402,8 +409,12 @@
     <script>
         $(document).ready(function()
         {
-            $('#det_radio1').prop('checked',true);
+            $('#det_radio0').prop('checked',true);
             check_();
+            $('select').selectpicker({});
+            $('#inv_term').change(function(){
+                $('[name="accrcvname"]').val($('#accrcv option:selected').text());
+            });
         })
 
         function check_()
@@ -465,6 +476,7 @@
 
         function srch_appr()
         {
+            var id = $('[name="inv_custid"]').val();
             $('#modal_appr').modal('show');
             $('.modal-title').text('Cari Approval');            
             table = $('#dtb_appr').DataTable({
@@ -475,7 +487,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbranch')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbyclient/')?>"+id,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -589,6 +601,102 @@
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_apprbyclient(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="inv_apprid"]').val(data.APPR_ID);
+                    $('[name="inv_apprbrcid"]').val(data.APPR_BRANCH);
+                    $('[name="inv_apprcode"]').val(data.APPR_CODE);
+                    var appr = data.APPR_ID;
+                    var apprbrc = data.APPR_BRANCHID;
+                    if(appr == null)
+                    {
+                        appr = '0';
+                    }
+                    if(apprbrc == null)
+                    {
+                        apprbrc = '0';
+                    }
+                    drop_term(appr);
+                    drop_termbrc(apprbrc);
+                    $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+    </script>
+    <!-- Dropdown -->
+    <script>
+        function drop_term(id)
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Finance/get_apprterm/')?>"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {
+                    $('#inv_term').empty();
+                    var select = document.getElementById('inv_term');
+                    var option;                    
+                    option = document.createElement('option');
+                        option.value = ''
+                        option.text = 'Pilih';
+                        select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["TERMSDET_ID"]
+                        option.text = data[i]["TERMSDET_CODE"];
+                        select.add(option);
+                    }
+                    $('#inv_term').selectpicker({});
+                    $('#inv_term').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function drop_termbrc(id)
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Finance/get_apprterm/')?>"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {
+                    $('#inv_termbrc').empty();
+                    var select = document.getElementById('inv_termbrc');
+                    var option;                    
+                    option = document.createElement('option');
+                        option.value = ''
+                        option.text = 'Pilih';
+                        select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["TERMSDET_ID"]
+                        option.text = data[i]["TERMSDET_CODE"];
+                        select.add(option);
+                    }
+                    $('#inv_termbrc').selectpicker({});
+                    $('#inv_termbrc').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
                 }

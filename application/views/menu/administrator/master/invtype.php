@@ -189,7 +189,7 @@
         dt_invtype();
         drop_coa1();
         drop_coa2();
-        $('#accrcv').change(function(){            
+        $('#accrcv').change(function(){
             $('[name="accrcvname"]').val($('#accrcv option:selected').text());
         });
         $('#accinc').change(function(){            
