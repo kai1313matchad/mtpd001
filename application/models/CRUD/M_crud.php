@@ -365,6 +365,15 @@
 	        return $query->row();
 		}
 
+		public function sub_km($id)
+		{					
+			$this->db->select_sum('cashin_det.cshdetin_amount', 'SubTotal');
+			$this->db->join('trx_cash_in','trx_cash_in.CSH_ID = cashin_det.CSH_ID');
+			$this->db->where('trx_cash_in.CSH_ID',$id);
+			$query = $this->db->get('cashin_det');
+	        return $query->row();
+		}
+
 		//add usage
 		public function add_usg()
 		{

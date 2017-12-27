@@ -11,6 +11,7 @@
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 		    $this->load->model('datatables/Dt_srchbank','srch_bank');
+		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		}
 
 		public function index()
@@ -33,7 +34,7 @@
 
         public function gen_cashin()
 		{
-			$data['id'] = '9';
+			$data['id'] = '10';
 			$data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -156,6 +157,34 @@
 			$data['bank'] = $this->crud->get_bank();
 			$data['isi']='menu/administrator/finance/fin_/trx_giroout';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function report()
+		{
+			$data['title']='Match Terpadu - Dashboard Report';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			// $data['bank'] = $this->crud->get_bank();
+			$data['isi']='menu/administrator/finance/fin_/dash_report';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_km()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_km';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_km($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/km_print',$data);
 		}
 
 		public function ajax_pick_acc($id)
@@ -638,6 +667,55 @@
 		{
             $hapus = $this->crud->delete_by_id('giroout_det',array('groutdet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
+		}
+
+		public function ajax_srch_km()
+		{
+			$list = $this->srch_km->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSH_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSH_DATE;				
+				$row[] = $dat->CSH_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_km('."'".$dat->CSH_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_km->count_all(),
+							"recordsFiltered" => $this->srch_km->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_km($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_in',array('CSH_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_pick_cust($id)
+		{
+			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_kmdet($id)
+		{
+			$data = $this->crud->get_by_id3('cashin_det','chart_of_account','trx_cash_in',array('cashin_det.CSH_ID' => $id),'chart_of_account.COA_ID=cashin_det.COA_ID','cashin_det.CSH_ID=trx_cash_in.CSH_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_km($id)
+		{
+			$data = $this->crud->sub_km($id);
+        	echo json_encode($data);
 		}
 	}
 ?>
