@@ -27,10 +27,10 @@
                                             <a id="genbtn" href="javascript:void(0)" onclick="gen_invo()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="inv_code">
+                                            <input type="text" class="form-control" name="inv_code" readonly>
                                             <input type="hidden" name="inv_id" value="0">
                                         </div>
-                                    </div>
+                                    </div>/
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis Invoice</label>
                                         <div class="col-sm-1">
@@ -105,15 +105,25 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Client</label>
+                                            <label class="col-sm-2 control-label">No PO</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="inv_clientname">
+                                                <input class="form-control" type="text" name="inv_apprpo" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Alamat</label>
+                                            <label class="col-sm-2 control-label">Lokasi</label>
                                             <div class="col-sm-7">
-                                                <textarea name="inv_clientadd" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                                <textarea name="inv_apprloc" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Mata Uang</label>
+                                            <div class="col-sm-2">
+                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" name="inv_curr" readonly>
+                                                <input type="hidden" name="inv_currid" value="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -128,7 +138,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="invdet_sub">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon curr">Rp</span>
+                                                    <input class="form-control" type="text" name="invdet_sub">
+                                                </div>                                          
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -143,7 +156,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal Cabang</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="invdet_brcsub">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon curr">Rp</span>
+                                                    <input class="form-control" type="text" name="invdet_brcsub">
+                                                </div>                                          
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -191,25 +207,37 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Sub Total</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_subappr">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_subappr">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">PPN</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_ppnappr">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_ppnappr">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">PPH</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_pphappr">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_pphappr">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Grand Total</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_gtotappr">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_gtotappr">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,25 +250,37 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Sub Total</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_subapprbrc">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_subapprbrc">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">PPN</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_ppnapprbrc">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_ppnapprbrc">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">PPH</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_pphapprbrc">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_pphapprbrc">
+                                                    </div>       
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Grand Total</label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control" type="text" name="inv_gtotapprbrc">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon curr">Rp</span>
+                                                        <input class="form-control" type="text" name="inv_gtotapprbrc">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,6 +427,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_curr" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_curr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Rate</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -413,7 +483,10 @@
             check_();
             $('select').selectpicker({});
             $('#inv_term').change(function(){
-                $('[name="accrcvname"]').val($('#accrcv option:selected').text());
+                termnom($('#inv_term option:selected').val());
+            });
+            $('#inv_termbrc').change(function(){
+                termbrcnom($('#inv_termbrc option:selected').val());
             });
         })
 
@@ -426,7 +499,8 @@
             if($('#det_radio0').is(':checked'))
             {
                 $('#det_approval').css({'display':'block'});
-            }            
+            }
+            invdet($('[name="inv_id"]').val());
         }
 
         function gen_invo()
@@ -546,6 +620,30 @@
                 ],
             });
         }
+
+        function srch_curr()
+        {
+            $('#modal_curr').modal('show');
+            $('.modal-title').text('Cari Rate Mata Uang');              
+            table = $('#dtb_curr').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_curr')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -607,6 +705,43 @@
             });
         }
 
+        function pick_loc(id)
+        {           
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="inv_apprloc"]').val(data.LOC_NAME+', '+data.LOC_ADDRESS+', '+data.LOC_CITY);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_curr(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_curr/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="inv_currid"]').val(data.CURR_ID);
+                    $('[name="inv_curr"]').val(data.CURR_NAME);                    
+                    $('.curr').text(data.CURR_SYMBOL);
+                    $('#modal_curr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
         function pick_apprbyclient(id)
         {
             $.ajax({
@@ -618,6 +753,8 @@
                     $('[name="inv_apprid"]').val(data.APPR_ID);
                     $('[name="inv_apprbrcid"]').val(data.APPR_BRANCH);
                     $('[name="inv_apprcode"]').val(data.APPR_CODE);
+                    $('[name="inv_apprpo"]').val(data.APPR_PO);
+                    pick_loc(data.LOC_ID);
                     var appr = data.APPR_ID;
                     var apprbrc = data.APPR_BRANCHID;
                     if(appr == null)
@@ -697,6 +834,64 @@
                     $('#inv_termbrc').selectpicker('refresh');
                 },
             error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+    </script>
+    <!-- Other -->
+    <script>
+        function invdet(id)
+        {
+            table = $('#dtb_invdet').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_invoice/')?>"+id,
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function termnom(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/get_apprtermnom/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="invdet_sub"]').val(data.TERMSDET_SUM);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function termbrcnom(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/get_apprtermnom/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="invdet_brcsub"]').val(data.TERMSDET_SUM);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
                 }
