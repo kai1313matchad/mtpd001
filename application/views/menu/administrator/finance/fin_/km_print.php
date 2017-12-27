@@ -108,6 +108,9 @@
                                 </div> -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
+                                        <input type="hidden" name="kas_total">
+                                                <input type="hidden" name="kas_info">
+                                                <input type="hidden" name="kas_terbilang">
                                         <table id="tb_km" class="table table-condensed">
                                             <thead>
                                                 <tr>
@@ -123,10 +126,7 @@
                                                     <td style="border-top: 2px solid;"></td>
                                                     <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
                                                     <td style="border-top: 2px solid;"><strong>Harga</strong></td>
-                                                </tr> -->
-                                                <input type="hidden" name="kas_total">
-                                                <input type="hidden" name="kas_info">
-                                                <input type="hidden" name="kas_terbilang">
+                                                </tr> -->                                                
                                             </tbody>
                                         </table>
                                         <table>
@@ -229,6 +229,7 @@
                     pick_cust($('[name="cust_id"]').val());
                     pick_sum_total_km($('[name="km_id"]').val());
                     pick_kmdet($('[name="km_id"]').val());
+                    // pick_terbilang_total_km($('[name="kas_total"]').val());
                     // if(data.APPR_ID != null)
                     // {
                     //     pick_appr($('[name="appr_id"]').val());
@@ -274,6 +275,7 @@
                 success: function(data)
                 {   
                     $('[name="kas_total"]').val(data.SubTotal);
+                    pick_terbilang_total_km(data.SubTotal);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -286,12 +288,13 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/getnumbsp/')?>/" + total,
+                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + total,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="kas_terbilang"]').val(data.terbilang);
+                    // alert(data.terbilang);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -299,6 +302,7 @@
                 }
             });
         }
+        
        function pick_kmdet(id)
         {            
             //Ajax Load data from ajax
@@ -310,6 +314,7 @@
                 {                       
                     var total= $('[name="kas_total"]').val();
                     var info = $('[name="kas_info"]').val();
+                    var terbi = $('[name="kas_terbilang"]').val();
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
                             $('<td>').text(data[i]["COA_ACC"]),
@@ -330,7 +335,7 @@
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
                             $('<td>').text('Terbilang :'),
-                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
                             $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
