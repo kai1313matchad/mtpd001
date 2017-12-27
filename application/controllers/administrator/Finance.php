@@ -22,11 +22,19 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function get_numbsp($value)
+		{
+			$data['terbilang'] = $this->gen->number_conv($value);
+			echo json_encode($data);
+		}
+
 		public function gen_invo()
 		{
-			$gen = $this->gen->gen_numinvo();
-			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['invo_code'];
+			// $gen = $this->gen->gen_numinvo();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['invo_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'INV/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

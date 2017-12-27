@@ -2,6 +2,64 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class M_gen extends CI_Model
 	{
+		//Generate Angka to Terbilang
+		public function number_conv($value)
+		{
+			$nilai = abs($value);
+			$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+			$temp = "";
+			if ($nilai < 12) 
+			{
+				$temp = " ". $huruf[$nilai];
+			} 
+			else if ($nilai <20) 
+			{
+				$temp = penyebut($nilai - 10). " belas";
+			} 
+			else if ($nilai < 100) 
+			{
+				$temp = penyebut($nilai/10)." puluh". penyebut($nilai % 10);
+			} 
+			else if ($nilai < 200) 
+			{
+				$temp = " seratus" . penyebut($nilai - 100);
+			} 
+			else if ($nilai < 1000) 
+			{
+				$temp = penyebut($nilai/100) . " ratus" . penyebut($nilai % 100);
+			} 
+			else if ($nilai < 2000) 
+			{
+				$temp = " seribu" . penyebut($nilai - 1000);
+			} 
+			else if ($nilai < 1000000) 
+			{
+				$temp = penyebut($nilai/1000) . " ribu" . penyebut($nilai % 1000);
+			} 
+			else if ($nilai < 1000000000) 
+			{
+				$temp = penyebut($nilai/1000000) . " juta" . penyebut($nilai % 1000000);
+			} 
+			else if ($nilai < 1000000000000) 
+			{
+				$temp = penyebut($nilai/1000000000) . " milyar" . penyebut(fmod($nilai,1000000000));
+			} 
+			else if ($nilai < 1000000000000000) 
+			{
+				$temp = penyebut($nilai/1000000000000) . " trilyun" . penyebut(fmod($nilai,1000000000000));
+			}
+			if($value<0) 
+			{
+				$hasil = "minus ". trim($temp);
+			} 
+			else 
+			{
+				$hasil = trim($temp);
+			}
+			return $hasil;
+		}
+
+		public function 
 		//Gen Nomor Transaksi
 		public function gen_num_($tb,$col,$affix)
 		{
@@ -163,11 +221,11 @@
 		//Gen Nomor Invoice
 		public function gen_numinvo()
 		{
-			$res = $this->gen_num_('trx_invoice','inv_code','IV');			
+			$res = $this->gen_num_('trx_invoice','inv_code','INV');			
 			$check = $this->db->get_where('trx_invoice',array('inv_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_invoice','inv_code','IV');
+				$res = $this->gen_num_('trx_invoice','inv_code','INV');
 			}
 			$data = array(
 					'inv_code'=>$res,
