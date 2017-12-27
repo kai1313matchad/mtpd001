@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchapprbranch extends CI_Model 
+	class Dt_srchapprbyclient extends CI_Model 
 	{
 
 		var $table = 'trx_approvalbill a';
@@ -11,13 +11,13 @@
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id)
 		{
 			$this->db->join('master_customer b','b.cust_id = a.cust_id');
 			$this->db->join('master_location c','c.loc_id = a.loc_id');
 			$this->db->from($this->table);
-			$this->db->where('appr_sts','1');
-			$this->db->where('appr_own !=','0');
+			$this->db->where('appr_sts !=','0');
+			$this->db->where('a.cust_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -48,17 +48,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}

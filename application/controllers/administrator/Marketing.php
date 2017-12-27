@@ -579,8 +579,11 @@
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
 	                'appr_sts' => '1', //Ubah status jadi posted
+	                'appr_branchid' => $this->input->post('appr_brcid'),
 	                'appr_own' => $get2->BRANCH_STATUS,
-	                'appr_branch' => $get2->BRANCH_NAME,
+	                'appr_branch' => $this->input->post('appr_brc'),
+	                'appr_brcname' => $get2->BRANCH_NAME,
+	                'appr_branch_income' => $this->input->post('brc_nom'),	                
 	                'appr_po' => $this->input->post('appr_po'),
 	                'appr_date' => $this->input->post('tgl'),
 	                'appr_contract_start' => $this->input->post('tgl_awal'),
@@ -606,10 +609,8 @@
 	                'appr_sub_ppn' => $this->input->post('subtotal2'),	                
 	                'appr_pph_perc' => $this->input->post('pphp'),	                
 	                'appr_pph_sum' => $this->input->post('pphn'),
-	                'appr_tot_income' => $this->input->post('gtotal'),	                
-	                // 'appr_placement' => $this->input->post('appr_plc'),
-	                // 'appr_payment_type' => $this->input->post('appr_pay'),
-	                // 'appr_branch_income' => $this->input->post('brc_nom'),
+	                'appr_tot_income' => $this->input->post('gtotal'),
+	                // 'appr_payment_type' => $this->input->post('appr_pay'),	                
 	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));

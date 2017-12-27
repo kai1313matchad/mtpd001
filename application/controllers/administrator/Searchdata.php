@@ -11,6 +11,7 @@
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
+			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');			
 		}
@@ -31,7 +32,7 @@
 				$row = array();
 				$row[] = $no;				
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_BRANCH;				
+				$row[] = $dat->APPR_BRCNAME;				
 				$row[] = $dat->APPR_DATE;
 				$row[] = $dat->CUST_NAME;
 				$row[] = $dat->LOC_NAME;
@@ -45,6 +46,39 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		//Search Approval Berdasarkan Client
+		public function srch_apprbyclient($id)
+		{
+			$list = $this->s_apprbyclient->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_BRCNAME;				
+				$row[] = $dat->APPR_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprbyclient('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_apprbyclient->count_all(),
+							"recordsFiltered" => $this->s_apprbyclient->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_apprgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
+			echo json_encode($data);
 		}
 
 		//Search Master Departemen
