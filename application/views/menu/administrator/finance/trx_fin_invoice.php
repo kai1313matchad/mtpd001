@@ -879,8 +879,8 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
-                    $('[name="invdet_sub"]').val(data.TERMSDET_SUM);
+                {                    
+                    $('[name="invdet_sub"]').val(money_conv(data.TERMSDET_SUM));
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -908,14 +908,15 @@
 
         function test()
         {
-            var val = '234516789';
+            var vals = '234516789.00';
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + val,
+                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + vals,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="test"]').text(data.terbilang);
+                    var val = '234,516,789.00';
+                    $('[name="test"]').text(money_rev(val));
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

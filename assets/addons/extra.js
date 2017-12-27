@@ -33,3 +33,17 @@ $('textarea').on('click',function(){
     $(this).parent().parent().removeClass('has-error');
     $(this).next().empty();
 });
+
+function money_conv(inp)
+{
+    var out = parseFloat(inp.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return out;
+};
+
+function money_rev(inp)
+{
+    var out = parseFloat(inp.replace(/,/g, ""));
+    return out;
+};
+
+$('.curr-num').number(true);

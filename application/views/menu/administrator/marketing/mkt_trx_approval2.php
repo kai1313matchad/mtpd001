@@ -235,7 +235,7 @@
 			                               	<input type="hidden" name="curr_id" value="">
 			                            </div>
 			                            <div class="col-sm-4">
-			                            	<input class="form-control" type="text" name="curr_rate" readonly>
+			                            	<input class="form-control curr-num" type="text" name="curr_rate" readonly>
 										</div>
 			                        </div>
 			                        <div class="form-group">
@@ -286,7 +286,7 @@
 	                            			<div class="col-sm-7">
 	                            				<div class="input-group">
 	                            					<span class="input-group-addon curr">Rp</span>
-		                            				<input class="form-control" type="text" name="cost_amount" placeholder="Jumlah Biaya">
+		                            				<input class="form-control curr-num" type="text" name="cost_amount" placeholder="Jumlah Biaya">
 	                            				</div>
 	                            			</div>
 	                            		</div>
@@ -335,7 +335,7 @@
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control chgcount" type="text" name="dpp" readonly>
+			                            		<input class="form-control chgcount curr-num" type="text" name="dpp" readonly>
 			                            	</div>			                                
 			                            </div>
                             		</div>
@@ -344,13 +344,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount" type="text" name="discp1" placeholder="Diskon 1">
+			                                	<input class="form-control chgcount curr-num" type="text" name="discp1" placeholder="Diskon 1">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control" type="text" name="discn1" readonly>
+			                            		<input class="form-control curr-num" type="text" name="discn1" readonly>
 			                            	</div>			                                
 			                            </div>
 			                        </div>
@@ -359,13 +359,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount" type="text" name="discp2" placeholder="Diskon 2">
+			                                	<input class="form-control chgcount curr-num" type="text" name="discp2" placeholder="Diskon 2">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control" type="text" name="discn2" readonly>
+			                            		<input class="form-control curr-num" type="text" name="discn2" readonly>
 			                            	</div>
 			                            </div>
 			                        </div>			                        
@@ -374,8 +374,8 @@
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control" type="text" name="subtotal1" readonly>
-			                            	</div>			                                
+			                            		<input class="form-control curr-num" type="text" name="subtotal1" readonly>
+			                            	</div>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -383,13 +383,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount" type="text" name="ppnp">             	
+			                                	<input class="form-control chgcount curr-num" type="text" name="ppnp">             	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control" type="text" name="ppnn" readonly>
+			                            		<input class="form-control curr-num" type="text" name="ppnn" readonly>
 			                            	</div>			                                
 			                            </div>
 			                        </div>
@@ -398,14 +398,14 @@
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control chgcount" type="text" name="appr_bbtax">
+			                            		<input class="form-control chgcount curr-num" type="text" name="appr_bbtax">
 			                            	</div>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sub Total</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="subtotal2" readonly>
+			                                <input class="form-control curr-num" type="text" name="subtotal2" readonly>
 			                            </div>
 			                        </div>
 			                        <div class="form-group">
@@ -413,13 +413,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount" type="text" name="pphp" placeholder="PPH">
+			                                	<input class="form-control chgcount curr-num" type="text" name="pphp" placeholder="PPH">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon curr">Rp</span>
-			                            		<input class="form-control" type="text" name="pphn" readonly>
+			                            		<input class="form-control curr-num" type="text" name="pphn" readonly>
 			                            	</div>
 			                            </div>
 			                        </div>
@@ -428,7 +428,7 @@
 			                            <div class="col-sm-8">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">Rp</span>
-			                            		<input class="form-control" type="text" name="gtotal" readonly>
+			                            		<input class="form-control curr-num" type="text" name="gtotal" readonly>
 			                            	</div>			                                
 			                            </div>
 			                        </div>
@@ -508,7 +508,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control termchgcount" type="text" name="dpp_appr" readonly>
+	                                    		<input class="form-control termchgcount curr-num" type="text" name="dpp_appr" readonly>
 	                                    	</div>
 	                                    </div>
                             		</div>
@@ -517,7 +517,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control termchgcount" type="text" name="bbtax_appr" readonly>
+	                                    		<input class="form-control termchgcount curr-num" type="text" name="bbtax_appr" readonly>
 	                                    	</div>
 	                                    </div>
                             		</div>
@@ -526,7 +526,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">%</span>
-	                                        	<input class="form-control termchgcount" type="text" name="termperc">
+	                                        	<input class="form-control termchgcount curr-num" type="text" name="termperc">
 	                                        </div>
 	                                    </div>
                             		</div>
@@ -535,7 +535,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control termchgcount" type="text" name="termdpp" readonly>
+	                                    		<input class="form-control termchgcount curr-num" type="text" name="termdpp" readonly>
 	                                    	</div>	                                        
 	                                    </div>
                             		</div>
@@ -544,7 +544,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control termchgcount" type="text" name="termsub" readonly>
+	                                    		<input class="form-control termchgcount curr-num" type="text" name="termsub" readonly>
 	                                    	</div>
 	                                    </div>
                             		</div>
@@ -553,13 +553,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                            		<input class="form-control termchgcount" type="text" name="termppnp">
+			                            		<input class="form-control termchgcount curr-num" type="text" name="termppnp">
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">Rp</span>
-			                            		<input class="form-control" type="text" name="termppnn" readonly>
+			                            		<input class="form-control curr-num" type="text" name="termppnn" readonly>
 			                            	</div>			                                
 			                            </div>
 			                        </div>			                        
@@ -568,13 +568,13 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                        			<input class="form-control termchgcount" type="text" name="termpphp">
+			                        			<input class="form-control termchgcount curr-num" type="text" name="termpphp">
 			                            	</div>
 			                            </div>
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">Rp</span>
-			                            		<input class="form-control" type="text" name="termpphn" readonly>
+			                            		<input class="form-control curr-num" type="text" name="termpphn" readonly>
 			                            	</div>			                                
 			                            </div>
 			                        </div>
@@ -583,7 +583,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
-	                                    		<input class="form-control" type="text" name="termsum" readonly>
+	                                    		<input class="form-control curr-num" type="text" name="termsum" readonly>
 	                                    	</div>	                                        
 	                                    </div>
                             		</div>
@@ -944,6 +944,8 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <!-- Select Bst -->
     <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
+    <!-- Number to Money -->
+    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
@@ -958,6 +960,7 @@
             ijinapp(id);
             termapp(id);
             costapp(id);
+            
     	});
 
     	function inputchg()
@@ -1064,7 +1067,7 @@
 			var pphp = $('[name="pphp"]').val();
 			var pphn = sub1*pphp/100;
 			$('[name="pphn"]').val(pphn);			
-			var grandtotal = ((sub1*1)+(ppnn*1)+(bbtax*1)-(pphn*1))*currrate;			
+			var grandtotal = Math.abs(((sub1*1)+(ppnn*1)+(bbtax*1)-(pphn*1))*currrate);
 			$('[name="gtotal"]').val(grandtotal);
 			// $('[name="dpp_appr"]').val(((sub1*1)+(bbtax*1)));
 			$('[name="dpp_appr"]').val(sub1);
