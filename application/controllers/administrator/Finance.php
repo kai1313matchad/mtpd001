@@ -717,6 +717,7 @@
 		{
 			$data = $this->crud->sub_km($id);
         	echo json_encode($data);
+        }
 
 		public function get_apprterm($id)
 		{
