@@ -58,8 +58,7 @@
 			}
 			return $hasil;
 		}
-
-		public function 
+		
 		//Gen Nomor Transaksi
 		public function gen_num_($tb,$col,$affix)
 		{
