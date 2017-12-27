@@ -290,6 +290,14 @@
                                             <a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="test()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span name="test"></span>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -890,6 +898,24 @@
                 success: function(data)
                 {   
                     $('[name="invdet_brcsub"]').val(data.TERMSDET_SUM);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function test()
+        {
+            var val = '234516789';
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + val,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="test"]').text(data.terbilang);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

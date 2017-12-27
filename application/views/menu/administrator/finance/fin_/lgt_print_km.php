@@ -17,8 +17,8 @@
                                     <input type="hidden" name="km_id">
                                    <!--  <input type="hidden" name="appr_id"> -->
                                     <input type="hidden" name="cust_id">
-                                    <input type="hidden" name="kas_total">
-                                    <input type="hidden" name="kas_info">
+                                    <!-- <input type="hidden" name="kas_total">
+                                    <input type="hidden" name="kas_info"> -->
                                     <!-- <input type="hidden" name="podet_id">
                                     <input type="hidden" name="gd_id"> -->
                                 </div>
@@ -76,7 +76,11 @@
                                 </div> -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table id="tb_po" class="table table-condensed">
+                                        <input type="hidden" name="kas_total">
+                                        <input type="hidden" name="kas_info">
+                                        <input type="hidden" name="kas_terbilang">
+                                        <input type="hidden" name="curr_name">
+                                        <table id="tb_km" class="table table-condensed">
                                             <thead>
                                                 <tr>
                                                     <th class="col-sm-1 col-xs-1">Perkiraan</th>
@@ -211,8 +215,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="po_subs"]').val(data.Subtotal);
-                    alert(data.Subtotal);               
+                    $('[name="po_subs"]').val(data.Subtotal);            
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -283,7 +286,8 @@
                     $('[name="pass"]').text(data.CSH_ID);
                     pick_cust($('[name="cust_id"]').val());
                     pick_sum_total_km($('[name="km_id"]').val());
-                    pick_kmdet($('[name="km_id"]').val());
+                    pick_curr(data.CURR_ID);
+                    // pick_kmdet($('[name="km_id"]').val());
                     // if(data.APPR_ID != null)
                     // {
                     //     pick_appr($('[name="appr_id"]').val());
@@ -308,18 +312,20 @@
                 {                       
                     var total= $('[name="kas_total"]').val();
                     var info = $('[name="kas_info"]').val();
+                    var curr = $('[name="curr_name"]').val();
+                    var terbi = $('[name="kas_terbilang"]').val() + ' ' + curr;
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
                             $('<td>').text(data[i]["COA_ACC"]),
                             $('<td>').text(data[i]["CSHINDET_INFO"]),
-                            $('<td>').css('text-align','right').text(data[i]["CSHDETIN_AMOUNT"])
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHDETIN_AMOUNT"],".",",",2))
                             // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
                             ).appendTo('#tb_content');
                     }
                     var $tr = $('<tr>').append(
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(total)
+                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",".",2))
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
                             $('<td>').text('Keterangan :'),
@@ -328,7 +334,7 @@
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
                             $('<td>').text('Terbilang :'),
-                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
                             $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
@@ -399,6 +405,7 @@
                 success: function(data)
                 {   
                     $('[name="kas_total"]').val(data.SubTotal);
+                    pick_terbilang_total_km(data.SubTotal);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -407,17 +414,17 @@
             });
         }
 
-        function pick_appr(id)
+        function pick_terbilang_total_km(total)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + total,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="loc_name"]').text(data.LOC_NAME);
-                    $('[name="loc_det"]').text(data.LOC_ADDRESS+', '+data.LOC_CITY);
+                    $('[name="kas_terbilang"]').val(data.terbilang);
+                    pick_kmdet($('[name="km_id"]').val());                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -473,6 +480,25 @@
                 }
             });
         }
+
+        function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
+        {  
+            var num = parseFloat( amount ); //convert to float  
+            //default values  
+            decimalSeparator = decimalSeparator || '.';  
+            thousandsSeparator = thousandsSeparator || ',';  
+            nDecimalDigits = nDecimalDigits == null? 2 : nDecimalDigits;  
+      
+            var fixed = num.toFixed(nDecimalDigits); //limit or add decimal digits  
+            //separate begin [$1], middle [$2] and decimal digits [$4]  
+            var parts = new RegExp('^(-?\\d{1,3})((?:\\d{3})+)(\\.(\\d{' + nDecimalDigits + '}))?$').exec(fixed);   
+      
+            if(parts){ //num >= 1000 || num < = -1000  
+                 return parts[1] + parts[2].replace(/\d{3}/g, thousandsSeparator + '$&') + (parts[4] ? decimalSeparator + parts[4] : '');  
+            }else{  
+                 return fixed.replace('.', decimalSeparator);  
+            }  
+        }  
     </script>
 </body>
 </html>
