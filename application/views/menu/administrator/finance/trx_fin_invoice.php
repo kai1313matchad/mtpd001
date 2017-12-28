@@ -140,7 +140,7 @@
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control" type="text" name="invdet_sub">
+                                                    <input class="form-control curr-num" type="text" name="invdet_sub">
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control" type="text" name="invdet_brcsub">
+                                                    <input class="form-control curr-num" type="text" name="invdet_brcsub">
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -209,7 +209,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_subappr">
+                                                        <input class="form-control curr-num" type="text" name="inv_subappr" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_ppnappr">
+                                                        <input class="form-control curr-num" type="text" name="inv_ppnappr" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -227,7 +227,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_pphappr">
+                                                        <input class="form-control curr-num" type="text" name="inv_pphappr" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_gtotappr">
+                                                        <input class="form-control curr-num" type="text" name="inv_gtotappr" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,7 +252,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_subapprbrc">
+                                                        <input class="form-control curr-num" type="text" name="inv_subapprbrc" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -261,7 +261,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_ppnapprbrc">
+                                                        <input class="form-control curr-num" type="text" name="inv_ppnapprbrc" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +270,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_pphapprbrc">
+                                                        <input class="form-control curr-num" type="text" name="inv_pphapprbrc" readonly>
                                                     </div>       
                                                 </div>
                                             </div>
@@ -279,7 +279,7 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon curr">Rp</span>
-                                                        <input class="form-control" type="text" name="inv_gtotapprbrc">
+                                                        <input class="form-control curr-num" type="text" name="inv_gtotapprbrc" readonly>
                                                     </div>
                                                 </div>
                                             </div>

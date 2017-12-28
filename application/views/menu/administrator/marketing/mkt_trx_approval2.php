@@ -29,7 +29,7 @@
 	                            	</div>
 	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
 	                            	<input type="hidden" name="appr_id" value="0">
-	                            	<input type="hidden" name="user_id" value="2">
+	                            	<input type="hidden" name="user_id" value="1">
 	                            	<input type="hidden" name="user_brc" value="0">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
@@ -1703,6 +1703,25 @@
 	            success: function(data)
 	            {   
 	                $('.apprbrc').attr('readonly',true);
+	                $('[name="appr_brcid"]').val(data.APPR_ID);
+	                $('[name="appr_brc"]').val(data.APPR_CODE);
+	                $('[name="appr_po"]').val(data.APPR_PO);
+	                $('[name="tgl_awal"]').val(data.APPR_CONTRACT_START);
+	                $('[name="tgl_akhir"]').val(data.APPR_CONTRACT_END);
+	                $('[name="appr_rec"]').val(data.APPR_RECOV);
+	                $('[name="appr_vis"]').val(data.APPR_VISUAL);
+	                $('[name="appr_length"]').val(data.APPR_LENGTH);
+	                $('[name="appr_width"]').val(data.APPR_WIDTH);
+	                $('[name="appr_height"]').val(data.APPR_HEIGHT);
+	                $('[name="appr_sumsize"]').val(data.APPR_SUMSIZE);
+	                $('[name="appr_side"]').val(data.APPR_SIDE);
+	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);	                
+	                pick_cust(data.CUST_ID);
+	                pick_mkt(data.SALES_ID);
+	                pick_bb(data.BB_ID);
+	                pick_loc(data.LOC_ID);
+	                pick_plc(data.PLC_ID);
+	                pick_curr(data.CURR_ID);
 	                costappbrc(id);
 	                termappbrc(id);
 	                ijinappbrc(id);
