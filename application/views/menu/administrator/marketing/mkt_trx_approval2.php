@@ -327,7 +327,7 @@
 			                        <div class="form-group hid-form">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="brc_nom" readonly>
+			                                <input class="form-control curr-num" type="text" name="brc_nom" readonly>
 			                            </div>
 			                        </div>
                             		<div class="form-group">
@@ -1715,7 +1715,9 @@
 	                $('[name="appr_height"]').val(data.APPR_HEIGHT);
 	                $('[name="appr_sumsize"]').val(data.APPR_SUMSIZE);
 	                $('[name="appr_side"]').val(data.APPR_SIDE);
-	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);	                
+	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
+	                $('[name="appr_info"]').val(data.APPR_INFO);
+	                $('[name="brc_nom"]').val(data.APPR_DPP_INCOME);
 	                pick_cust(data.CUST_ID);
 	                pick_mkt(data.SALES_ID);
 	                pick_bb(data.BB_ID);
@@ -1742,8 +1744,26 @@
 	            dataType: "JSON",
 	            success: function(data)
 	            {   
-	                $('[name=""]').val(data.CSTDT_CODE);
-	                $('[name=""]').val(data.CSTDT_AMOUNT);	                
+	                $('[name="cost_code"]').val(data.CSTDT_CODE);
+	                $('[name="cost_amount"]').val(data.CSTDT_AMOUNT);
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+
+    	function pick_termapprbrc(id)
+    	{
+    		$.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_costapprbrc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="cost_code"]').val(data.CSTDT_CODE);
+	                $('[name="cost_amount"]').val(data.CSTDT_AMOUNT);	                
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {
