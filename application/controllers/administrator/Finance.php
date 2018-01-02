@@ -727,9 +727,26 @@
         	echo json_encode($data);
         }
 
+        //Fungsi Halaman Invoice
 		public function get_apprterm($id)
 		{
-			$data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			$this->db->from('appr_terms_det a');			
+			$this->db->where('a.appr_id',$id);
+			$this->db->where('a.termsdet_id NOT IN (select invdet_termid from inv_details)');
+			$res = $this->db->get();
+			$data = $res->result();
+			echo json_encode($data);
+		}
+
+		public function get_apprtermbrc($id)
+		{
+			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			$this->db->from('appr_terms_det a');			
+			$this->db->where('a.appr_id',$id);
+			$this->db->where('a.termsdet_id NOT IN (select invdet_termbrcid from inv_details)');
+			$res = $this->db->get();
+			$data = $res->result();
 			echo json_encode($data);
 		}
 
@@ -738,5 +755,144 @@
 			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id'=>$id));
 			echo json_encode($data);
 		}
+
+		public function get_subinvdet($id)
+		{
+			$this->db->from('inv_details a');
+			$this->db->select('a.invdet_amount as Sub1, a.invdet_brcamount as Sub2');			
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->where('b.inv_id',$id);
+			$que = $this->db->get();
+			$res = $que->row();
+			$data = array('sub1'=>$res->Sub1,'sub2'=>$res->Sub2);
+			echo json_encode($data);
+		}
+
+		public function add_invdet()
+		{
+			$this->_validate_invdet();
+			$data = array(
+					'inv_id'=>$this->input->post('inv_id'),
+					'appr_id'=>$this->input->post('inv_apprid'),
+					'invdet_termid'=>$this->input->post('inv_term'),
+					'invdet_term'=>$this->input->post('inv_termcode'),
+					'invdet_amount'=>$this->input->post('invdet_sub'),
+					'invdet_termbrcid'=>$this->input->post('inv_termbrc'),
+					'invdet_brcterm'=>$this->input->post('inv_termbrccode'),
+					'invdet_brcamount'=>$this->input->post('invdet_brcsub')
+					);
+			$update = $this->crud->save('inv_details',$data);
+			echo json_encode(array('status'=>TRUE));
+		}
+
+		public function del_invdet($id)
+		{
+			$this->crud->delete_by_id('inv_details',array('invdet_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+		}
+
+		public function _validate_invdet()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('inv_apprcode') == '')
+	        {
+	            $data['inputerror'][] = 'inv_apprcode';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_curr') == '')
+	        {
+	            $data['inputerror'][] = 'inv_curr';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_term') == '')
+	        {
+	            $data['inputerror'][] = 'inv_term';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_termbrc') == '')
+	        {
+	            $data['inputerror'][] = 'inv_termbrc';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    public function save_inv()
+	    {
+	    	$this->_validate_inv();
+	    	$data = array(
+	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'branch_id'=>$this->input->post('inv_branchid'),
+	    			'cust_id'=>$this->input->post('inv_custid'),
+	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'inv_info'=>$this->input->post('inv_info'),
+	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_sts'=>'1'
+	    			);
+	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
+	    	echo json_encode(array('status'=>TRUE));
+	    }
+
+	    public function _validate_inv()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('inv_typename') == '')
+	        {
+	            $data['inputerror'][] = 'inv_typename';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_code') == '')
+	        {
+	            $data['inputerror'][] = 'inv_code';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_branch') == '')
+	        {
+	            $data['inputerror'][] = 'inv_branch';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_cust') == '')
+	        {
+	            $data['inputerror'][] = 'inv_cust';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_info') == '')
+	        {
+	            $data['inputerror'][] = 'inv_info';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_terms') == '')
+	        {
+	            $data['inputerror'][] = 'inv_terms';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
 	}
 ?>

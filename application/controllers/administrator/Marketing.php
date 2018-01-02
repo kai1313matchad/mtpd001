@@ -888,5 +888,11 @@
 			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id' => $id));
 			echo json_encode($data);
 		}
+
+		public function pick_patapprbrc($id)
+		{
+			$data = $this->crud->get_by_id('appr_permit_det',array('apprprmt_id' => $id));
+			echo json_encode($data);
+		}
 	}
 ?>

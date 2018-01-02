@@ -1784,6 +1784,24 @@
 	            }
 	        });
     	}
+
+    	function pick_ijinappbrc(id)
+    	{
+    		$.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/pick_patapprbrc/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+					$('select#pattyp').val(data.PRMTTYP_ID);
+                	$('#pattyp').selectpicker('refresh');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
     </script>
 </body>
 </html>

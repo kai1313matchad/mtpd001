@@ -33,10 +33,22 @@ $('textarea').on('click',function(){
     $(this).parent().parent().removeClass('has-error');
     $(this).next().empty();
 });
+$('select').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('input').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('textarea').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
 
 function money_conv(inp)
 {
-    var out = parseFloat(inp.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var out = parseFloat(inp.replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return out;
 };
 
