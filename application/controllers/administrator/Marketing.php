@@ -877,9 +877,15 @@
 			echo json_encode($data);
 		}
 
-		public function pick_costappbrc($id)
+		public function pick_costapprbrc($id)
 		{
 			$data = $this->crud->get_by_id('appr_cost_det',array('cstdt_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_termapprbrc($id)
+		{
+			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id' => $id));
 			echo json_encode($data);
 		}
 	}

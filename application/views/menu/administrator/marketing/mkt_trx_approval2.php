@@ -327,7 +327,10 @@
 			                        <div class="form-group hid-form">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-8">
-			                                <input class="form-control curr-num" type="text" name="brc_nom" readonly>
+			                            	<div class="input-group">
+			                            		<span class="input-group-addon">Rp</span>
+			                            		<input class="form-control curr-num" type="text" name="brc_nom" readonly>
+			                            	</div>
 			                            </div>
 			                        </div>
                             		<div class="form-group">
@@ -1718,6 +1721,11 @@
 	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
 	                $('[name="appr_info"]').val(data.APPR_INFO);
 	                $('[name="brc_nom"]').val(data.APPR_DPP_INCOME);
+	                $('[name="discp1"]').val(data.APPR_DISC_PERC1);
+	                $('[name="discp2"]').val(data.APPR_DISC_PERC2);
+	                $('[name="appr_bbtax"]').val(data.APPR_BBTAX);
+	                $('[name="ppnp"]').val(data.APPR_PPN_PERC);
+	                $('[name="pphp"]').val(data.APPR_PPH_PERC);
 	                pick_cust(data.CUST_ID);
 	                pick_mkt(data.SALES_ID);
 	                pick_bb(data.BB_ID);
@@ -1736,7 +1744,7 @@
 	        });
     	}
 
-    	function pick_costapprbrc(id)
+    	function pick_costappbrc(id)
     	{
     		$.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/pick_costapprbrc/')?>" + id,
@@ -1754,16 +1762,21 @@
 	        });
     	}
 
-    	function pick_termapprbrc(id)
+    	function pick_termappbrc(id)
     	{
     		$.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/pick_costapprbrc/')?>" + id,
+	            url : "<?php echo site_url('administrator/Marketing/pick_termapprbrc/')?>" + id,
 	            type: "GET",
 	            dataType: "JSON",
 	            success: function(data)
 	            {   
-	                $('[name="cost_code"]').val(data.CSTDT_CODE);
-	                $('[name="cost_amount"]').val(data.CSTDT_AMOUNT);	                
+	                $('[name="termcode"]').val(data.TERMSDET_CODE);
+	                $('[name="terminfo"]').val(data.TERMSDET_INFO);
+	                $('[name="tgl_term"]').val(data.TERMSDET_DATE);
+	                $('[name="termperc"]').val(data.TERMSDET_PERC);
+	                $('[name="termppnp"]').val(data.TERMSDET_PPN_PERC);
+	                $('[name="termpphp"]').val(data.TERMSDET_PPH_PERC);
+	                hitungterm_();
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {
