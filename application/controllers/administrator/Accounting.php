@@ -16,5 +16,14 @@
 			$data['isi']='menu/administrator/accounting/dashboard';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function journal_acc()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='journal';
+			$data['isi']='menu/administrator/accounting/acc_journal';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
 	}
 ?>

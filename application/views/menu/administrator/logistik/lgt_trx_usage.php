@@ -360,7 +360,7 @@
             var old = $('[name="gd_stock"]').val();
             var curr = $('[name="gd_usg"]').val();
 
-            if (curr > old)
+            if ((curr*1) > (old*1))
             {
                 $('[name="gd_usg"]').parent().parent().addClass('has-error');
                 $('[name="gd_usg"]').next().text('Stok Tidak Cukup');
@@ -387,6 +387,7 @@
                     $(this).next().empty();
                 });                
             }
+            alert(curr+' - '+old);
         }
 
         function barang(id)

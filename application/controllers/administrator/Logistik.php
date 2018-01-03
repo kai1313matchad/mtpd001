@@ -1163,6 +1163,7 @@
 	        {
 	            $data['inputerror'][] = 'gd_usg';
 	            $data['error_string'][] = 'Jumlah Melebihi Stock';
+	            $data['rt1'] = $this->input->post('gd_stock');
 	            $data['status'] = FALSE;
 	        }
 
