@@ -76,7 +76,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="inv_term">
+                                            <input class="form-control" type="text" name="inv_terms">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -124,6 +124,7 @@
                                             <div class="col-sm-5">
                                                 <input class="form-control" type="text" name="inv_curr" readonly>
                                                 <input type="hidden" name="inv_currid" value="0">
+                                                <input type="hidden" name="inv_currrate" value="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -134,13 +135,14 @@
                                                     <option>Pilih</option>
                                                 </select>
                                             </div>
+                                            <input type="hidden" name="inv_termcode">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control curr-num" type="text" name="invdet_sub">
+                                                    <input class="form-control curr-num" type="text" name="invdet_sub" readonly>
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -152,13 +154,14 @@
                                                     <option>Pilih</option>
                                                 </select>
                                             </div>
+                                            <input type="hidden" name="inv_termbrccode">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal Cabang</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control curr-num" type="text" name="invdet_brcsub">
+                                                    <input class="form-control curr-num" type="text" name="invdet_brcsub" readonly>
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -287,7 +290,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                            <a href="javascript:void(0)" onclick="save_inv()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -482,6 +485,8 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <!-- Select Bst -->
     <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
+    <!-- Number to Money -->
+    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
@@ -521,11 +526,43 @@
                 {
                     $('[name="inv_id"]').val(data.id);
                     $('[name="inv_code"]').val(data.kode);
+                    invdet(data.id);
+                    get_sub();
                     $('#genbtn').attr('disabled',true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Gagal Ambil Nomor Approval');
+                }
+            });
+        }
+
+        function save_inv()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/save_inv')?>",
+                type: "POST",
+                data: $('#form_inv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Disimpan');
+                        invdet($('[name="inv_id"]').val());
+                        get_sub();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
                 }
             });
         }
@@ -664,6 +701,7 @@
                 success: function(data)
                 {   
                     $('[name="inv_typeid"]').val(data.INC_ID);
+                    $('[name="inv_typename"]').val(data.INC_CODE+' - '+data.INC_NAME);
                     $('[name="inv_incacc"]').val(data.INC_ACCINCNAME);
                     $('[name="inv_rcvacc"]').val(data.INC_ACCRCVNAME);
                     $('#modal_invtype').modal('hide');
@@ -739,8 +777,10 @@
                 success: function(data)
                 {   
                     $('[name="inv_currid"]').val(data.CURR_ID);
-                    $('[name="inv_curr"]').val(data.CURR_NAME);                    
+                    $('[name="inv_curr"]').val(data.CURR_NAME);
+                    $('[name="inv_currrate"]').val(data.CURR_RATE);
                     $('.curr').text(data.CURR_SYMBOL);
+                    hit_curr();
                     $('#modal_curr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -820,7 +860,7 @@
         function drop_termbrc(id)
         {
             $.ajax({
-            url : "<?php echo site_url('administrator/Finance/get_apprterm/')?>"+id,
+            url : "<?php echo site_url('administrator/Finance/get_apprtermbrc/')?>"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -872,6 +912,58 @@
             });
         }
 
+        function add_invdet()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/add_invdet')?>",
+                type: "POST",
+                data: $('#form_inv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Disimpan');
+                        invdet($('[name="inv_id"]').val());
+                        get_sub();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+        function delete_invdet(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {               
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Finance/del_invdet/')?>"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        alert('Data Berhasil Dihapus');
+                        invdet($('[name="inv_id"]').val());
+                        get_sub();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+
         function termnom(id)
         {
             $.ajax({
@@ -879,8 +971,10 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {                    
-                    $('[name="invdet_sub"]').val(money_conv(data.TERMSDET_SUM));
+                {
+                    var nom1 = ($('[name="inv_currrate"]').val()*data.TERMSDET_SUM);
+                    $('[name="invdet_sub"]').val(nom1);
+                    $('[name="inv_termcode"]').val(data.TERMSDET_CODE);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -896,8 +990,40 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
-                    $('[name="invdet_brcsub"]').val(data.TERMSDET_SUM);
+                {
+                    var nom2 = ($('[name="inv_currrate"]').val()*data.TERMSDET_SUM);
+                    $('[name="invdet_brcsub"]').val(nom2);
+                    $('[name="inv_termbrccode"]').val(data.TERMSDET_CODE);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function hit_curr()
+        {
+            var curr = $('[name="inv_currrate"]').val();
+            var nom1 = $('[name="invdet_sub"]').val();
+            var nom2 = $('[name="invdet_brcsub"]').val();
+            res1 = curr*nom1;
+            res2 = curr*nom2;
+            $('[name="invdet_sub"]').val(res1);
+            $('[name="invdet_brcsub"]').val(res2);
+        }
+
+        function get_sub()
+        {
+            var id = $('[name="inv_id"]').val();
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                       
+                    $('[name="inv_gtotappr"]').val(data.sub1);
+                    $('[name="inv_gtotapprbrc"]').val(data.sub2);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -908,21 +1034,23 @@
 
         function test()
         {
-            var vals = '234516789.00';
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + vals,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    var val = '234,516,789.00';
-                    $('[name="test"]').text(money_rev(val));
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
+            var id = $('[name="inv_id"]').val();
+            var dt = '2018-12-20';
+            var chg = moment(dt).format('DD/MM/YYYY');
+            alert(chg);
+            // $.ajax({
+            //     url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>"+id,
+            //     type: "GET",
+            //     dataType: "JSON",
+            //     success: function(data)
+            //     {                       
+            //         $('[name="test"]').text(data.sub1+''+data.sub2);
+            //     },
+            //     error: function (jqXHR, textStatus, errorThrown)
+            //     {
+            //         alert('Error get data from ajax');
+            //     }
+            // });
         }
     </script>
 </body>

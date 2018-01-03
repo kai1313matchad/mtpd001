@@ -311,12 +311,12 @@
                 $('[name="id"]').val(data.INC_ID);
                 $('[name="code"]').val(data.INC_CODE);
                 $('[name="nama"]').val(data.INC_NAME);
-                var sts = data.INC_ACCRCV;
-                document.querySelector('#accrcv [value="' + sts + '"]').selected = true;
-                $('[name="accrcvname"]').val($('#accrcv option:selected').text());
+                var sts = data.INC_ACCRCV;                
+                $('select#accrcv').val(sts);
+                $('#accrcv').selectpicker('refresh');                
                 var sts = data.INC_ACCINC;
-                document.querySelector('#accinc [value="' + sts + '"]').selected = true;
-                $('[name="accincname"]').val($('#accinc option:selected').text());
+                $('select#accinc').val(sts);
+                $('#accinc').selectpicker('refresh');                
                 $('[name="sts"]').val(data.BRANCH_DTSTS);
                 $('[name="check"]').val("1");
                 $('[name="tb"]').val("invoice_type");
