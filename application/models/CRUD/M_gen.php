@@ -6,7 +6,7 @@
 		public function number_conv($value)
 		{
 			$nilai = abs($value);
-			$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+			$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
 			$temp = "";
 			if ($nilai < 12) 
 			{
@@ -14,43 +14,43 @@
 			} 
 			else if ($nilai <20) 
 			{
-				$temp = $this->number_conv($nilai - 10). " belas ";
+				$temp = $this->number_conv($nilai - 10). " Belas ";
 			} 
 			else if ($nilai < 100) 
 			{
-				$temp = $this->number_conv($nilai/10)." puluh ". $this->number_conv($nilai % 10);
+				$temp = $this->number_conv($nilai/10)." Puluh ". $this->number_conv($nilai % 10);
 			} 
 			else if ($nilai < 200) 
 			{
-				$temp = " seratus " . $this->number_conv($nilai - 100);
+				$temp = " Seratus " . $this->number_conv($nilai - 100);
 			} 
 			else if ($nilai < 1000) 
 			{
-				$temp = $this->number_conv($nilai/100) . " ratus " . $this->number_conv($nilai % 100);
+				$temp = $this->number_conv($nilai/100) . " Ratus " . $this->number_conv($nilai % 100);
 			} 
 			else if ($nilai < 2000) 
 			{
-				$temp = " seribu " . $this->number_conv($nilai - 1000);
+				$temp = " Seribu " . $this->number_conv($nilai - 1000);
 			} 
 			else if ($nilai < 1000000) 
 			{
-				$temp = $this->number_conv($nilai/1000) . " ribu " . $this->number_conv($nilai % 1000);
+				$temp = $this->number_conv($nilai/1000) . " Ribu " . $this->number_conv($nilai % 1000);
 			} 
 			else if ($nilai < 1000000000) 
 			{
-				$temp = $this->number_conv($nilai/1000000) . " juta " . $this->number_conv($nilai % 1000000);
+				$temp = $this->number_conv($nilai/1000000) . " Juta " . $this->number_conv($nilai % 1000000);
 			} 
 			else if ($nilai < 1000000000000) 
 			{
-				$temp = $this->number_conv($nilai/1000000000) . " milyar " . $this->number_conv(fmod($nilai,1000000000));
+				$temp = $this->number_conv($nilai/1000000000) . " Milyar " . $this->number_conv(fmod($nilai,1000000000));
 			} 
 			else if ($nilai < 1000000000000000) 
 			{
-				$temp = $this->number_conv($nilai/1000000000000) . " trilyun " . $this->number_conv(fmod($nilai,1000000000000));
+				$temp = $this->number_conv($nilai/1000000000000) . " Trilyun " . $this->number_conv(fmod($nilai,1000000000000));
 			}
 			if($value<0) 
 			{
-				$hasil = "minus ". trim($temp);
+				$hasil = "Minus ". trim($temp);
 			} 
 			else 
 			{

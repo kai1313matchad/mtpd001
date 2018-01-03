@@ -23,6 +23,10 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
+        body 
+        {
+            background-color: white;
+        }
         .happroval 
         {
             text-align: right;
@@ -206,7 +210,7 @@
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprdpp"> 100,000,000</span>
+                <span class="font-txt pull-right" name="print_apprdpp"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -214,11 +218,11 @@
                 <label class="font-nd">Disc 1</label>
             </div>
             <div class="col-sm-2 col-xs-2">
-                <span class="font-txt" name="print_apprdiscperc1">10 %</span>
+                <span class="font-txt" name="print_apprdiscperc1"></span>
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt font-red pull-right" name="print_apprdiscsum1"> 10,000,000</span>
+                <span class="font-txt font-red pull-right" name="print_apprdiscsum1"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -226,11 +230,11 @@
                 <label class="font-nd">Disc 2</label>
             </div>
             <div class="col-sm-2 col-xs-2">
-                <span class="font-txt" name="print_apprdiscperc2">0 %</span>
+                <span class="font-txt" name="print_apprdiscperc2"></span>
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt font-red pull-right" name="print_apprdiscsum2"> 0</span>
+                <span class="font-txt font-red pull-right" name="print_apprdiscsum2"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -239,7 +243,7 @@
             </div>
             <div class="col-sm-2 col-xs-2 top-row-count">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprdppafterdisc"> 90,000,000</span>
+                <span class="font-txt pull-right" name="print_apprdppafterdisc"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -247,11 +251,11 @@
                 <label class="font-nd">PPN</label>
             </div>
             <div class="col-sm-2 col-xs-2">
-                <span class="font-txt" name="print_apprppnperc">10 %</span>
+                <span class="font-txt" name="print_apprppnperc"></span>
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprppnsum"> 9,000,000</span>
+                <span class="font-txt pull-right" name="print_apprppnsum"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -260,7 +264,7 @@
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprbbtax"> 1,000,000</span>
+                <span class="font-txt pull-right" name="print_apprbbtax"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -269,7 +273,7 @@
             </div>
             <div class="col-sm-2 col-xs-2 top-row-count">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprdppaftertax1"> 100,000,000</span>
+                <span class="font-txt pull-right" name="print_apprdppaftertax1"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -277,11 +281,11 @@
                 <label class="font-nd">PPH</label>
             </div>
             <div class="col-sm-2 col-xs-2">
-                <span class="font-txt" name="print_apprpphperc">0 %</span>
+                <span class="font-txt" name="print_apprpphperc"></span>
             </div>
             <div class="col-sm-2 col-xs-2">
                 <label class="font-nd">: </label>
-                <span class="font-txt font-red pull-right" name="print_apprpphsum"> 0</span>
+                <span class="font-txt font-red pull-right" name="print_apprpphsum"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -290,7 +294,7 @@
             </div>
             <div class="col-sm-2 col-xs-2 top-row-count">
                 <label class="font-nd">: </label>
-                <span class="font-txt pull-right" name="print_apprgrandtotal"> 100,000,000</span>
+                <span class="font-txt pull-right" name="print_apprgrandtotal"></span>
             </div>
         </div>
         <div class="row row-ins">
@@ -300,10 +304,6 @@
             <div class="col-sm-9 col-xs-9">
                 <label class="font-nd">: </label>
                 <span class="font-txt" name="print_apprterbilang">
-                    Seratus Juta Rupiah Seratus Juta Rupiah
-                    Seratus Juta Rupiah Seratus Juta Rupiah
-                    Seratus Juta Rupiah Seratus Juta Rupiah
-                    Seratus Juta Rupiah
                 </span>
             </div>
         </div>
@@ -315,17 +315,7 @@
                         <th class="col-sm-9 col-xs-9 td-center">Description</th>
                         <th class="col-sm-2 col-xs-2 td-center">Amount</th>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="td-center">1</td>
-                            <td>Biaya Media Placement</td>
-                            <td class="td-amount">100,000,000</td>
-                        </tr>
-                        <tr>
-                            <td class="td-center">2</td>
-                            <td>Pajak Reklame</td>
-                            <td class="td-amount">1,000,000</td>
-                        </tr>
+                    <tbody id="tb_content">
                     </tbody>
                 </table>
             </div>
@@ -337,10 +327,10 @@
         </div>
         <div class="col-sm-10 col-xs-10">
             <label class="font-pr">: </label>
-            <span class="font-txt">
-                FREE 1x Cetak Visual dan 1x Pemasangan<br>
-                Tahap 1 50% Setelah Approval, Tahap 2 50% Setelah BAPP
-            </span>
+            <br>
+            <span class="font-txt" name="print_apprrecov"></span>
+            <br>
+            <p class="font-txt" id="pcontent"></p>
         </div>
     </div>
     <div class="row top-row">
@@ -626,7 +616,8 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
+                    pick_spelledtotal(data.APPR_TOT_INCOME);
                     $('[name="appr_id"]').val(data.APPR_ID);
                     pick_cust(data.CUST_ID);
                     $('[name="print_apprcode"]').text(data.APPR_CODE);
@@ -639,23 +630,19 @@
                     $('[name="print_apprcontract"]').text(ctr);
                     $('[name="print_apprvis"]').text(data.APPR_VISUAL);
                     $('[name="print_apprdpp"]').text(money_conv(data.APPR_DPP_INCOME));
-                    $('[name="print_apprdiscperc1"]').text(data.APPR_DISC_PERC1);
+                    $('[name="print_apprdiscperc1"]').text(data.APPR_DISC_PERC1+'%');
                     $('[name="print_apprdiscsum1"]').text(money_conv(data.APPR_DISC_SUM1));
-                    $('[name="print_apprdiscperc2"]').text(data.APPR_DISC_PERC2);
+                    $('[name="print_apprdiscperc2"]').text(data.APPR_DISC_PERC2+'%');
                     $('[name="print_apprdiscsum2"]').text(money_conv(data.APPR_DISC_SUM2));
-                    // var sub1 = (data.APPR_DPP_INCOME*1) - (data.APPR_DISC_SUM1*1) - (data.APPR_DISC_SUM2*1);
-                    $('[name="print_apprdppafterdisc"]').text(money_conv(data.APPR_SUB_DISC));
-                    $('[name="print_apprppnperc"]').text(money_conv(data.APPR_PPN_PERC));
-                    $('[name="appr_ppnn"]').text(data.APPR_PPN_SUM);                    
-                    // var pajak = $('[name="pajak"]').val();
-                    $('[name="appr_pajak"]').text(data.APPR_BBTAX);
-                    // var sub2 = (sub1*1) + (data.APPR_PPN_SUM*1) + (data.APPR_SUB_INCOME);
-                    $('[name="appr_sub2"]').text(data.APPR_SUB_PPN);
-                    $('[name="appr_pphp"]').text(data.APPR_PPH_PERC);
-                    $('[name="appr_pphn"]').text(data.APPR_PPH_SUM);
-                    // var sub3 = (sub2*1) - (data.APPR_PPH_SUM*1);
-                    $('[name="appr_sub3"]').text(data.APPR_TOT_INCOME);
-                    $('[name="appr_reco"]').text(data.APPR_RECOV);
+                    $('[name="print_apprdppafterdisc"]').text(money_conv(data.APPR_SUB_DSC));
+                    $('[name="print_apprppnperc"]').text(data.APPR_PPN_PERC+'%');
+                    $('[name="print_apprppnsum"]').text(money_conv(data.APPR_PPN_SUM));
+                    $('[name="print_apprbbtax"]').text(money_conv(data.APPR_BBTAX));
+                    $('[name="print_apprdppaftertax1"]').text(money_conv(data.APPR_SUB_PPN));
+                    $('[name="print_apprpphperc"]').text(data.APPR_PPH_PERC+'%');
+                    $('[name="print_apprpphsum"]').text(money_conv(data.APPR_PPH_SUM));
+                    $('[name="print_apprgrandtotal"]').text(money_conv(data.APPR_TOT_INCOME));
+                    $('[name="print_apprrecov"]').text(data.APPR_RECOV);                    
                     pick_getappcost(id);
                     pick_getappterm(id);                    
                 },
@@ -712,9 +699,9 @@
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td>').text(i+1),                            
-                            $('<td>').css('text-align','center').text(data[i]["CSTDT_CODE"]),
-                            $('<td>').css('text-align','right').text(data[i]["CSTDT_AMOUNT"])
+                            $('<td>').css('text-align','center').text(i+1),                            
+                            $('<td>').css('text-align','left').text(data[i]["CSTDT_CODE"]),
+                            $('<td>').css('text-align','right').text(money_conv(data[i]["CSTDT_AMOUNT"]))
                             ).appendTo('#tb_content');
                     }                   
                 },
@@ -747,6 +734,23 @@
                         }
                     }
                     $('<span>').text(all).appendTo('#pcontent');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_spelledtotal(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/get_numbsp/')?>" + v,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="print_apprterbilang"]').text(data.terbilang+' Rupiah');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

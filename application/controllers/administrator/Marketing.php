@@ -859,6 +859,12 @@
 			echo json_encode($data);
 		}
 
+		public function get_numbsp($value)
+		{
+			$data['terbilang'] = $this->gen->number_conv($value);
+			echo json_encode($data);
+		}
+
 		//Get DPP
 		public function get_subcost($id)
 		{
