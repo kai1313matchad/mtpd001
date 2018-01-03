@@ -12,6 +12,10 @@
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 		    $this->load->model('datatables/Dt_srchbank','srch_bank');
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
+		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
+		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
+		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
+
 		}
 
 		public function index()
@@ -193,6 +197,60 @@
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
 			$this->load->view('menu/administrator/finance/fin_/km_print',$data);
+		}
+
+		public function print_kk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_kk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_kk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/kk_print',$data);
+		}
+
+		public function print_bm()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bm';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_bm($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bm_print',$data);
+		}
+
+		public function print_bk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_bk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bk_print',$data);
 		}
 
 		public function ajax_pick_acc($id)
@@ -724,6 +782,147 @@
 		public function ajax_pick_sum_km($id)
 		{
 			$data = $this->crud->sub_km($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_kk()
+		{
+			$list = $this->srch_kk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSHO_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSHO_DATE;				
+				$row[] = $dat->CSHO_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_kk('."'".$dat->CSHO_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_kk->count_all(),
+							"recordsFiltered" => $this->srch_kk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_kk($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_out',array('CSHO_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_pick_kkdet($id)
+		{
+			$data = $this->crud->get_by_id3('cashout_det','chart_of_account','trx_cash_out',array('cashout_det.CSHO_ID' => $id),'chart_of_account.COA_ID=cashout_det.COA_ID','cashout_det.CSHO_ID=trx_cash_out.CSHO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_kk($id)
+		{
+			$data = $this->crud->sub_kk($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_bm()
+		{
+			$list = $this->srch_bm->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNK_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->BNK_DATE;				
+				$row[] = $dat->BNK_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bm('."'".$dat->BNK_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_bm->count_all(),
+							"recordsFiltered" => $this->srch_bm->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_bm($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankin',array('BNK_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_bmdet($id)
+		{
+			$data = $this->crud->get_by_id3('bankin_det','chart_of_account','trx_bankin',array('bankin_det.BNK_ID' => $id),'chart_of_account.COA_ID=bankin_det.COA_ID','bankin_det.BNK_ID=trx_bankin.BNK_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bmtrxdet($id)
+		{
+			$data = $this->crud->get_by_id2('trx_bankin','bankin_trxdet',array('trx_bankin.BNK_ID' => $id),'trx_bankin.BNK_ID = bankin_trxdet.BNK_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_bm($id)
+		{
+			$data = $this->crud->sub_bm($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_bk()
+		{
+			$list = $this->srch_bk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKO_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->BNKO_DATE;				
+				$row[] = $dat->BNKO_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bk('."'".$dat->BNKO_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_bk->count_all(),
+							"recordsFiltered" => $this->srch_bk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_bk($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankout',array('BNKO_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_bkdet($id)
+		{
+			$data = $this->crud->get_by_id3('bankout_det','chart_of_account','trx_bankout',array('bankout_det.BNKO_ID' => $id),'chart_of_account.COA_ID=bankout_det.COA_ID','bankout_det.BNKO_ID=trx_bankout.BNKO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bktrxdet($id)
+		{
+			$data = $this->crud->get_by_id2('trx_bankout','bankout_trxdet',array('trx_bankout.BNKO_ID' => $id),'trx_bankout.BNKO_ID = bankout_trxdet.BNKO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_bk($id)
+		{
+			$data = $this->crud->sub_bk($id);
         	echo json_encode($data);
         }
 

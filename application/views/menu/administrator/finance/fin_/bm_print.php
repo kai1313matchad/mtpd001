@@ -59,13 +59,13 @@
 <body>
     <page size="A4">
     <div id="ygdiprint">
-        <input type="hidden" name="km_id" value="<?php echo $id;?>">
+        <input type="hidden" name="bm_id" value="<?php echo $id;?>">
         <input type="hidden" name="cust_id" value="<?php echo $id;?>">
         <div class="container-fluid">                
             <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
             <div class="text-center">
-                        <h3><strong><u>BUKTI KAS MASUK</u></strong></h3>
-                        <h3 style="margin-top:-10px">No.<span name="no_km"></span></h3>
+                        <h3><strong><u>BUKTI BANK MASUK</u></strong></h3>
+                        <h3 style="margin-top:-10px">No.<span name="no_bm"></span></h3>
                     </div>
                     <hr>
                     <div class="row">
@@ -85,15 +85,15 @@
                         <div class="col-xs-4">
                             <address>
                                 <strong>Kepada :</strong><br>
-                                <span name="kas_custname"></span><br>
-                                <span name="kas_custaddr"></span>&nbsp;<span name="kas_custcity"></span><br>
-                                <span name="kas_custphone"></span><br>
-                                <span name="kas_custinfo"></span>
+                                <span name="bank_custname"></span><br>
+                                <span name="bank_custaddr"></span>&nbsp;<span name="bank_custcity"></span><br>
+                                <span name="bank_custphone"></span><br>
+                                <span name="bank_custinfo"></span>
                             </address>
                         </div>
                         <div class="col-xs-4">
                             <address>
-                                <span>Tanggal :</span>&nbsp;<span name="kas_tgl"></span> 
+                                <span>Tanggal :</span>&nbsp;<span name="bank_tgl"></span> 
                                 <!-- <strong>Info:</strong><br> 
                                 Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
                                 <span name="km_info"></span> -->
@@ -108,11 +108,14 @@
                                 </div> -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <input type="hidden" name="kas_total">
-                                        <input type="hidden" name="kas_info">
-                                        <input type="hidden" name="kas_terbilang">
+                                        <input type="hidden" name="BNKTRX_NUM">
+                                        <input type="hidden" name="BNKTRX_DATE">
+                                        <input type="hidden" name="BNKTRX_AMOUNT">
+                                        <input type="hidden" name="bank_total">
+                                        <input type="hidden" name="bank_info">
+                                        <input type="hidden" name=bank_terbilang">
                                         <input type="hidden" name="curr_name">
-                                        <table id="tb_km" class="table table-condensed">
+                                        <table id="tb_bm" class="table table-condensed">
                                             <thead>
                                                 <tr>
                                                     <th class="col-sm-1 col-xs-1">Perkiraan</th>
@@ -139,13 +142,13 @@
                                              Mengetahui
                                         </div>
                                         <div class="col-xs-2 text-center">
-                                             Menyetujui
+                                             Disetujui
                                         </div>
                                         <div class="col-xs-2 text-center">
-                                             Kasir
+                                             Dibuat
                                         </div>
                                         <div class="col-xs-3 text-center">
-                                             Yang Menyerahkan
+                                             Diterima
                                         </div>
                                     </div>   
                                     <br><br><br>
@@ -165,7 +168,7 @@
                                         <div class="col-xs-3 text-center">
                                                (.................)
                                         </div>
-                                    </div>                                
+                                    </div>                               
                                 </div>
                             </div>
                         </div>
@@ -196,9 +199,9 @@
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
-            id=$('[name="km_id"]').val();            
+            id=$('[name="bm_id"]').val();            
             prc = 0; qty = 0; sub = 0;
-            pick_km(id);
+            pick_bm(id);
             
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
@@ -208,7 +211,7 @@
         function dtable()
         {
             //datatables        
-            table = $('#dtb_km').DataTable({
+            table = $('#dtb_bm').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -217,7 +220,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_printkm')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_printbm')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -231,34 +234,112 @@
         }
 
 
-        function pick_km(id)
+        function pick_bm(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_km/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bm/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="km_id"]').val(data.CSH_ID);
-                    $('[name="km_code"]').val(data.CSH_CODE);
-                    $('[name="no_km"]').text(data.CSH_CODE);
-                    $('[name="kas_tgl"]').text(data.CSH_DATE);
-                    $('[name="kas_info"]').val(data.CSH_INFO);
+                    $('[name="bm_id"]').val(data.BNK_ID);
+                    $('[name="bm_code"]').val(data.BNK_CODE);
+                    $('[name="no_bm"]').text(data.BNK_CODE);
+                    $('[name="no_bm"]').text(data.BNK_CODE);
+                    $('[name="bank_tgl"]').text(data.BNK_DATE);
+                    $('[name="bank_info"]').val(data.BNK_INFO);
                     // $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="cust_id"]').val(data.CUST_ID);
-                    $('[name="pass"]').text(data.CSH_ID);
-                    pick_cust($('[name="cust_id"]').val());
-                    pick_sum_total_km($('[name="km_id"]').val());
+                    $('[name="pass"]').text(data.BNK_ID);
+                    if (($('[name="cust_id"]').val()) != ''){
+                         pick_cust($('[name="cust_id"]').val());
+                    }
+                    pick_sum_total_bm($('[name="bm_id"]').val());
                     pick_curr(data.CURR_ID);
-                    
+                    pick_bmtrxdet($('[name="bm_id"]').val()); 
+                    pick_bmdet($('[name="bm_id"]').val());       
+                     
                     // pick_kmdet($('[name="km_id"]').val());
-                    // pick_terbilang_total_km($('[name="kas_total"]').val());                    
                     // if(data.APPR_ID != null)
                     // {
                     //     pick_appr($('[name="appr_id"]').val());
                     // }
-                    // $('#modal_km').modal('hide');
+                    $('#modal_bm').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_bmdet(id)
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bmdet/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                       
+                    var total= $('[name="bank_total"]').val();
+                    var info = $('[name="bank_info"]').val();
+                    var curr = $('[name="curr_name"]').val();
+                    var terbi = $('[name="bank_terbilang"]').val() + ' ' + curr;
+                    for (var i = 0; i < data.length; i++) {
+                      var $tr = $('<tr>').append(
+                            $('<td>').text(data[i]["COA_ACC"]),
+                            $('<td>').text(data[i]["BNKDET_INFO"]),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNKDET_AMOUNT"],".",",",2))
+                            // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
+                            ).appendTo('#tb_content');
+                    };
+                    
+                    var trxnum = $('[name="BNKTRX_NUM"]').val();
+                    var trxdate = moment($('[name="BNKTRX_DATE"]').val()).format('DD/MM/YY');
+                    var trxamount = $('[name="BNKTRX_AMOUNT"]').val();
+                    // alert($('[name="BNKTRX_AMOUNT"]').val());
+                    var $tr = $('<tr>').append(
+                            $('<td>').text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(trxnum + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + trxdate + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + formatCurrency(trxamount,".",",",2)),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            ).appendTo('#tb_content');
+                    var $tr = $('<tr>').append(
+                            $('<td>').css('border-top','2px solid').text(''),
+                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
+                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",".",2))
+                            ).appendTo('#tb_content');
+                    var $tr = $('<tr>').append(
+                            $('<td>').text('Keterangan :'),
+                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(info),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            ).appendTo('#tb_content');
+                    var $tr = $('<tr>').append(
+                            $('<td>').text('Terbilang :'),
+                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            ).appendTo('#tb_content');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_bmtrxdet(id)
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bmtrxdet/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                { 
+                   $('[name="BNKTRX_NUM"]').val(data.BNKTRX_NUM); 
+                   $('[name="BNKTRX_DATE"]').val(data.BNKTRX_DATE); 
+                   $('[name="BNKTRX_AMOUNT"]').val(data.BNKTRX_AMOUNT);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -289,17 +370,17 @@
             });
         }
 
-        function pick_sum_total_km(id)
+        function pick_sum_total_bm(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_km/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_bm/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_total"]').val(data.SubTotal);
-                    pick_terbilang_total_km(data.SubTotal);
+                    $('[name="bank_total"]').val(data.SubTotal);
+                    pick_terbilang_total_bm(data.SubTotal);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -308,7 +389,7 @@
             });
         }
 
-        function pick_terbilang_total_km(total)
+        function pick_terbilang_total_bm(total)
         {
             //Ajax Load data from ajax
             $.ajax({
@@ -317,53 +398,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_terbilang"]').val(data.terbilang);
-                    pick_kmdet($('[name="km_id"]').val());                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-       function pick_kmdet(id)
-        {            
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_kmdet/')?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {                       
-                    var total= $('[name="kas_total"]').val();
-                    var info = $('[name="kas_info"]').val();
-                    var curr = $('[name="curr_name"]').val();
-                    var terbi = $('[name="kas_terbilang"]').val() + ' ' + curr;
-                    // var terbi = pick_terbilang_total_km(total);
-                    for (var i = 0; i < data.length; i++) {
-                      var $tr = $('<tr>').append(
-                            $('<td>').text(data[i]["COA_ACC"]),
-                            $('<td>').text(data[i]["CSHINDET_INFO"]),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHDETIN_AMOUNT"],".",",",2))
-                            // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
-                            ).appendTo('#tb_content');
-                    }
-                    var $tr = $('<tr>').append(
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))
-                            ).appendTo('#tb_content');
-                    var $tr = $('<tr>').append(
-                            $('<td>').text('Keterangan :'),
-                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(info),
-                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
-                            ).appendTo('#tb_content');
-                    var $tr = $('<tr>').append(
-                            $('<td>').text('Terbilang :'),
-                            $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
-                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
-                            ).appendTo('#tb_content');
+                    $('[name="bank_terbilang"]').val(data.terbilang);           
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

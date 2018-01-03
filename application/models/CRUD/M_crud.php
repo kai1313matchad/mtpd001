@@ -374,6 +374,33 @@
 	        return $query->row();
 		}
 
+		public function sub_kk($id)
+		{					
+			$this->db->select_sum('cashout_det.cshodet_amount', 'SubTotal');
+			$this->db->join('trx_cash_out','trx_cash_out.CSHO_ID = cashout_det.CSHO_ID');
+			$this->db->where('trx_cash_out.CSHO_ID',$id);
+			$query = $this->db->get('cashout_det');
+	        return $query->row();
+		}
+
+		public function sub_bm($id)
+		{					
+			$this->db->select_sum('bankin_det.bnkdet_amount', 'SubTotal');
+			$this->db->join('trx_bankin','trx_bankin.BNK_ID = bankin_det.BNK_ID');
+			$this->db->where('trx_bankin.BNK_ID',$id);
+			$query = $this->db->get('bankin_det');
+	        return $query->row();
+		}
+
+		public function sub_bk($id)
+		{					
+			$this->db->select_sum('bankout_det.BNKODET_AMOUNT', 'SubTotal');
+			$this->db->join('trx_bankout','trx_bankout.BNKO_ID = bankout_det.BNKO_ID');
+			$this->db->where('trx_bankout.BNKO_ID',$id);
+			$query = $this->db->get('bankout_det');
+	        return $query->row();
+		}
+
 		//add usage
 		public function add_usg()
 		{

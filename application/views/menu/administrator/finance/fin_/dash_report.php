@@ -26,7 +26,7 @@
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
                                     </a>
-                                    <a href="<?php echo base_url('administrator/Finance/print_laporan')?>">
+                                    <a href="<?php echo base_url('administrator/Finance/print_laporan_km')?>">
                                         <span class="pull-left">Laporan Kas Masuk</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
@@ -48,12 +48,12 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="<?php echo base_url('administrator/Marketing/print_bapp')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_kk')?>">
                                     <span class="pull-left">Cetak Kas Keluar</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </a>
-                                <a href="<?php echo base_url('administrator/Marketing/print_bapp')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_laporan_kk')?>">
                                 <!-- <div class="panel-footer"> -->
                                     <span class="pull-left">Laporan Kas Keluar</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -76,12 +76,12 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                    <a href="<?php echo base_url('administrator/Finance/print_bm')?>">
                                         <span class="pull-left">Cetak Bank Masuk</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
                                     </a>
-                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                    <a href="<?php echo base_url('administrator/Finance/print_laporan_bm')?>">
                                         <span class="pull-left">Laporan Bank Masuk</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
@@ -103,12 +103,12 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="<?php echo base_url('administrator/Marketing/print_bapp')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_bk')?>">
                                     <span class="pull-left">Cetak Bank Keluar</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </a>
-                                <a href="<?php echo base_url('administrator/Marketing/print_bapp')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_laporan_bk')?>">
                                 <!-- <div class="panel-footer"> -->
                                     <span class="pull-left">Laporan Bank Keluar</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

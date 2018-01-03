@@ -36,7 +36,7 @@
         }
         page[size="A4"] {  
           width: 21cm;
-          height: 14.85cm;
+          height: 14.85cm; 
         }
         page[size="A4"][layout="portrait"] {
           width: 29.7cm;
@@ -59,13 +59,13 @@
 <body>
     <page size="A4">
     <div id="ygdiprint">
-        <input type="hidden" name="km_id" value="<?php echo $id;?>">
-        <input type="hidden" name="cust_id" value="<?php echo $id;?>">
+        <input type="hidden" name="kk_id" value="<?php echo $id;?>">
+        <input type="hidden" name="supp_id" value="<?php echo $id;?>">
         <div class="container-fluid">                
             <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
             <div class="text-center">
-                        <h3><strong><u>BUKTI KAS MASUK</u></strong></h3>
-                        <h3 style="margin-top:-10px">No.<span name="no_km"></span></h3>
+                        <h3><strong><u>BUKTI KAS KELUAR</u></strong></h3>
+                        <h3 style="margin-top:-10px">No.<span name="no_kk"></span></h3>
                     </div>
                     <hr>
                     <div class="row">
@@ -85,10 +85,10 @@
                         <div class="col-xs-4">
                             <address>
                                 <strong>Kepada :</strong><br>
-                                <span name="kas_custname"></span><br>
-                                <span name="kas_custaddr"></span>&nbsp;<span name="kas_custcity"></span><br>
-                                <span name="kas_custphone"></span><br>
-                                <span name="kas_custinfo"></span>
+                                <span name="kas_suppname"></span><br>
+                                <span name="kas_suppaddr"></span>&nbsp;<span name="kas_suppcity"></span><br>
+                                <span name="kas_suppphone"></span><br>
+                                <span name="kas_suppinfo"></span>
                             </address>
                         </div>
                         <div class="col-xs-4">
@@ -165,7 +165,7 @@
                                         <div class="col-xs-3 text-center">
                                                (.................)
                                         </div>
-                                    </div>                                
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
@@ -196,9 +196,9 @@
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
-            id=$('[name="km_id"]').val();            
+            id=$('[name="kk_id"]').val();            
             prc = 0; qty = 0; sub = 0;
-            pick_km(id);
+            pick_kk(id); //load data kas yang akan dicetak
             
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
@@ -208,7 +208,7 @@
         function dtable()
         {
             //datatables        
-            table = $('#dtb_km').DataTable({
+            table = $('#dtb_kk').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -217,7 +217,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_printkm')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_printkk')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -231,25 +231,27 @@
         }
 
 
-        function pick_km(id)
+        function pick_kk(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_km/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_kk/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="km_id"]').val(data.CSH_ID);
-                    $('[name="km_code"]').val(data.CSH_CODE);
-                    $('[name="no_km"]').text(data.CSH_CODE);
-                    $('[name="kas_tgl"]').text(data.CSH_DATE);
-                    $('[name="kas_info"]').val(data.CSH_INFO);
+                    $('[name="kk_id"]').val(data.CSHO_ID);
+                    $('[name="kk_code"]').val(data.CSHO_CODE);
+                    $('[name="no_kk"]').text(data.CSHO_CODE);
+                    $('[name="kas_tgl"]').text(data.CSHO_DATE);
+                    $('[name="kas_info"]').val(data.CSHO_INFO);
                     // $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="cust_id"]').val(data.CUST_ID);
-                    $('[name="pass"]').text(data.CSH_ID);
-                    pick_cust($('[name="cust_id"]').val());
-                    pick_sum_total_km($('[name="km_id"]').val());
+                    $('[name="supp_id"]').val(data.CSHO_SUPP);
+                    $('[name="pass"]').text(data.CSHO_ID);
+                    if (($('[name="supp_id"]').val()) != ''){
+                         pick_supp($('[name="supp_id"]').val());
+                    }
+                    pick_sum_total_kk($('[name="kk_id"]').val());
                     pick_curr(data.CURR_ID);
                     
                     // pick_kmdet($('[name="km_id"]').val());
@@ -267,19 +269,19 @@
             });
         }
 
-        function pick_cust(id)
+        function pick_supp(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_custname"]').text(data.CUST_NAME);
-                    $('[name="kas_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="kas_custcity"]').text(data.CUST_CITY);
-                    $('[name="kas_custphone"]').text(data.CUST_PHONE);
+                    $('[name="kas_suppname"]').text(data.SUPP_NAME);
+                    $('[name="kas_suppaddr"]').text(data.SUPP_ADDRESS);
+                    $('[name="kas_suppcity"]').text(data.SUPP_CITY);
+                    $('[name="kas_suppphone"]').text(data.SUPP_PHONE);
                     // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -289,17 +291,17 @@
             });
         }
 
-        function pick_sum_total_km(id)
+        function pick_sum_total_kk(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_km/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_kk/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="kas_total"]').val(data.SubTotal);
-                    pick_terbilang_total_km(data.SubTotal);
+                    pick_terbilang_total_kk(data.SubTotal);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -308,7 +310,7 @@
             });
         }
 
-        function pick_terbilang_total_km(total)
+        function pick_terbilang_total_kk(total)
         {
             //Ajax Load data from ajax
             $.ajax({
@@ -318,7 +320,7 @@
                 success: function(data)
                 {   
                     $('[name="kas_terbilang"]').val(data.terbilang);
-                    pick_kmdet($('[name="km_id"]').val());                    
+                    pick_kkdet($('[name="kk_id"]').val());                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -327,25 +329,30 @@
             });
         }
 
-       function pick_kmdet(id)
+       function pick_kkdet(id)
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_kmdet/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_kkdet/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {                       
                     var total= $('[name="kas_total"]').val();
+                    if (total == '') {
+                        total=0;
+                    }
                     var info = $('[name="kas_info"]').val();
                     var curr = $('[name="curr_name"]').val();
-                    var terbi = $('[name="kas_terbilang"]').val() + ' ' + curr;
+                    if (total > 0) {
+                        var terbi = $('[name="kas_terbilang"]').val() + ' ' + curr;
+                    }
                     // var terbi = pick_terbilang_total_km(total);
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
                             $('<td>').text(data[i]["COA_ACC"]),
-                            $('<td>').text(data[i]["CSHINDET_INFO"]),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHDETIN_AMOUNT"],".",",",2))
+                            $('<td>').text(data[i]["CSHODET_INFO"]),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHODET_AMOUNT"],".",",",2))
                             // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
                             ).appendTo('#tb_content');
                     }
