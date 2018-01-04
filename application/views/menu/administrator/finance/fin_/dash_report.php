@@ -133,12 +133,12 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                    <a href="<?php echo base_url('administrator/Finance/print_gm')?>">
                                         <span class="pull-left">Cetak Giro Masuk</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>
                                     </a>
-                                    <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                                    <a href="<?php echo base_url('administrator/Marketing/print_laporan_gm')?>">
                                         <span class="pull-left">Laporan Giro Masuk</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                         <div class="clearfix"></div>

@@ -15,7 +15,8 @@
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
 		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
-
+            $this->load->model('datatables/search/Dt_srchgiroin','srch_gm');
+            $this->load->model('datatables/search/Dt_srchgiroinrec','srch_gmrec');
 		}
 
 		public function index()
@@ -251,6 +252,24 @@
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
 			$this->load->view('menu/administrator/finance/fin_/bk_print',$data);
+		}
+
+        public function print_gm()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_gm';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_gm($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/gm_print',$data);
 		}
 
 		public function ajax_pick_acc($id)
@@ -549,6 +568,17 @@
                     'BNKTRX_AMOUNT' => $this->input->post('nominal1')
                 );
             $update = $this->crud->save('bankin_trxdet',$data);
+
+            // $id = $this->input->post('bank_id');
+            // $dt = $this->crud->get_by_id('bankin_trxdet',array('BNK_ID' => $id));
+            $bnktrx= $this->db->insert_id();
+            $type = $this->input->post('bank_type1');
+            if ($type=='G'){
+                $giro = array( 
+            	    'BNKTRX_ID' => $bnktrx
+                    );
+            }
+            $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -611,6 +641,14 @@
                     'BNKTRXO_AMOUNT' => $this->input->post('nominal1')
                 );
             $update = $this->crud->save('bankout_trxdet',$data);
+            $bnktrx= $this->db->insert_id();
+            $type = $this->input->post('bank_type1');
+            if ($type=='G'){
+                $giro = array( 
+            	    'BNKTRXO_ID' => $bnktrx
+                    );
+            }
+            $simpan_giroin_record = $this->crud->save('giroout_record',$giro);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -675,7 +713,7 @@
                     // 'COA_ID' => $this->input->post('acc_id_detail'),
                     // 'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'GRINDET_DATE' => $this->input->post('tgl_giro'),
-                    'GRINDET_CODE' => $this->input->post('giro_nomor'),
+                    'GRINDET_CODE' => $this->input->post('nomor_giro'),
                     'GRINDET_AMOUNT' => $this->input->post('nominal')
                 );
             $update = $this->crud->save('giroin_det',$data);
@@ -925,6 +963,67 @@
 			$data = $this->crud->sub_bk($id);
         	echo json_encode($data);
         }
+
+        public function ajax_srch_gm()
+		{
+			$list = $this->srch_gm->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GRIN_CODE;
+				// $row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->GRIN_DATE;				
+				$row[] = $dat->GRIN_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_gm('."'".$dat->GRIN_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gm->count_all(),
+							"recordsFiltered" => $this->srch_gm->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_gm($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_in',array('GRIN_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_gmdet($id)
+		{
+			$data = $this->crud->get_by_id3('giroin_det','giroin_record','trx_giro_in',array('giroin_det.GRIN_ID' => $id),'giroin_record.GIR_ID=giroin_det.GIR_ID','giroin_det.GRIN_ID=trx_giro_in.GRIN_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_gm($id)
+		{
+			$data = $this->crud->sub_gm($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_pick_giroin_record($id)
+		{
+			$data = $this->crud->get_by_id('giroin_record',array('GIR_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bankin_trxdet($id)
+		{
+			$data = $this->crud->get_by_id('bankin_trxdet',array('BNKTRX_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_trx_bankin($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankin',array('BNK_ID' => $id));
+        	echo json_encode($data);
+		}
 
         //Fungsi Halaman Invoice
 		public function get_apprterm($id)

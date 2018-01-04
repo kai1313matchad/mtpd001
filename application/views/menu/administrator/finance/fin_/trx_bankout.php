@@ -77,9 +77,10 @@
                                             <input type="text" class="form-control" name="bank_kode" readonly>
                                         </div>
                                         <div class="col-sm-1">
+                                            <!-- <button type="button" class="btn btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span> Cari</button> -->
                                             <button type="button" class="btn btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input type="hidden" value='9' class="form-control" name="bank_id">
+                                        <input type="hidden" value='9' class="form-control" name="kode_bank">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Acc </label>
@@ -130,7 +131,7 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_dept()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input type="hidden" value='9' class="form-control" name="bank_id">
+                                        <!-- <input type="hidden" value='9' class="form-control" name="bank_id"> -->
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">No. Anggaran</label>
@@ -417,29 +418,10 @@
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
+                                        <th>Kode Account</th>
                                         <th>Pilih</th>
                                     </tr>
-                                </thead>
-                                        
-                                <?php 
-                                $i=1;
-                                 foreach($bank as $c){ 
-                                ?>
-                                    
-                                    <tr>
-                                        <form action="" method="post">
-                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
-                                              
-                                              <td><center><?php echo $i++ ?></center></td>
-                                              <td><center><?php echo $c->BANK_CODE; ?></center></td>
-                                              <td><center><?php echo $c->BANK_NAME; ?></center></td>
-                                              <td><center>
-                                        <button type="button" onclick="edit_bank('<?php echo $c->BANK_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
-                                    </center></td>                     
-                                        </form>
-                                    </tr> 
-                                
-                                <?php } ?> 
+                                </thead> 
                             </table>
                         </div>
                         </div>
@@ -684,6 +666,50 @@ $(document).ready(function() {
         });
     }
 
+    function srch_bank()
+        {
+            $('#modal_bank').modal('show');
+            $('.modal-title').text('Cari Bank');            
+            table = $('#dtb_bank').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_bank')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_bank(id)
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {   
+                $('[name="bank_kode"]').val(data.BANK_CODE);
+                // $('[name="bank_nama_bank"]').val(data.BANK_NAME);
+                $('[name="kode_bank"]').val(data.BANK_ID);
+                // pick_acc(data.COA_ID);
+                $('#modal_bank').modal('hide');                 
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
         function add_gd(t)
     {        
         // save_method = 'add';
@@ -943,48 +969,6 @@ $(document).ready(function() {
             });
         }
 
-    function srch_bank()
-        {
-            $('#modal_bank').modal('show');
-            $('.modal-title').text('Cari Kode Bank');            
-            table = $('#dtb_bank').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_bank')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
-
-    function pick_bank(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="bank_kode"]').val(data.BANK_CODE);
-                $('[name="bank_id"]').val(data.BANK_ID);
-                $('#modal_bank').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
     function save_bank_out()
         {            
             $.ajax({
