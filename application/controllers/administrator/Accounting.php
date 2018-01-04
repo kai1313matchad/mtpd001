@@ -38,6 +38,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function ledger_acc()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='ledger';
+			$data['isi']='menu/administrator/accounting/acc_ledger';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		//CRUD
 		public function add_joudet()
 		{

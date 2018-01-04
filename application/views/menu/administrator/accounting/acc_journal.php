@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Accounting - Jurnal Umum</h1>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="row">
                     <ul class="nav nav-tabs">
@@ -121,7 +121,7 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <a href="javascript:void(0)" onclick="new_jou()" class="btn btn-block btn-primary">
-                                            <span class="glyphicon glyphicon-print"> Print</span>
+                                            <span class="glyphicon glyphicon-new-window"> Baru</span>
                                         </a>
                                     </div>
                                 </div>
@@ -305,6 +305,11 @@
         function clean_()
         {
             $('input').val('');
+            $('textarea').val('');
+            $('[name="jou_id"]').val('0');
+            $('[name="jou_branchid"]').val('0');
+            $('[name="jou_date"]').val('<?= date('Y-m-d')?>');
+            drop_coa();
         }
     </script>
     <!-- Showdata -->
