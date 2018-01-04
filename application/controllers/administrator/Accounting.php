@@ -20,12 +20,12 @@
 
 		public function gen_journal()		
 		{
-			$gen = $this->gen->gen_numjou();
-			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['jou_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'JOU/1712/000001';
-			// $data['status'] = TRUE;
+			// $gen = $this->gen->gen_numjou();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['jou_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'JOU/1801/000001';
+			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 

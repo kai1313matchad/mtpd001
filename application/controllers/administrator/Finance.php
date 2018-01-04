@@ -1025,6 +1025,18 @@
         	echo json_encode($data);
 		}
 
+        public function show_gmdet($id)
+        {
+        	$this->db->from('giroin_det a');
+        	$this->db->join('giroin_record b','b.gir_id = a.gir_id');
+        	$this->db->join('bankin_trxdet c','c.bnktrx_id = b.bnktrx_id');
+        	$this->db->join('trx_bankin d','d.bnk_id = c.bnk_id');
+        	$this->db->join('master_customer e','e.cust_id = d.cust_id');
+        	$this->db->where('a.grin_id',$id);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        }
+
         //Fungsi Halaman Invoice
 		public function get_apprterm($id)
 		{
