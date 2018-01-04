@@ -1,11 +1,11 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_journaladd extends CI_Model 
+	class Dt_journaldet extends CI_Model 
 	{
 
 		var $table = 'account_journal a';
-		var $column_order = array(null,'coa_acc','coa_accname');
-		var $column_search = array('coa_acc','coa_accname');
+		var $column_order = array(null,'coa_acc','coa_accname','jou_info','joudet_debit','joudet_credit');
+		var $column_search = array('coa_acc','coa_accname','jou_info','joudet_debit','joudet_credit');
 		var $order = array('a.jou_id' => 'desc');
 		public function __construct()
 		{
@@ -13,8 +13,9 @@
 		}
 		private function _get_datatables_query()
 		{		
-			$this->db->from($this->table);
-			$this->db->where('bank_dtsts','1');
+			$this->db->join('jou_details b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+			$this->db->from($this->table);			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

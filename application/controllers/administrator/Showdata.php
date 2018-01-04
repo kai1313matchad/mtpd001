@@ -17,6 +17,7 @@
 			$this->load->model('datatables/showdata/Dt_giroindet','giroin_det');
 			$this->load->model('datatables/showdata/Dt_girooutdet','giroout_det');
 			$this->load->model('datatables/showdata/Dt_invdet','invoice_det');
+			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
 		}
 
 		public function index()
@@ -334,6 +335,33 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->invoice_det->count_all(),
 							"recordsFiltered" => $this->invoice_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Journal
+		public function showdetail_journal($id)
+		{
+			$list = $this->jou_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->JOU_INFO;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_joudet('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->jou_det->count_all(),
+							"recordsFiltered" => $this->jou_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

@@ -29,7 +29,7 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="jou_code" readonly>
-                                        <input type="hidden" name="jou_id">
+                                        <input type="hidden" name="jou_id" value="0">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-11 col-xs-11 table-responsive">
-                                        <table id="dtb_biaya" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <table id="dtb_journaldet" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center">
@@ -163,5 +163,35 @@
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <script>
+        $(document).ready(function()
+        {
+            dt_journaldet($('[name="jou_id"]').val());
+        });
+    </script>
+    <!-- Showdata -->
+    <script>
+        function dt_journaldet(id)
+        {            
+            table = $('#dtb_journaldet').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_journal/')?>"+id,
+                    "type": "POST",
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+    </script>
 </body>
 </html>
