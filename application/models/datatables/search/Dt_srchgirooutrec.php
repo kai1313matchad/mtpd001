@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchgiroinrec extends CI_Model 
+	class Dt_srchgirooutrec extends CI_Model 
 	{
 
 		var $table = 'giroout_record a';

@@ -225,7 +225,7 @@
 	    	$data = array(
 	                'user_dtsts' => '0'
 	            );
-	    	$update = $this->crud->update('master_user',$data,array('user_id' => $id) );	    	
+	    	$update = $this->crud->update('master_user',$data,array('user_id' => $id) );
         	echo json_encode(array("status" => TRUE));
 	    }
 

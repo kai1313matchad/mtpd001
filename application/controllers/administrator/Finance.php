@@ -1065,6 +1065,7 @@
         	$res = $this->db->get();
         	$data = $res->result();
         	echo json_encode($data);
+        	$data = $res->result();
         }
 
         //Fungsi Halaman Invoice

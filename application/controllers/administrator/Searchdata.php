@@ -365,7 +365,7 @@
 			foreach ($list as $dat) {
 				$no++;
 				$row = array();
-				$row[] = $no;				
+				$row[] = $no;
 				$row[] = $dat->BNKTRX_CODE;
 				$row[] = $dat->BNKTRX_DATE;
 				$row[] = $dat->GIR_LIQSTS;
@@ -392,7 +392,7 @@
 			foreach ($list as $dat) {
 				$no++;
 				$row = array();
-				$row[] = $no;				
+				$row[] = $no;
 				$row[] = $dat->BNKTRXO_CODE;
 				$row[] = $dat->BNKTRXO_DATE;
 				$row[] = $dat->GIR_LIQSTS;
