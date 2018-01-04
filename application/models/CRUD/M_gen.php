@@ -238,7 +238,7 @@
 		}
 
 		//Gen Nomor Journal
-		public function gen_numinvo()
+		public function gen_numjou()
 		{
 			$res = $this->gen_num_('account_journal','jou_code','JOU');
 			$check = $this->db->get_where('account_journal',array('jou_code' => $res));

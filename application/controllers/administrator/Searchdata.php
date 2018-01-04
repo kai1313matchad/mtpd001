@@ -18,6 +18,8 @@
 			$this->load->model('datatables/search/Dt_srchbankout','s_bankout');
 			$this->load->model('datatables/search/Dt_srchgiroin','s_giroin');
 			$this->load->model('datatables/search/Dt_srchgiroout','s_giroout');
+			$this->load->model('datatables/search/Dt_srchgiroinrec','s_giroinrec');
+			$this->load->model('datatables/search/Dt_srchgirooutrec','s_girooutrec');
 		}
 
 		public function index()
@@ -349,6 +351,58 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->s_giroout->count_all(),
 							"recordsFiltered" => $this->s_giroout->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Record Giro Masuk
+		public function srch_giroinrec()
+		{
+			$list = $this->s_giroinrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->BNKTRX_CODE;
+				$row[] = $dat->BNKTRX_DATE;
+				$row[] = $dat->GIR_LIQSTS;
+				$row[] = $dat->GIR_BLCSTS;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroinrec('."'".$dat->GIR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_giroinrec->count_all(),
+							"recordsFiltered" => $this->s_giroinrec->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Record Giro Keluar
+		public function srch_girooutrec()
+		{
+			$list = $this->s_girooutrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->BNKTRXO_CODE;
+				$row[] = $dat->BNKTRXO_DATE;
+				$row[] = $dat->GIR_LIQSTS;
+				$row[] = $dat->GIR_BLCSTS;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_girooutrec('."'".$dat->GOR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_girooutrec->count_all(),
+							"recordsFiltered" => $this->s_girooutrec->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
