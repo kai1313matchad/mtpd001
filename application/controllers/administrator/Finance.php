@@ -437,6 +437,29 @@
 			echo json_encode($output);
 		}
 
+        public function ajax_srch_giroin()
+		{
+			$list = $this->srch_gmrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKTRX_NUM;
+				$row[] = $dat->BNKTRX_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroin('."'".$dat->BNKTRX_NUM."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gmrec->count_all(),
+							"recordsFiltered" => $this->srch_gmrec->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_simpan_cash_in()
 		{
 			// $appr = null;
@@ -1013,6 +1036,12 @@
         	echo json_encode($data);
 		}
 
+		public function ajax_pick_giroin($id)
+		{
+			$data = $this->crud->get_by_id('giroin_det',array('GRINDET_CODE' => $id));
+        	echo json_encode($data);
+		}
+
 		public function ajax_pick_bankin_trxdet($id)
 		{
 			$data = $this->crud->get_by_id('bankin_trxdet',array('BNKTRX_ID' => $id));
@@ -1035,6 +1064,7 @@
         	$this->db->where('a.grin_id',$id);
         	$res = $this->db->get();
         	$data = $res->result();
+        	echo json_encode($data);
         }
 
         //Fungsi Halaman Invoice
