@@ -401,6 +401,15 @@
 	        return $query->row();
 		}
 
+		public function sub_gm($id)
+		{					
+			$this->db->select_sum('giroin_det.grindet_amount', 'SubTotal');
+			$this->db->join('trx_giro_in','trx_giro_in.GRIN_ID = giroin_det.GRIN_ID');
+			$this->db->where('trx_giro_in.GRIN_ID',$id);
+			$query = $this->db->get('giroin_det');
+	        return $query->row();
+		}
+
 		//add usage
 		public function add_usg()
 		{
