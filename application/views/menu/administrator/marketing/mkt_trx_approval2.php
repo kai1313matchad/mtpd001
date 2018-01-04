@@ -963,7 +963,6 @@
             ijinapp(id);
             termapp(id);
             costapp(id);
-            
     	});
 
     	function inputchg()

@@ -56,25 +56,29 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">Akun Debet</label>
-                                    <div class="col-sm-4">
-                                        <select class="form-control text-center" name="jou_accdebet" id="jou_accdebet" data-live-search="true">
+                                    <label class="col-sm-3 control-label">Nomor Rekening</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control text-center" name="jou_accdet" id="jou_accdet" data-live-search="true">
                                         </select>
-                                        <input type="hidden" name="jou_accdebetcode">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="form-control curr-num" name="jou_accdebetsum">
-                                        </div>                                        
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <a href="javascript:void(0)" onclick="add_joudebet()" class="btn btn-sm btn-primary">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        <input type="hidden" name="jou_coaid" value="0">
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label">Nominal Rekening</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="form-control curr-num" name="jou_accdebetsum">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input type="text" class="form-control curr-num" name="jou_acccreditsum">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
                                     <label class="col-sm-3 control-label">Akun Kredit</label>
                                     <div class="col-sm-4">
                                         <select class="form-control text-center" name="jou_accdebet" id="jou_acccredit" data-live-search="true">
@@ -85,17 +89,22 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
                                             <input type="text" class="form-control curr-num" name="jou_acccreditsum">
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <a href="javascript:void(0)" onclick="add_joucredit()" class="btn btn-sm btn-primary">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-2">
-                                        <a href="javascript:void(0)" onclick="add_joucredit()" class="btn btn-sm btn-primary">
+                                        <a href="javascript:void(0)" onclick="add_joudet()" class="btn btn-block btn-primary">
+                                            <span class="glyphicon glyphicon-plus"> Tambah</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a href="javascript:void(0)" onclick="add_joucredit()" class="btn btn-block btn-primary">
                                             <span class="glyphicon glyphicon-print"> Print</span>
                                         </a>
                                     </div>
@@ -167,7 +176,28 @@
         $(document).ready(function()
         {
             dt_journaldet($('[name="jou_id"]').val());
+            $('#jou_accdet').selectpicker({});
         });
+
+        function gen_jou()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/gen_journal')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="jou_id"]').val(data.id);
+                    $('[name="jou_code"]').val(data.kode);
+                    $('#genbtn').attr('disabled',true);
+                    dt_journaldet(data.id);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Jurnal');
+                }
+            });
+        }
     </script>
     <!-- Showdata -->
     <script>

@@ -3,18 +3,19 @@
 	class Dt_journaldet extends CI_Model 
 	{
 
-		var $table = 'account_journal a';
+		var $table = 'jou_details a';
 		var $column_order = array(null,'coa_acc','coa_accname','jou_info','joudet_debit','joudet_credit');
 		var $column_search = array('coa_acc','coa_accname','jou_info','joudet_debit','joudet_credit');
-		var $order = array('a.jou_id' => 'desc');
+		var $order = array('a.joudet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id)
 		{		
-			$this->db->join('jou_details b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->where('a.jou_id',$id);
 			$this->db->from($this->table);			
 			$i = 0;
 			foreach ($this->column_search as $item)
@@ -46,17 +47,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
