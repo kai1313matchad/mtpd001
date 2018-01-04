@@ -935,7 +935,7 @@
         	$this->db->join('master_customer e','e.cust_id = d.cust_id');
         	$this->db->where('a.grin_id',$id);
         	$res = $this->db->get();
-        	$data = $res->result();
+        	$data = $res->result();        	
         }
 
         //Fungsi Halaman Invoice
