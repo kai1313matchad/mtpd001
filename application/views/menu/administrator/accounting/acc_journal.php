@@ -119,6 +119,11 @@
                                             <span class="glyphicon glyphicon-print"> Print</span>
                                         </a>
                                     </div>
+                                    <div class="col-sm-2">
+                                        <a href="javascript:void(0)" onclick="new_jou()" class="btn btn-block btn-primary">
+                                            <span class="glyphicon glyphicon-print"> Print</span>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-11 col-xs-11 table-responsive">
@@ -289,6 +294,17 @@
                     }
                 });
             }
+        }
+
+        function new_jou()
+        {
+            $('#genbtn').attr('disabled',false);
+            clean_();
+        }
+
+        function clean_()
+        {
+            $('input').val('');
         }
     </script>
     <!-- Showdata -->
