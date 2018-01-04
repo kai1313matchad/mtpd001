@@ -4,8 +4,8 @@
 	{
 
 		var $table = 'giroin_record a';
-		var $column_order = array(null,'bnktrx_code','bnktrx_date','gir_liqsts','gir_blcsts');
-		var $column_search = array('bnktrx_code','bnktrx_date','gir_liqsts','gir_blcsts');
+		var $column_order = array(null,'bnktrx_code','bnktrx_date','gir_liqsts','gir_blcsts','bnktrx_amount');
+		var $column_search = array('bnktrx_code','bnktrx_date','gir_liqsts','gir_blcsts','bnktrx_amount');
 		var $order = array('gir_id' => 'desc');
 		public function __construct()
 		{

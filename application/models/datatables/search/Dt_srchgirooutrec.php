@@ -4,8 +4,8 @@
 	{
 
 		var $table = 'giroout_record a';
-		var $column_order = array(null,'bnktrxo_code','bnktrxo_date','gor_liqsts','gor_blcsts');
-		var $column_search = array('bnktrxo_code','bnktrxo_date','gor_liqsts','gor_blcsts');
+		var $column_order = array(null,'bnktrxo_num','bnktrxo_date','gor_liqsts','gor_blcsts','bnktrxo_amount');
+		var $column_search = array('bnktrxo_num','bnktrxo_date','gor_liqsts','gor_blcsts','bnktrxo_amount');
 		var $order = array('gor_id' => 'desc');
 		public function __construct()
 		{

@@ -370,6 +370,7 @@
 				$row[] = $dat->BNKTRX_DATE;
 				$row[] = $dat->GIR_LIQSTS;
 				$row[] = $dat->GIR_BLCSTS;
+				$row[] = $dat->BNKTRX_AMOUNT;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroinrec('."'".$dat->GIR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 				$data[] = $row;
 			}
@@ -396,6 +397,7 @@
 				$row[] = $dat->BNKTRXO_DATE;
 				$row[] = $dat->GIR_LIQSTS;
 				$row[] = $dat->GIR_BLCSTS;
+				$row[] = $dat->BNKTRXO_AMOUNT;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_girooutrec('."'".$dat->GOR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 				$data[] = $row;
 			}
