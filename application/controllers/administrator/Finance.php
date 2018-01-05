@@ -17,6 +17,8 @@
 		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
             $this->load->model('datatables/search/Dt_srchgiroin','srch_gm');
             $this->load->model('datatables/search/Dt_srchgiroinrec','srch_gmrec');
+            $this->load->model('datatables/search/Dt_srchgiroout','srch_gk');
+            $this->load->model('datatables/search/Dt_srchgirooutrec','srch_gkrec');
 		}
 
 		public function index()
@@ -272,6 +274,24 @@
 			$this->load->view('menu/administrator/finance/fin_/gm_print',$data);
 		}
 
+		public function print_gk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_gk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_gk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/gk_print',$data);
+		}
+
 		public function ajax_pick_acc($id)
 		{
 			$data = $this->crud->get_by_id('chart_of_account',array('COA_ID' => $id));
@@ -455,6 +475,29 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_gmrec->count_all(),
 							"recordsFiltered" => $this->srch_gmrec->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_giroout()
+		{
+			$list = $this->srch_gkrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKTRXO_NUM;
+				$row[] = $dat->BNKTRXO_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroout('."'".$dat->BNKTRXO_NUM."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gkrec->count_all(),
+							"recordsFiltered" => $this->srch_gkrec->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -733,6 +776,7 @@
 		{
             $data = array(
                     'GRIN_ID' => $this->input->post('giro_id'),
+                    'GIR_ID' => $this->input->post('gir_id'),
                     // 'COA_ID' => $this->input->post('acc_id_detail'),
                     // 'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'GRINDET_DATE' => $this->input->post('tgl_giro'),
@@ -780,6 +824,7 @@
 		{
             $data = array(
                     'GROUT_ID' => $this->input->post('giro_id'),
+                    'GOR_ID' => $this->input->post('gor_id'),
                     // 'COA_ID' => $this->input->post('acc_id_detail'),
                     // 'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'GROUTDET_DATE' => $this->input->post('tgl_giro'),
@@ -1030,6 +1075,49 @@
         	echo json_encode($data);
         }
 
+        public function ajax_srch_gk()
+		{
+			$list = $this->srch_gk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GROUT_CODE;
+				// $row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->GROUT_DATE;				
+				$row[] = $dat->GROUT_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_gk('."'".$dat->GROUT_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gk->count_all(),
+							"recordsFiltered" => $this->srch_gk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_gk($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_out',array('GROUT_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_gkdet($id)
+		{
+			$data = $this->crud->get_by_id3('giroout_det','giroout_record','trx_giro_out',array('giroout_det.GROUT_ID' => $id),'giroout_record.GOR_ID=giroout_det.GOR_ID','giroout_det.GROUT_ID=trx_giro_out.GROUT_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_gk($id)
+		{
+			$data = $this->crud->sub_gk($id);
+        	echo json_encode($data);
+        }
+
         public function ajax_pick_giroin_record($id)
 		{
 			$data = $this->crud->get_by_id('giroin_record',array('GIR_ID' => $id));
@@ -1038,7 +1126,13 @@
 
 		public function ajax_pick_giroin($id)
 		{
-			$data = $this->crud->get_by_id('giroin_det',array('GRINDET_CODE' => $id));
+			$data = $this->crud->get_by_id2('bankin_trxdet','giroin_record',array('BNKTRX_NUM' => $id),'giroin_record.BNKTRX_ID=bankin_trxdet.BNKTRX_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_giroout($id)
+		{
+			$data = $this->crud->get_by_id2('bankout_trxdet','giroout_record',array('BNKTRXO_NUM' => $id),'giroout_record.BNKTRXO_ID=bankout_trxdet.BNKTRXO_ID');
         	echo json_encode($data);
 		}
 
@@ -1065,7 +1159,19 @@
         	$res = $this->db->get();
         	$data = $res->result();
         	echo json_encode($data);
+        }
+
+         public function show_gkdet($id)
+        {
+        	$this->db->from('giroout_det a');
+        	$this->db->join('giroout_record b','b.gor_id = a.gor_id');
+        	$this->db->join('bankout_trxdet c','c.bnktrxo_id = b.bnktrxo_id');
+        	$this->db->join('trx_bankout d','d.bnko_id = c.bnko_id');
+        	$this->db->join('master_supplier e','e.supp_id = d.bnko_supp');
+        	$this->db->where('a.grout_id',$id);
+        	$res = $this->db->get();
         	$data = $res->result();
+        	echo json_encode($data);
         }
 
         //Fungsi Halaman Invoice

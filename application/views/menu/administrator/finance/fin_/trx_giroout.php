@@ -108,9 +108,9 @@
                                                   <input class="form-control" type="text" name="nomor_giro">
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="add_giro()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_giroout()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
-                                            <!--  <input class="form-control" type="hidden" name="giro_id"> -->
+                                             <input class="form-control" type="hidden" name="gor_id"> 
                                         </div>
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Tanggal Giro</label>
@@ -211,7 +211,48 @@
     </div>
     <!-- modal bank selesai -->
 
-    
+     <!-- Modal Kode Giro -->
+    <div class="modal fade" id="modal_giro" name="modal_giro" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="formku" action="<?php echo base_url('Finance/giro_out') ; ?>" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- <input type="text" class="form-control" name="dept"> -->
+                    <div class="row">
+                        <!-- <input type="text" name="id_meeting" >
+                        <input type="text" name="title" >
+                        <input type="text" name="tgl" >
+                        <input type="text" name="jam" > -->
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <div class="maxh">
+                            <table id="dtb_giro" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Giro</th>
+                                        <th>Jumlah</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead> 
+                            </table>
+                        </div>
+                        </div>
+                    </div>                  
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- modal giro selesai -->
+
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -313,6 +354,49 @@ $(document).ready(function() {
             }
         });
     }
+
+    function srch_giroout()
+        {
+            $('#modal_giro').modal('show');
+            $('.modal-title').text('Cari Giro');            
+            table = $('#dtb_giro').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_giroout')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_giroout(id)
+    {
+        $.ajax({
+            url : "<?php echo site_url('administrator/Finance/ajax_pick_giroout/')?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {   
+                $('[name="nomor_giro"]').val(data.BNKTRXO_NUM);
+                $('[name="gor_id"]').val(data.GOR_ID);
+                $('#modal_giro').modal('hide');                 
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
     
     function pick_acc(id)
     {
@@ -351,6 +435,7 @@ $(document).ready(function() {
                 }
             });
         }
+
     function save_giro_out_detail()
         {            
             $.ajax({
