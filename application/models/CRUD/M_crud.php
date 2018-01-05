@@ -410,6 +410,15 @@
 	        return $query->row();
 		}
 
+        public function sub_gk($id)
+		{					
+			$this->db->select_sum('giroout_det.groutdet_amount', 'SubTotal');
+			$this->db->join('trx_giro_out','trx_giro_out.GROUT_ID = giroout_det.GROUT_ID');
+			$this->db->where('trx_giro_out.GROUT_ID',$id);
+			$query = $this->db->get('giroout_det');
+	        return $query->row();
+		}
+
 		//add usage
 		public function add_usg()
 		{

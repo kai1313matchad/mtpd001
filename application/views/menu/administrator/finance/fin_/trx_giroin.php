@@ -110,7 +110,7 @@
                                              <div class="col-sm-1">
                                                   <button type="button" class="btn btn-info" onclick="srch_giroin()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
-                                            <!--  <input class="form-control" type="hidden" name="giro_id"> -->
+                                             <input class="form-control" type="hidden" name="gir_id">
                                         </div>
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Tanggal Giro</label>
@@ -387,10 +387,8 @@ $(document).ready(function() {
             dataType: "JSON",
             success: function(data)
             {   
-                $('[name="nomor_giro"]').val(data.GRINDET_CODE);
-                // $('[name="giro_nama_bank"]').val(data.BANK_NAME);
-                // $('[name="giro_bank_id"]').val(data.BANK_ID);
-                // pick_acc(data.COA_ID);
+                $('[name="nomor_giro"]').val(data.BNKTRX_NUM);
+                $('[name="gir_id"]').val(data.GIR_ID);
                 $('#modal_giro').modal('hide');                 
             },
             error: function (jqXHR, textStatus, errorThrown)
