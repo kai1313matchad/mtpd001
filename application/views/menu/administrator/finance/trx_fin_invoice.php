@@ -136,6 +136,8 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="inv_termcode">
+                                            <input type="hidden" name="inv_termppn">
+                                            <input type="hidden" name="inv_termpph">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal</label>
@@ -155,6 +157,8 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="inv_termbrccode">
+                                            <input type="hidden" name="inv_termppnbrc">
+                                            <input type="hidden" name="inv_termpphbrc">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal Cabang</label>
@@ -1027,7 +1031,8 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error get data from ajax');
+                    $('[name="inv_gtotappr"]').val('');
+                    $('[name="inv_gtotapprbrc"]').val('');
                 }
             });
         }

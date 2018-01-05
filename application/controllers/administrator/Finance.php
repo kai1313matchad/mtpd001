@@ -1118,9 +1118,13 @@
 					'invdet_termid'=>$this->input->post('inv_term'),
 					'invdet_term'=>$this->input->post('inv_termcode'),
 					'invdet_amount'=>$this->input->post('invdet_sub'),
+					'invdet_ppnam'=>$this->input->post('inv_termppn'),
+					'invdet_ppham'=>$this->input->post('inv_termpph'),
 					'invdet_termbrcid'=>$this->input->post('inv_termbrc'),
 					'invdet_brcterm'=>$this->input->post('inv_termbrccode'),
-					'invdet_brcamount'=>$this->input->post('invdet_brcsub')
+					'invdet_brcamount'=>$this->input->post('invdet_brcsub'),
+					'invdet_ppnbrcam'=>$this->input->post('inv_termppnbrc'),
+					'invdet_pphbrcam'=>$this->input->post('inv_termpphbrc')
 					);
 			$update = $this->crud->save('inv_details',$data);
 			echo json_encode(array('status'=>TRUE));
@@ -1180,6 +1184,7 @@
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'inv_info'=>$this->input->post('inv_info'),
 	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_curr'=>$this->input->post('inv_currid'),
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
