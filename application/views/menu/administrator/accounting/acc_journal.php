@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Tanggal</label>
                                     <div class="col-sm-8">
-                                        <div class='input-group date dtp' id='dtp1'>     
+                                        <div class='input-group date dtp' id='dtp1'>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>

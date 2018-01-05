@@ -18,6 +18,7 @@
 			$this->load->model('datatables/showdata/Dt_girooutdet','giroout_det');
 			$this->load->model('datatables/showdata/Dt_invdet','invoice_det');
 			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
+			$this->load->model('datatables/showdata/Dt_showledger','ledger');
 		}
 
 		public function index()
@@ -362,6 +363,34 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->jou_det->count_all(),
 							"recordsFiltered" => $this->jou_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Buku Besar
+		public function showrpt_ledger()
+		{
+			$list = $this->ledger->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->JOU_CODE;
+				$row[] = $dat->JOU_DATE;
+				$row[] = $dat->JOU_REFF;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_ledger('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->ledger->count_all(),
+							"recordsFiltered" => $this->ledger->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
