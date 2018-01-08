@@ -328,7 +328,7 @@
                                         <th>No</th>
                                         <th>Nomor Approval</th>
                                         <th>Kode Lokasi</th>
-                                        <th>Alamat</th>
+                                        <!-- <th>Alamat</th> -->
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -484,7 +484,7 @@ $(document).ready(function() {
             });
         }
 
-    function srch_appr()
+        function srch_appr()
         {            
             $('#modal_appr').modal('show');
             $('.modal-title').text('Cari Approval');            
@@ -616,7 +616,7 @@ $(document).ready(function() {
         });
     }
 
-    function srch_curr()
+        function srch_curr()
         {
             $('#modal_curr').modal('show');
             $('.modal-title').text('Cari Rate Mata Uang');            
@@ -640,7 +640,7 @@ $(document).ready(function() {
             });
         }
 
-    function pick_curr(id)
+        function pick_curr(id)
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_pick_curr/')?>" + id,
@@ -739,7 +739,8 @@ $(document).ready(function() {
                 }
             });
         }
-    function save_cash_out_detail()
+
+        function save_cash_out_detail()
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_out_detail')?>",

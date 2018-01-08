@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('datatables/Dt_coa','srch_acc');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -292,6 +293,15 @@
 			$this->load->view('menu/administrator/finance/fin_/gk_print',$data);
 		}
 
+		public function print_bkas()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bkas';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function ajax_pick_acc($id)
 		{
 			$data = $this->crud->get_by_id('chart_of_account',array('COA_ID' => $id));
@@ -358,6 +368,29 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_srch_acc()
+		{
+			$list = $this->srch_acc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_acc('."'".$dat->COA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_acc->count_all(),
+							"recordsFiltered" => $this->srch_acc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_srch_appr()
 		{
 			$list = $this->srch_appr->get_datatables();
@@ -368,9 +401,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_PO;
-				$row[] = $dat->APPR_DATE;				
-				$row[] = $dat->CUST_NAME;
+				// $row[] = $dat->APPR_PO;
+				// $row[] = $dat->APPR_DATE;				
+				// $row[] = $dat->CUST_NAME;
 				$row[] = $dat->LOC_NAME;				
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appr('."'".$dat->APPR_ID."'".')">Pilih</a>';
 				$data[] = $row;

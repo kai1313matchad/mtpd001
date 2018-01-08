@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="<?php echo base_url('administrator/Finance/print_bk')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_bkas')?>">
                                     <span class="pull-left">Cetak Laporan Buku Kas</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
@@ -214,12 +214,12 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="<?php echo base_url('administrator/Finance/print_bk')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_bb')?>">
                                     <span class="pull-left">Cetak Laporan Buku Bank</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </a>
-                                <a href="<?php echo base_url('administrator/Finance/print_lkh')?>">
+                                <a href="<?php echo base_url('administrator/Finance/print_lkb')?>">
                                     <span class="pull-left">Cetak Laporan Bank Harian</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
