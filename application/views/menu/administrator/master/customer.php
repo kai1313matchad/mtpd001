@@ -117,6 +117,15 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-2 col-xs-2 control-label">Provinsi</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <input class="form-control" type="text" name="prov">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-2 col-xs-2 control-label">No.Tlp</label>
                                 <div class="col-sm-10 col-xs-10">
                                     <input class="form-control" type="text" name="notlp">
@@ -358,7 +367,7 @@
                 $('[name="vcode"]').val(data.CUST_CODE);
                 $('[name="vnama"]').val(data.CUST_NAME);
                 $('[name="valamat"]').val(data.CUST_ADDRESS);
-                $('[name="vkota"]').val(data.CUST_CITY);
+                $('[name="vkota"]').val(data.CUST_CITY+', '+data.CUST_PROV);
                 $('[name="varea"]').val(data.CUST_POSTAL);
                 $('[name="vnotlp"]').val(data.CUST_PHONE);
                 $('[name="vfax"]').val(data.CUST_FAX);
@@ -414,6 +423,7 @@
                 $('[name="alamat"]').val(data.CUST_ADDRESS);
                 $('[name="kota"]').val(data.CUST_CITY);
                 $('[name="area"]').val(data.CUST_POSTAL);
+                $('[name="prov"]').val(data.CUST_PROV);
                 $('[name="notlp"]').val(data.CUST_PHONE);
                 $('[name="fax"]').val(data.CUST_FAX);
                 $('[name="accpiutang"]').val(data.CUST_ACC);

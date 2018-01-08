@@ -47,6 +47,42 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$data['isi']='menu/administrator/accounting/dash_report';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function report_journal()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$data['isi']='menu/administrator/accounting/report_journal';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function report_ledger()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$data['isi']='menu/administrator/accounting/report_ledger';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_journal()
+		{
+			// $data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$this->load->view('menu/administrator/accounting/print_journal',$data);
+		}
+
 		//CRUD
 		public function add_joudet()
 		{

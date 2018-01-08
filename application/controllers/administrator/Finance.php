@@ -38,12 +38,12 @@
 
 		public function gen_invo()
 		{
-			$gen = $this->gen->gen_numinvo();
-			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['invo_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'INV/1712/000001';
-			// $data['status'] = TRUE;
+			// $gen = $this->gen->gen_numinvo();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['invo_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'INV/1712/000001';
+			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
@@ -1184,6 +1184,24 @@
         }
 
         //Fungsi Halaman Invoice
+        public function get_inv($id)
+        {
+        	$data = $this->crud->get_by_id2('trx_invoice a','master_customer b',array('a.inv_id'=>$id),'a.cust_id = b.cust_id');
+        	echo json_encode($data);
+        }
+
+        public function get_invdet($id)
+        {        	
+        	$this->db->from('inv_details a');
+        	$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+        	$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
+        	$this->db->join('master_location d','d.loc_id = c.loc_id');
+        	$this->db->where('a.inv_id',$id);
+        	$que = $this->db->get();
+        	$data = $que->result();
+        	echo json_encode($data);
+        }
+
 		public function get_apprterm($id)
 		{
 			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
@@ -1301,7 +1319,8 @@
 	    			'curr_id'=>$this->input->post('inv_currid'),
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'inv_info'=>$this->input->post('inv_info'),
-	    			'inv_term'=>$this->input->post('inv_term'),	    			
+	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_date'=>$this->input->post('inv_date'),	    			
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));

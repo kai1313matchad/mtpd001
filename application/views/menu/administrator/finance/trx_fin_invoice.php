@@ -30,7 +30,18 @@
                                             <input type="text" class="form-control" name="inv_code" readonly>
                                             <input type="hidden" name="inv_id" value="0">
                                         </div>
-                                    </div>/
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tanggal</label>
+                                        <div class="col-sm-8">
+                                            <div class='input-group date dtp' id='dtp1'>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input id="jou_date" type='text' class="form-control input-group-addon" name="inv_date" value="<?= date('Y-m-d')?>" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis Invoice</label>
                                         <div class="col-sm-1">
@@ -86,6 +97,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mata Uang</label>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="inv_curr" readonly>
+                                            <input type="hidden" name="inv_currid" value="0">
+                                            <input type="hidden" name="inv_currrate" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Detail Approval</label>
                                         <div class="col-sm-8">
                                             <label class="radio-inline"><input type="radio" onclick="check_()" id="det_radio0" name="det_radio">Tampilkan</label>
@@ -114,17 +136,6 @@
                                             <label class="col-sm-2 control-label">Lokasi</label>
                                             <div class="col-sm-7">
                                                 <textarea name="inv_apprloc" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">Mata Uang</label>
-                                            <div class="col-sm-2">
-                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input class="form-control" type="text" name="inv_curr" readonly>
-                                                <input type="hidden" name="inv_currid" value="0">
-                                                <input type="hidden" name="inv_currrate" value="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -375,7 +386,7 @@
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th class="col-sm-4">Acc Piutang</th>
-                                        <th class="col-sm-4">Acc Pendapatan</th>                 
+                                        <th class="col-sm-4">Acc Pendapatan</th>   
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
