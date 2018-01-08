@@ -39,12 +39,12 @@
 
 		public function gen_invo()
 		{
-			// $gen = $this->gen->gen_numinvo();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['invo_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'INV/1712/000001';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numinvo();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['invo_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'INV/1712/000001';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
@@ -103,6 +103,15 @@
 			$data['menulist']='inv';
 			$data['isi']='menu/administrator/finance/trx_fin_invoice';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_invoice($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_inv';
+			$this->load->view('menu/administrator/finance/print_invoice',$data);
 		}
 
 		public function cash_in()
@@ -1239,12 +1248,12 @@
 		public function get_subinvdet($id)
 		{
 			$this->db->from('inv_details a');
-			$this->db->select('a.invdet_amount as Sub1, a.invdet_brcamount as Sub2');			
+			$this->db->select('sum(a.invdet_amount) as gt1, sum(a.invdet_brcamount) as gt2, sum(a.invdet_sub) as sub1, sum(a.invdet_brcsub) as sub2, sum(a.invdet_ppnam) as ppn1, sum(a.invdet_ppnbrcam) as ppn2, sum(a.invdet_ppham) as pph1, sum(a.invdet_pphbrcam) as pph2');
 			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
 			$this->db->where('b.inv_id',$id);
 			$que = $this->db->get();
-			$res = $que->row();
-			$data = array('sub1'=>$res->Sub1,'sub2'=>$res->Sub2);
+			// $res = $que->row();
+			$data = $que->row();
 			echo json_encode($data);
 		}
 
@@ -1257,9 +1266,15 @@
 					'invdet_termid'=>$this->input->post('inv_term'),
 					'invdet_term'=>$this->input->post('inv_termcode'),
 					'invdet_amount'=>$this->input->post('invdet_sub'),
+					'invdet_sub'=>$this->input->post('inv_termsub'),
+					'invdet_ppnam'=>$this->input->post('inv_termppn'),
+					'invdet_ppham'=>$this->input->post('inv_termpph'),
 					'invdet_termbrcid'=>$this->input->post('inv_termbrc'),
 					'invdet_brcterm'=>$this->input->post('inv_termbrccode'),
-					'invdet_brcamount'=>$this->input->post('invdet_brcsub')
+					'invdet_brcsub'=>$this->input->post('inv_termsubbrc'),
+					'invdet_brcamount'=>$this->input->post('invdet_brcsub'),
+					'invdet_ppnbrcam'=>$this->input->post('inv_termppnbrc'),
+					'invdet_pphbrcam'=>$this->input->post('inv_termpphbrc')
 					);
 			$update = $this->crud->save('inv_details',$data);
 			echo json_encode(array('status'=>TRUE));
@@ -1290,17 +1305,17 @@
 	            $data['status'] = FALSE;
 	        }
 
-	        if($this->input->post('inv_term') == '')
-	        {
-	            $data['inputerror'][] = 'inv_term';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('inv_term') == '')
+	        // {
+	        //     $data['inputerror'][] = 'inv_term';
+	        //     $data['status'] = FALSE;
+	        // }
 
-	        if($this->input->post('inv_termbrc') == '')
-	        {
-	            $data['inputerror'][] = 'inv_termbrc';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('inv_termbrc') == '')
+	        // {
+	        //     $data['inputerror'][] = 'inv_termbrc';
+	        //     $data['status'] = FALSE;
+	        // }
 
 	        if($data['status'] === FALSE)
 	        {
@@ -1316,9 +1331,10 @@
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'branch_id'=>$this->input->post('inv_branchid'),
 	    			'cust_id'=>$this->input->post('inv_custid'),
+	    			'curr_id'=>$this->input->post('inv_currid'),
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'inv_info'=>$this->input->post('inv_info'),
-	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_term'=>$this->input->post('inv_term'),	    			
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));

@@ -136,6 +136,9 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="inv_termcode">
+                                            <input type="hidden" name="inv_termppn">
+                                            <input type="hidden" name="inv_termpph">
+                                            <input type="hidden" name="inv_termsub">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal</label>
@@ -155,6 +158,9 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="inv_termbrccode">
+                                            <input type="hidden" name="inv_termppnbrc">
+                                            <input type="hidden" name="inv_termpphbrc">
+                                            <input type="hidden" name="inv_termsubbrc">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal Cabang</label>
@@ -290,16 +296,22 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="save_inv()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                            <a href="javascript:void(0)" onclick="save_inv()" class="btn btn-block btn-primary btn-default">
+                                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                                Simpan
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <a href="javascript:void(0)" onclick="print_inv()" class="btn btn-block btn-info btn-default">
+                                                <span class="glyphicon glyphicon-print"></span>
+                                                Cetak
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="test()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <span name="test"></span>
                                     </div>
                                 </div>
                             </div>
@@ -565,6 +577,12 @@
                     alert('Error adding / update data');
                 }
             });
+        }
+
+        function print_inv()
+        {
+            var id = $('[name=inv_id]').val();
+            window.open ( "<?php echo site_url('administrator/Finance/print_invoice/')?>"+id,'_blank');
         }
     </script>
     <!-- Search -->
@@ -926,6 +944,19 @@
                         alert('Data Berhasil Disimpan');
                         invdet($('[name="inv_id"]').val());
                         get_sub();
+                        var appr = $('[name="inv_apprid"]').val();
+                        var apprbrc = $('[name="inv_apprbrcid"]').val();
+                        if(appr == '')
+                        {
+                            appr = '0';
+                        }
+                        if(apprbrc == '')
+                        {
+                            apprbrc = '0';
+                        }
+                        drop_term(appr);
+                        drop_termbrc(apprbrc);
+                        term_clean_();
                     }
                     else
                     {
@@ -955,6 +986,19 @@
                         alert('Data Berhasil Dihapus');
                         invdet($('[name="inv_id"]').val());
                         get_sub();
+                        var appr = $('[name="inv_apprid"]').val();
+                        var apprbrc = $('[name="inv_apprbrcid"]').val();
+                        if(appr == '')
+                        {
+                            appr = '0';
+                        }
+                        if(apprbrc == '')
+                        {
+                            apprbrc = '0';
+                        }
+                        drop_term(appr);
+                        drop_termbrc(apprbrc);
+                        term_clean_();
                     },
                     error: function (jqXHR, textStatus, errorThrown)
                     {
@@ -975,6 +1019,9 @@
                     var nom1 = ($('[name="inv_currrate"]').val()*data.TERMSDET_SUM);
                     $('[name="invdet_sub"]').val(nom1);
                     $('[name="inv_termcode"]').val(data.TERMSDET_CODE);
+                    $('[name="inv_termsub"]').val(data.TERMSDET_SUB);
+                    $('[name="inv_termppn"]').val(data.TERMSDET_PPN_SUM);
+                    $('[name="inv_termpph"]').val(data.TERMSDET_PPH_SUM);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -994,6 +1041,9 @@
                     var nom2 = ($('[name="inv_currrate"]').val()*data.TERMSDET_SUM);
                     $('[name="invdet_brcsub"]').val(nom2);
                     $('[name="inv_termbrccode"]').val(data.TERMSDET_CODE);
+                    $('[name="inv_termsubbrc"]').val(data.TERMSDET_SUB);
+                    $('[name="inv_termppnbrc"]').val(data.TERMSDET_PPN_SUM);
+                    $('[name="inv_termpphbrc"]').val(data.TERMSDET_PPH_SUM);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -1021,15 +1071,42 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {                       
-                    $('[name="inv_gtotappr"]').val(data.sub1);
-                    $('[name="inv_gtotapprbrc"]').val(data.sub2);
+                {
+                    $('[name="inv_subappr"]').val(data.sub1);
+                    $('[name="inv_ppnappr"]').val(data.ppn1);
+                    $('[name="inv_pphappr"]').val(data.pph1);
+                    $('[name="inv_gtotappr"]').val(data.gt1);
+                    $('[name="inv_subapprbrc"]').val(data.sub2);
+                    $('[name="inv_ppnapprbrc"]').val(data.ppn2);
+                    $('[name="inv_pphapprbrc"]').val(data.pph2);
+                    $('[name="inv_gtotapprbrc"]').val(data.gt2);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error get data from ajax');
+                    $('[name="inv_subappr"]').val('');
+                    $('[name="inv_ppnappr"]').val('');
+                    $('[name="inv_pphappr"]').val('');
+                    $('[name="inv_gtotappr"]').val('');
+                    $('[name="inv_subapprbrc"]').val('');
+                    $('[name="inv_ppnapprbrc"]').val('');
+                    $('[name="inv_pphapprbrc"]').val('');
+                    $('[name="inv_gtotapprbrc"]').val('');
                 }
             });
+        }
+
+        function term_clean_()
+        {
+            $('[name="invdet_sub"]').val('');
+            $('[name="inv_termcode"]').val('');
+            $('[name="inv_termsub"]').val('');
+            $('[name="inv_termppn"]').val('');
+            $('[name="inv_termpph"]').val('');
+            $('[name="invdet_brcsub"]').val('');
+            $('[name="inv_termbrccode"]').val('');
+            $('[name="inv_termsubbrc"]').val('');
+            $('[name="inv_termppnbrc"]').val('');
+            $('[name="inv_termpphbrc"]').val('');
         }
 
         function test()
@@ -1037,7 +1114,12 @@
             var id = $('[name="inv_id"]').val();
             var dt = '2018-12-20';
             var chg = moment(dt).format('DD/MM/YYYY');
-            alert(chg);
+            var apprbrc = '0';
+            if ($('[name="inv_apprbrcid"]').val() != '')
+            {
+                apprbrc = $('[name="inv_apprbrcid"]').val();
+            }
+            alert(apprbrc);
             // $.ajax({
             //     url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>"+id,
             //     type: "GET",
