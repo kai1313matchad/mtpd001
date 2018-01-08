@@ -30,21 +30,17 @@
 
 		public function gen_appr()
 		{
-			// $gen = $this->gen->gen_numappr();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['appr_code'];
-			$data['id'] = '3';
-			$data['kode'] = 'AB/1712/000003';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numappr();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['appr_code'];
+			// $data['id'] = '3';
+			// $data['kode'] = 'AB/1712/000003';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function mkt_trx_approval()
 		{
-			// $id=$this->crud->gen_appr();
-			// $id=$this->gen->gen_numappr();
-			// $id = '1';
-			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['pattyp'] = $this->crud->get_pattyp();			
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
@@ -55,20 +51,17 @@
 
 		public function gen_bapp()
 		{
-			// $gen = $this->gen->gen_numbapp();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['bapp_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'BA/1712/000001';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numbapp();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bapp_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'BA/1712/000001';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function mkt_trx_bapp()
 		{
-			// $id=$this->crud->add_bapp();
-			// // $id = '1';
-			// $data['bapp'] = $this->crud->get_by_id('trx_bapp',array('bapp_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='bapp';
