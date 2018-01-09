@@ -75,12 +75,52 @@
 		}
 
 		public function print_journal()
-		{
-			// $data['id']=$id;
+		{			
+			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
 			$this->load->view('menu/administrator/accounting/print_journal',$data);
+		}
+
+		public function gen_rptjournal()
+		{
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			if($this->input->post('coa_id'))
+			{
+				$this->db->where('a.coa_id',$this->input->post('coa_id'));
+			}
+			if($this->input->post('date_start'))
+			{
+				$this->db->where('b.jou_date >=',$this->input->post('date_start'));
+			}
+			if($this->input->post('date_end'))
+			{
+				$this->db->where('b.jou_date <=',$this->input->post('date_end'));
+			}
+			if($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id',$this->input->post('branch'));
+			}
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function tes()
+		{
+			$uri_data= $this->uri->segment_array();
+			foreach ($uri_data as $segment)
+			{
+			echo $segment;
+			echo '<br />';
+			}
 		}
 
 		//CRUD

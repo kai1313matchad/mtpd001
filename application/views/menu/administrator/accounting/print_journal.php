@@ -14,8 +14,10 @@
     <!-- sbadmin -->
     <link href="<?php echo base_url('assets/sbadmin/css/sb-admin-2.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
+    <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/datatables/css/rowGroup.dataTables.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="<?php echo base_url('assets/addons/select2-bootstrap.css')?>" rel="stylesheet">
@@ -40,117 +42,63 @@
             border: solid 2px black;
             min-height: 50px;
         }
+        table.dataTable tr.group-end td 
+        {
+            text-align: right;
+            /*font-weight: normal;*/
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <input type="hidden" name="inv_id" value="">
+        <form id="form_jou">
+            <input type="hidden" name="coa_id" value="<?php echo $coaid; ?>">
+            <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
+            <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
+            <input type="hidden" name="branch" value="<?php echo $branch; ?>">
+        </form>        
         <div class="row">
-            <div class="col-sm-4 col-xs-4">
+            <div class="col-sm-3 col-xs-3">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
-            <div class="col-sm-4 col-xs-4">
+            <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN JURNAL UMUM</u></h2>
-                <h4 class="text-center" name="inv_date">31 Dec 2017</h4>
+                <h4 class="text-center" name="rptjou_period"></h4>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4 col-xs-4">
-                <p>
-                    Jl. Lesti No.42 Surabaya 60241<br>
-                    Telp. (031) 567 8346 (Hunting)<br>
-                    Fax. (031) 568 0646<br>
-                    Email : Finance@match-advertising.com
-                </p>
-            </div>
-            <div class="col-sm-4 col-xs-4 text-center">
-                <span>Nomor : </span>
-                <span name="inv_code">INV/1712/000001</span>
-            </div>
-            <div class="col-sm-4 col-xs-4">                
-                <strong>Kepada Yth :</strong><br>
-                <span name="inv_custname"></span><br>
-                <span name="inv_custaddr">JL. SEMAMPIR II/1 UNIT X, KEDIRI</span><br>
-                <span name="inv_custcity">KEDIRI 64121</span><br>
-                <span name="inv_custprov">JAWA TIMUR</span>                
-            </div>
-        </div>
-        <div class="bg-table">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12 table-responsive">
-                    <table class="table table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th class="col-sm-2 col-xs-2 text-center">No Approval</th>
-                                <th class="col-sm-2 col-xs-2 text-center">No PO</th>
-                                <th class="col-sm-3 col-xs-3 text-center">Lokasi</th>
-                                <th class="col-sm-2 col-xs-2 text-center">Keterangan</th>
-                                <th class="col-sm-2 col-xs-2 text-center">Nominal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tb_content">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-7 col-xs-7">
-                    <span># <i name="inv_terbilang">Dua Juta Tiga Ratus Tujuh Puluh Lima Ribu Rupiah</i> #</span>
-                </div>
-                <div class="col-sm-3 col-xs-3 text-right">
-                    <span><strong>Sub Total</strong></span>
-                </div>
-                <div class="col-sm-2 col-xs-2 text-right">
-                    <span name="inv_subs">2,375,000.00</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-7 col-xs-offset-7 col-sm-3 col-xs-3 text-right">
-                    <span><strong>PPN</strong></span>
-                </div>
-                <div class="col-sm-2 col-xs-2 text-right">
-                    <span name="inv_ppn">0.00</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-7 col-xs-offset-7 col-sm-3 col-xs-3 text-right">
-                    <span><strong>PPH</strong></span>
-                </div>
-                <div class="col-sm-2 col-xs-2 bt-border text-right">
-                    <span name="inv_pph">0.00</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-7 col-xs-offset-7 col-sm-3 col-xs-3 text-right">
-                    <span><strong>Grand Total</strong></span>
-                </div>
-                <div class="col-sm-2 col-xs-2 text-right">
-                    <span name="inv_grand">2,375,000.00</span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 col-xs-2">
-                Untuk Pembayaran <span class="pull-right">:</span>
-            </div>
-            <div class="col-sm-8 col-xs-8">
-                <textarea name="inv_info" class="form-control" rows="5" style="resize: none;border: none; background-color: white" readonly></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-9 col-xs-9 border-pay">
-                <p>
-                    <i>
-                        Pembayaran dapat ditransfer ke
-                        <span>BANK BNI CAB. KEDUNGDORO A/C 0192281920 A/N PT XXXXXXX YYYYY</span>
-                    </i>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-offset-9 col-xs-offset-9 col-sm-3 col-xs-3 text-center">
-                <span>( Dewi Puspo )</span>
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptjou" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                No
+                            </th>
+                            <th class="text-center">
+                                No Jurnal
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>
+                            <th class="text-center">
+                                No Bukti
+                            </th>
+                            <th class="text-center">
+                                Keterangan
+                            </th>
+                            <th class="text-center">
+                                Rekening
+                            </th>
+                            <th class="col-sm-2 text-center">
+                                Debet
+                            </th>
+                            <th class="col-sm-2 text-center">
+                                Kredit
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -169,6 +117,7 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
     <!-- Number to Money -->
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <!-- Addon -->
@@ -178,7 +127,107 @@
         {
             // var id = $('[name="inv_id"]').val();
             // pick_invoice(id);
+            pick_journal();            
+            $('[name="rptjou_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
         });
+
+        function dt_journal()
+        {
+            $('#dtb_rptjou').DataTable({                
+                "columnDefs":
+                [
+                    {"visible": false, "targets": 1},
+                    {"orderable": false, "targets": 1}
+                ],
+                "info": false,
+                // "responsive": true,
+                "order": [[1,, 'asc']],
+                "drawCallback": function(settings)
+                {
+                    var api = this.api();
+                    var rows = api.rows({page:'current'}).nodes();
+                    var last = null;
+                    api.column(1, {page:'current'}).data().each(function (group, i)
+                        {
+                            if(last !== group)
+                            {
+                                $(rows).eq(i).before('<tr class="group"><td colspan="7">'+group+'</td></tr>');
+                                last = group;
+                            }
+                        }
+                        );
+                }
+            });
+        }
+
+        function dt_journal2()
+        {
+            $('#dtb_rptjou').DataTable({
+                info: false,
+                searching: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: 1},
+                    {orderable: false, targets: '_all'}
+                ],
+                order: [[1, 'asc']],
+                rowGroup:
+                {
+                    endRender: function(rows, group)
+                    {
+                        var sum = rows.data().pluck(6)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+                        var sum2 = rows.data().pluck(7)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
+                        return $('<tr/>')
+                        .append( '<td colspan="5"></td>' )
+                        .append( '<td>'+sum+'</td>' )                        
+                        .append( '<td>'+sum2+'</td>' ); 
+                    },
+                    dataSrc: 1
+                }
+            });
+        }
+
+        function pick_journal()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/gen_rptjournal')?>",
+                type: "POST",
+                data: $('#form_jou').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td>').css('text-align','center').text(i+1),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_CODE"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_DATE"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_REFF"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_INFO"]),
+                            $('<td>').css('text-align','center').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_DEBIT"])),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_CREDIT"]))
+                            ).appendTo('#tb_content');
+                    }
+                    dt_journal2();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
 
         function pick_invoice(id)
         {            

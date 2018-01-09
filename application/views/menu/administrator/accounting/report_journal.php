@@ -7,7 +7,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form class="form-horizontal" id="form_ledger" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="form_rptjou" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Cabang</label>
+                            <div class="col-sm-1">
+                                
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nomor Rekening</label>
                             <div class="col-sm-8">
@@ -156,8 +162,11 @@
         }
 
         function print_journal()
-        {            
-            window.open ( "<?php echo site_url('administrator/Accounting/print_journal')?>",'_blank');
+        {
+            var seg1 = $('[name="ldg_coaid"]').val()?$('[name="ldg_coaid"]').val():'null';
+            var seg2 = $('[name="ldg_datestart"]').val()?$('[name="ldg_datestart"]').val():'null';
+            var seg3 = $('[name="ldg_dateend"]').val()?$('[name="ldg_dateend"]').val():'null';
+            window.open ( "<?php echo site_url('administrator/Accounting/print_journal/')?>"+seg1+'/'+seg2+'/'+seg3,'_blank');
         }
     </script>
     <!-- Showdata -->
