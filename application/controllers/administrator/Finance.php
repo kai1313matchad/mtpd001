@@ -8,6 +8,7 @@
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
 			$this->load->model('datatables/Dt_coa','srch_acc');
+			$this->load->model('datatables/Dt_srchcust','srch_cust');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -50,7 +51,7 @@
 
         public function gen_cashin()
 		{
-			$data['id'] = '10';
+			$data['id'] = '16';
 			$data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -58,7 +59,7 @@
 
         public function gen_cashout()
 		{
-			$data['id'] = '7';
+			$data['id'] = '8';
 			$data['kode'] = 'KK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -331,7 +332,7 @@
 
 		public function ajax_pick_appr($id)
 		{
-			$data = $this->crud->get_by_id('Approval',array('APPR_ID' => $id));
+			$data = $this->crud->get_by_id('trx_approvalbill',array('APPR_ID' => $id));
         	echo json_encode($data);
 		}
 
@@ -351,6 +352,43 @@
 		{
 			$data = $this->crud->get_by_id('master_bank',array('BANK_ID' => $id));
         	echo json_encode($data);
+		}
+
+		public function ajax_pick_branch($id)
+		{
+			$data = $this->crud->get_by_id('master_branch',array('BRANCH_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_location($id)
+		{
+			$data = $this->crud->get_by_id('master_location',array('LOC_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_srch_cust()
+		{
+			$list = $this->srch_cust->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CUST_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->CUST_ADDRESS;				
+				$row[] = $dat->CUST_CITY;				
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_cust->count_all(),
+							"recordsFiltered" => $this->srch_cust->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 
 		public function ajax_srch_curr()
@@ -413,7 +451,8 @@
 				// $row[] = $dat->APPR_PO;
 				// $row[] = $dat->APPR_DATE;				
 				// $row[] = $dat->CUST_NAME;
-				$row[] = $dat->LOC_NAME;				
+				$row[] = $dat->LOC_NAME;	
+				$row[] = $dat->LOC_ADDRESS;			
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appr('."'".$dat->APPR_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -552,15 +591,17 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'CSH_CODE' => $this->input->post('kas_nomor'),
                     'CUST_ID' => $this->input->post('kas_customer_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'CSH_STS' => '1',
-	                'CSH_date' => $this->input->post('kas_tgl'),
+	                'CSH_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'CSH_INFO' => $this->input->post('kas_info')
@@ -573,6 +614,7 @@
 
 		public function ajax_simpan_cash_in_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'CSH_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -580,7 +622,16 @@
                     'CSHINDET_INFO' => $this->input->post('ket_detail'),
                     'CSHDETIN_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            	    'CSH_CODE' => $this->input->post('kas_nomor'),
+            	    'CSH_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'CSH_INFO' => $this->input->post('ket_detail'),
+            	    'CSH_AMOUNT' => $this->input->post('nominal')
+            );
             $update = $this->crud->save('cashin_det',$data);
+            $bk = $this->crud->save('buku_kas',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -597,17 +648,19 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'CSHO_CODE' => $this->input->post('kas_nomor'),
-                    'CSHO_APPR' => $this->input->post('kas_approval'),
+                    'CSHO_APPR' => $this->input->post('appr_id'),
                     'CSHO_SUPP' => $this->input->post('kas_customer_id'),
                     'DEPT_ID' => $this->input->post('dept_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'CSHO_STS' => '1',
-	                'CSHO_date' => $this->input->post('kas_tgl'),
+	                'CSHO_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'CSHO_INFO' => $this->input->post('kas_info')
@@ -620,6 +673,7 @@
 
 		public function ajax_simpan_cash_out_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'CSHO_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -627,7 +681,16 @@
                     'CSHODET_INFO' => $this->input->post('ket_detail'),
                     'CSHODET_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            	    'CSH_CODE' => $this->input->post('kas_nomor'),
+            	    'CSH_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'CSH_INFO' => $this->input->post('ket_detail'),
+            	    'CSH_AMOUNT' => $this->input->post('nominal')
+            );
             $update = $this->crud->save('cashout_det',$data);
+            $bk = $this->crud->save('buku_kas',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -647,6 +710,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'BNK_CODE' => $this->input->post('bank_nomor'),
                     // 'CSHO_APPR' => $this->input->post('kas_approval'),
                     'BANK_ID' => $this->input->post('bank_id'),
@@ -726,6 +790,7 @@
 			// }
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
+				    'USER_ID' => '1',
                     'BNKO_CODE' => $this->input->post('bank_nomor'),
                     'BNKO_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id'),
@@ -797,6 +862,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'GRIN_CODE' => $this->input->post('giro_nomor'),
                     'BANK_ID' => $this->input->post('giro_bank_id'),
                  //    'CUST_ID' => $this->input->post('kas_customer_id'),
@@ -845,6 +911,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'GROUT_CODE' => $this->input->post('giro_nomor'),
                     'BANK_ID' => $this->input->post('giro_bank_id'),
                  //    'CUST_ID' => $this->input->post('kas_customer_id'),
@@ -1211,6 +1278,40 @@
         	$this->db->join('trx_bankout d','d.bnko_id = c.bnko_id');
         	$this->db->join('master_supplier e','e.supp_id = d.bnko_supp');
         	$this->db->where('a.grout_id',$id);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_kas()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	// $this->db->from('trx_cash_in a');
+        	// $this->db->join('cashin_det b','a.csh_id = b.csh_id');
+        	// $this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id','desc');
+        	$this->db->where('csh_date >=',$tgl1);
+        	$this->db->where('csh_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_keluar()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('trx_cash_out a');
+        	$this->db->join('cashout_det b','a.csho_id = b.csho_id');
+        	$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+        	$this->db->where('a.csho_date >=',$tgl1);
+        	$this->db->where('a.csho_date <=',$tgl2);
         	$res = $this->db->get();
         	$data = $res->result();
         	echo json_encode($data);

@@ -91,7 +91,7 @@
                                             <input class="form-control" type="text" name="bank_acc_info" readonly>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="add_gd('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                            <button type="button" class="btn btn-info" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                         <input class="form-control" type="hidden" name="acc_id">
                                     </div>
@@ -352,33 +352,16 @@
                         <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
-                            <table id="dataTables9" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                            <table id="dtb_acc" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
+                                        <th>Pilih</th>
                                     </tr>
                                 </thead>
                                         
-                                <?php 
-                                $i=1;
-                                 foreach($account as $c){ 
-                                ?>
-                                    
-                                    <tr>
-                                        <form action="" method="post">
-                                              <!-- <td><center><?php echo $d->SCH_ID ?></center></td> -->
-                                              
-                                              <td><center><?php echo $i++ ?></center></td>
-                                              <td><center><?php echo $c->COA_ACC; ?></center></td>
-                                              <td><center><?php echo $c->COA_ACCNAME; ?></center></td>
-                                              <td><center>
-                                        <button type="button" onclick="edit_sch('<?php echo $c->COA_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
-                                    </center></td>                     
-                                        </form>
-                                    </tr> 
-                                
-                                <?php } ?> 
                             </table>
                         </div>
                         </div>
@@ -665,6 +648,56 @@ $(document).ready(function() {
             }
         });
     }
+
+    function srch_acc(t)
+        {
+            sts=t;
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');            
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_acc(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {       
+                    if (sts=='1'){
+                        $('[name="bank_acc"]').val(data.COA_ACC);
+                        $('[name="bank_acc_info"]').val(data.COA_ACCNAME);
+                        $('[name="acc_id"]').val(data.COA_ID);
+                    } else {
+                        $('[name="acc_detail"]').val(data.COA_ACC);
+                        $('[name="acc_id_detail"]').val(data.COA_ID);
+                    }
+                    $('#modal_account').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
 
     function srch_bank()
         {

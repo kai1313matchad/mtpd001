@@ -1,3 +1,11 @@
+
+<style>
+    tp{
+        border-top : 2px solid;
+    }
+    bt{
+        border-bottom : double;
+</style>
 <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">
@@ -27,7 +35,7 @@
                                     <a href="javascript:void(0)" onclick="srch_acc()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                 </div>
                             </div>
-                            <div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Cabang</label>
                                 <div class="col-sm-4">
                                     <input class="form-control" type="text" name="kode_cabang" readonly>
@@ -36,11 +44,12 @@
                                     <input class="form-control" type="text" name="nama_cabang" readonly>
                                 </div>
                                 <div class="col-sm-1">
-                                    <a href="javascript:void(0)" onclick="srch_cabang()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+                                    <a href="javascript:void(0)" onclick="srch_branch()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                 </div>
-                            </div class="form-group">
-                                <div class="col-sm-1">
-                                    <a href="javascript:void(0)" onclick="srch_gk()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Preview</a>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-5 col-sm-2">
+                                    <a href="javascript:void(0)" onclick="show_bk()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span> Preview</a>
                                 </div>
                             </div>
 
@@ -51,7 +60,7 @@
                     <hr style="border: solid 2px; color: black;"">
                     <div class="text-center">
                         <h3><strong><u>LAPORAN BUKU KAS</u></strong></h3>
-                        <h3>Per Periode :<span name="no_gk"></span></h3>
+                        <h3>Per Periode :<span name="periode"></span></h3>
                     </div>
                     <hr>
                     <div class="row">
@@ -76,33 +85,36 @@
                                 <span name="giro_custinfo"></span>
                             </address>
                         </div> -->
-                        <div class="col-xs-4">
+                        <!-- <div class="col-xs-4">
                             <address>
                                 <span>Tanggal :</span>&nbsp;<span name="giro_tgl"></span> 
                             </address>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <input type="hidden" name="gir_id">
-                                        <input type="hidden" name="bnktrx_id">
-                                        <input type="hidden" name="bnk_id">
-                                        <input type="hidden" name="cust_id">
-                                        <input type="hidden" name="giro_custname">
-                                        <input type="hidden" name="giro_total">
-                                        <input type="hidden" name="giro_info">
-                                        <input type="hidden" name="giro_terbilang">
+                                        <input type="hidden" name="csh_id">
+                                        <input type="hidden" name="csh_code">
+                                        <input type="hidden" name="tgl1">
+                                        <input type="hidden" name="tgl2">
+                                        <input type="hidden" name="csh_tgl">
+                                        <input type="hidden" name="COA_ACC">
+                                        <input type="hidden" name="csh_info">
+                                        <input type="hidden" name="csh_amount">
+                                        <input type="hidden" name="csh_terbilang">
                                         <input type="hidden" name="curr_name">
                                         <table id="tb_gm" class="table table-condensed">
                                             <thead>
                                                 <tr>
-                                                    <th class="col-sm-4 col-xs-4">Supplier</th>
-                                                    <th class="col-sm-3 col-xs-3 text-center">No. Giro</th>
-                                                    <th class="col-sm-2 col-xs-2 text-center">Tgl. Giro</th>
-                                                    <th class="col-sm-3 col-xs-3 text-center">Jumlah</th> 
+                                                    <th class="col-sm-4 col-xs-4">Tanggal</th>
+                                                    <th class="col-sm-3 col-xs-3 text-center">No. Kas</th>
+                                                    <th class="col-sm-2 col-xs-2 text-center">No. Acc</th>
+                                                    <th class="col-sm-3 col-xs-3 text-center">Keterangan</th> 
+                                                    <th class="col-sm-3 col-xs-3 text-center">Debet</th> 
+                                                    <th class="col-sm-3 col-xs-3 text-center">Kredit</th> 
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -115,7 +127,7 @@
                                             </tbody>
                                         </table>
                                     </div>      
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-xs-3 text-center">
                                              Pembukuan
                                         </div>
@@ -149,7 +161,7 @@
                                         <div class="col-xs-3 text-center">
                                                (.................)
                                         </div>
-                                    </div>                               
+                                    </div>  -->                              
                                 </div>
                             </div>
                         </div>
@@ -213,6 +225,39 @@
     </div>
     <!-- modal account selesai -->
 
+     <!-- Modal Branch -->
+    <div class="modal fade" id="modal_branch" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_branch" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>                
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Branch selesai -->
+
     <!-- Modal Search -->
     <div class="modal fade" id="modal_gk" name="modal_gk" role="dialog">
         <div class="modal-dialog" role="document">
@@ -268,7 +313,7 @@
                 format: 'YYYY-MM-DD'
             });
             id=$('[name="gk_id"]').val();            
-            prc = 0; qty = 0; sub = 0;
+            prc = 0; qty = 0; sub = 0; 
         });
 
         function printPre()
@@ -328,58 +373,41 @@
             });
         }
 
-        function srch_gk()
-        {            
-            $('#modal_gk').modal('show');
-            $('.modal-title').text('Cari Giro Keluar'); // Set title to Bootstrap modal title      
-            //datatables        
-            table = $('#dtb_gk').DataTable({
+        function srch_branch()
+        {
+            $('#modal_branch').modal('show');
+            $('.modal-title').text('Cari Cabang');            
+            table = $('#dtb_branch').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_gk')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_branch')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
 
-        function pick_gk(id)
-        {
-            //Ajax Load data from ajax
+        function pick_branch(id)
+        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_gk/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_branch/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="gk_id"]').val(data.GROUT_ID);
-                    $('[name="gk_code"]').val(data.GROUT_CODE);
-                    $('[name="no_gk"]').text(data.GROUT_CODE);
-                    $('[name="giro_tgl"]').text(data.GROUT_DATE);
-                    $('[name="giro_info"]').val(data.GROUT_INFO);
-                    // $('[name="appr_id"]').val(data.APPR_ID);
-                    // $('[name="cust_id"]').val(data.CUST_ID);
-                    $('[name="pass"]').text(data.GROUT_ID);
-                    // if (($('[name="cust_id"]').val()) != ''){
-                    //      pick_cust($('[name="cust_id"]').val());
-                    // }
-                    
-                    pick_sum_total_gk($('[name="gk_id"]').val());
-                    // pick_curr(data.CURR_ID);
-                          
-                    $('#modal_gk').modal('hide');
+                    $('[name="kode_cabang"]').val(data.BRANCH_CODE);    
+                    $('[name="nama_cabang"]').val(data.BRANCH_NAME);                 
+                    $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -388,48 +416,131 @@
             });
         }
     
-        function pick_gkdet(id)
+        function show_bk()
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/show_gkdet/')?>/" + id,
-                type: "GET",
+                url : "<?php echo site_url('administrator/Finance/show_kas/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    var tgl1 = $('[name="tgl1"]').val();
+                    var tgl2 = $('[name="tgl2"]').val();
+                    var periode = formattanggal(tgl1) + ' s/d ' + formattanggal(tgl2);
+                    $('[name="periode"]').text(periode);
+                    var cabang = "";
+                    var account = "";
+                    var tdebet = 0;
+                    var tkredit = 0;
+                    var total = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var jenis = data[i]["CSH_CODE"];
+                        if (account != data[i]["COA_ACC"]){
+                            if ((cabang != "") && (account != "")) {
+                            var $st = $('<tr>').append(
+                                        $('<td>').text(''),
+                                        $('<td>').text(''),
+                                        $('<td>').text(''),
+                                        $('<td>').text(''),
+                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2))
+                                      ).appendTo('#tb_content');
+                            var $tot = $('<tr>').append(
+                                        // $('<td>').text(''),
+                                        // $('<td>').text(''),
+                                        // $('<td>').text(''),
+                                        // $('<td>').text(''),
+                                        $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                                      ).appendTo('#tb_content');
+                            }
+                            if (cabang != data[i]["BRANCH_NAME"]) {
+                               var $tr = $('<tr>').append(
+                                         $('<td>').text(data[i]["BRANCH_NAME"])
+                                        ).appendTo('#tb_content');
+                               cabang=data[i]["BRANCH_NAME"];
+                               tdebet = 0;
+                               tkredit = 0;
+                               total = 0;
+                            }
+                            var $tr = $('<tr>').append(
+                                      $('<td>').text(data[i]["COA_ACC"]+ '\xa0' + data[i]["COA_ACCNAME"])
+                                      ).appendTo('#tb_content');
+                            account=data[i]["COA_ACC"];
+                        }
+
+                        if (jenis.substring(0,2)=="KM")
+                        {
+                            tdebet = tdebet + data[i]["CSH_AMOUNT"];
+                            total = total + data[i]["CSH_AMOUNT"];
+                            var $tr = $('<tr>').append(
+                            $('<td>').text(data[i]["CSH_CODE"]),    
+                            $('<td>').text(data[i]["CSH_DATE"]),  
+                            $('<td>').text(data[i]["ACC"]),
+                            $('<td>').text(data[i]["CSH_INFO"]),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSH_AMOUNT"],".",",",2)),
+                            $('<td>').css('text-align','right').text('0.00')
+                            
+                            ).appendTo('#tb_content');
+                        }
+                        if (jenis.substring(0,2)=="KK")
+                        {
+                            tkredit = tkredit + data[i]["CSH_AMOUNT"];
+                            total = total - data[i]["CSH_AMOUNT"];
+                            var $tr = $('<tr>').append(
+                            $('<td>').text(data[i]["CSH_CODE"]),    
+                            $('<td>').text(data[i]["CSH_DATE"]),  
+                            $('<td>').text(data[i]["ACC"]),
+                            $('<td>').text(data[i]["CSH_INFO"]),
+                            $('<td>').css('text-align','right').text('0.00'),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSH_AMOUNT"],".",",",2))
+                            ).appendTo('#tb_content');
+                        }
+
+                    };
+                    var $st = $('<tr>').append(
+                              $('<td>').text(''),
+                              $('<td>').text(''),
+                              $('<td>').text(''),
+                              $('<td>').text(''),
+                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2)),
+                              ).appendTo('#tb_content');
+                    var $tot = $('<tr>').append(
+                               $('<td>').text(''),
+                               $('<td>').text(''),
+                               $('<td>').text(''),
+                               $('<td>').text(''),
+                               $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                               ).appendTo('#tb_content');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function show_bkk()
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_keluar/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {                       
-                    var total= $('[name="giro_total"]').val();
-                    var info = $('[name="giro_info"]').val();
-                    var curr = $('[name="curr_name"]').val();
-                    var terbi = $('[name="giro_terbilang"]').val() + ' ' + curr;
                     for (var i = 0; i < data.length; i++) {
                             var $tr = $('<tr>').append(
-                            $('<td>').text(data[i]["SUPP_CODE"] + '\xa0' + data[i]["SUPP_NAME"]),    
-                            $('<td>').text(data[i]["GROUTDET_CODE"]),    
-                            $('<td>').text(data[i]["GROUTDET_DATE"]),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["GROUTDET_AMOUNT"],".",",",2))
+                            $('<td>').text(data[i]["CSHO_CODE"]),    
+                            $('<td>').text(data[i]["CSHO_DATE"]),  
+                            $('<td>').text(data[i]["COA_ACC"]),
+                            $('<td>').text(data[i]["CSHODET_INFO"]),
+                            $('<td>').css('text-align','right').text('0.00'),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHODET_AMOUNT"],".",",",2))
                             ).appendTo('#tb_content');
                     };
-                    
-                    var $tr = $('<tr>').append(
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",".",2))
-                            ).appendTo('#tb_content');
-                    var $tr = $('<tr>').append(
-                            $('<td>').text('Keterangan : '+ info)
-                            // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(info),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
-                            ).appendTo('#tb_content');
-                    var $tr = $('<tr>').append(
-                            $('<td>').text('Terbilang : ' + terbi)
-                            // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
-                            ).appendTo('#tb_content');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -543,6 +654,16 @@
                  return fixed.replace('.', decimalSeparator);  
             }  
         }  
+
+        function formattanggal(tanggal)
+        {
+            var today = tanggal; 
+            var dd = today.substr(8,2); 
+            var mm = today.substr(5,2); 
+            var yyyy = today.substr(0,4); 
+            var todaynew = dd+'/'+mm+'/'+yyyy; 
+            return todaynew;
+        }
     </script>
 </body>
 </html>
