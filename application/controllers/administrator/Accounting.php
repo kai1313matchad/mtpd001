@@ -107,7 +107,7 @@
 			if($this->input->post('branch'))
 			{
 				$this->db->where('b.branch_id',$this->input->post('branch'));
-			}
+			}			
 			$que = $this->db->get();
 			$data = $que->result();
 			echo json_encode($data);
@@ -121,6 +121,31 @@
 			echo $segment;
 			echo '<br />';
 			}
+		}
+
+		public function tes_kasmasuk()
+		{
+			$this->db->from('cashin_det a');
+			$this->db->join('trx_cash_in b','b.csh_id = a.csh_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$que = $this->db->get();
+			$data =$que->result();
+			echo json_encode($data);
+		}
+
+		public function tes_kaskeluar()
+		{
+			$this->db->from('cashin_det a');
+			$this->db->join('trx_cash_in b','b.csh_id = a.csh_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$que = $this->db->get();
+			$data['b'] =$que->result();
+			$this->db->from('cashout_det a');
+			$this->db->join('trx_cash_out b','b.csho_id = a.csho_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$que = $this->db->get();
+			$data['a'] =$que->result();
+			echo json_encode($data);
 		}
 
 		//CRUD

@@ -49,6 +49,9 @@
 
         public function gen_cashin()
 		{
+			// $gen = $this->gen->gen_numinvo();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['invo_code'];
 			$data['id'] = '10';
 			$data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;

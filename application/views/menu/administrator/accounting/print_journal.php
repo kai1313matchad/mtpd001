@@ -14,7 +14,7 @@
     <!-- sbadmin -->
     <link href="<?php echo base_url('assets/sbadmin/css/sb-admin-2.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/rowGroup.dataTables.min.css')?>" rel="stylesheet">
@@ -42,10 +42,14 @@
             border: solid 2px black;
             min-height: 50px;
         }
-        table.dataTable tr.group-end td 
-        {
-            text-align: right;
-            /*font-weight: normal;*/
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+
+        tr.subgroup,
+        tr.subgroup {
+           background-color: cornsilk !important;
         }
     </style>
 </head>
@@ -75,8 +79,11 @@
                                 No
                             </th>
                             <th class="text-center">
-                                No Jurnal
+                                Cabang
                             </th>
+                            <th class="text-center">
+                                No Jurnal
+                            </th>                            
                             <th class="text-center">
                                 Tanggal
                             </th>
@@ -101,6 +108,32 @@
                 </table>
             </div>
         </div>
+        <!-- <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_tes" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                No
+                            </th>
+                            <th class="text-center">
+                                Kode
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>
+                            <th class="text-center">
+                                Keterangan
+                            </th>
+                            <th class="text-center">
+                                Jumlah
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_contenttes"></tbody>
+                </table>
+            </div>
+        </div> -->
     </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
@@ -118,6 +151,7 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
     <!-- Number to Money -->
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <!-- Addon -->
@@ -128,77 +162,43 @@
             // var id = $('[name="inv_id"]').val();
             // pick_invoice(id);
             pick_journal();            
+            // build_tes();
             $('[name="rptjou_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
         });
 
-        function dt_journal()
-        {
-            $('#dtb_rptjou').DataTable({                
-                "columnDefs":
-                [
-                    {"visible": false, "targets": 1},
-                    {"orderable": false, "targets": 1}
-                ],
-                "info": false,
-                // "responsive": true,
-                "order": [[1,, 'asc']],
-                "drawCallback": function(settings)
-                {
-                    var api = this.api();
-                    var rows = api.rows({page:'current'}).nodes();
-                    var last = null;
-                    api.column(1, {page:'current'}).data().each(function (group, i)
-                        {
-                            if(last !== group)
-                            {
-                                $(rows).eq(i).before('<tr class="group"><td colspan="7">'+group+'</td></tr>');
-                                last = group;
-                            }
-                        }
-                        );
-                }
-            });
-        }
-
-        function dt_journal2()
-        {
-            $('#dtb_rptjou').DataTable({
-                info: false,
-                searching: false,
-                // responsive: true,
-                columnDefs:
-                [
-                    {visible: false, targets: 1},
-                    {orderable: false, targets: '_all'}
-                ],
-                order: [[1, 'asc']],
-                rowGroup:
-                {
-                    endRender: function(rows, group)
-                    {
-                        var sum = rows.data().pluck(6)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        var sum2 = rows.data().pluck(7)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        return $('<tr/>')
-                        .append( '<td colspan="5"></td>' )
-                        .append( '<td>'+sum+'</td>' )                        
-                        .append( '<td>'+sum2+'</td>' ); 
-                    },
-                    dataSrc: 1
-                }
-            });
-        }
-
         function pick_journal()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/gen_rptjournal')?>",
+                type: "POST",
+                data: $('#form_jou').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td>').css('text-align','center').text(i+1),
+                            $('<td>').css('text-align','center').text(data[i]["BRANCH_NAME"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_CODE"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_DATE"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_REFF"]),
+                            $('<td>').css('text-align','center').text(data[i]["JOU_INFO"]),
+                            $('<td>').css('text-align','center').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_DEBIT"])),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_CREDIT"]))
+                            ).appendTo('#tb_content');
+                    }
+                    dt_journal2();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_journal2()
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Accounting/gen_rptjournal')?>",
@@ -225,6 +225,229 @@
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function dt_journal()
+        {
+            $('#dtb_rptjou').DataTable({
+                "columnDefs":
+                [
+                    // {"visible": false, "targets": 1},
+                    {"orderable": false, "targets": 1}
+                ],
+                "info": false,
+                // "responsive": true,
+                // "order": [[2, 'asc']],
+                "drawCallback": function(settings)
+                {
+                    var api = this.api();
+                    var rows = api.rows({page:'current'}).nodes();
+                    var last = null;
+                    var clm = [1,2];
+                    for(cl=0 ; c < clm.length ; cl++)
+                    {
+                        var cls = columns[cl];
+                        api.column(cls,{page:'current'}).data().each(function (group,i)
+                        {
+                            if(last !== group)
+                            {
+                                $('rows').eq(i).before('<tr class="group"><td colspan="9">'+group+'</td></tr>');
+                            }
+                            last=group;
+                        });
+                    }
+                    // for(c=0;c<columns.length;c++)
+                    // {
+                    //     var colNo = columns[c];
+                    //     api.column(c,{page:'current'}).data().each(function (group, i)
+                    //     {
+                    //         if(last !== group)
+                    //         {
+                    //             $('rows').eq(i).before('<tr class="group"><td colspan="9">'+group+'</td></tr>');
+                    //         }
+                    //         last=group;
+                    //     });
+                    // }
+                    // api.column(1, {page:'current'}).data().each(function (group, i)
+                    //     {
+                    //         if(last !== group)
+                    //         {
+                    //             var rowData = api.row(i).data();
+                    //             $(rows).eq(i).before('<tr class="group"><td colspan="9">'+group+' - '+rowData[2]+'</td></tr>');
+                    //             last = group;
+                    //         }
+                    //     });
+                }
+            });
+        }
+
+        function dt_journal2()
+        {
+            $('#dtb_rptjou').DataTable({
+                info: false,
+                searching: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: 1},
+                    {orderable: false, targets: '_all'}
+                ],
+                order: [[1, 'asc']],
+                rowGroup:
+                {
+                    endRender: function(rows, group)
+                    {
+                        var sum = rows.data().pluck(7)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+                        var sum2 = rows.data().pluck(8)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
+                        return $('<tr/>')
+                        .append( '<td colspan="6"></td>' )
+                        .append( '<td class="text-right">'+sum+'</td>' )                        
+                        .append( '<td class="text-right">'+sum2+'</td>' ); 
+                    },
+                    dataSrc: 2
+                },
+            });
+        }
+
+        function dt_journal3()
+        {
+            $('#dtb_rptjou').dataTable().rowGrouping({
+                iGroupingColumnIndex: 1,
+                iGroupingColumnIndex2: 2,
+            });
+        }
+
+        function dt_journal4()
+        {
+            var table = $('#dtb_rptjou').DataTable({
+                // order: [[1,'asc'],[2,'asc']],
+                drawCallback: function(settings)
+                {
+                    var api = this.api();
+                    var tableRows = api.rows({page:'current'}).nodes();
+                    var tableData = api.rows({page:'current'}).data();
+                    var lastGr = null;
+                    var lastSub = null;
+                    var subGr = null;
+                    $(tableRows).each(function()
+                    {
+                        groupName = this.cells[1].innerHTML;
+                        subGr = this.cells[2].innerHTML;
+                        if (lastGr !== groupName)
+                        {
+                            $(this).before('<tr class="group"><td colspan="9">'+groupName+'</td></tr>');
+                            lastGr = groupName;
+                        }
+                        if (lastSub !== subGr)
+                        {
+                            $(this).before('<tr class="subgroup"><td colspan="9">'+subGr+'</td></tr>');
+                            lastSub = subGr;
+                        }
+                    });
+                }
+            });
+        }
+
+        function build_tes()
+        {
+            // pick_tes1();
+            pick_tes2();
+            
+        }
+
+        function pick_tes1()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/tes_kasmasuk')?>",
+                type: "POST",
+                data: $('#form_jou').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td>').css('text-align','center').text(i+1),
+                            $('<td>').css('text-align','center').text(data[i]["CSH_CODE"]),
+                            $('<td>').css('text-align','center').text(data[i]["CSH_DATE"]),
+                            $('<td>').css('text-align','center').text(data[i]["COA_ACCNAME"]),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["CSHDETIN_AMOUNT"])),
+                            ).appendTo('#tb_contenttes');
+                    }                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_tes2()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/tes_kaskeluar')?>",
+                type: "POST",
+                data: $('#form_jou').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    for (var i = 0; i < data.a.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td>').css('text-align','center').text(i+1),
+                            $('<td>').css('text-align','center').text(data.a[i]["CSHO_CODE"]),
+                            $('<td>').css('text-align','center').text(data.a[i]["CSHO_DATE"]),
+                            $('<td>').css('text-align','center').text(data.a[i]["COA_ACCNAME"]),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data.a[i]["CSHODET_AMOUNT"])),
+                            ).appendTo('#tb_contenttes');
+                    }
+                    alert(data.a["0"]["CSHO_CODE"]);
+                    for (var i = 0; i < data.b.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td>').css('text-align','center').text(i+1),
+                            $('<td>').css('text-align','center').text(data.b[i]["CSH_CODE"]),
+                            $('<td>').css('text-align','center').text(data.b[i]["CSH_DATE"]),
+                            $('<td>').css('text-align','center').text(data.b[i]["COA_ACCNAME"]),
+                            $('<td>').css('text-align','right').text('Rp '+money_conv(data.b[i]["CSHDETIN_AMOUNT"])),
+                            ).appendTo('#tb_contenttes');
+                    }
+                    dt_journaltes();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function dt_journaltes()
+        {
+            $('#dtb_tes').DataTable({
+                info: false,
+                searching: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: 3},
+                    {orderable: false, targets: '_all'}
+                ],
+                order: [[3, 'asc']],
+                rowGroup:
+                {
+                    dataSrc: 3
                 }
             });
         }
