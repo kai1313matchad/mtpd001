@@ -406,6 +406,7 @@
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
 	                'cust_postal' => $this->input->post('area'),
+	                'cust_prov' => $this->input->post('prov'),
 	                'cust_phone' => $this->input->post('notlp'),
 	                'cust_fax' => $this->input->post('fax'),
 	                'cust_acc' => $this->input->post('accpiutang'),
@@ -429,6 +430,7 @@
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
 	                'cust_postal' => $this->input->post('area'),
+	                'cust_prov' => $this->input->post('prov'),
 	                'cust_phone' => $this->input->post('notlp'),
 	                'cust_fax' => $this->input->post('fax'),
 	                'cust_acc' => $this->input->post('accpiutang'),
@@ -478,6 +480,12 @@
 	        {
 	            $data['inputerror'][] = 'area';
 	            $data['error_string'][] = 'Area Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('prov') == '')
+	        {
+	            $data['inputerror'][] = 'prov';
+	            $data['error_string'][] = 'Provinsi Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('nama') == '')

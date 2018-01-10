@@ -210,6 +210,9 @@
                                 <li>
                                     <a <?php if ($menulist == 'ledger') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/ledger_acc')?>"><i class="fa <?php if ($menulist == 'ledger') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Buku Besar</a>
                                 </li>
+                                <li>
+                                    <a <?php if ($menulist == 'report_accounting') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/report')?>"><i class="fa <?php if ($menulist == 'report_accounting') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
+                                </li>
                             </ul>                            
                         </li>
                         <li <?php if ($menu == 'transact') {echo 'class=active';} ?>>

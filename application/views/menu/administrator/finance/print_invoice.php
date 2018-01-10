@@ -44,13 +44,14 @@
 </head>
 <body>
     <div class="container">
+        <input type="hidden" name="inv_id" value="<?php echo $id; ?>">
         <div class="row">
             <div class="col-sm-4 col-xs-4">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-4 col-xs-4">
                 <h2 class="text-center"><u>INVOICE</u></h2>
-                <h4 class="text-center">31 Dec 2017</h4>
+                <h4 class="text-center" name="inv_date">31 Dec 2017</h4>
             </div>
         </div>
         <div class="row">
@@ -64,16 +65,14 @@
             </div>
             <div class="col-sm-4 col-xs-4 text-center">
                 <span>Nomor : </span>
-                <span>INV/1712/000001</span>
+                <span name="inv_code">INV/1712/000001</span>
             </div>
-            <div class="col-sm-4 col-xs-4">
-                <p>
-                    <strong>Kepada Yth :</strong><br>
-                    <span>PT. GUDANG GARAM TBK</span><br>
-                    <span>JL. SEMAMPIR II/1 UNIT X, KEDIRI</span><br><br>
-                    <span>KEDIRI 64121</span><br>
-                    <span>JAWA TIMUR</span>
-                </p>
+            <div class="col-sm-4 col-xs-4">                
+                <strong>Kepada Yth :</strong><br>
+                <span name="inv_custname"></span><br>
+                <span name="inv_custaddr">JL. SEMAMPIR II/1 UNIT X, KEDIRI</span><br>
+                <span name="inv_custcity">KEDIRI 64121</span><br>
+                <span name="inv_custprov">JAWA TIMUR</span>                
             </div>
         </div>
         <div class="bg-table">
@@ -90,28 +89,20 @@
                                 <th class="col-sm-2 col-xs-2 text-center">Nominal</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>AB/1712/0000001</td>
-                                <td>30252</td>
-                                <td>Perempatan Jl. A Jakfar - Jl. A Yani Situbondo</td>
-                                <td>Recovering Billboard</td>
-                                <td><span class="pull-right">2,375,000.00</span></td>
-                            </tr>
+                        <tbody id="tb_content">
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-7 col-xs-7">
-                    <span># <i>Dua Juta Tiga Ratus Tujuh Puluh Lima Ribu Rupiah</i> #</span>
+                    <span># <i name="inv_terbilang">Dua Juta Tiga Ratus Tujuh Puluh Lima Ribu Rupiah</i> #</span>
                 </div>
                 <div class="col-sm-3 col-xs-3 text-right">
                     <span><strong>Sub Total</strong></span>
                 </div>
                 <div class="col-sm-2 col-xs-2 text-right">
-                    <span>2,375,000.00</span>
+                    <span name="inv_subs">2,375,000.00</span>
                 </div>
             </div>
             <div class="row">
@@ -119,7 +110,7 @@
                     <span><strong>PPN</strong></span>
                 </div>
                 <div class="col-sm-2 col-xs-2 text-right">
-                    <span>0.00</span>
+                    <span name="inv_ppn">0.00</span>
                 </div>
             </div>
             <div class="row">
@@ -127,7 +118,7 @@
                     <span><strong>PPH</strong></span>
                 </div>
                 <div class="col-sm-2 col-xs-2 bt-border text-right">
-                    <span>0.00</span>
+                    <span name="inv_pph">0.00</span>
                 </div>
             </div>
             <div class="row">
@@ -135,7 +126,7 @@
                     <span><strong>Grand Total</strong></span>
                 </div>
                 <div class="col-sm-2 col-xs-2 text-right">
-                    <span>2,375,000.00</span>
+                    <span name="inv_grand">2,375,000.00</span>
                 </div>
             </div>
         </div>
@@ -144,10 +135,7 @@
                 Untuk Pembayaran <span class="pull-right">:</span>
             </div>
             <div class="col-sm-8 col-xs-8">
-                <span>Recovering Billboard</span><br>
-                <span>Lokasi : </span><span>Jl A Jakfar Situbondo, Jl A Yani Situbondo</span><br>
-                <span>Ukuran : </span><span>10m x 5m x 1mk <span></span><br>
-                <span>Teks : </span><span>Teks Baru Billboard</span>
+                <textarea name="inv_info" class="form-control" rows="5" style="resize: none;border: none; background-color: white" readonly></textarea>
             </div>
         </div>
         <div class="row">
@@ -188,46 +176,29 @@
     <script>
         $(document).ready(function()
         {
-            var id = $('[name="appr_id"]').val();
-            pick_appr(id);
+            var id = $('[name="inv_id"]').val();
+            pick_invoice(id);
         });
 
-        function pick_appr(id)
+        function pick_invoice(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
+                url : "<?php echo site_url('administrator/Finance/get_inv/')?>"+id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {
-                    pick_spelledtotal(data.APPR_TOT_INCOME);
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    pick_cust(data.CUST_ID);
-                    $('[name="print_apprcode"]').text(data.APPR_CODE);
-                    $('[name="print_apprdate"]').text(moment(data.APPR_DATE).format('DD-MMMM-YYYY'));
-                    $('[name="print_apprinfo"]').text(data.APPR_INFO);
-                    var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + 'mk';
-                    $('[name="print_apprsize"]').text(size);
-                    pick_loc(data.LOC_ID);
-                    var ctr = moment(data.APPR_CONTRACT_START).format('DD-MMMM-YYYY') + ' s/d ' + moment(data.APPR_CONTRACT_END).format('DD-MMMM-YYYY');
-                    $('[name="print_apprcontract"]').text(ctr);
-                    $('[name="print_apprvis"]').text(data.APPR_VISUAL);
-                    $('[name="print_apprdpp"]').text(money_conv(data.APPR_DPP_INCOME));
-                    $('[name="print_apprdiscperc1"]').text(data.APPR_DISC_PERC1+'%');
-                    $('[name="print_apprdiscsum1"]').text(money_conv(data.APPR_DISC_SUM1));
-                    $('[name="print_apprdiscperc2"]').text(data.APPR_DISC_PERC2+'%');
-                    $('[name="print_apprdiscsum2"]').text(money_conv(data.APPR_DISC_SUM2));
-                    $('[name="print_apprdppafterdisc"]').text(money_conv(data.APPR_SUB_DSC));
-                    $('[name="print_apprppnperc"]').text(data.APPR_PPN_PERC+'%');
-                    $('[name="print_apprppnsum"]').text(money_conv(data.APPR_PPN_SUM));
-                    $('[name="print_apprbbtax"]').text(money_conv(data.APPR_BBTAX));
-                    $('[name="print_apprdppaftertax1"]').text(money_conv(data.APPR_SUB_PPN));
-                    $('[name="print_apprpphperc"]').text(data.APPR_PPH_PERC+'%');
-                    $('[name="print_apprpphsum"]').text(money_conv(data.APPR_PPH_SUM));
-                    $('[name="print_apprgrandtotal"]').text(money_conv(data.APPR_TOT_INCOME));
-                    $('[name="print_apprrecov"]').text(data.APPR_RECOV);                    
-                    pick_getappcost(id);
-                    pick_getappterm(id);                    
+                    var id = data.INV_ID;
+                    var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY')
+                    $('[name="inv_date"]').text(invdate);
+                    $('[name="inv_code"]').text(data.INV_CODE);
+                    $('[name="inv_custname"]').text(data.CUST_NAME);
+                    $('[name="inv_custaddr"]').text(data.CUST_ADDRESS);
+                    $('[name="inv_custcity"]').text(data.CUST_CITY+', '+data.CUST_POSTAL);
+                    $('[name="inv_custprov"]').text(data.CUST_NAME);
+                    $('[name="inv_info"]').text(data.INV_INFO);
+                    pick_invdet(id);
+                    pick_sub(id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -254,15 +225,19 @@
             });
         }
 
-        function pick_loc(id)
+        function pick_sub(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="print_apprloc"]').text(data.LOC_NAME);
+                    $('[name="inv_subs"]').text(money_conv(data.sub1));
+                    $('[name="inv_ppn"]').text(money_conv(data.ppn1));
+                    $('[name="inv_pph"]').text(money_conv(data.pph1));
+                    $('[name="inv_grand"]').text(money_conv(data.gt1));
+                    pick_spelledtotal(data.gt1);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -271,10 +246,10 @@
             });
         }
 
-        function pick_getappcost(id)
+        function pick_invdet(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/get_appcost/')?>" + id,
+                url : "<?php echo site_url('administrator/Finance/get_invdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -282,9 +257,12 @@
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),                            
-                            $('<td>').css('text-align','left').text(data[i]["CSTDT_CODE"]),
-                            $('<td>').css('text-align','right').text(money_conv(data[i]["CSTDT_AMOUNT"]))
+                            $('<td>').css('text-align','center').text(i+1),                    
+                            $('<td>').css('text-align','center').text(data[i]["APPR_CODE"]),
+                            $('<td>').css('text-align','center').text(data[i]["APPR_PO"]),
+                            $('<td>').css('text-align','center').text(data[i]["LOC_NAME"]),
+                            $('<td>').css('text-align','center').text(data[i]["APPR_INFO"]),
+                            $('<td>').css('text-align','right').text(money_conv(data[i]["INVDET_AMOUNT"]))
                             ).appendTo('#tb_content');
                     }                   
                 },
@@ -328,12 +306,12 @@
         function pick_spelledtotal(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/get_numbsp/')?>" + v,
+                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + v,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="print_apprterbilang"]').text(data.terbilang+' Rupiah');
+                    $('[name="inv_terbilang"]').text(data.terbilang+' Rupiah');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
