@@ -161,8 +161,7 @@
         {
             // var id = $('[name="inv_id"]').val();
             // pick_invoice(id);
-            pick_journal();            
-            // build_tes();
+            pick_journal();
             $('[name="rptjou_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
         });
 
