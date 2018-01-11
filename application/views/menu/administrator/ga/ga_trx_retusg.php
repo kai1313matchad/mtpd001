@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Pemakaian Barang</h1>
+                        <h1 class="page-header">Retur Pemakaian Barang</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -11,29 +11,25 @@
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#usg" data-toggle="tab">Data Pemakaian</a>
+                                <a href="#retusg" data-toggle="tab">Data Retur Pemakaian</a>
                             </li>
-                            <!-- <li>
+                           <!--  <li>
                                 <a href="#gd" data-toggle="tab">Data Barang</a>
                             </li> -->
                         </ul>
-                        <form action="#" method="post" class="form-horizontal" id="form_usg">
+                        <form action="#" method="post" class="form-horizontal" id="form_rtusg">
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="usg">
+                                <div class="tab-pane fade in active" id="retusg">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Pemakaian</h2>
                                         </div>
                                     </div>                                    
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Nomor Pakai</label>
+                                        <label class="col-sm-3 control-label">Nomor Retur</label>
                                         <div class="col-sm-4">
-                                            <!-- <input class="form-control" type="text" name="usg_code" value="<?php echo $usg->USG_CODE?>" readonly>
-                                            <input type="hidden" name="usg_id" value="<?php echo $usg->USG_ID?>">
-                                            <input type="hidden" name="user_id" value="1"> -->
-
-                                            <input class="form-control" type="text" name="usg_code" value="" readonly>
-                                            <input type="hidden" name="usg_id" value="0">
+                                            <input class="form-control" type="text" name="rtusg_code" value="" readonly>
+                                            <input type="hidden" name="rtusg_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
                                         </div>
                                         <div class="col-sm-1">
@@ -47,18 +43,25 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input type='text' class="form-control" name="usg_tgl" placeholder="Tanggal" />
+                                                <input type='text' class="form-control" name="retusg_tgl" placeholder="Tanggal" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">                              
+                                        <label class="col-sm-3 control-label">Nomor Pemakaian</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="usg_code" readonly>
+                                            <input type="hidden" name="usg_id">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_usg()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="appr_code" readonly>
                                             <input type="hidden" name="appr_id">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -72,14 +75,15 @@
                                         <div class="col-sm-4">
                                             <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
-                                            <textarea name="usg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
+                                            <textarea name="rtusg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
-                                    <!-- mulai -->
+                                    
+
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Barang</h2>
@@ -111,7 +115,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Jumlah Pakai</label>
+                                        <label class="col-sm-3 control-label">Jumlah Retur</label>
                                         <div class="col-sm-2">
                                             <input class="form-control" type="text" name="gd_usg">
                                             <span class="help-block"></span>
@@ -122,7 +126,6 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-4">
-                                            <!-- <a href="javascript:void(0)" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</a> -->
                                             <button type="button" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</button>
                                         </div>
                                     </div>
@@ -154,20 +157,17 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <!-- selesai -->
+
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-3 text-center">
-                                            <a href="javascript:void(0)" onclick="save_usg()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="save_rtusg()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
-                                        <div class="col-sm-3 text-center">
+                                        <div class="col-sm-2 text-center">
                                             <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
-                                    <br>
                                 </div>
-                                <div class="tab-pane fade" id="gd">
-                                    
-                                </div>
+                                
                             </div>
                         </form>
                     </div>
@@ -179,7 +179,7 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-    <div class="modal fade" id="modal_appr" role="dialog">
+    <div class="modal fade" id="modal_usg" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -189,15 +189,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="dtb_usg" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Approval</th>
-                                        <th>PO</th>
+                                        <th>Kode</th>
                                         <th>Tanggal</th>
-                                        <th>Customer</th>
-                                        <th>Lokasi</th>
+                                        <th>Info</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -262,13 +260,13 @@
     <script>
         function tambah(){
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_usage_lgt') ?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_retusage_ga') ?>",
                 type : "GET",
                 dataType : "JSON",
                 success : function(data)
                 {
-                    $('[name="usg_code"]').val(data.kode);
-                    $('[name="usg_id"]').val(data.id);
+                    $('[name="rtusg_code"]').val(data.kode);
+                    $('[name="rtusg_id"]').val(data.id);
 
                 },
                 error : function (jqXHR, textStatus, errorThrown)
@@ -277,17 +275,12 @@
                 }
             })
         }
-
         $(document).ready(function(){
             $('#dtp1').datetimepicker({                
                 format: 'YYYY-MM-DD'
             });
-            var id = $('[name="usg_id"]').val();
+            var id = $('[name="rtusg_id"]').val();
             barang(id);
-
-            // $('[name=gd_usg]').on('input', function() {
-            //     stockchk();
-            // });
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 $($.fn.dataTable.tables(true)).DataTable()
@@ -301,13 +294,13 @@
             });
         });
 
-        function save_usg()
+        function save_rtusg()
         {
             // ajax adding data to database
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_simpanusg')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_simpanrtusg')?>",
                 type: "POST",
-                data: $('#form_usg').serialize(),
+                data: $('#form_rtusg').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -331,16 +324,16 @@
                 // alert('benar');
                 // ajax adding data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_add_brgusg')?>",
+                    url : "<?php echo site_url('administrator/Genaff/ajax_add_brgrtusg')?>",
                     type: "POST",
-                    data: $('#form_usg').serialize(),
+                    data: $('#form_rtusg').serialize(),
                     dataType: "JSON",
                     success: function(data)
                     {
                         if(data.status) //if success close modal and reload ajax table
                         {
                             alert('Data Berhasil Ditambahkan');
-                            id = $('[name="usg_id"]').val();
+                            id = $('[name="rtusg_id"]').val();
                             barang(id);
                             bersih();
                         }                   
@@ -363,14 +356,15 @@
             {
                 // ajax delete data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgusg')?>/"+id,
+                    url : "<?php echo site_url('administrator/Genaff/ajax_del_brgrtusg')?>/"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
                     {
                         alert('Data Berhasil Dihapus');
-                        id = $('[name="usg_id"]').val();
-                        barang(id);                        
+                        id = $('[name="rtusg_id"]').val();
+                        barang(id);
+                        bersih();
                     },
                     error: function (jqXHR, textStatus, errorThrown)
                     {
@@ -385,11 +379,6 @@
             var old = $('[name="gd_stock"]').val();
             var curr = $('[name="gd_usg"]').val();
 
-            if ((curr*1) > (old*1))
-            {
-                $('[name="gd_usg"]').parent().parent().addClass('has-error');
-                $('[name="gd_usg"]').next().text('Stok Tidak Cukup');
-            }
             if (curr <= 0)
             {
                 $('[name="gd_usg"]').parent().parent().addClass('has-error');
@@ -426,7 +415,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_brgusg')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_brgrtusg')?>/"+id,
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -439,12 +428,12 @@
             });
         }
 
-        function srch_appr()
+        function srch_usg()
         {            
-            $('#modal_appr').modal('show');
+            $('#modal_usg').modal('show');
             $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
             //datatables        
-            table = $('#dtb_appr').DataTable({
+            table = $('#dtb_usg').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -453,7 +442,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_srch_usg')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -480,7 +469,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brgusg')?>",
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_srch_brgusg')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -490,6 +479,32 @@
                     "orderable": false, //set not orderable
                 },
                 ],
+            });
+        }
+
+        function pick_usage(id)
+        {
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_usage/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="usg_id"]').val(data.USGGA_ID);
+                    $('[name="usg_code"]').val(data.USGGA_CODE);
+                    $('[name="rtusg_info"]').val(data.USGGA_INFO);
+                    // if(data.APPR_ID != null)
+                    // {
+                    //     var appr_id = data.APPR_ID;
+                    //     pick_appr(appr_id);
+                    // }
+                    $('#modal_usg').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
 
@@ -505,8 +520,7 @@
                     $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="appr_code"]').val(data.APPR_CODE);
                     $('[name="loc_name"]').val(data.LOC_NAME);
-                    $('[name="loc_address"]').val(data.LOC_ADDRESS);
-                    $('#modal_appr').modal('hide');
+                    $('[name="loc_address"]').val(data.LOC_ADDRESS);                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

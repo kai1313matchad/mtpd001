@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">                              
+                                    <!-- <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="appr_code" readonly>
@@ -72,7 +72,7 @@
                                         <div class="col-sm-4">
                                             <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
@@ -262,7 +262,7 @@
     <script>
         function tambah(){
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_usage_lgt') ?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_usage_ga') ?>",
                 type : "GET",
                 dataType : "JSON",
                 success : function(data)
@@ -305,7 +305,7 @@
         {
             // ajax adding data to database
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_simpanusg')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_simpanusg')?>",
                 type: "POST",
                 data: $('#form_usg').serialize(),
                 dataType: "JSON",
@@ -331,7 +331,7 @@
                 // alert('benar');
                 // ajax adding data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_add_brgusg')?>",
+                    url : "<?php echo site_url('administrator/Genaff/ajax_add_brgusg')?>",
                     type: "POST",
                     data: $('#form_usg').serialize(),
                     dataType: "JSON",
@@ -363,7 +363,7 @@
             {
                 // ajax delete data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgusg')?>/"+id,
+                    url : "<?php echo site_url('administrator/Genaff/ajax_del_brgusg')?>/"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
@@ -426,7 +426,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_brgusg')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_brgusg')?>/"+id,
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -480,7 +480,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brgusg')?>",
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_srch_brgusg')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.

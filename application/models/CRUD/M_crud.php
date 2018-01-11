@@ -325,6 +325,16 @@
 			return  $insertId;
 		}
 
+		//get bl sub ga
+		public function sub_bl_ga($id)
+		{					
+			$this->db->select_sum('prcga_details.prcgadet_sub', 'Subtotal');
+			$this->db->join('trx_prc_ga','trx_prc_ga.prcga_id = prcga_details.prcga_id');
+			$this->db->where('trx_prc_ga.prcga_id',$id);
+			$query = $this->db->get('prcga_details');
+	        return $query->row();
+		}
+
 		//get bl sub
 		public function sub_bl($id)
 		{					
@@ -362,6 +372,16 @@
 			$this->db->join('procurement_ret','procurement_ret.rtprc_id = retprc_details.rtprc_id');
 			$this->db->where('procurement_ret.rtprc_id',$id);
 			$query = $this->db->get('retprc_details');
+	        return $query->row();
+		}
+
+		//get retbl sub
+		public function sub_retgabl($id)
+		{					
+			$this->db->select_sum('retprcga_details.rtprcgadet_sub', 'Subtotal');
+			$this->db->join('prcga_ret','prcga_ret.rtprcga_id = retprcga_details.rtprcga_id');
+			$this->db->where('prcga_ret.rtprcga_id',$id);
+			$query = $this->db->get('retprcga_details');
 	        return $query->row();
 		}
 

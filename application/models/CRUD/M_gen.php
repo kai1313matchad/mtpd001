@@ -46,11 +46,11 @@
 		//Gen Nomor PO GA
 		public function gen_numpoga()
 		{
-			$res = $this->gen_num_('trx_po_ga','poga_code','PG');
+			$res = $this->gen_num_('trx_po_ga','poga_code','POG');
 			$check = $this->db->get_where('trx_po_ga',array('poga_code' => $res));
 			if($check->row() > 0)
 			{
-				$res = $this->gen_num_('trx_po_ga','poga_code','PG');
+				$res = $this->gen_num_('trx_po_ga','poga_code','POG');
 			}
 			$data = array(
 					'poga_code'=>$res,
@@ -62,6 +62,86 @@
 			$out['poga_code'] = $res;
 			return  $out;
 		}
+
+		public function gen_numblga()
+		{
+			$res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+			$check = $this->db->get_where('trx_prc_ga',array('prcga_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+			}
+			$data = array(
+					'prcga_code'=>$res,
+					'prcga_sts'=>'0'
+				);			
+			$this->db->insert('trx_prc_ga',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['prcga_code'] = $res;
+			return  $out;
+		}
+
+		public function gen_numretga()
+		{
+			$res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+			$check = $this->db->get_where('prcga_ret',array('rtprcga_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+			}
+			$data = array(
+					'rtprcga_code'=>$res,
+					'rtprcga_sts'=>'0'
+				);			
+			$this->db->insert('prcga_ret',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['rtprc_code'] = $res;
+			return  $out;
+		}
+
+		public function gen_numusagega()
+		{
+			$res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+			$check = $this->db->get_where('trx_usage_ga',array('usgga_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+			}
+			$data = array(
+					'usgga_code'=>$res,
+					'usgga_sts'=>'0'
+				);			
+			$this->db->insert('trx_usage_ga',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['usgga_code'] = $res;
+			return  $out;
+		}
+
+		public function gen_num_retusagega()
+		{
+			$res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+			$check = $this->db->get_where('usage_ga_ret',array('rtusgga_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+			}
+			$data = array(
+					'rtusgga_code'=>$res,
+					'rtusgga_sts'=>'0'
+				);			
+			$this->db->insert('usage_ga_ret',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['rtusgga_code'] = $res;
+			return  $out;
+		}
+
+
+
+		//Gen Logistik
 
 		public function gen_numpolgt()
 		{
@@ -141,11 +221,11 @@
 
 		public function gen_num_retusagelgt()
 		{
-			$res = $this->gen_num_('usage_ret','rtusg_code','RP');
+			$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
 			$check = $this->db->get_where('usage_ret',array('rtusg_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('usage_ret','rtusg_code','RP');
+				$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
 			}
 			$data = array(
 					'rtusg_code'=>$res,
@@ -157,6 +237,8 @@
 			$out['rtusg_code'] = $res;
 			return  $out;
 		}
+
+
 
 		public function gen_num_adjlgt()
 		{
@@ -174,6 +256,25 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['adj_code'] = $res;
+			return  $out;
+		}
+
+		public function gen_num_adjga()
+		{
+			$res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+			$check = $this->db->get_where('trx_adj_ga',array('adjga_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+			}
+			$data = array(
+					'adjga_code'=>$res,
+					'adjga_dtsts'=>'0'
+				);			
+			$this->db->insert('trx_adj_ga',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['adjga_code'] = $res;
 			return  $out;
 		}
 

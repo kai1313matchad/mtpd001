@@ -983,7 +983,7 @@
 	                'rtusg_sts' => '1',
 	                'rtusg_info' => $this->input->post('rtusg_info')
 	            );
-	        $update = $this->crud->update('trx_usage',$data,array('usg_id' => $this->input->post('usg_id')));
+	        $update = $this->crud->update('usage_ret',$data,array('rtusg_id' => $this->input->post('rtusg_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 

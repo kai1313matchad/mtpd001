@@ -188,7 +188,7 @@
     <script>
         function tambah(){
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_adj_lgt') ?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_adj_ga') ?>",
                 type : "GET",
                 dataType : "JSON",
                 success : function(data)
@@ -237,7 +237,7 @@
             {
                 // ajax adding data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_simpan_adj')?>",
+                    url : "<?php echo site_url('administrator/Genaff/ajax_simpan_adj')?>",
                     type: "POST",
                     data: $('#form_adj').serialize(),
                     dataType: "JSON",

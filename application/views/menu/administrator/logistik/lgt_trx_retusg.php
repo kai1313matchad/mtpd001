@@ -13,9 +13,9 @@
                             <li class="active">
                                 <a href="#retusg" data-toggle="tab">Data Retur Pemakaian</a>
                             </li>
-                            <li>
+                           <!--  <li>
                                 <a href="#gd" data-toggle="tab">Data Barang</a>
-                            </li>
+                            </li> -->
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_rtusg">
                             <div class="tab-content">
@@ -82,16 +82,8 @@
                                             <textarea name="rtusg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="save_rtusg()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="gd">
+                                    
+
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Barang</h2>
@@ -165,7 +157,17 @@
                                             </table>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="save_rtusg()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
+                                        </div>
+                                    </div>s
                                 </div>
+                                
                             </div>
                         </form>
                     </div>

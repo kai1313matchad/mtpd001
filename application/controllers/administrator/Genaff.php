@@ -15,16 +15,17 @@
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
-			$this->load->model('datatables/Dt_srchpo','srch_po');
-			$this->load->model('datatables/Dt_srchprc','srch_prc');
+			$this->load->model('datatables/search/Dt_srchpo_ga','srch_po');
+			$this->load->model('datatables/search/Dt_srchprc_ga','srch_prc');
 			$this->load->model('datatables/Dt_srchretprc','srch_retprc');
-			$this->load->model('datatables/Dt_srchusage','srch_usage');
-			$this->load->model('datatables/Dt_prcdet','gdprc');
-			$this->load->model('datatables/Dt_usgdet','gdusg');
-			$this->load->model('datatables/Dt_usgrtdet','gdrtusg');
-			$this->load->model('datatables/Dt_retprcdet','gdretprc');
+			$this->load->model('datatables/Dt_srchusage_ga','srch_usage');
+			$this->load->model('datatables/Dt_prcgadet','gdprc');
+			$this->load->model('datatables/Dt_usggadet','gdusg');
+			$this->load->model('datatables/Dt_usggartdet','gdrtusg');
+			$this->load->model('datatables/Dt_retprcgadet','gdretprc');
 			$this->load->model('datatables/Dt_lap_po_ga','lap_po');
-			$this->load->model('datatables/Dt_lap_prc','lap_prc');
+			$this->load->model('datatables/Dt_lap_prc_ga','lap_prc');
+			$this->load->model('datatables/Dt_lap_retprc_ga','lap_retprc');
 		}
 
 		//menu link
@@ -46,6 +47,24 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
+	    public function lap_pembelian()
+	    {
+	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$data['isi']='menu/administrator/ga/lap_pembelian';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
+	    public function lap_retpembelian()
+	    {
+	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$data['isi']='menu/administrator/ga/lap_retpembelian';
+			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
 		public function report()
 		{
 			$data['title']='Match Terpadu - Dashboard GA';
@@ -62,15 +81,50 @@
 			$data['kode'] = $gen['poga_code'];
 			$data['status'] = TRUE;
 			echo json_encode($data);
-
-
 		}
+
+		public function gen_bl_ga()
+		{
+			$gen = $this->gen->gen_numblga();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['prcga_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_ret_ga()
+		{
+			$gen = $this->gen->gen_numretga();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['rtprc_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_usage_ga()
+		{
+			$gen = $this->gen->gen_numusagega();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['usgga_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_adj_ga()
+		{
+			$gen = $this->gen->gen_num_adjga();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['adjga_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 
 		public function ga_trx_po()
 		{
 			// $id=$this->crud->add_po();
 			// $data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
-			$data['title']='Match Terpadu - Dashboard GA';
+			$data['title']='Match Terpadu - PO GA';
 			$data['menu']='ga';
 			$data['menulist']='po_ga';
 			$data['isi']='menu/administrator/ga/ga_trx_po';
@@ -79,12 +133,12 @@
 
 		public function ga_trx_prc()
 		{
-			$id=$this->crud->add_bl();
-			$data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
-			$data['title']='Match Terpadu - Dashboard GA';
+			// $id=$this->crud->add_bl();
+			// $data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
+			$data['title']='Match Terpadu - Pembelian GA';
 			$data['menu']='ga';
-			$data['menulist']='prc';
-			$data['isi']='menu/administrator/ga/lgt_trx_prc';
+			$data['menulist']='prc_ga';
+			$data['isi']='menu/administrator/ga/ga_trx_prc';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -94,44 +148,53 @@
 			$data['rb'] = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
-			$data['menulist']='retprc';
-			$data['isi']='menu/administrator/ga/lgt_trx_retprc';
+			$data['menulist']='retprc_ga';
+			$data['isi']='menu/administrator/ga/ga_trx_retprc';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
 		public function ga_trx_usage()
 		{
-			$id=$this->crud->add_usg();
-			// $id = '1';
-			$data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
+			// $id=$this->crud->add_usg();
+			// // $id = '1';
+			// $data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
-			$data['menulist']='usage';
-			$data['isi']='menu/administrator/ga/lgt_trx_usage';
+			$data['menulist']='usage_ga';
+			$data['isi']='menu/administrator/ga/ga_trx_usage';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
 		public function ga_trx_retusage()
 		{
-			$id=$this->crud->add_retusg();
+			// $id=$this->crud->add_retusg();
 			// $id = '1';
-			$data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
+			// $data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
-			$data['menulist']='retusg';
-			$data['isi']='menu/administrator/ga/lgt_trx_retusg';
+			$data['menulist']='retusg_ga';
+			$data['isi']='menu/administrator/ga/ga_trx_retusg';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function gen_retusage_ga()
+		{
+			$gen = $this->gen->gen_num_retusagega();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['rtusgga_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
 		}
 
 		public function ga_trx_adjust()
 		{
-			$id=$this->crud->add_adj();
-			// $id = '1';
-			$data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
+			// $id=$this->crud->add_adj();
+			// // $id = '1';
+			// $data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
-			$data['menulist']='adjust';
-			$data['isi']='menu/administrator/ga/lgt_trx_adjust';
+			$data['menulist']='adjust_ga';
+			$data['isi']='menu/administrator/ga/ga_trx_adjust';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -189,6 +252,82 @@
 			$this->load->view('menu/administrator/ga/retprc_print',$data);
 		}
 
+		//Ajax Search
+		public function ajax_srch_po()
+		{
+			$list = $this->srch_po->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->POGA_CODE;
+				// $row[] = $dat->APPR_CODE;
+				$row[] = $dat->SUPP_NAME;
+				$row[] = $dat->POGA_ORDNUM;				
+				$row[] = $dat->POGA_DATE;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->POGA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_po->count_all(),
+							"recordsFiltered" => $this->srch_po->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_prc()
+		{
+			$list = $this->srch_prc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRCGA_CODE;
+				$row[] = $dat->POGA_CODE;
+				$row[] = $dat->PRCGA_INV;				
+				$row[] = $dat->PRCGA_DATE;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prc('."'".$dat->PRCGA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_prc->count_all(),
+							"recordsFiltered" => $this->srch_prc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_usg()
+		{
+			$list = $this->srch_usage->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->USGGA_CODE;
+				$row[] = $dat->USGGA_DATE;
+				$row[] = $dat->USGGA_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_usage('."'".$dat->USGGA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_usage->count_all(),
+							"recordsFiltered" => $this->srch_usage->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		//Ajax CRUD
 		public function ajax_filter_po()
 		{
@@ -218,6 +357,68 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_filter_prc()
+		{
+
+			$list = $this->lap_prc->get_datatables();
+			
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRCGA_CODE;
+				$row[] = $dat->POGA_CODE;
+				// $row[] = $dat->APPR_CODE;
+				// $row[] = $dat->CUST_NAME;
+				// $row[] = $dat->PO_CODE;
+				// $row[] = $dat->APPR_CODE;
+				// $row[] = $dat->CUST_NAME;
+				$row[] = $dat->PRCGA_DATE;				
+				$row[] = '<center><a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->PRCGA_ID."'".')"><span class="glyphicon glyphicon-print"></span> Print</a></center>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->lap_prc->count_all(),
+							"recordsFiltered" => $this->lap_prc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_filter_retprc()
+		{
+
+			$list = $this->lap_retprc->get_datatables();
+			
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->RTPRCGA_CODE;
+				$row[] = $dat->PRCGA_CODE;
+				// $row[] = $dat->APPR_CODE;
+				// $row[] = $dat->CUST_NAME;
+				// $row[] = $dat->PO_CODE;
+				// $row[] = $dat->APPR_CODE;
+				// $row[] = $dat->CUST_NAME;
+				$row[] = $dat->RTPRCGA_DATE;				
+				$row[] = '<center><a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_po('."'".$dat->RTPRCGA_ID."'".')"><span class="glyphicon glyphicon-print"></span> Print</a></center>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->lap_retprc->count_all(),
+							"recordsFiltered" => $this->lap_retprc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 
 		public function ajax_simpanpo()
 		{			
@@ -237,6 +438,47 @@
 	        echo json_encode(array("status" => TRUE));
 		}
 
+		public function ajax_simpanprc()
+		{
+			$data = array(	                
+	                'user_id' => $this->input->post('user_id'),
+	                'curr_id' => $this->input->post('curr_id'),
+	                'poga_id' => $this->input->post('po_id'),	                
+	                'prcga_sts' => '1',
+	                'prcga_date' => $this->input->post('prc_tgl'),
+	                'prcga_inv' => $this->input->post('prc_inv'),	                
+	                'prcga_info' => $this->input->post('po_info'),
+	                'prcga_sub' => $this->input->post('po_subs'),
+	                'prcga_disc' => $this->input->post('prc_disc'),
+	                'prcga_ppn' => $this->input->post('prc_ppn'),
+	                'prcga_cost' => $this->input->post('prc_cost'),
+	                'prcga_gtotal' => $this->input->post('prc_gtotal')	                
+	            );
+	        $update = $this->crud->update('trx_prc_ga',$data,array('prcga_id' => $this->input->post('prc_id')));
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_simpan_adj()
+		{
+			$data = array(	                
+	                'gd_id' => $this->input->post('gd_id'),              
+	                'adjga_date' => $this->input->post('adj_tgl'),
+	                'adjga_dtsts' => '1',
+	                'adjga_info' => $this->input->post('adj_info'),
+	                'adjga_oldqty' => $this->input->post('gd_stock'),
+	                'adjga_curqty' => $this->input->post('adj_curr'),
+	                'adjga_plus' => $this->input->post('adj_plus'),
+	                'adjga_minus' => $this->input->post('adj_minus'),
+	                'adjga_diff' => $this->input->post('adj_diff')
+	            );
+	        $update = $this->crud->update('trx_adj_ga',$data,array('adjga_id' => $this->input->post('adj_id')));
+	        $data2 = array(
+	        		'gd_stock' => $this->input->post('adj_curr')
+	        	);
+	        $update2 = $this->crud->update('master_goods',$data2,array('gd_id' => $this->input->post('gd_id'))); 
+	        echo json_encode(array("status" => TRUE));
+		}
+
 		public function ajax_add_brg()
 	    {	        
 	      	$table = 'poga_details';
@@ -249,6 +491,270 @@
 	        $insert = $this->crud->save($table,$data);
 	        echo json_encode(array("status" => TRUE));
 	    }
+
+	    public function ajax_add_brgretprc()
+	    {	        
+	      	$this->_validate_ret();
+	      	$table = 'retprcga_details';
+	        $data = array(
+	                'rtprcga_id' => $this->input->post('ret_id'),
+	                'gd_id' => $this->input->post('gd_id'),
+	                'rtprcgadet_qty' => $this->input->post('ret_qty'),
+	                'rtprcgadet_sub' => $this->input->post('ret_sub')
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+	        $stock = $getinv->GD_STOCK;
+	        $add = $this->input->post('ret_qty');
+	        $up = $stock - $add; 
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        echo json_encode(array("status" => TRUE));	        
+	    }
+
+	    public function ajax_brg_retprc($id)
+		{
+			$list = $this->gdretprc->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->RTPRCGADET_QTY;
+				$row[] = $dat->RTPRCGADET_SUB;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->RTPRCGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdretprc->count_all(),
+							"recordsFiltered" => $this->gdretprc->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_del_brgretprc($id)
+	    {
+	    	$getprc = $this->crud->get_by_id('retprcga_details',array('rtprcgadet_id' => $id));
+	    	$gdid = $getprc->GD_ID;
+	    	$add =  $getprc->RTPRCGADET_QTY;
+	    	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+	    	$stock = $getinv->GD_STOCK;
+	        $up = $stock + $add;
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	$this->crud->delete_by_id('retprcga_details',array('rtprcgadet_id' => $id));
+        	echo json_encode(array("status" => TRUE));        	
+	    }
+
+	    public function ajax_simpanretprc()
+		{
+			$data = array(	                
+	                'user_id' => $this->input->post('user_id'),
+	                'curr_id' => $this->input->post('curr_id'),
+	                'prcga_id' => $this->input->post('prc_id'),	                
+	                'rtprcga_sts' => '1',
+	                'rtprcga_date' => $this->input->post('retprc_tgl'),
+	                'rtprcga_info' => $this->input->post('po_info'),
+	                'rtprcga_sub' => $this->input->post('po_subs'),
+	                'rtprcga_disc' => $this->input->post('prc_disc'),
+	                'rtprcga_ppn' => $this->input->post('prc_ppn'),
+	                'rtprcga_cost' => $this->input->post('prc_cost'),
+	                'rtprcga_gtotal' => $this->input->post('prc_gtotal')	                
+	            );
+	        $update = $this->crud->update('prcga_ret',$data,array('rtprcga_id' => $this->input->post('ret_id')));
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_srch_brgusg()
+		{
+			$list = $this->srch_gdusg->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_CODE;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_MEASURE;				
+				$row[] = $dat->GD_UNIT;				
+				$row[] = $dat->GD_STOCK;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_brg('."'".$dat->GD_ID."'".')">Pilih</a>';
+				$row[] = $dat->GD_INFO;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gdusg->count_all(),
+							"recordsFiltered" => $this->srch_gdusg->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_add_brgrtusg()
+	    {	        
+	      	$this->_validate_rtusg();
+	      	$table = 'retusgga_details';
+	        $data = array(
+	                'rtusgga_id' => $this->input->post('rtusg_id'),
+	                'gd_id' => $this->input->post('gd_id'),
+	                'rtusggadet_qty' => $this->input->post('gd_usg')	                
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+	        $stock = $getinv->GD_STOCK;
+	        $add = $this->input->post('gd_usg');
+	        $up = $stock + $add; 
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        echo json_encode(array("status" => TRUE));	        
+	    }
+
+	    public function ajax_brgrtusg($id)
+		{
+			$list = $this->gdrtusg->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->RTUSGGADET_QTY;
+				$row[] = $dat->GD_UNIT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->RTUSGGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdrtusg->count_all(),
+							"recordsFiltered" => $this->gdrtusg->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+
+		public function ajax_del_brgrtusg($id)
+	    {
+	    	$getusg = $this->crud->get_by_id('retusgga_details',array('rtusggadet_id' => $id));
+	    	$gdid = $getusg->GD_ID;
+	    	$add =  $getusg->RTUSGGADET_QTY;
+	    	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+	    	$stock = $getinv->GD_STOCK;
+	        $up = $stock - $add;
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	$this->crud->delete_by_id('retusgga_details',array('rtusggadet_id' => $id));
+        	echo json_encode(array("status" => TRUE));        	
+	    }
+
+	    public function ajax_simpanrtusg()
+		{
+			$data = array(	                
+	                'user_id' => $this->input->post('user_id'),
+	                'usgga_id' => $this->input->post('usg_id'),               
+	                'rtusgga_date' => $this->input->post('rtusg_tgl'),
+	                'rtusgga_sts' => '1',
+	                'rtusgga_info' => $this->input->post('rtusg_info')
+	            );
+	        $update = $this->crud->update('usage_ga_ret',$data,array('rtusgga_id' => $this->input->post('rtusg_id')));
+	        echo json_encode(array("status" => TRUE));
+		}
+
+
+
+		public function ajax_add_brgusg()
+	    {	        
+	      	$this->_validate_usg();
+	      	$table = 'usg_ga_details';
+	        $data = array(
+	                'usgga_id' => $this->input->post('usg_id'),
+	                'gd_id' => $this->input->post('gd_id'),
+	                'usggadet_qty' => $this->input->post('gd_usg')	                
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+	        $stock = $getinv->GD_STOCK;
+	        $add = $this->input->post('gd_usg');
+	        $up = $stock - $add; 
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        echo json_encode(array("status" => TRUE));	        
+	    }
+
+	    public function ajax_brgusg($id)
+		{
+			$list = $this->gdusg->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->USGGADET_QTY;
+				$row[] = $dat->GD_UNIT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->USGGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdusg->count_all(),
+							"recordsFiltered" => $this->gdusg->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_del_brgusg($id)
+	    {
+	    	$getusg = $this->crud->get_by_id('usg_ga_details',array('usggadet_id' => $id));
+	    	$gdid = $getusg->GD_ID;
+	    	$add =  $getusg->USGGADET_QTY;
+	    	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+	    	$stock = $getinv->GD_STOCK;
+	        $up = $stock + $add;
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	$this->crud->delete_by_id('usg_ga_details',array('usggadet_id' => $id));
+        	echo json_encode(array("status" => TRUE));        	
+	    }
+
+	    public function ajax_simpanusg()
+		{
+			$data = array(	                
+	                'user_id' => $this->input->post('user_id'),
+	                // 'appr_id' => $this->input->post('appr_id'),
+	                // 'appr_id' => $appr,	                
+	                'usgga_date' => $this->input->post('usg_tgl'),
+	                'usgga_sts' => '1',
+	                'usgga_info' => $this->input->post('usg_info')
+
+	            );
+	        $update = $this->crud->update('trx_usage_ga',$data,array('usgga_id' => $this->input->post('usg_id')));
+	        echo json_encode(array("status" => TRUE));
+		}
 
 	    //Ajax Show To Delete
 		public function ajax_barang($id)
@@ -276,6 +782,37 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_dtprc_ga($id)
+		{
+			$list = $this->gdprc->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->PRCGADET_QTY;
+				$row[] = $dat->PRCGADET_SUB;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_retprc('."'".$dat->PRCGADET_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdprc->count_all(),
+							"recordsFiltered" => $this->gdprc->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_subretgabl($id)
+	    {
+	    	$data = $this->crud->sub_retgabl($id);
+        	echo json_encode($data);
+	    }
+
 		public function ajax_sub_ga($id)
 	    {
 	    	$data = $this->crud->sub_po_ga($id);
@@ -294,10 +831,264 @@
         	echo json_encode($data);
 		}
 
+		public function ajax_pick_usage($id)
+		{
+			$data = $this->crud->get_by_id('trx_usage_ga',array('usgga_id' => $id));
+			echo json_encode($data);
+		}
+
 		public function ajax_pick_podet($id)
 		{
 			$data = $this->crud->get_by_id3('poga_details','master_goods','trx_po_ga',array('poga_details.poga_id' => $id),'master_goods.gd_id = poga_details.gd_id','trx_po_ga.poga_id = poga_details.poga_id');
         	echo json_encode($data);
 		}
+
+		public function ajax_pick_podet2($id)
+		{
+			$data = $this->crud->get_by_id3('poga_details','master_goods','trx_po_ga',array('poga_details.pgdet_id' => $id),'master_goods.gd_id = poga_details.gd_id','trx_po_ga.poga_id = poga_details.poga_id');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_prc2($id)
+		{
+			$data = $this->crud->get_by_id('trx_prc_ga',array('prcga_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_prcdet2($id)
+		{
+			$data = $this->crud->get_by_id3('prcga_details','master_goods','trx_prc_ga',array('prcga_details.prcgadet_id' => $id),'master_goods.gd_id = prcga_details.gd_id','trx_prc_ga.prcga_id = prcga_details.prcga_id');
+        	echo json_encode($data);
+		}
+
+		//Ajax Show To Pick
+		public function ajax_dtpo($id)
+		{
+			$list = $this->gdpo->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->PGDET_QTYUNIT;
+				$row[] = $dat->PGDET_SUB;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_podet('."'".$dat->PGDET_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdpo->count_all(),
+							"recordsFiltered" => $this->gdpo->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_add_brgprc()
+	    {	        
+	      	$this->_validate_po();
+	      	$table = 'prcga_details';
+	        $data = array(
+	                'prcga_id' => $this->input->post('prc_id'),
+	                'gd_id' => $this->input->post('gd_id'),
+	                'prcgadet_qty' => $this->input->post('po_qty'),
+	                'prcgadet_sub' => $this->input->post('po_sub')
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+	        $stock = $getinv->GD_STOCK;
+	        $add = $this->input->post('po_qty');
+	        $up = $stock + $add; 
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        echo json_encode(array("status" => TRUE));	        
+	    }
+
+	    public function ajax_del_brgprc($id)
+	    {
+	    	$getprc = $this->crud->get_by_id('prcga_details',array('prcgadet_id' => $id));
+	    	$gdid = $getprc->GD_ID;
+	    	$substract =  $getprc->PRCGADET_QTY;
+	    	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+	    	$stock = $getinv->GD_STOCK;
+	        $up = $stock - $substract;
+	        $data_up = array (
+	        		'gd_stock' => $up
+	        	);
+	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	$this->crud->delete_by_id('prcga_details',array('prcgadet_id' => $id));
+        	echo json_encode(array("status" => TRUE));        	
+	    }
+
+
+	    //Validation Code
+	    public function _validate_po()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('po_qty') > $this->input->post('po_qty_old'))
+	        {
+	            $data['inputerror'][] = 'po_qty';
+	            $data['error_string'][] = 'Jumlah Melebihi PO';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('po_qty') == '')
+	        {
+	            $data['inputerror'][] = 'po_qty';
+	            $data['error_string'][] = 'Harus Diisi';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('po_qty') == '0')
+	        {
+	            $data['inputerror'][] = 'po_qty';
+	            $data['error_string'][] = 'Jumlah Minimum 1';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    public function ajax_brg_prc($id)
+		{
+			$list = $this->gdprc->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->PRCGADET_QTY;
+				$row[] = $dat->PRCGADET_SUB;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->PRCGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->gdprc->count_all(),
+							"recordsFiltered" => $this->gdprc->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_subbl($id)
+	    {
+	    	$data = $this->crud->sub_bl_ga($id);
+        	echo json_encode($data);
+	    }
+
+	    public function _validate_ret()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('ret_qty') > $this->input->post('ret_qty_old'))
+	        {
+	            $data['inputerror'][] = 'ret_qty';
+	            $data['error_string'][] = 'Jumlah Melebihi Pembelian';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('ret_qty') == '')
+	        {
+	            $data['inputerror'][] = 'ret_qty';
+	            $data['error_string'][] = 'Harus Diisi';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('ret_qty') == '0')
+	        {
+	            $data['inputerror'][] = 'ret_qty';
+	            $data['error_string'][] = 'Jumlah Minimum 1';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    public function _validate_usg()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('gd_usg') > $this->input->post('gd_stock'))
+	        {
+	            $data['inputerror'][] = 'gd_usg';
+	            $data['error_string'][] = 'Jumlah Melebihi Stock';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('gd_usg') == '')
+	        {
+	            $data['inputerror'][] = 'gd_usg';
+	            $data['error_string'][] = 'Harus Diisi';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('gd_usg') == '0')
+	        {
+	            $data['inputerror'][] = 'gd_usg';
+	            $data['error_string'][] = 'Jumlah Minimum 1';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    public function _validate_rtusg()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('gd_usg') == '')
+	        {
+	            $data['inputerror'][] = 'gd_usg';
+	            $data['error_string'][] = 'Harus Diisi';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('gd_usg') == '0')
+	        {
+	            $data['inputerror'][] = 'gd_usg';
+	            $data['error_string'][] = 'Jumlah Minimum 1';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
 	}
 ?>
