@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Purchasing Logistik - Retur Pembelian</h1>
+                        <h1 class="page-header">Purchasing General Affairs - Retur Pembelian</h1>
                     </div>                    
                 </div>
                 <div class="row">
@@ -70,7 +70,7 @@
                                             <input type="hidden" name="po_id">
                                         </div>
                                     </div>
-                                    <div class="form-group">                              
+                                    <!-- <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="appr_code" readonly>
@@ -82,7 +82,7 @@
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="loc_name" readonly>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Supplier</label>
                                         <div class="col-sm-4">
@@ -446,7 +446,7 @@
 
         function tambah(){
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_ret_lgt') ?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_ret_ga') ?>",
                 type : "GET",
                 dataType : "JSON",
                 success : function(data)
@@ -500,7 +500,7 @@
         function saveretprc()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_simpanretprc')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_simpanretprc')?>",
                 type: "POST",
                 data: $('#form_po').serialize(),
                 dataType: "JSON",
@@ -560,7 +560,7 @@
         function sub_total(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_subretbl/')?>" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_subretgabl/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -584,7 +584,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_dtprc/')?>"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_dtprc_ga/')?>"+id,
                     "type": "POST",
                 },                
                 "columnDefs": [
@@ -606,7 +606,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_brg_retprc/')?>"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_brg_retprc/')?>"+id,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -621,7 +621,7 @@
         function add_barang()
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_add_brgretprc')?>",
+                url : "<?php echo site_url('administrator/Genaff/ajax_add_brgretprc')?>",
                 type: "POST",
                 data: $('#form_po').serialize(),
                 dataType: "JSON",
@@ -657,7 +657,7 @@
             {
                 // ajax delete data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgretprc')?>/"+id,
+                    url : "<?php echo site_url('administrator/Genaff/ajax_del_brgretprc')?>/"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
@@ -689,7 +689,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_prc')?>",
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_srch_prc')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -706,16 +706,16 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prc2/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_prc2/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="prc_id"]').val(data.PRC_ID);
-                    $('[name="prc_code"]').val(data.PRC_CODE);
-                    $('[name="po_id"]').val(data.PO_ID);                   
+                    $('[name="prc_id"]').val(data.PRCGA_ID);
+                    $('[name="prc_code"]').val(data.PRCGA_CODE);
+                    $('[name="po_id"]').val(data.POGA_ID);                   
                     // $('[name="po_so"]').val(data.PO_ORDNUM);
-                    pick_po(data.PO_ID);
+                    pick_po(data.POGA_ID);
                     // pick_podet($('[name="po_id"]').val());
                     // pick_appr($('[name="appr_id"]').val());                    
                     // pick_supp($('[name="supp_id"]').val());
@@ -784,7 +784,7 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_supp/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -824,16 +824,16 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_po/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_po/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="po_code"]').val(data.PO_CODE);
-                    $('[name="po_id"]').val(data.PO_ID);
-                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="po_code"]').val(data.POGA_CODE);
+                    $('[name="po_id"]').val(data.POGA_ID);
+                    // $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="supp_id"]').val(data.SUPP_ID);
-                    pick_appr(data.APPR_ID);                    
+                    // pick_appr(data.APPR_ID);                    
                     pick_supp($('[name="supp_id"]').val());
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -920,7 +920,7 @@
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet2/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_prcdet2/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -930,8 +930,8 @@
                     $('[name="gd_unit1"]').val(' / '+data[0]["GD_MEASURE"]+' '+data[0]["GD_UNIT"]);
                     $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
                     $('[name="gd_unit2"]').val(data[0]["GD_UNIT"]);
-                    $('[name="ret_qty"]').val(data[0]["PRCDET_QTY"]);
-                    $('[name="ret_qty_old"]').val(data[0]["PRCDET_QTY"]);
+                    $('[name="ret_qty"]').val(data[0]["PRCGADET_QTY"]);
+                    $('[name="ret_qty_old"]').val(data[0]["PRCGADET_QTY"]);
                     hitung();                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
