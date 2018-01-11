@@ -31,7 +31,6 @@
                     </ul>                    
                 </li>                
             </ul>
-            
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -206,10 +205,13 @@
                                     <a <?php if ($menulist == 'journal') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_acc')?>"><i class="fa <?php if ($menulist == 'journal') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Umum</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'journal_adj') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journaladj_acc')?>"><i class="fa <?php if ($menulist == 'journal_adj') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Penyesuaian</a>
+                                    <a <?php if ($menulist == 'journal_adj') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_adj')?>"><i class="fa <?php if ($menulist == 'journal_adj') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Penyesuaian</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'journal_book') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journalbook_acc')?>"><i class="fa <?php if ($menulist == 'journal_book') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Buku Besar</a>
+                                    <a <?php if ($menulist == 'ledger') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/ledger_acc')?>"><i class="fa <?php if ($menulist == 'ledger') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Buku Besar</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'report_accounting') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/report')?>"><i class="fa <?php if ($menulist == 'report_accounting') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
                                 </li>
                             </ul>                            
                         </li>

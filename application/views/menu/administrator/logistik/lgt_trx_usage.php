@@ -412,6 +412,7 @@
                     $(this).next().empty();
                 });                
             }
+            alert(curr+' - '+old);
         }
 
         function barang(id)

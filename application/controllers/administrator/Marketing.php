@@ -30,21 +30,17 @@
 
 		public function gen_appr()
 		{
-			// $gen = $this->gen->gen_numappr();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['appr_code'];
-			$data['id'] = '3';
-			$data['kode'] = 'AB/1712/000003';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numappr();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['appr_code'];
+			// $data['id'] = '3';
+			// $data['kode'] = 'AB/1712/000003';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function mkt_trx_approval()
 		{
-			// $id=$this->crud->gen_appr();
-			// $id=$this->gen->gen_numappr();
-			// $id = '1';
-			// $data['appr'] = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			$data['pattyp'] = $this->crud->get_pattyp();			
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
@@ -55,20 +51,17 @@
 
 		public function gen_bapp()
 		{
-			// $gen = $this->gen->gen_numbapp();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['bapp_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'BA/1712/000001';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numbapp();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bapp_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'BA/1712/000001';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function mkt_trx_bapp()
 		{
-			// $id=$this->crud->add_bapp();
-			// // $id = '1';
-			// $data['bapp'] = $this->crud->get_by_id('trx_bapp',array('bapp_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='bapp';
@@ -579,8 +572,11 @@
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
 	                'appr_sts' => '1', //Ubah status jadi posted
+	                'appr_branchid' => $this->input->post('appr_brcid'),
 	                'appr_own' => $get2->BRANCH_STATUS,
-	                'appr_branch' => $get2->BRANCH_NAME,
+	                'appr_branch' => $this->input->post('appr_brc'),
+	                'appr_brcname' => $get2->BRANCH_NAME,
+	                'appr_branch_income' => $this->input->post('brc_nom'),	                
 	                'appr_po' => $this->input->post('appr_po'),
 	                'appr_date' => $this->input->post('tgl'),
 	                'appr_contract_start' => $this->input->post('tgl_awal'),
@@ -606,10 +602,8 @@
 	                'appr_sub_ppn' => $this->input->post('subtotal2'),	                
 	                'appr_pph_perc' => $this->input->post('pphp'),	                
 	                'appr_pph_sum' => $this->input->post('pphn'),
-	                'appr_tot_income' => $this->input->post('gtotal'),	                
-	                // 'appr_placement' => $this->input->post('appr_plc'),
-	                // 'appr_payment_type' => $this->input->post('appr_pay'),
-	                // 'appr_branch_income' => $this->input->post('brc_nom'),
+	                'appr_tot_income' => $this->input->post('gtotal'),
+	                // 'appr_payment_type' => $this->input->post('appr_pay'),	                
 	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
@@ -858,6 +852,12 @@
 			echo json_encode($data);
 		}
 
+		public function get_numbsp($value)
+		{
+			$data['terbilang'] = $this->gen->number_conv($value);
+			echo json_encode($data);
+		}
+
 		//Get DPP
 		public function get_subcost($id)
 		{
@@ -876,9 +876,21 @@
 			echo json_encode($data);
 		}
 
-		public function pick_costappbrc($id)
+		public function pick_costapprbrc($id)
 		{
 			$data = $this->crud->get_by_id('appr_cost_det',array('cstdt_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_termapprbrc($id)
+		{
+			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_patapprbrc($id)
+		{
+			$data = $this->crud->get_by_id('appr_permit_det',array('apprprmt_id' => $id));
 			echo json_encode($data);
 		}
 	}

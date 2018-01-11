@@ -4,8 +4,8 @@
 	{
 
 		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_branch','appr_date','cust_name','loc_name');
-		var $column_search = array('appr_code','appr_branch','appr_date','cust_name','loc_name');
+		var $column_order = array(null,'appr_code','appr_brcname','appr_date','cust_name','loc_name');
+		var $column_search = array('appr_code','appr_brcname','appr_date','cust_name','loc_name');
 		var $order = array('appr_id' => 'desc');
 		public function __construct()
 		{

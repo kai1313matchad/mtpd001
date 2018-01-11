@@ -16,6 +16,11 @@
 			$this->load->model('datatables/showdata/Dt_bankoutdet','bankout_det');
 			$this->load->model('datatables/showdata/Dt_giroindet','giroin_det');
 			$this->load->model('datatables/showdata/Dt_girooutdet','giroout_det');
+			$this->load->model('datatables/showdata/Dt_invdet','invoice_det');
+			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
+			$this->load->model('datatables/showdata/Dt_showledger','ledger');
+			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
+			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
 		}
 
 		public function index()
@@ -306,6 +311,144 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->giroout_det->count_all(),
 							"recordsFiltered" => $this->giroout_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Invoice
+		public function showdetail_invoice($id)
+		{
+			$list = $this->invoice_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->APPR_PO;
+				$row[] = $dat->INVDET_TERM;
+				$row[] = $dat->INVDET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_invdet('."'".$dat->INVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->invoice_det->count_all(),
+							"recordsFiltered" => $this->invoice_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Journal
+		public function showdetail_journal($id)
+		{
+			$list = $this->jou_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->JOU_INFO;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_joudet('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->jou_det->count_all(),
+							"recordsFiltered" => $this->jou_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Buku Besar
+		public function showrpt_ledger()
+		{
+			$list = $this->ledger->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->JOU_CODE;
+				$row[] = $dat->JOU_DATE;
+				$row[] = $dat->JOU_REFF;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_ledger('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->ledger->count_all(),
+							"recordsFiltered" => $this->ledger->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Jurnal
+		public function showrpt_journal()
+		{
+			$list = $this->rpt_jou->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->JOU_CODE;
+				$row[] = $dat->JOU_DATE;
+				$row[] = $dat->JOU_REFF;
+				$row[] = $dat->JOU_INFO;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_ledger('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_jou->count_all(),
+							"recordsFiltered" => $this->rpt_jou->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Invoice
+		public function showrpt_invoice()
+		{
+			$list = $this->rpt_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->INVDET_TERM;
+				$row[] = $dat->INVDET_AMOUNT;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_inv->count_all(),
+							"recordsFiltered" => $this->rpt_inv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

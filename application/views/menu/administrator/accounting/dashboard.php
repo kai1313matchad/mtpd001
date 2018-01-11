@@ -69,24 +69,5 @@
     <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <script>
-        function tes()
-        {
-            $.ajax({
-            url : "<?php echo site_url('administrator/Marketing/gen_apprcode')?>",
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {                    
-                // $('[name="code"]').val(data.kode);
-                alert(data.kode);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Generate Number');
-            }
-        });
-        }
-    </script>
 </body>
 </html>

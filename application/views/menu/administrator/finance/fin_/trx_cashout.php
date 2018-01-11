@@ -64,7 +64,7 @@
                                             <input class="form-control" type="text" name="kas_acc" readonly>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="add_gd('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                            <button type="button" class="btn btn-info" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                         <input class="form-control" type="hidden" name="acc_id">
                                     </div>
@@ -76,6 +76,7 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_appr()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
+                                        <input class="form-control" type="hidden" name="appr_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Lokasi </label>
@@ -239,39 +240,33 @@
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
+                        <!-- <input type="text" name="id_meeting" >
+                        <input type="text" name="title" >
+                        <input type="text" name="tgl" >
+                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
-                            <table id="dataTables9" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                            <table id="dtb_acc" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
+                                        <th>Pilih</th>
                                     </tr>
                                 </thead>
                                         
-                                <?php 
-                                $i=1;
-                                 foreach($account as $c){ 
-                                ?>
-                                    
-                                    <tr>
-                                        <form action="" method="post">
-                                              <td><center><?php echo $i++ ?></center></td>
-                                              <td><center><?php echo $c->COA_ACC; ?></center></td>
-                                              <td><center><?php echo $c->COA_ACCNAME; ?></center></td>
-                                              <td><center>
-                                        <button type="button" onclick="edit_sch('<?php echo $c->COA_ID?>')" style="color:black"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></button>
-                                    </center></td>                     
-                                        </form>
-                                    </tr> 
-                                
-                                <?php } ?> 
                             </table>
                         </div>
                         </div>
                     </div>                  
                 </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div> -->
                 </form>
             </div>
         </div>
@@ -337,7 +332,7 @@
                     </div>                  
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="srch_appr()"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -484,7 +479,57 @@ $(document).ready(function() {
             });
         }
 
-    function srch_appr()
+     function srch_acc(t)
+        {
+            sts=t;
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');            
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_acc(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="kas_acc"]').val(data.COA_ACC);               
+                    // $('[name="acc_id"]').val(data.COA_ID);     
+                    if (sts=='1'){
+                       $('[name="kas_acc"]').val(data.COA_ACC);
+                       $('[name="acc_id"]').val(data.COA_ID);
+                    } else {
+                       $('[name="acc_detail"]').val(data.COA_ACC);
+                       $('[name="acc_id_detail"]').val(data.COA_ID);
+                    }  
+                    $('#modal_account').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        } 
+        function srch_appr()
         {            
             $('#modal_appr').modal('show');
             $('.modal-title').text('Cari Approval');            
@@ -616,7 +661,7 @@ $(document).ready(function() {
         });
     }
 
-    function srch_curr()
+        function srch_curr()
         {
             $('#modal_curr').modal('show');
             $('.modal-title').text('Cari Rate Mata Uang');            
@@ -640,7 +685,7 @@ $(document).ready(function() {
             });
         }
 
-    function pick_curr(id)
+        function pick_curr(id)
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_pick_curr/')?>" + id,
@@ -670,7 +715,7 @@ $(document).ready(function() {
                 {   
                     $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="kas_approval"]').val(data.APPR_CODE);
-                    $('[name="Kas_lokasi"]').val(data.LOC_NAME);                   
+                    pick_location(data.LOC_ID);                   
                     $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -692,6 +737,24 @@ $(document).ready(function() {
                     $('[name="kas_sup"]').val(data.SUPP_NAME);
                     $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
                     $('#modal_supp').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_location(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_location/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                   $('[name="kas_lokasi"]').val(data.LOC_CODE); 
+                   $('[name="kas_lokasi_ket"]').val(data.LOC_NAME);                  
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -739,7 +802,8 @@ $(document).ready(function() {
                 }
             });
         }
-    function save_cash_out_detail()
+
+        function save_cash_out_detail()
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_out_detail')?>",

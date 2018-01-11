@@ -375,6 +375,7 @@
 	        return $query->row();
 		}
 
+
 		//get retbl sub
 		public function sub_retgabl($id)
 		{					
@@ -382,6 +383,60 @@
 			$this->db->join('prcga_ret','prcga_ret.rtprcga_id = retprcga_details.rtprcga_id');
 			$this->db->where('prcga_ret.rtprcga_id',$id);
 			$query = $this->db->get('retprcga_details');
+			return $query->row();
+		}
+
+		public function sub_km($id)
+		{					
+			$this->db->select_sum('cashin_det.cshdetin_amount', 'SubTotal');
+			$this->db->join('trx_cash_in','trx_cash_in.CSH_ID = cashin_det.CSH_ID');
+			$this->db->where('trx_cash_in.CSH_ID',$id);
+			$query = $this->db->get('cashin_det');
+	        return $query->row();
+		}
+
+		public function sub_kk($id)
+		{					
+			$this->db->select_sum('cashout_det.cshodet_amount', 'SubTotal');
+			$this->db->join('trx_cash_out','trx_cash_out.CSHO_ID = cashout_det.CSHO_ID');
+			$this->db->where('trx_cash_out.CSHO_ID',$id);
+			$query = $this->db->get('cashout_det');
+	        return $query->row();
+		}
+
+		public function sub_bm($id)
+		{					
+			$this->db->select_sum('bankin_det.bnkdet_amount', 'SubTotal');
+			$this->db->join('trx_bankin','trx_bankin.BNK_ID = bankin_det.BNK_ID');
+			$this->db->where('trx_bankin.BNK_ID',$id);
+			$query = $this->db->get('bankin_det');
+	        return $query->row();
+		}
+
+		public function sub_bk($id)
+		{					
+			$this->db->select_sum('bankout_det.BNKODET_AMOUNT', 'SubTotal');
+			$this->db->join('trx_bankout','trx_bankout.BNKO_ID = bankout_det.BNKO_ID');
+			$this->db->where('trx_bankout.BNKO_ID',$id);
+			$query = $this->db->get('bankout_det');
+	        return $query->row();
+		}
+
+		public function sub_gm($id)
+		{					
+			$this->db->select_sum('giroin_det.grindet_amount', 'SubTotal');
+			$this->db->join('trx_giro_in','trx_giro_in.GRIN_ID = giroin_det.GRIN_ID');
+			$this->db->where('trx_giro_in.GRIN_ID',$id);
+			$query = $this->db->get('giroin_det');
+	        return $query->row();
+		}
+
+        public function sub_gk($id)
+		{					
+			$this->db->select_sum('giroout_det.groutdet_amount', 'SubTotal');
+			$this->db->join('trx_giro_out','trx_giro_out.GROUT_ID = giroout_det.GROUT_ID');
+			$this->db->where('trx_giro_out.GROUT_ID',$id);
+			$query = $this->db->get('giroout_det');
 	        return $query->row();
 		}
 

@@ -187,7 +187,7 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)

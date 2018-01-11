@@ -7,10 +7,20 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('datatables/Dt_coa','srch_acc');
+			$this->load->model('datatables/Dt_srchcust','srch_cust');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 		    $this->load->model('datatables/Dt_srchbank','srch_bank');
+		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
+		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
+		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
+		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
+            $this->load->model('datatables/search/Dt_srchgiroin','srch_gm');
+            $this->load->model('datatables/search/Dt_srchgiroinrec','srch_gmrec');
+            $this->load->model('datatables/search/Dt_srchgiroout','srch_gk');
+            $this->load->model('datatables/search/Dt_srchgirooutrec','srch_gkrec');
 		}
 
 		public function index()
@@ -22,18 +32,29 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function get_numbsp($value)
+		{
+			$data['terbilang'] = $this->gen->number_conv($value);
+			echo json_encode($data);
+		}
+
 		public function gen_invo()
 		{
-			$gen = $this->gen->gen_numinvo();
-			$data['id'] = $gen['insertId'];
-			$data['kode'] = $gen['invo_code'];
+			// $gen = $this->gen->gen_numinvo();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['invo_code'];
+			$data['id'] = '1';
+			$data['kode'] = 'INV/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
         public function gen_cashin()
 		{
-			$data['id'] = '9';
+			$data['id'] = '16';
+			// $gen = $this->gen->gen_numinvo();
+			// $data['id'] = $gen['insertId'];
+			// $data['kode'] = $gen['invo_code'];
 			$data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -41,7 +62,7 @@
 
         public function gen_cashout()
 		{
-			$data['id'] = '7';
+			$data['id'] = '8';
 			$data['kode'] = 'KK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
@@ -85,6 +106,24 @@
 			$data['menu']='finance';
 			$data['menulist']='inv';
 			$data['isi']='menu/administrator/finance/trx_fin_invoice';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_invoice($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_inv';
+			$this->load->view('menu/administrator/finance/print_invoice',$data);
+		}
+
+		public function rpt_invoice()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_invoice';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -158,6 +197,133 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report()
+		{
+			$data['title']='Match Terpadu - Dashboard Report';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			// $data['bank'] = $this->crud->get_bank();
+			$data['isi']='menu/administrator/finance/fin_/dash_report';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_km()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_km';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_km($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/km_print',$data);
+		}
+
+		public function print_kk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_kk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_kk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/kk_print',$data);
+		}
+
+		public function print_bm()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bm';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_bm($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bm_print',$data);
+		}
+
+		public function print_bk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_bk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bk_print',$data);
+		}
+
+        public function print_gm()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_gm';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_gm($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/gm_print',$data);
+		}
+
+		public function print_gk()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_gk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_gk($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/gk_print',$data);
+		}
+
+		public function print_bkas()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bkas';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function ajax_pick_acc($id)
 		{
 			$data = $this->crud->get_by_id('chart_of_account',array('COA_ID' => $id));
@@ -178,7 +344,7 @@
 
 		public function ajax_pick_appr($id)
 		{
-			$data = $this->crud->get_by_id('Approval',array('APPR_ID' => $id));
+			$data = $this->crud->get_by_id('trx_approvalbill',array('APPR_ID' => $id));
         	echo json_encode($data);
 		}
 
@@ -198,6 +364,43 @@
 		{
 			$data = $this->crud->get_by_id('master_bank',array('BANK_ID' => $id));
         	echo json_encode($data);
+		}
+
+		public function ajax_pick_branch($id)
+		{
+			$data = $this->crud->get_by_id('master_branch',array('BRANCH_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_location($id)
+		{
+			$data = $this->crud->get_by_id('master_location',array('LOC_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_srch_cust()
+		{
+			$list = $this->srch_cust->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CUST_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->CUST_ADDRESS;				
+				$row[] = $dat->CUST_CITY;				
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_cust->count_all(),
+							"recordsFiltered" => $this->srch_cust->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 
 		public function ajax_srch_curr()
@@ -224,6 +427,29 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_srch_acc()
+		{
+			$list = $this->srch_acc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_acc('."'".$dat->COA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_acc->count_all(),
+							"recordsFiltered" => $this->srch_acc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_srch_appr()
 		{
 			$list = $this->srch_appr->get_datatables();
@@ -234,10 +460,11 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_PO;
-				$row[] = $dat->APPR_DATE;				
-				$row[] = $dat->CUST_NAME;
-				$row[] = $dat->LOC_NAME;				
+				// $row[] = $dat->APPR_PO;
+				// $row[] = $dat->APPR_DATE;				
+				// $row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;	
+				$row[] = $dat->LOC_ADDRESS;			
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appr('."'".$dat->APPR_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -323,6 +550,52 @@
 			echo json_encode($output);
 		}
 
+        public function ajax_srch_giroin()
+		{
+			$list = $this->srch_gmrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKTRX_NUM;
+				$row[] = $dat->BNKTRX_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroin('."'".$dat->BNKTRX_NUM."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gmrec->count_all(),
+							"recordsFiltered" => $this->srch_gmrec->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_giroout()
+		{
+			$list = $this->srch_gkrec->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKTRXO_NUM;
+				$row[] = $dat->BNKTRXO_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroout('."'".$dat->BNKTRXO_NUM."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gkrec->count_all(),
+							"recordsFiltered" => $this->srch_gkrec->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_simpan_cash_in()
 		{
 			// $appr = null;
@@ -330,15 +603,17 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'CSH_CODE' => $this->input->post('kas_nomor'),
                     'CUST_ID' => $this->input->post('kas_customer_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'CSH_STS' => '1',
-	                'CSH_date' => $this->input->post('kas_tgl'),
+	                'CSH_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'CSH_INFO' => $this->input->post('kas_info')
@@ -351,6 +626,7 @@
 
 		public function ajax_simpan_cash_in_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'CSH_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -358,7 +634,16 @@
                     'CSHINDET_INFO' => $this->input->post('ket_detail'),
                     'CSHDETIN_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            	    'CSH_CODE' => $this->input->post('kas_nomor'),
+            	    'CSH_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'CSH_INFO' => $this->input->post('ket_detail'),
+            	    'CSH_AMOUNT' => $this->input->post('nominal')
+            );
             $update = $this->crud->save('cashin_det',$data);
+            $bk = $this->crud->save('buku_kas',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -375,17 +660,19 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'CSHO_CODE' => $this->input->post('kas_nomor'),
-                    'CSHO_APPR' => $this->input->post('kas_approval'),
+                    'CSHO_APPR' => $this->input->post('appr_id'),
                     'CSHO_SUPP' => $this->input->post('kas_customer_id'),
                     'DEPT_ID' => $this->input->post('dept_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'CSHO_STS' => '1',
-	                'CSHO_date' => $this->input->post('kas_tgl'),
+	                'CSHO_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'CSHO_INFO' => $this->input->post('kas_info')
@@ -398,6 +685,7 @@
 
 		public function ajax_simpan_cash_out_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'CSHO_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -405,7 +693,16 @@
                     'CSHODET_INFO' => $this->input->post('ket_detail'),
                     'CSHODET_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            	    'CSH_CODE' => $this->input->post('kas_nomor'),
+            	    'CSH_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'CSH_INFO' => $this->input->post('ket_detail'),
+            	    'CSH_AMOUNT' => $this->input->post('nominal')
+            );
             $update = $this->crud->save('cashout_det',$data);
+            $bk = $this->crud->save('buku_kas',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -425,6 +722,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'BNK_CODE' => $this->input->post('bank_nomor'),
                     // 'CSHO_APPR' => $this->input->post('kas_approval'),
                     'BANK_ID' => $this->input->post('bank_id'),
@@ -454,6 +752,17 @@
                     'BNKTRX_AMOUNT' => $this->input->post('nominal1')
                 );
             $update = $this->crud->save('bankin_trxdet',$data);
+
+            // $id = $this->input->post('bank_id');
+            // $dt = $this->crud->get_by_id('bankin_trxdet',array('BNK_ID' => $id));
+            $bnktrx= $this->db->insert_id();
+            $type = $this->input->post('bank_type1');
+            if ($type=='G'){
+                $giro = array( 
+            	    'BNKTRX_ID' => $bnktrx
+                    );
+            }
+            $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -493,6 +802,7 @@
 			// }
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
+				    'USER_ID' => '1',
                     'BNKO_CODE' => $this->input->post('bank_nomor'),
                     'BNKO_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id'),
@@ -516,6 +826,14 @@
                     'BNKTRXO_AMOUNT' => $this->input->post('nominal1')
                 );
             $update = $this->crud->save('bankout_trxdet',$data);
+            $bnktrx= $this->db->insert_id();
+            $type = $this->input->post('bank_type1');
+            if ($type=='G'){
+                $giro = array( 
+            	    'BNKTRXO_ID' => $bnktrx
+                    );
+            }
+            $simpan_giroin_record = $this->crud->save('giroout_record',$giro);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -556,6 +874,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'GRIN_CODE' => $this->input->post('giro_nomor'),
                     'BANK_ID' => $this->input->post('giro_bank_id'),
                  //    'CUST_ID' => $this->input->post('kas_customer_id'),
@@ -577,10 +896,11 @@
 		{
             $data = array(
                     'GRIN_ID' => $this->input->post('giro_id'),
+                    'GIR_ID' => $this->input->post('gir_id'),
                     // 'COA_ID' => $this->input->post('acc_id_detail'),
                     // 'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'GRINDET_DATE' => $this->input->post('tgl_giro'),
-                    'GRINDET_CODE' => $this->input->post('giro_nomor'),
+                    'GRINDET_CODE' => $this->input->post('nomor_giro'),
                     'GRINDET_AMOUNT' => $this->input->post('nominal')
                 );
             $update = $this->crud->save('giroin_det',$data);
@@ -603,6 +923,7 @@
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
                     'GROUT_CODE' => $this->input->post('giro_nomor'),
                     'BANK_ID' => $this->input->post('giro_bank_id'),
                  //    'CUST_ID' => $this->input->post('kas_customer_id'),
@@ -624,6 +945,7 @@
 		{
             $data = array(
                     'GROUT_ID' => $this->input->post('giro_id'),
+                    'GOR_ID' => $this->input->post('gor_id'),
                     // 'COA_ID' => $this->input->post('acc_id_detail'),
                     // 'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'GROUTDET_DATE' => $this->input->post('tgl_giro'),
@@ -639,5 +961,566 @@
             $hapus = $this->crud->delete_by_id('giroout_det',array('groutdet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
+
+
+		public function ajax_srch_km()
+		{
+			$list = $this->srch_km->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSH_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSH_DATE;				
+				$row[] = $dat->CSH_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_km('."'".$dat->CSH_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_km->count_all(),
+							"recordsFiltered" => $this->srch_km->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_km($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_in',array('CSH_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_pick_cust($id)
+		{
+			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_kmdet($id)
+		{
+			$data = $this->crud->get_by_id3('cashin_det','chart_of_account','trx_cash_in',array('cashin_det.CSH_ID' => $id),'chart_of_account.COA_ID=cashin_det.COA_ID','cashin_det.CSH_ID=trx_cash_in.CSH_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_km($id)
+		{
+			$data = $this->crud->sub_km($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_kk()
+		{
+			$list = $this->srch_kk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSHO_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSHO_DATE;				
+				$row[] = $dat->CSHO_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_kk('."'".$dat->CSHO_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_kk->count_all(),
+							"recordsFiltered" => $this->srch_kk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_kk($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_out',array('CSHO_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function ajax_pick_kkdet($id)
+		{
+			$data = $this->crud->get_by_id3('cashout_det','chart_of_account','trx_cash_out',array('cashout_det.CSHO_ID' => $id),'chart_of_account.COA_ID=cashout_det.COA_ID','cashout_det.CSHO_ID=trx_cash_out.CSHO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_kk($id)
+		{
+			$data = $this->crud->sub_kk($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_bm()
+		{
+			$list = $this->srch_bm->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNK_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->BNK_DATE;				
+				$row[] = $dat->BNK_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bm('."'".$dat->BNK_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_bm->count_all(),
+							"recordsFiltered" => $this->srch_bm->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_bm($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankin',array('BNK_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_bmdet($id)
+		{
+			$data = $this->crud->get_by_id3('bankin_det','chart_of_account','trx_bankin',array('bankin_det.BNK_ID' => $id),'chart_of_account.COA_ID=bankin_det.COA_ID','bankin_det.BNK_ID=trx_bankin.BNK_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bmtrxdet($id)
+		{
+			$data = $this->crud->get_by_id2('trx_bankin','bankin_trxdet',array('trx_bankin.BNK_ID' => $id),'trx_bankin.BNK_ID = bankin_trxdet.BNK_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_bm($id)
+		{
+			$data = $this->crud->sub_bm($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_bk()
+		{
+			$list = $this->srch_bk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNKO_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->BNKO_DATE;				
+				$row[] = $dat->BNKO_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bk('."'".$dat->BNKO_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_bk->count_all(),
+							"recordsFiltered" => $this->srch_bk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_bk($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankout',array('BNKO_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_bkdet($id)
+		{
+			$data = $this->crud->get_by_id3('bankout_det','chart_of_account','trx_bankout',array('bankout_det.BNKO_ID' => $id),'chart_of_account.COA_ID=bankout_det.COA_ID','bankout_det.BNKO_ID=trx_bankout.BNKO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bktrxdet($id)
+		{
+			$data = $this->crud->get_by_id2('trx_bankout','bankout_trxdet',array('trx_bankout.BNKO_ID' => $id),'trx_bankout.BNKO_ID = bankout_trxdet.BNKO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_bk($id)
+		{
+			$data = $this->crud->sub_bk($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_gm()
+		{
+			$list = $this->srch_gm->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GRIN_CODE;
+				// $row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->GRIN_DATE;				
+				$row[] = $dat->GRIN_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_gm('."'".$dat->GRIN_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gm->count_all(),
+							"recordsFiltered" => $this->srch_gm->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_gm($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_in',array('GRIN_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_gmdet($id)
+		{
+			$data = $this->crud->get_by_id3('giroin_det','giroin_record','trx_giro_in',array('giroin_det.GRIN_ID' => $id),'giroin_record.GIR_ID=giroin_det.GIR_ID','giroin_det.GRIN_ID=trx_giro_in.GRIN_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_gm($id)
+		{
+			$data = $this->crud->sub_gm($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_srch_gk()
+		{
+			$list = $this->srch_gk->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GROUT_CODE;
+				// $row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->GROUT_DATE;				
+				$row[] = $dat->GROUT_INFO;				
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_gk('."'".$dat->GROUT_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_gk->count_all(),
+							"recordsFiltered" => $this->srch_gk->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+        public function ajax_pick_gk($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_out',array('GROUT_ID' => $id));
+        	echo json_encode($data);
+		}
+    
+        public function ajax_pick_gkdet($id)
+		{
+			$data = $this->crud->get_by_id3('giroout_det','giroout_record','trx_giro_out',array('giroout_det.GROUT_ID' => $id),'giroout_record.GOR_ID=giroout_det.GOR_ID','giroout_det.GROUT_ID=trx_giro_out.GROUT_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_sum_gk($id)
+		{
+			$data = $this->crud->sub_gk($id);
+        	echo json_encode($data);
+        }
+
+        public function ajax_pick_giroin_record($id)
+		{
+			$data = $this->crud->get_by_id('giroin_record',array('GIR_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_giroin($id)
+		{
+			$data = $this->crud->get_by_id2('bankin_trxdet','giroin_record',array('BNKTRX_NUM' => $id),'giroin_record.BNKTRX_ID=bankin_trxdet.BNKTRX_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_giroout($id)
+		{
+			$data = $this->crud->get_by_id2('bankout_trxdet','giroout_record',array('BNKTRXO_NUM' => $id),'giroout_record.BNKTRXO_ID=bankout_trxdet.BNKTRXO_ID');
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_bankin_trxdet($id)
+		{
+			$data = $this->crud->get_by_id('bankin_trxdet',array('BNKTRX_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_trx_bankin($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankin',array('BNK_ID' => $id));
+        	echo json_encode($data);
+		}
+
+        public function show_gmdet($id)
+        {
+        	$this->db->from('giroin_det a');
+        	$this->db->join('giroin_record b','b.gir_id = a.gir_id');
+        	$this->db->join('bankin_trxdet c','c.bnktrx_id = b.bnktrx_id');
+        	$this->db->join('trx_bankin d','d.bnk_id = c.bnk_id');
+        	$this->db->join('master_customer e','e.cust_id = d.cust_id');
+        	$this->db->where('a.grin_id',$id);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_gkdet($id)
+        {
+        	$this->db->from('giroout_det a');
+        	$this->db->join('giroout_record b','b.gor_id = a.gor_id');
+        	$this->db->join('bankout_trxdet c','c.bnktrxo_id = b.bnktrxo_id');
+        	$this->db->join('trx_bankout d','d.bnko_id = c.bnko_id');
+        	$this->db->join('master_supplier e','e.supp_id = d.bnko_supp');
+        	$this->db->where('a.grout_id',$id);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_kas()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	// $this->db->from('trx_cash_in a');
+        	// $this->db->join('cashin_det b','a.csh_id = b.csh_id');
+        	// $this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id','desc');
+        	$this->db->where('csh_date >=',$tgl1);
+        	$this->db->where('csh_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_keluar()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('trx_cash_out a');
+        	$this->db->join('cashout_det b','a.csho_id = b.csho_id');
+        	$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+        	$this->db->where('a.csho_date >=',$tgl1);
+        	$this->db->where('a.csho_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        //Fungsi Halaman Invoice
+        public function get_inv($id)
+        {
+        	$data = $this->crud->get_by_id2('trx_invoice a','master_customer b',array('a.inv_id'=>$id),'a.cust_id = b.cust_id');
+        	echo json_encode($data);
+        }
+
+        public function get_invdet($id)
+        {        	
+        	$this->db->from('inv_details a');
+        	$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+        	$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
+        	$this->db->join('master_location d','d.loc_id = c.loc_id');
+        	$this->db->where('a.inv_id',$id);
+        	$que = $this->db->get();
+        	$data = $que->result();
+        	echo json_encode($data);
+        }
+
+		public function get_apprterm($id)
+		{
+			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			$this->db->from('appr_terms_det a');			
+			$this->db->where('a.appr_id',$id);
+			$this->db->where('a.termsdet_id NOT IN (select invdet_termid from inv_details)');
+			$res = $this->db->get();
+			$data = $res->result();
+			echo json_encode($data);
+		}
+
+		public function get_apprtermbrc($id)
+		{
+			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
+			$this->db->from('appr_terms_det a');			
+			$this->db->where('a.appr_id',$id);
+			$this->db->where('a.termsdet_id NOT IN (select invdet_termbrcid from inv_details)');
+			$res = $this->db->get();
+			$data = $res->result();
+			echo json_encode($data);
+		}
+
+		public function get_apprtermnom($id)
+		{
+			$data = $this->crud->get_by_id('appr_terms_det',array('termsdet_id'=>$id));
+			echo json_encode($data);
+		}
+
+		public function get_subinvdet($id)
+		{
+			$this->db->from('inv_details a');
+			$this->db->select('sum(a.invdet_amount) as gt1, sum(a.invdet_brcamount) as gt2, sum(a.invdet_sub) as sub1, sum(a.invdet_brcsub) as sub2, sum(a.invdet_ppnam) as ppn1, sum(a.invdet_ppnbrcam) as ppn2, sum(a.invdet_ppham) as pph1, sum(a.invdet_pphbrcam) as pph2');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->where('b.inv_id',$id);
+			$que = $this->db->get();
+			// $res = $que->row();
+			$data = $que->row();
+			echo json_encode($data);
+		}
+
+		public function add_invdet()
+		{
+			$this->_validate_invdet();
+			$data = array(
+					'inv_id'=>$this->input->post('inv_id'),
+					'appr_id'=>$this->input->post('inv_apprid'),
+					'invdet_termid'=>$this->input->post('inv_term'),
+					'invdet_term'=>$this->input->post('inv_termcode'),
+					'invdet_amount'=>$this->input->post('invdet_sub'),
+					'invdet_sub'=>$this->input->post('inv_termsub'),
+					'invdet_ppnam'=>$this->input->post('inv_termppn'),
+					'invdet_ppham'=>$this->input->post('inv_termpph'),
+					'invdet_termbrcid'=>$this->input->post('inv_termbrc'),
+					'invdet_brcterm'=>$this->input->post('inv_termbrccode'),
+					'invdet_brcsub'=>$this->input->post('inv_termsubbrc'),
+					'invdet_brcamount'=>$this->input->post('invdet_brcsub'),
+					'invdet_ppnbrcam'=>$this->input->post('inv_termppnbrc'),
+					'invdet_pphbrcam'=>$this->input->post('inv_termpphbrc')
+					);
+			$update = $this->crud->save('inv_details',$data);
+			echo json_encode(array('status'=>TRUE));
+		}
+
+		public function del_invdet($id)
+		{
+			$this->crud->delete_by_id('inv_details',array('invdet_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+		}
+
+		public function _validate_invdet()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('inv_apprcode') == '')
+	        {
+	            $data['inputerror'][] = 'inv_apprcode';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_curr') == '')
+	        {
+	            $data['inputerror'][] = 'inv_curr';
+	            $data['status'] = FALSE;
+	        }
+
+	        // if($this->input->post('inv_term') == '')
+	        // {
+	        //     $data['inputerror'][] = 'inv_term';
+	        //     $data['status'] = FALSE;
+	        // }
+
+	        // if($this->input->post('inv_termbrc') == '')
+	        // {
+	        //     $data['inputerror'][] = 'inv_termbrc';
+	        //     $data['status'] = FALSE;
+	        // }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    public function save_inv()
+	    {
+	    	$this->_validate_inv();
+	    	$data = array(
+	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'branch_id'=>$this->input->post('inv_branchid'),
+	    			'cust_id'=>$this->input->post('inv_custid'),
+	    			'curr_id'=>$this->input->post('inv_currid'),
+	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'inv_info'=>$this->input->post('inv_info'),
+	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_date'=>$this->input->post('inv_date'),	    			
+	    			'inv_sts'=>'1'
+	    			);
+	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
+	    	echo json_encode(array('status'=>TRUE));
+	    }
+
+	    public function _validate_inv()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+
+	        if($this->input->post('inv_typename') == '')
+	        {
+	            $data['inputerror'][] = 'inv_typename';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_code') == '')
+	        {
+	            $data['inputerror'][] = 'inv_code';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_branch') == '')
+	        {
+	            $data['inputerror'][] = 'inv_branch';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_cust') == '')
+	        {
+	            $data['inputerror'][] = 'inv_cust';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_info') == '')
+	        {
+	            $data['inputerror'][] = 'inv_info';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($this->input->post('inv_terms') == '')
+	        {
+	            $data['inputerror'][] = 'inv_terms';
+	            $data['status'] = FALSE;
+	        }
+
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
 	}
 ?>
