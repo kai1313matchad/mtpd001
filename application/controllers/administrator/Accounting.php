@@ -18,7 +18,7 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
-		public function gen_journal()		
+		public function gen_journal()
 		{
 			$gen = $this->gen->gen_numjou();
 			$data['id'] = $gen['insertId'];
@@ -35,6 +35,15 @@
 			$data['menu']='accounting';
 			$data['menulist']='journal';
 			$data['isi']='menu/administrator/accounting/acc_journal';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function journal_adj()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='journal_adj';
+			$data['isi']='menu/administrator/accounting/adj_journal';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -107,7 +116,8 @@
 			if($this->input->post('branch'))
 			{
 				$this->db->where('b.branch_id',$this->input->post('branch'));
-			}			
+			}
+			$this->db->where('b.jou_sts','1');
 			$que = $this->db->get();
 			$data = $que->result();
 			echo json_encode($data);
@@ -160,6 +170,29 @@
 					'jou_date'=>$this->input->post('jou_date'),
 					'jou_info'=>$this->input->post('jou_info'),
 					'jou_sts'=>'1'
+					);
+			$update = $this->crud->update('account_journal',$data,array('jou_id'=>$this->input->post('jou_id')));
+			$datadet = array(
+					'jou_id'=>$this->input->post('jou_id'),
+					'coa_id'=>$this->input->post('jou_accdet'),
+					'joudet_debit'=>$this->input->post('jou_accdebetsum'),
+					'joudet_credit'=>$this->input->post('jou_acccreditsum'),
+					);
+			$insertdet = $this->crud->save('jou_details',$datadet);
+			echo json_encode(array("status" => TRUE));
+		}
+
+		public function add_joudetadj()
+		{
+			$this->_validate_joudet();
+			$data = array(
+					'branch_id'=>$this->input->post('jou_branchid'),
+					'user_id'=>$this->input->post('user_id'),
+					'jou_code'=>$this->input->post('jou_code'),
+					'jou_reff'=>$this->input->post('jou_reff'),
+					'jou_date'=>$this->input->post('jou_date'),
+					'jou_info'=>$this->input->post('jou_info'),
+					'jou_sts'=>'2'
 					);
 			$update = $this->crud->update('account_journal',$data,array('jou_id'=>$this->input->post('jou_id')));
 			$datadet = array(

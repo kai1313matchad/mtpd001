@@ -415,6 +415,13 @@
                 }
             });
         }
+
+        function tes()
+        {
+            $('#tb_gm').DataTable({
+               "info": false, 
+            });
+        }
     
         function show_bk()
         {            
@@ -514,6 +521,7 @@
                                $('<td>').text(''),
                                $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
                                ).appendTo('#tb_content');
+                    tes();
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

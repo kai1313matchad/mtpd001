@@ -118,6 +118,15 @@
 			$this->load->view('menu/administrator/finance/print_invoice',$data);
 		}
 
+		public function rpt_invoice()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_invoice';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function cash_in()
 		{
 			$data['title']='Match Terpadu - Dashboard Kas Masuk';

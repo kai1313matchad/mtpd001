@@ -20,6 +20,7 @@
 			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
 			$this->load->model('datatables/showdata/Dt_showledger','ledger');
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
+			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
 		}
 
 		public function index()
@@ -421,6 +422,33 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_jou->count_all(),
 							"recordsFiltered" => $this->rpt_jou->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Invoice
+		public function showrpt_invoice()
+		{
+			$list = $this->rpt_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->INVDET_TERM;
+				$row[] = $dat->INVDET_AMOUNT;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_inv->count_all(),
+							"recordsFiltered" => $this->rpt_inv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
