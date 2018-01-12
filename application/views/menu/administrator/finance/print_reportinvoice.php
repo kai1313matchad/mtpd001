@@ -55,20 +55,22 @@
 </head>
 <body>
     <div class="container">
-        <form id="form_jou">
-            <input type="hidden" name="coa_id" value="<?php echo $coaid; ?>">
+        <form id="form_inv">
+            <input type="hidden" name="cust_id" value="<?php echo $cust; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
+            <input type="hidden" name="appr_id" value="<?php echo $appr; ?>">
             <input type="hidden" name="branch" value="<?php echo $branch; ?>">
+            <input type="hidden" name="type" value="<?php echo $rpttype; ?>">
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN INVOICE PER <span name="rptinv_h1"></span>></u></h2>
-                <h3 class="text-center" name="rptjou_branch"></h3>
-                <h4 class="text-center" name="rptjou_period"></h4>
+                <h2 class="text-center"><u>LAPORAN INVOICE PER <span name="rptinv_h1"></span></u></h2>
+                <h3 class="text-center" name="rptinv_branch"></h3>
+                <h4 class="text-center" name="rptinv_period"></h4>
             </div>
         </div>
         <div class="row">
@@ -106,49 +108,6 @@
                 </table>
             </div>
         </div>
-        <!-- <div class="row">
-            <div class="col-sm-12 col-xs-12 table-responsive">
-                <table id="dtb_tes" class="table table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                No
-                            </th>
-                            <th class="text-center">
-                                Kode
-                            </th>
-                            <th class="text-center">
-                                Tanggal
-                            </th>
-                            <th class="text-center">
-                                Keterangan
-                            </th>
-                            <th class="text-center">
-                                Jumlah
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="5">Tes Group1</td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">Tes Subgroup</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>a1</td>
-                            <td>12-12-2018</td>
-                            <td>asksoa</td>
-                            <td class="text-right">10</td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="text-right">10</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
     </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
@@ -174,446 +133,196 @@
     <script>
         $(document).ready(function()
         {
-            // var id = $('[name="inv_id"]').val();
-            // pick_invoice(id);
-            pick_journal();
-            $('[name="rptjou_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
-            // $('#dtb_tes').DataTable();
+            pick_rptinv();
+            $('[name="rptinv_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            report_type();
         });
 
-        function pick_journal()
+        function report_type()
         {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/gen_rptjournal')?>",
-                type: "POST",
-                data: $('#form_jou').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    $('[name="rptjou_branch"]').text(data[0]["BRANCH_NAME"]);                    
-                    for (var i = 0; i < data.length; i++)
-                    {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),
-                            $('<td>').css('text-align','center').text(data[i]["BRANCH_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_CODE"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_DATE"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_REFF"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_INFO"]),
-                            $('<td>').css('text-align','center').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_DEBIT"])),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_CREDIT"]))
-                            ).appendTo('#tb_content');
-                    }
-                    dt_journal2();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
+            var n = $('[name="type"]').val();
+            var r;
+            if(n == '1')
+            {
+                $('[name="rptinv_h1"]').text('NOMOR');
+                r = 0;
+            }
+            if(n == '2')
+            {
+                $('[name="rptinv_h1"]').text('CUSTOMER');
+                r = 3;
+            }
+            if(n == '3')
+            {
+                $('[name="rptinv_h1"]').text('PROYEK');
+                r = 1;
+            }
+            if(n == '4')
+            {
+                $('[name="rptinv_h1"]').text('FAKTUR PAJAK');
+                r = 4;
+            }
+            return r;
         }
 
-        function pick_journal2()
+        function pick_rptinv()
         {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/gen_rptjournal')?>",
-                type: "POST",
-                data: $('#form_jou').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    for (var i = 0; i < data.length; i++)
+            var v = report_type();
+            if(v == 4)
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Finance/gen_rptinvtax')?>",
+                    type: "POST",
+                    data: $('#form_inv').serialize(),
+                    dataType: "JSON",
+                    success: function(data)
                     {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_CODE"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_DATE"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_REFF"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_INFO"]),
-                            $('<td>').css('text-align','center').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_DEBIT"])),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_CREDIT"]))
-                            ).appendTo('#tb_content');
-                    }
-                    dt_journal2();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function dt_journal()
-        {
-            $('#dtb_rptjou').DataTable({
-                "iDisplayLength": "All",
-                "columnDefs":
-                [
-                    // {"visible": false, "targets": 1},
-                    {"orderable": false, "targets": 1}
-                ],
-                "info": false,
-                // "responsive": true,
-                // "order": [[2, 'asc']],
-                "drawCallback": function(settings)
-                {
-                    var api = this.api();
-                    var rows = api.rows({page:'current'}).nodes();
-                    var last = null;
-                    var clm = [1,2];
-                    for(cl=0 ; c < clm.length ; cl++)
-                    {
-                        var cls = columns[cl];
-                        api.column(cls,{page:'current'}).data().each(function (group,i)
+                        $('[name="rptinv_branch"]').text(data[0]["BRANCH_NAME"]);
+                        for (var i = 0; i < data.length; i++)
                         {
-                            if(last !== group)
-                            {
-                                $('rows').eq(i).before('<tr class="group"><td colspan="9">'+group+'</td></tr>');
-                            }
-                            last=group;
-                        });
-                    }
-                    // for(c=0;c<columns.length;c++)
-                    // {
-                    //     var colNo = columns[c];
-                    //     api.column(c,{page:'current'}).data().each(function (group, i)
-                    //     {
-                    //         if(last !== group)
-                    //         {
-                    //             $('rows').eq(i).before('<tr class="group"><td colspan="9">'+group+'</td></tr>');
-                    //         }
-                    //         last=group;
-                    //     });
-                    // }
-                    // api.column(1, {page:'current'}).data().each(function (group, i)
-                    //     {
-                    //         if(last !== group)
-                    //         {
-                    //             var rowData = api.row(i).data();
-                    //             $(rows).eq(i).before('<tr class="group"><td colspan="9">'+group+' - '+rowData[2]+'</td></tr>');
-                    //             last = group;
-                    //         }
-                    //     });
-                }
-            });
-        }
-
-        function dt_journal2()
-        {
-            $('#dtb_rptjou').DataTable({
-                info: false,
-                searching: false,
-                bLengthChange: false,
-                // responsive: true,
-                columnDefs:
-                [
-                    {visible: false, targets: 1},
-                    {visible: false, targets: 2},
-                    {orderable: false, targets: '_all'}
-                ],
-                order: [[1, 'asc']],
-                rowGroup:
-                {
-                    endRender: function(rows, group)
-                    {
-                        var sum = rows.data().pluck(7)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-                        
-                        var sum2 = rows.data().pluck(8)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-
-                        // var sum3 = sum+sum2;
-                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        // sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3);
-
-                        return $('<tr/>')                        
-                        .append( '<td colspan="5"></td>' )
-                        .append( '<td class="text-right">'+sum+'</td>')
-                        .append( '<td class="text-right">'+sum2+'</td>' );
+                            var $tr = $('<tr>').append(
+                                $('<td>').css('text-align','center').text(data[i]["INV_CODE"]),
+                                $('<td>').css('text-align','center').text(data[i]["APPR_CODE"]),
+                                $('<td>').css('text-align','center').text(data[i]["INV_DATE"]),
+                                $('<td>').css('text-align','center').text(data[i]["CUST_NAME"]),
+                                $('<td>').css('text-align','center').text(data[i]["LOC_NAME"]),
+                                $('<td>').css('text-align','center').text(data[i]["INV_INFO"]),
+                                $('<td>').css('text-align','center').text(data[i]["APPR_PO"]),
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"]))
+                                ).appendTo('#tb_content');
+                        }
+                        dt_reportinv(0);
                     },
-                    dataSrc: 2
-                },
-            });
-        }
-
-        function dt_journal3()
-        {
-            $('#dtb_rptjou').dataTable().rowGrouping({
-                iGroupingColumnIndex: 1,
-                iGroupingColumnIndex2: 2,
-            });
-        }
-
-        function dt_journal4()
-        {
-            var table = $('#dtb_rptjou').DataTable({
-                // order: [[1,'asc'],[2,'asc']],
-                drawCallback: function(settings)
-                {
-                    var api = this.api();
-                    var tableRows = api.rows({page:'current'}).nodes();
-                    var tableData = api.rows({page:'current'}).data();
-                    var lastGr = null;
-                    var lastSub = null;
-                    var subGr = null;
-                    $(tableRows).each(function()
+                    error: function (jqXHR, textStatus, errorThrown)
                     {
-                        groupName = this.cells[1].innerHTML;
-                        subGr = this.cells[2].innerHTML;
-                        if (lastGr !== groupName)
-                        {
-                            $(this).before('<tr class="group"><td colspan="9">'+groupName+'</td></tr>');
-                            lastGr = groupName;
-                        }
-                        if (lastSub !== subGr)
-                        {
-                            $(this).before('<tr class="subgroup"><td colspan="9">'+subGr+'</td></tr>');
-                            lastSub = subGr;
-                        }
-                    });
-                }
-            });
-        }
-
-        function build_tes()
-        {
-            // pick_tes1();
-            pick_tes2();
-            
-        }
-
-        function pick_tes1()
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/tes_kasmasuk')?>",
-                type: "POST",
-                data: $('#form_jou').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    for (var i = 0; i < data.length; i++)
-                    {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),
-                            $('<td>').css('text-align','center').text(data[i]["CSH_CODE"]),
-                            $('<td>').css('text-align','center').text(data[i]["CSH_DATE"]),
-                            $('<td>').css('text-align','center').text(data[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["CSHDETIN_AMOUNT"])),
-                            ).appendTo('#tb_contenttes');
-                    }                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_tes2()
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/tes_kaskeluar')?>",
-                type: "POST",
-                data: $('#form_jou').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    for (var i = 0; i < data.a.length; i++)
-                    {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),
-                            $('<td>').css('text-align','center').text(data.a[i]["CSHO_CODE"]),
-                            $('<td>').css('text-align','center').text(data.a[i]["CSHO_DATE"]),
-                            $('<td>').css('text-align','center').text(data.a[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data.a[i]["CSHODET_AMOUNT"])),
-                            ).appendTo('#tb_contenttes');
+                        alert('Error get data from ajax');
                     }
-                    alert(data.a["0"]["CSHO_CODE"]);
-                    for (var i = 0; i < data.b.length; i++)
+                });
+            }
+            else
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Finance/gen_rptinv')?>",
+                    type: "POST",
+                    data: $('#form_inv').serialize(),
+                    dataType: "JSON",
+                    success: function(data)
                     {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),
-                            $('<td>').css('text-align','center').text(data.b[i]["CSH_CODE"]),
-                            $('<td>').css('text-align','center').text(data.b[i]["CSH_DATE"]),
-                            $('<td>').css('text-align','center').text(data.b[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data.b[i]["CSHDETIN_AMOUNT"])),
-                            ).appendTo('#tb_contenttes');
-                    }
-                    dt_journaltes();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function dt_journaltes()
-        {
-            $('#dtb_tes').DataTable({
-                info: false,
-                searching: false,
-                // responsive: true,
-                columnDefs:
-                [
-                    {visible: false, targets: 3},
-                    {orderable: false, targets: '_all'}
-                ],
-                order: [[3, 'asc']],
-                rowGroup:
-                {
-                    dataSrc: 3
-                }
-            });
-        }
-
-        function pick_invoice(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_inv/')?>"+id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-                    var id = data.INV_ID;
-                    var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY')
-                    $('[name="inv_date"]').text(invdate);
-                    $('[name="inv_code"]').text(data.INV_CODE);
-                    $('[name="inv_custname"]').text(data.CUST_NAME);
-                    $('[name="inv_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="inv_custcity"]').text(data.CUST_CITY+', '+data.CUST_POSTAL);
-                    $('[name="inv_custprov"]').text(data.CUST_NAME);
-                    $('[name="inv_info"]').text(data.INV_INFO);
-                    pick_invdet(id);
-                    pick_sub(id);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_cust(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="print_clientname"]').text(data.CUST_NAME);
-                    $('[name="print_clientnpwp"]').text(data.CUST_NPWPACC);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_sub(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="inv_subs"]').text(money_conv(data.sub1));
-                    $('[name="inv_ppn"]').text(money_conv(data.ppn1));
-                    $('[name="inv_pph"]').text(money_conv(data.pph1));
-                    $('[name="inv_grand"]').text(money_conv(data.gt1));
-                    pick_spelledtotal(data.gt1);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_invdet(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_invdet/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    for (var i = 0; i < data.length; i++)
-                    {
-                        var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),                    
-                            $('<td>').css('text-align','center').text(data[i]["APPR_CODE"]),
-                            $('<td>').css('text-align','center').text(data[i]["APPR_PO"]),
-                            $('<td>').css('text-align','center').text(data[i]["LOC_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["APPR_INFO"]),
-                            $('<td>').css('text-align','right').text(money_conv(data[i]["INVDET_AMOUNT"]))
-                            ).appendTo('#tb_content');
-                    }                   
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_getappterm(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/get_appterm/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    var all='';
-                    for (var i = 0; i < data.length; i++)
-                    {
-                        var $ctn = data[i]["TERMSDET_CODE"]+' :'+data[i]["TERMSDET_PERC"]+'% '+data[i]["TERMSDET_INFO"];                        
-                        if(i==0)
+                        $('[name="rptinv_branch"]').text(data[0]["BRANCH_NAME"]);
+                        for (var i = 0; i < data.length; i++)
                         {
-                            all = all + $ctn;
+                            var $tr = $('<tr>').append(
+                                $('<td>').css('text-align','center').text(data[i]["INV_CODE"]),
+                                $('<td>').css('text-align','center').text(data[i]["APPR_CODE"]),
+                                $('<td>').css('text-align','center').text(data[i]["INV_DATE"]),
+                                $('<td>').css('text-align','center').text(data[i]["CUST_NAME"]),
+                                $('<td>').css('text-align','center').text(data[i]["LOC_NAME"]),
+                                $('<td>').css('text-align','center').text(data[i]["INV_INFO"]),
+                                $('<td>').css('text-align','center').text(data[i]["APPR_PO"]),
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"]))
+                                ).appendTo('#tb_content');
                         }
-                        else
-                        {
-                            all = all +', '+ $ctn;
-                        }
+                        dt_reportinv(v);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
                     }
-                    $('<span>').text(all).appendTo('#pcontent');                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
+                });
+            }
         }
 
-        function pick_spelledtotal(v)
+        function dt_reportinv(v)
         {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_numbsp/')?>" + v,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="inv_terbilang"]').text(data.terbilang+' Rupiah');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
+            if(v == 0)
+            {
+                $('#dtb_rptinv').DataTable({
+                    info: false,
+                    searching: false,
+                    bLengthChange: false,
+                    paging: false,
+                    // responsive: true,
+                    columnDefs:
+                    [
+                        {visible: false, targets: v},                    
+                        {orderable: false, targets: '_all'}
+                    ],
+                    order: [[v, 'asc']],
+                    rowGroup:
+                    {
+                        endRender: null,
+                        dataSrc: v
+                    },
+                });
+            }
+            if(v == 1)
+            {
+                $('#dtb_rptinv').DataTable({
+                    info: false,
+                    searching: false,
+                    bLengthChange: false,
+                    paging: false,
+                    // responsive: true,
+                    columnDefs:
+                    [
+                        {visible: false, targets: v},                    
+                        {orderable: false, targets: '_all'}
+                    ],
+                    order: [[v, 'asc']],
+                    rowGroup:
+                    {
+                        endRender: function(rows, group)
+                        {
+                            var sum = rows.data().pluck(7)
+                            .reduce(function(a,b)
+                            {
+                                return a+b.replace(/[^\d]/g, '')*1;
+                            }, 0);                            
+                            sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+
+                            return $('<tr/>')                        
+                            .append( '<td colspan="5"></td>' )
+                            .append( '<td class="text-right">SUB TOTAL</td>')
+                            .append( '<td class="text-right">'+sum+'</td>' );
+                        },
+                        dataSrc: v
+                    },
+                });
+            }
+            if(v == 3)
+            {
+                $('#dtb_rptinv').DataTable({
+                    info: false,
+                    searching: false,
+                    bLengthChange: false,
+                    paging: false,
+                    // responsive: true,
+                    columnDefs:
+                    [
+                        {visible: false, targets: v},                    
+                        {orderable: false, targets: '_all'}
+                    ],
+                    order: [[v, 'asc']],
+                    rowGroup:
+                    {
+                        endRender: function(rows, group)
+                        {
+                            var sum = rows.data().pluck(7)
+                            .reduce(function(a,b)
+                            {
+                                return a+b.replace(/[^\d]/g, '')*1;
+                            }, 0);                            
+                            sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+
+                            return $('<tr/>')                        
+                            .append( '<td colspan="5"></td>' )
+                            .append( '<td class="text-right">SUB TOTAL</td>')
+                            .append( '<td class="text-right">'+sum+'</td>' );
+                        },
+                        dataSrc: v
+                    },
+                });
+            }
         }
     </script>
 </body>

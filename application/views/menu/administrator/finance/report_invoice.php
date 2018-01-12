@@ -243,7 +243,8 @@
     <script>
         $(document).ready(function()
         {
-            dt_rptinv();            
+            dt_rptinv();
+
         });
 
         function filter_rptinv()
@@ -252,10 +253,29 @@
             // checkradio();
         }
 
+        function show_rptinv()
+        {
+            var n = checkradio();
+            if(n != null)
+            {
+                var seg1 = $('[name="rptinv_custid"]').val()?$('[name="rptinv_custid"]').val():'null';
+                var seg2 = $('[name="rptinv_datestart"]').val()?$('[name="rptinv_datestart"]').val():'null';
+                var seg3 = $('[name="rptinv_dateend"]').val()?$('[name="rptinv_dateend"]').val():'null';
+                var seg4 = $('[name="rptinv_apprid"]').val()?$('[name="rptinv_apprid"]').val():'null';
+                var seg5 = $('[name="rptinv_branchid"]').val()?$('[name="rptinv_branchid"]').val():'null';
+                var seg6 = n;
+                window.open ( "<?php echo site_url('administrator/Finance/print_rptinv/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5+'/'+seg6,'_blank');
+            }
+            else
+            {
+                alert('Pilih Salah Satu Jenis Laporan');
+            }
+        }
+
         function checkradio()
         {
             var n = $('[name="group"]:checked').val();
-            alert(n);
+            return n;
         }
     </script>
     <!-- Showdata -->
@@ -276,8 +296,8 @@
                         data.branch = $('[name="rptinv_branchid"]').val();
                         data.client = $('[name="rptinv_custid"]').val();
                         data.appr = $('[name="rptinv_apprid"]').val();
-                        data.date_start = $('[name="ldg_datestart"]').val();
-                        data.date_end = $('[name="ldg_datestart"]').val();
+                        data.date_start = $('[name="rptinv_datestart"]').val();
+                        data.date_end = $('[name="rptinv_dateend"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -286,41 +306,6 @@
                     "orderable": false,
                 },
                 ],
-            });
-        }
-    </script>
-    <!-- Dropdown -->
-    <script>
-        function drop_coa()
-        {
-            $.ajax({
-            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-                {
-                    $('#ldg_coaid').empty();
-                    var select = document.getElementById('ldg_coaid');
-                    var option;
-                    option = document.createElement('option');
-                        option.value = ''
-                        option.text = 'Pilih';
-                        select.add(option);
-                    for (var i = 0; i < data.length; i++) {
-                        option = document.createElement('option');
-                        option.value = data[i]["COA_ID"]
-                        option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
-                        select.add(option);
-                    }
-                    $('#ldg_coaid').selectpicker({
-                        dropupAuto: false
-                    });
-                    $('#ldg_coaid').selectpicker('refresh');                    
-                },
-            error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
             });
         }
     </script>

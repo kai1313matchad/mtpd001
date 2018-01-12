@@ -40,12 +40,12 @@
 
 		public function gen_invo()
 		{
-			// $gen = $this->gen->gen_numinvo();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['invo_code'];
-			$data['id'] = '1';
-			$data['kode'] = 'INV/1712/000001';
-			$data['status'] = TRUE;
+			$gen = $this->gen->gen_numinvo();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['invo_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'INV/1712/000001';
+			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
@@ -125,6 +125,79 @@
 			$data['menulist']='report_finance';
 			$data['isi']='menu/administrator/finance/report_invoice';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_rptinv()
+		{
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['rpttype'] = ($this->uri->segment(9) == 'null') ? '' : $this->uri->segment(9);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_reportinvoice',$data);
+		}
+
+		public function gen_rptinv()
+		{
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('cust_id'))
+			{
+				$this->db->where('b.cust_id', $this->input->post('cust_id') );
+			}
+			if ($this->input->post('appr_id'))
+			{
+				$this->db->where('a.appr_id', $this->input->post('appr_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('inv_details a');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
+			$this->db->join('master_location d','d.loc_id = c.loc_id');
+			$this->db->join('master_customer e','e.cust_id = b.cust_id');
+			$this->db->join('master_branch f','f.branch_id = b.branch_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptinvtax()
+		{
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('cust_id'))
+			{
+				$this->db->where('b.cust_id', $this->input->post('cust_id') );
+			}
+			if ($this->input->post('appr_id'))
+			{
+				$this->db->where('a.appr_id', $this->input->post('appr_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
+			}
+			$this->db->where('a.invdet_id NOT IN (select invdet_id from tax_inv_details)');
+			$this->db->from('inv_details a');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
+			$this->db->join('master_location d','d.loc_id = c.loc_id');
+			$this->db->join('master_customer e','e.cust_id = b.cust_id');
+			$this->db->join('master_branch f','f.branch_id = b.branch_id');			
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
 		}
 
 		public function cash_in()
