@@ -17,14 +17,18 @@
 			{
 				$this->db->where('a.coa_id', $this->input->post('coaid') );
 			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
 			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
 				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
         		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
 			}
-
 			$this->db->from($this->table);
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
 			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

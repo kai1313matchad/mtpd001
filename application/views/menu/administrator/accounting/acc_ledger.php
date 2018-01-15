@@ -9,6 +9,16 @@
                 <div class="row">
                     <form class="form-horizontal" id="form_ledger" enctype="multipart/form-data">
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Cabang</label>
+                            <div class="col-sm-1">
+                                <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control" type="text" name="ldg_branch" readonly>
+                                <input type="hidden" name="ldg_branchid">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Nomor Rekening</label>
                             <div class="col-sm-8">
                                 <select class="form-control text-center" name="ldg_coaid" id="ldg_coaid" data-live-search="true">
@@ -40,6 +50,11 @@
                                     <span class="glyphicon glyphicon-filter"> Tampilkan</span>
                                 </a>
                             </div>
+                            <div class="col-sm-2">
+                                <a href="javascript:void(0)" onclick="print_ledger()" class="btn btn-block btn-info">
+                                    <span class="glyphicon glyphicon-print"> Cetak</span>
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -68,9 +83,6 @@
                                     </th>
                                     <th class="col-sm-2 text-center">
                                         Kredit
-                                    </th>
-                                    <th class="text-center">
-                                        Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -146,6 +158,16 @@
         {
             $('#dtb_ledger').DataTable().ajax.reload(null,false);
         }
+
+        function print_ledger()
+        {
+            var seg1 = $('[name="ldg_coaid"]').val()?$('[name="ldg_coaid"]').val():'null';
+            var seg2 = $('[name="ldg_datestart"]').val()?$('[name="ldg_datestart"]').val():'null';
+            var seg3 = $('[name="ldg_dateend"]').val()?$('[name="ldg_dateend"]').val():'null';
+            var seg4 = $('[name="ldg_branchid"]').val()?$('[name="ldg_branchid"]').val():'null';
+            window.open ( "<?php echo site_url('administrator/Accounting/print_ledger/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+            window.open ( "<?php echo site_url('administrator/Accounting/print_ledger2/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+        }
     </script>
     <!-- Showdata -->
     <script>
@@ -164,7 +186,8 @@
                     "data": function(data){
                         data.coaid = $('[name="ldg_coaid"]').val();
                         data.date_start = $('[name="ldg_datestart"]').val();
-                        data.date_end = $('[name="ldg_datestart"]').val();
+                        data.date_end = $('[name="ldg_dateend"]').val();
+                        data.branch = $('[name="ldg_branchid"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -247,8 +270,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="jou_branchid"]').val(data.BRANCH_ID);
-                    $('[name="jou_branch"]').val(data.BRANCH_NAME);
+                    $('[name="ldg_branchid"]').val(data.BRANCH_ID);
+                    $('[name="ldg_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -386,7 +386,6 @@
 				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
 				$row[] = $dat->JOUDET_DEBIT;
 				$row[] = $dat->JOUDET_CREDIT;
-				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_ledger('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
 				$data[] = $row;
 			}
 			$output = array(

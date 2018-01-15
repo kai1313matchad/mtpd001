@@ -79,7 +79,7 @@
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
-			$data['isi']='menu/administrator/accounting/report_ledger';
+			$data['isi']='menu/administrator/accounting/acc_ledger';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -118,6 +118,106 @@
 				$this->db->where('b.branch_id',$this->input->post('branch'));
 			}
 			$this->db->where('b.jou_sts','1');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_ledger()
+		{
+			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$this->load->view('menu/administrator/accounting/print_ledger_t1',$data);
+		}
+
+		public function print_ledger2()
+		{
+			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$this->load->view('menu/administrator/accounting/print_ledger_t2',$data);
+		}
+
+		public function gen_rptledger()
+		{
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptledger2()
+		{
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('c.*,b.*,d.*,
+				sum(a.joudet_debit) as md,
+				sum(a.joudet_credit) as mc
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptldgsaldo()
+		{
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			$this->db->where('b.jou_date <', $this->input->post('date_start'));
+			$this->db->select('c.*,b.*,
+				sum(a.joudet_debit) as ssd,
+				sum(a.joudet_credit) as ssc
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->group_by('a.coa_id');
 			$que = $this->db->get();
 			$data = $que->result();
 			echo json_encode($data);
