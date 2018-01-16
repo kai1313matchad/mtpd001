@@ -55,7 +55,7 @@
 </head>
 <body>
     <div class="container">
-        <form id="form_ldg">
+        <form id="form_trbal">
             <input type="hidden" name="coaid" value="<?php echo $coaid; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
@@ -66,9 +66,9 @@
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN BUKU BESAR</u></h2>
-                <h3 class="text-center" name="rptldg_branch"></h3>
-                <h4 class="text-center" name="rptldg_period"></h4>
+                <h2 class="text-center"><u>LAPORAN NERACA SALDO</u></h2>
+                <h3 class="text-center" name="rpttrbal_branch"></h3>
+                <h4 class="text-center" name="rpttrbal_period"></h4>
             </div>
         </div>
         <div class="row">
@@ -152,16 +152,18 @@
     <script>
         $(document).ready(function()
         {
-            pick_ledger();
-            $('[name="rptldg_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());            
+            // pick_ledger();
+            tes();
+            $('[name="rpttrbal_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            pick_branch($('[name="branch"]').val());
         });
 
-        function pick_ledger()
+        function tes()
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/gen_rptledger2')?>",
+                url : "<?php echo site_url('administrator/Accounting/tes')?>",
                 type: "POST",
-                data: $('#form_ldg').serialize(),
+                data: $('#form_trbal').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -194,37 +196,10 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error get data from ajax');
+                    alert(errorThrown);
                 }
             });
-        }
-
-        function pick_saldo()
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/gen_rptldgsaldo')?>",
-                type: "POST",
-                data: $('#form_ldg').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    for (var i = 0; i < data.length; i++)
-                    {
-                        $('[name="ssd'+data[i]["COA_ACC"]+'"]').text(data[i]["ssd"]);
-                        $('[name="ssc'+data[i]["COA_ACC"]+'"]').text(data[i]["ssc"]);
-                        var sed = Math.abs(data[i]["ssd"])+Math.abs($('[name="md'+data[i]["COA_ACC"]+'"]').text());
-                        var sec = Math.abs(data[i]["ssc"])+Math.abs($('[name="mc'+data[i]["COA_ACC"]+'"]').text());
-                        $('[name="sed'+data[i]["COA_ACC"]+'"]').text(sed);
-                        $('[name="sec'+data[i]["COA_ACC"]+'"]').text(sec);
-                    }
-                    $('td.chgnum').number(true);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
+        }    
 
         function dt_journal()
         {
@@ -259,6 +234,23 @@
                     $('[name="td2"]').text(sum2);
                 }
             });
+        }
+
+        function pick_branch(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="rpttrbal_branch"]').text(data.BRANCH_NAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
         }
     </script>
 </body>

@@ -21,6 +21,7 @@
 			$this->load->model('datatables/showdata/Dt_showledger','ledger');
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
 			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
+			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
 		}
 
 		public function index()
@@ -448,6 +449,30 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_inv->count_all(),
 							"recordsFiltered" => $this->rpt_inv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Neraca Saldo
+		public function showrpt_trialbal()
+		{
+			$list = $this->rpt_trialbal->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->debit;
+				$row[] = $dat->credit;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_trialbal->count_all(),
+							"recordsFiltered" => $this->rpt_trialbal->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
