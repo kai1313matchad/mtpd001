@@ -46,12 +46,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-2">
-                                <a href="javascript:void(0)" onclick="filter_trbal()" class="btn btn-block btn-primary">
+                                <a href="javascript:void(0)" onclick="filter_profloss()" class="btn btn-block btn-primary">
                                     <span class="glyphicon glyphicon-filter"> Tampilkan</span>
                                 </a>
                             </div>
                             <div class="col-sm-2">
-                                <a href="javascript:void(0)" onclick="print_trbal()" class="btn btn-block btn-info">
+                                <a href="javascript:void(0)" onclick="print_profloss()" class="btn btn-block btn-info">
                                     <span class="glyphicon glyphicon-print"> Cetak</span>
                                 </a>
                             </div>
@@ -150,13 +150,13 @@
             $('#dtb_trbal').DataTable().ajax.reload(null,false);
         }
 
-        function print_trbal()
+        function print_profloss()
         {
             var seg1 = $('[name="trbal_coaid"]').val()?$('[name="trbal_coaid"]').val():'null';
             var seg2 = $('[name="trbal_datestart"]').val()?$('[name="trbal_datestart"]').val():'null';
             var seg3 = $('[name="trbal_dateend"]').val()?$('[name="trbal_dateend"]').val():'null';
             var seg4 = $('[name="trbal_branchid"]').val()?$('[name="trbal_branchid"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Accounting/print_trialbalance/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+            window.open ( "<?php echo site_url('administrator/Accounting/print_profitloss/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
         }
     </script>
     <!-- Showdata -->

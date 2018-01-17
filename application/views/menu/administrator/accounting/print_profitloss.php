@@ -76,32 +76,9 @@
                 <table id="dtb_rptldg" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="col-sm-3 text-center">
+                            <th class="text-center">
                                 Rekening
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Saldo Awal
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Mutasi
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Saldo Akhir
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="text-center">
-                                Debet
-                            </th>
-                            <th class="text-center">
-                                Kredit
-                            </th>
-                            <th class="text-center">
-                                Debet
-                            </th>
-                            <th class="text-center">
-                                Kredit
-                            </th>
+                            </th>                            
                             <th class="text-center">
                                 Debet
                             </th>
@@ -112,17 +89,15 @@
                     </thead>
                     <tbody id="tb_content"></tbody>
                     <tfoot>
-                        <th class="text-right">
-                            Total Mutasi
-                        </th>
-                        <th></th>
-                        <th></th>
-                        <th class="text-right" name="td1">                            
-                        </th>
-                        <th class="text-right" name="td2">                            
-                        </th>
-                        <th></th>
-                        <th></th>
+                        <tr>
+                            <th class="text-right">Saldo</th>
+                            <th name="saldodebit" class="text-right chgnum"></th>
+                            <th name="saldocredit" class="text-right chgnum"></th>
+                        </tr>
+                        <tr>                            
+                            <th colspan="2" name="saldostatus" class="text-right chgnum"></th>
+                            <th name="saldoend" class="text-right chgnum"></th>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
@@ -164,7 +139,7 @@
         function tes()
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/tes')?>",
+                url : "<?php echo site_url('administrator/Accounting/gen_profitloss')?>",
                 type: "POST",
                 data: $('#form_trbal').serialize(),
                 dataType: "JSON",
@@ -174,25 +149,17 @@
                     {
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
-                            $('<td name="ssd'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
-                            $('<td name="ssc'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
-                            $('<td name="md'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["md"]+'</td>'),
-                            $('<td name="mc'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["mc"]+'</td>'),
-                            $('<td name="sed'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
-                            $('<td name="sec'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
+                            $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
+                            $('<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["saldo"]+'</td>')
                             ).appendTo('#tb_content');
                     }
                     for (var i = 0; i < data['b'].length; i++)
                     {
-                        $('[name="ssd'+data['b'][i]["COA_ACC"]+'"]').text(data['b'][i]["ssd"]);
-                        $('[name="ssc'+data['b'][i]["COA_ACC"]+'"]').text(data['b'][i]["ssc"]);
-                    }
-                    for (var i = 0; i < data['a'].length; i++)
-                    {
-                        var sed = Math.abs($('[name="ssd'+data['a'][i]["COA_ACC"]+'"]').text())+Math.abs($('[name="md'+data['a'][i]["COA_ACC"]+'"]').text());
-                        var sec = Math.abs($('[name="ssc'+data['a'][i]["COA_ACC"]+'"]').text())+Math.abs($('[name="mc'+data['a'][i]["COA_ACC"]+'"]').text());
-                        $('[name="sed'+data['a'][i]["COA_ACC"]+'"]').text(sed);
-                        $('[name="sec'+data['a'][i]["COA_ACC"]+'"]').text(sec);
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>'),
+                            $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>')
+                            ).appendTo('#tb_content');
                     }
                     dt_journal();
                     $('td.chgnum').number(true);
@@ -223,18 +190,23 @@
                 drawCallback: function(settings)
                 {
                     var api = this.api(), data;
-                    total = api.column(3).data().reduce( function (a,b)
+                    total = api.column(1).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);
-                    total2 = api.column(4).data().reduce( function (a,b)
+                    total2 = api.column(2).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);
+                    total3 = Math.abs(total2) - total;
+                    (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
                     sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total2);
-                    $('[name="td1"]').text(sum);
-                    $('[name="td2"]').text(sum2);
+                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total2));
+                    sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total3));
+                    $('[name="saldodebit"]').text(sum);
+                    $('[name="saldocredit"]').text(sum2);
+                    $('[name="saldostatus"]').text(txt);
+                    $('[name="saldoend"]').text(sum3);
                 }
             });
         }
