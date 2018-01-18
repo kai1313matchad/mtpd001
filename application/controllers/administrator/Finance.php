@@ -315,6 +315,187 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function pageprint_bkas($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bkas_print',$data);
+		}
+
+		public function print_bbank()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bbank';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_bbank($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bbank_print',$data);
+		}
+
+        public function print_giro_tr()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_tr($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_print',$data);
+		}
+
+		public function print_giro_tgl()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_tgl';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_tgl($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_tgl_print',$data);
+		}
+
+		public function print_giro_supp()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_supp';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_supp($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_supp_print',$data);
+		}
+
+		public function print_giro_cust()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_cust';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_cust($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_cust_print',$data);
+		}
+
+		public function print_giro_blm_cr()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_belum_cair';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_blm_cr($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_belum_cair_print',$data);
+		}
+
+        public function print_giro_sdh_cr()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_sudah_cair';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_sdh_cr($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_sudah_cair_print',$data);
+		}
+
+		public function print_giro_in()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_masuk';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_in($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_masuk_print',$data);
+		}
+
+		public function print_giro_out()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_keluar';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_out($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_keluar_print',$data);
+		}
+
 		public function ajax_pick_acc($id)
 		{
 			$data = $this->crud->get_by_id('chart_of_account',array('COA_ID' => $id));
@@ -626,9 +807,10 @@
                     'CSHDETIN_AMOUNT' => $this->input->post('nominal')
                 );
             $buku = array(
+            	    'USER_ID' => '1',
             	    'CSH_CODE' => $this->input->post('kas_nomor'),
             	    'CSH_DATE' => $tgl,
-            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'COA_ID' => $this->input->post('acc_id_detail'),
             	    'ACC' => $this->input->post('acc_detail'),
             	    'CSH_INFO' => $this->input->post('ket_detail'),
             	    'CSH_AMOUNT' => $this->input->post('nominal')
@@ -685,9 +867,10 @@
                     'CSHODET_AMOUNT' => $this->input->post('nominal')
                 );
             $buku = array(
+            	    'USER_ID' => '1',
             	    'CSH_CODE' => $this->input->post('kas_nomor'),
             	    'CSH_DATE' => $tgl,
-            	    'COA_ID' => $this->input->post('acc_id'),
+            	    'COA_ID' => $this->input->post('acc_id_detail'),
             	    'ACC' => $this->input->post('acc_detail'),
             	    'CSH_INFO' => $this->input->post('ket_detail'),
             	    'CSH_AMOUNT' => $this->input->post('nominal')
@@ -718,7 +901,7 @@
                     // 'CSHO_APPR' => $this->input->post('kas_approval'),
                     'BANK_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id'),
-                    'CUST_ID' => $this->input->post('bank_cust_id'),
+                    'CUST_ID' => $this->input->post('bank_customer_id'),
 	                
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'BNK_STS' => '1',
@@ -734,7 +917,8 @@
 		}
 
 		public function ajax_simpan_bank_in_detail1()
-		{
+		{   
+			$tgl = date('Y-m-d');
             $data = array(
                     'BNK_ID' => $this->input->post('bank_id'),
                     'BNKTRX_TYPE' => $this->input->post('bank_type1'),
@@ -742,8 +926,18 @@
                     'BNKTRX_DATE' => $this->input->post('bank_giro_tgl'),
                     'BNKTRX_AMOUNT' => $this->input->post('nominal1')
                 );
+            $buku = array(
+             	    'USER_ID' => '1',
+             	    'BANK_ID' => $this->input->post('kode_bank'),
+            	    'BNK_CODE' => $this->input->post('bank_nomor'),
+            	    'GR_NUMBER' => $this->input->post('bank_no_giro1'),
+                    'CUST_SUPP_ID' => $this->input->post('bank_customer_id'),
+                    'RECEIVE_DATE' => $tgl,
+                    'GR_DATE' => $this->input->post('bank_giro_tgl'),
+            	    'GR_AMOUNT' => $this->input->post('nominal1'),
+            	    'CAIR_STS' => 0
+            );
             $update = $this->crud->save('bankin_trxdet',$data);
-
             // $id = $this->input->post('bank_id');
             // $dt = $this->crud->get_by_id('bankin_trxdet',array('BNK_ID' => $id));
             $bnktrx= $this->db->insert_id();
@@ -754,11 +948,13 @@
                     );
             }
             $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
+            $bg = $this->crud->save('buku_giro',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
 		public function ajax_simpan_bank_in_detail2()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'BNK_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -768,7 +964,18 @@
                     'BNKDET_INFO' => $this->input->post('ket_detail'),
                     'BNKDET_AMOUNT' => $this->input->post('nominal2')
                 );
+            $buku = array(
+             	    'USER_ID' => '1',
+            	    'BNK_CODE' => $this->input->post('bank_nomor'),
+            	    'BNK_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id_detail'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'BNK_INFO' => $this->input->post('ket_detail'),
+            	    'BNK_AMOUNT' => $this->input->post('nominal2')
+            );
+
             $update = $this->crud->save('bankin_det',$data);
+            $bk = $this->crud->save('buku_bank',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -809,6 +1016,7 @@
 
 		public function ajax_simpan_bank_out_detail1()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'BNKO_ID' => $this->input->post('bank_id'),
                     'BNKTRXO_TYPE' => $this->input->post('bank_type1'),
@@ -816,6 +1024,17 @@
                     'BNKTRXO_DATE' => $this->input->post('bank_giro_tgl'),
                     'BNKTRXO_AMOUNT' => $this->input->post('nominal1')
                 );
+            $buku = array(
+             	    'USER_ID' => '1',
+             	    'BANK_ID' => $this->input->post('kode_bank'),
+            	    'BNK_CODE' => $this->input->post('bank_nomor'),
+            	    'GR_NUMBER' => $this->input->post('bank_no_giro1'),
+                    'CUST_SUPP_ID' => $this->input->post('supp_id'),
+                    'RECEIVE_DATE' => $tgl,
+                    'GR_DATE' => $this->input->post('bank_giro_tgl'),
+            	    'GR_AMOUNT' => $this->input->post('nominal1'),
+            	    'CAIR_STS' => 0
+            );
             $update = $this->crud->save('bankout_trxdet',$data);
             $bnktrx= $this->db->insert_id();
             $type = $this->input->post('bank_type1');
@@ -825,11 +1044,13 @@
                     );
             }
             $simpan_giroin_record = $this->crud->save('giroout_record',$giro);
+            $bg = $this->crud->save('buku_giro',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
 		public function ajax_simpan_bank_out_detail2()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'BNKO_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
@@ -839,7 +1060,17 @@
                     'BNKODET_INFO' => $this->input->post('ket_detail'),
                     'BNKODET_AMOUNT' => $this->input->post('nominal2')
                 );
+            $buku = array(
+            	    'USER_ID' => '1',
+            	    'BNK_CODE' => $this->input->post('bank_nomor'),
+            	    'BNK_DATE' => $tgl,
+            	    'COA_ID' => $this->input->post('acc_id_detail'),
+            	    'ACC' => $this->input->post('acc_detail'),
+            	    'BNK_INFO' => $this->input->post('ket_detail'),
+            	    'BNK_AMOUNT' => $this->input->post('nominal2')
+            );
             $update = $this->crud->save('bankout_det',$data);
+            $bk = $this->crud->save('buku_bank',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -885,6 +1116,7 @@
 
 		public function ajax_simpan_giro_in_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'GRIN_ID' => $this->input->post('giro_id'),
                     'GIR_ID' => $this->input->post('gir_id'),
@@ -894,7 +1126,14 @@
                     'GRINDET_CODE' => $this->input->post('nomor_giro'),
                     'GRINDET_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            		'CAIR_DATE' => $tgl,
+            		'GR_CODE' => $this->input->post('giro_nomor'),
+            		'CAIR_STS' => '1'
+            	    );
+            $id = array('GR_NUMBER' => $this->input->post('nomor_giro'));
             $update = $this->crud->save('giroin_det',$data);
+            $cair = $this->crud->update('buku_giro',$buku,$id);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -934,6 +1173,7 @@
 
 		public function ajax_simpan_giro_out_detail()
 		{
+			$tgl = date('Y-m-d');
             $data = array(
                     'GROUT_ID' => $this->input->post('giro_id'),
                     'GOR_ID' => $this->input->post('gor_id'),
@@ -943,7 +1183,13 @@
                     'GROUTDET_CODE' => $this->input->post('giro_nomor'),
                     'GROUTDET_AMOUNT' => $this->input->post('nominal')
                 );
+            $buku = array(
+            		'CAIR_DATE' => $tgl,
+            		'GR_CODE' => $this->input->post('giro_nomor'),
+            		'CAIR_STS' => '1'
+            	    );
             $update = $this->crud->save('giroout_det',$data);
+            $cair = $this->crud->update('buku_giro',$buku,$id);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -1286,13 +1532,41 @@
         	echo json_encode($data);
         }
 
-         public function show_kas()
+        public function show_awal_kas_debet($acc)
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$this->db->select('sum(csh_amount) debet');
+        	$this->db->from('buku_kas');
+        	$this->db->where('substr(csh_code,1,2)="KM"');
+        	$this->db->where('acc="'.$acc.'"');
+        	$this->db->where('csh_date <',$tgl1);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_awal_kas_kredit($acc)
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$this->db->select('sum(csh_amount) kredit');
+        	$this->db->from('buku_kas');
+        	$this->db->where('substr(csh_code,1,2)="KK"');
+        	$this->db->where('acc="'.$acc.'"');
+        	$this->db->where('csh_date <',$tgl1);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function get_accsaldo()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
         	// $this->db->from('trx_cash_in a');
         	// $this->db->join('cashin_det b','a.csh_id = b.csh_id');
         	// $this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+        	// $this->db->select('distinct(d.coa_acc) as acc');
+        	$this->db->select('d.coa_acc as acc');
         	$this->db->from('buku_kas a');
         	$this->db->join('master_user b','a.user_id=b.user_id');
         	$this->db->join('master_branch c','b.branch_id=c.branch_id');
@@ -1301,6 +1575,298 @@
         	$this->db->order_by('a.coa_id','desc');
         	$this->db->where('csh_date >=',$tgl1);
         	$this->db->where('csh_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_kas()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date >=',$tgl1);
+        	$this->db->where('a.csh_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_awal_debet()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$this->db->select('sum(csh_amount) as debet,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <',$tgl1);
+        	$this->db->where('substr(a.csh_code,1,2) ="KM"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_awal_kredit()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$this->db->select('sum(csh_amount) as kredit,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <',$tgl1);
+        	$this->db->where('substr(a.csh_code,1,2) ="KK"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_total_debet()
+        {
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->select('sum(csh_amount) as debet,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <=',$tgl2);
+        	$this->db->where('substr(a.csh_code,1,2) ="KM"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_total_kredit()
+        {
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->select('sum(csh_amount) as kredit,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <=',$tgl2);
+        	$this->db->where('substr(a.csh_code,1,2) ="KK"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_kas_total()
+        {
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->select('sum(if(substr(a.csh_code,1,2) ="KM",csh_amount,csh_amount * -1)) as total,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <=',$tgl2);
+        	// $this->db->where('substr(a.csh_code,1,2) ="KK"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_giro_tgl_terima()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	// $this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.receive_date');
+            $this->db->order_by('a.bnk_code','desc');
+        	// $this->db->order_by('a.coa_id');
+        	$this->db->where('a.receive_date >=',$tgl1);
+        	$this->db->where('a.receive_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_giro_tgl_giro()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	// $this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.gr_date');
+            $this->db->order_by('a.bnk_code','desc');
+        	// $this->db->order_by('a.coa_id');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_giro_supp()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.cust_supp_id');
+            $this->db->order_by('a.bnk_code','desc');
+        	$this->db->where('substr(a.bnk_code,1,2) ="BK"');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+         public function show_giro_cust()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.cust_supp_id');
+            $this->db->order_by('a.bnk_code','desc');
+        	$this->db->where('substr(a.bnk_code,1,2) ="BM"');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_giro_blm_cair()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_bank c','a.bank_id=c.bank_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('a.bnk_code');
+        	$this->db->order_by('a.bank_id');
+        	$this->db->where('a.cair_sts !=1');
+        	$this->db->where('a.blokir_sts !=1');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_giro_sdh_cair()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_bank c','a.bank_id=c.bank_id');
+        	$this->db->join('master_customer d','a.cust_supp_id=d.cust_id');
+        	$this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('a.bnk_code');
+        	$this->db->order_by('a.bank_id');
+        	$this->db->where('a.cair_sts !=0');
+        	$this->db->where('a.blokir_sts !=1');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_giro_masuk()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_bank d','a.bank_id=d.bank_id');
+        	$this->db->join('master_customer e','a.cust_supp_id=e.cust_id');
+        	// $this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.bank_id');
+        	$this->db->order_by('a.gr_date');
+        	$this->db->where('a.cair_sts !=0');
+        	$this->db->where('a.blokir_sts !=1');
+        	$this->db->where('substr(a.bnk_code,1,2) ="BM"');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_giro_keluar()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_giro a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('master_bank d','a.bank_id=d.bank_id');
+        	$this->db->join('master_customer e','a.cust_supp_id=e.cust_id');
+        	// $this->db->join('master_supplier e','a.cust_supp_id=e.supp_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.bank_id');
+        	$this->db->order_by('a.gr_date');
+        	$this->db->where('a.cair_sts !=0');
+        	$this->db->where('a.blokir_sts !=1');
+        	$this->db->where('substr(a.bnk_code,1,2) ="BK"');
+        	$this->db->where('a.gr_date >=',$tgl1);
+        	$this->db->where('a.gr_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_bank()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('buku_bank a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id','desc');
+        	$this->db->where('bnk_date >=',$tgl1);
+        	$this->db->where('bnk_date <=',$tgl2);
         	$res = $this->db->get();
         	$data = $res->result();
         	echo json_encode($data);

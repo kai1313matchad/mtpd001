@@ -103,6 +103,7 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_appr()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
+                                         <input class="form-control" type="hidden" name="appr_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Supplier</label>
@@ -225,7 +226,7 @@
                                                   <input class="form-control" type="text" name="acc_detail" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="add_gd('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_acc('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
@@ -446,7 +447,7 @@
                     </div>                  
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="srch_appr()"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -780,6 +781,26 @@ $(document).ready(function() {
                     "orderable": false,
                 },
                 ],
+            });
+        }
+
+    function pick_appr(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_appr/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="bank_nomor_approval"]').val(data.APPR_CODE);
+                    // pick_location(data.LOC_ID);                   
+                    $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
 

@@ -636,7 +636,7 @@ $(document).ready(function() {
             });
         }
 
-         function kas_masuk_detail(id)
+    function kas_masuk_detail(id)
         {
             table = $('#dtb_kas_in_detail').DataTable({
                 "info": false,

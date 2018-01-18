@@ -197,7 +197,7 @@
                                                   <input class="form-control" type="text" name="acc_detail" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="add_gd('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_acc('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
@@ -747,7 +747,7 @@ $(document).ready(function() {
                 {   
                     $('[name="bank_kode_customer"]').val(data.CUST_CODE);
                     $('[name="bank_nama_customer"]').val(data.CUST_NAME);
-                    $('[name="bank_custome_id"]').val(data.CUST_ID);
+                    $('[name="bank_customer_id"]').val(data.CUST_ID);
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
