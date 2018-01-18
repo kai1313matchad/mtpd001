@@ -219,10 +219,10 @@
                             <a href="#"><i class="fa fa-folder fa-fw"></i> Transaction<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a <?php if ($menulist == 'dash_transact') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transact')?>"><i class="fa <?php if ($menulist == 'dash_transact') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
+                                    <a <?php if ($menulist == 'dash_transact') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction')?>"><i class="fa <?php if ($menulist == 'dash_transact') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'budget') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Marketing/trn_trx_budget')?>"><i class="fa <?php if ($menulist == 'budget') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Anggaran</a>
+                                    <a <?php if ($menulist == 'budget') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction/trn_trx_budget')?>"><i class="fa <?php if ($menulist == 'budget') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Anggaran</a>
                                 </li>                               
                             </ul>
                         </li>                        
