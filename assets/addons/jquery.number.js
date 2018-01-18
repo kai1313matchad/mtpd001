@@ -268,7 +268,7 @@
 								data.init = (decimals>0?1:0);
 								data.c = (decimals>0?-(decimals+1):0);
 
-								setSelectionRange.apply(this, [2,2]);
+								setSelectionRange.apply(this, [2,3]);
 							}
 							else
 							{
