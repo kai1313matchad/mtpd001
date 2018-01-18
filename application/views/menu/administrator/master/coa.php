@@ -4,8 +4,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Master Chart of Account</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+                    </div>                    
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -26,11 +25,71 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="1">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-sm-2">
                                 <button class="btn btn-success" onclick="add_parent()"><i class="glyphicon glyphicon-plus"></i> Tambah Rek. Induk</button>
                             </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" onclick="open_parenttype()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Rek.Induk</button>
+                            </div>
                         </div><br>
-                        <div class="col-sm-12 col-xs-12 table-responsive">                    
+                        <div class="col-sm-offset-2 col-sm-8" id="parenttype">
+                            <div class="panel panel-default">
+                                <div class="panel-heading text-center">
+                                    <h4>Tambah Jenis Rekening Induk</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <form class="form-horizontal" id="form_parenttype">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Nama</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="partp_name" class="form-control">
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Status</label>
+                                            <div class="col-sm-9">
+                                                <select id="partp_sts" name="partp_sts" class="form-control">
+                                                    <option value="">Pilih</option>
+                                                    <option value="1">Harta/Assets</option>
+                                                    <option value="2">Biaya/Cost</option>
+                                                    <option value="3">Utang/Liability</option>
+                                                    <option value="4">Pendapatan</option>
+                                                    <option value="5">Modal</option>
+                                                </select>
+                                                <span class="help-block"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="partp_savests" value="0">
+                                            <input type="hidden" name="partp_check" value="0">
+                                            <input type="hidden" name="partp_id">
+                                            <div class="col-sm-offset-3 col-sm-2">
+                                                <button type="button" id="btnSave" onclick="save_partp()" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Simpan</button>
+                                            </div>
+                                        </div>
+                                    </form><br>
+                                    <div class="col-sm-offset-3 col-sm-9 col-xs-offset-3 col-xs-9 table-responsive">
+                                        <table id="dtb_partype" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        No
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Nama
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Actions
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_parent" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -59,11 +118,11 @@
                     </div>
                     <div class="tab-pane fade" id="2">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-sm-2">
                                 <button class="btn btn-success" onclick="add_chart()"><i class="glyphicon glyphicon-plus"></i> Tambah Rekening</button>
                             </div>
                         </div><br>
-                        <div class="col-sm-12 col-xs-12 table-responsive">                    
+                        <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_coa" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -87,12 +146,9 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
+                </div>                
+            </div>            
+        </div>        
     </div>
     <!-- Modal CRUD -->
     <div class="modal fade" id="modal_parent" role="dialog">
@@ -137,7 +193,7 @@
                                         <option value="pembelian">Pembelian</option>
                                         <option value="returpenjualan">Retur Penjualan</option>
                                         <option value="returpembelian">Retur Pembelian</option>
-                                    </select>                                    
+                                    </select>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -348,10 +404,53 @@
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function() 
+        {
+            $('#parenttype').css({'display':'none'});
+            dt_parenttype();
             dt_parent();
             dt_coa();
         });
+
+        function open_parenttype()
+        {
+            if(!$('#parenttype').is(':visible'))
+            {
+                $('#parenttype').css({'display':'block'});
+            }
+            else
+            {
+                $('#parenttype').css({'display':'none'});
+            }
+        }
+
+        function dropcoaprtp(id)
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Master/getcoaprtp')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById(id);
+                    var option;
+                    option = document.createElement('option');
+                    option.value = ''
+                    option.text = 'Pilih';
+                    select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["PARTP_ID"]
+                        option.text = data[i]["PARTP_NAME"];
+                        select.add(option);
+                    }
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
 
         function dropcoapr(id)
         {
@@ -381,8 +480,29 @@
             });
         }
 
+        function dt_parenttype()
+        {
+            table = $('#dtb_partype').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showmaster_coapartp')?>",
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
         function dt_parent()
-        {        
+        {
             table = $('#dtb_parent').DataTable({ 
                 "info": false,
                 "responsive": true,
@@ -403,7 +523,7 @@
         }
 
         function dt_coa()
-        {        
+        {
             table = $('#dtb_coa').DataTable({ 
                 "info": false,
                 "responsive": true,
@@ -425,6 +545,7 @@
 
         function reload_table()
         {
+            $('#dtb_partype').DataTable().ajax.reload(null,false);
             $('#dtb_parent').DataTable().ajax.reload(null,false);
             $('#dtb_coa').DataTable().ajax.reload(null,false);
         }
@@ -440,6 +561,8 @@
             $('[name="par_tb"]').val("parent_chart");
             $('[name="par_sts"]').val("1");
             $('[name="par_check"]').val("0");
+            $('#par_type').empty();
+            dropcoaprtp('par_type');
         }
 
         function add_chart()
@@ -457,12 +580,40 @@
             dropcoapr('coa_par');
         }
 
+        function edit_partp(id)
+        {
+            $('[name="partp_savests"]').val('1');
+            $('#form_parenttype')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/edit_coaprtp/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="partp_id"]').val(data.PARTP_ID);                    
+                    $('[name="partp_name"]').val(data.PARTP_NAME);                    
+                    var sts = data.PARTP_STS;
+                    document.querySelector('#partp_sts [value="' + sts + '"]').selected = true;
+                    $('[name="partp_check"]').val("1");                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
         function edit_par(id)
         {
             save_method = 'update';
             $('#form_parent')[0].reset();
             $('.form-group').removeClass('has-error');
             $('.help-block').empty();
+            $('#par_type').empty();
+            dropcoaprtp('par_type');
 
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/edit_coapr/')?>" + id,
@@ -474,7 +625,7 @@
                     $('[name="par_acc"]').val(data.PAR_ACC);
                     $('[name="par_name"]').val(data.PAR_ACCNAME);
                     $('[name="par_info"]').val(data.PAR_INFO);
-                    var sts = data.PAR_TYPE;
+                    var sts = data.PARTP_ID;
                     document.querySelector('#par_type [value="' + sts + '"]').selected = true;
                     $('[name="par_check"]').val("1");
                     $('[name="par_tb"]').val("parent_chart");
@@ -516,6 +667,49 @@
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function save_partp()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if($('[name="partp_savests"]').val() == '0') 
+            {
+                url = "<?php echo site_url('administrator/Master/add_coaprtp')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/update_coaprtp')?>";
+            }            
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form_parenttype').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                    $('[name="partp_savests"]').val('0');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
                 }
             });
         }
@@ -604,6 +798,26 @@
             });
         }
 
+        function delete_partp(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {                
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/delete_coaprtp')?>/"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+
         function delete_par(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -645,7 +859,9 @@
         }
 
         function lihat_par(id)
-        {            
+        {
+            $('#par_type').empty();
+            dropcoaprtp('par_typev');
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/edit_coapr/')?>" + id,
                 type: "GET",
@@ -656,7 +872,7 @@
                     $('[name="par_accv"]').val(data.PAR_ACC);
                     $('[name="par_namev"]').val(data.PAR_ACCNAME);
                     $('[name="par_infov"]').val(data.PAR_INFO);
-                    var sts = data.PAR_TYPE;
+                    var sts = data.PARTP_ID;
                     document.querySelector('#par_typev [value="' + sts + '"]').selected = true;
                     $('#modal_view').modal('show');
                     $('.modal-title').text('Lihat Rek. Induk');

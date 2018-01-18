@@ -11,13 +11,17 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Cabang</label>
                             <div class="col-sm-1">
-                                
+                                <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control" type="text" name="rpjou_branch" readonly>
+                                <input type="hidden" name="rpjou_branchid">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nomor Rekening</label>
                             <div class="col-sm-8">
-                                <select class="form-control text-center" name="ldg_coaid" id="ldg_coaid" data-live-search="true">
+                                <select class="form-control text-center" name="rpjou_coaid" id="rpjou_coaid" data-live-search="true">
                                 </select>
                             </div>
                         </div>
@@ -28,7 +32,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="ldg_datestart" type='text' class="form-control input-group-addon" name="ldg_datestart" value="" />
+                                    <input id="ldg_datestart" type='text' class="form-control input-group-addon" name="rpjou_datestart" value="" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -36,7 +40,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="ldg_dateend" type='text' class="form-control input-group-addon" name="ldg_dateend" value="" />
+                                    <input id="ldg_dateend" type='text' class="form-control input-group-addon" name="rpjou_dateend" value="" />
                                 </div>
                             </div>
                         </div>
@@ -163,10 +167,11 @@
 
         function print_journal()
         {
-            var seg1 = $('[name="ldg_coaid"]').val()?$('[name="ldg_coaid"]').val():'null';
-            var seg2 = $('[name="ldg_datestart"]').val()?$('[name="ldg_datestart"]').val():'null';
-            var seg3 = $('[name="ldg_dateend"]').val()?$('[name="ldg_dateend"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Accounting/print_journal/')?>"+seg1+'/'+seg2+'/'+seg3,'_blank');
+            var seg1 = $('[name="rpjou_coaid"]').val()?$('[name="rpjou_coaid"]').val():'null';
+            var seg2 = $('[name="rpjou_datestart"]').val()?$('[name="rpjou_datestart"]').val():'null';
+            var seg3 = $('[name="rpjou_dateend"]').val()?$('[name="rpjou_dateend"]').val():'null';
+            var seg4 = $('[name="rpjou_branchid"]').val()?$('[name="rpjou_branchid"]').val():'null';
+            window.open ( "<?php echo site_url('administrator/Accounting/print_journal/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
         }
     </script>
     <!-- Showdata -->
@@ -208,8 +213,8 @@
             dataType: "JSON",
             success: function(data)
                 {
-                    $('#ldg_coaid').empty();
-                    var select = document.getElementById('ldg_coaid');
+                    $('#rpjou_coaid').empty();
+                    var select = document.getElementById('rpjou_coaid');
                     var option;
                     option = document.createElement('option');
                         option.value = ''
@@ -221,10 +226,10 @@
                         option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                         select.add(option);
                     }
-                    $('#ldg_coaid').selectpicker({
+                    $('#rpjou_coaid').selectpicker({
                         dropupAuto: false
                     });
-                    $('#ldg_coaid').selectpicker('refresh');                    
+                    $('#rpjou_coaid').selectpicker('refresh');                    
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -269,8 +274,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="jou_branchid"]').val(data.BRANCH_ID);
-                    $('[name="jou_branch"]').val(data.BRANCH_NAME);
+                    $('[name="rpjou_branchid"]').val(data.BRANCH_ID);
+                    $('[name="rpjou_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

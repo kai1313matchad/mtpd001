@@ -1,12 +1,12 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_coaparent extends CI_Model 
+	class Dt_srchusage_ga extends CI_Model 
 	{
 
-		var $table = 'parent_chart a';
-		var $column_order = array(null,'par_acc','par_accname','par_type','par_info'); 
-		var $column_search = array('par_acc','par_accname','par_type','par_info');
-		var $order = array('par_id' => 'desc');
+		var $table = 'trx_usage_ga';
+		var $column_order = array(null,'usgga_code','usgga_date','usgga_info'); //set column field database for datatable orderable
+		var $column_search = array('usgga_code','usgga_date','usgga_info'); //set column field database for datatable searchable 
+		var $order = array('usgga_id' => 'desc'); // default order 
 		public function __construct()
 		{
 			parent::__construct();		
@@ -14,8 +14,7 @@
 		private function _get_datatables_query()
 		{		
 			$this->db->from($this->table);
-			$this->db->join('parent_type b','b.partp_id = a.partp_id');
-			$this->db->where("par_dtsts","1");
+			$this->db->where("usgga_sts","1");
 			$i = 0;
 			foreach ($this->column_search as $item) // loop column 
 			{

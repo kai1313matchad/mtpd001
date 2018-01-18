@@ -1,21 +1,22 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_coaparent extends CI_Model 
+	class Dt_usggadet extends CI_Model 
 	{
 
-		var $table = 'parent_chart a';
-		var $column_order = array(null,'par_acc','par_accname','par_type','par_info'); 
-		var $column_search = array('par_acc','par_accname','par_type','par_info');
-		var $order = array('par_id' => 'desc');
+		var $table = 'usg_ga_details';
+		var $column_order = array(null,'gd_name','gd_price','usggadet_qty','gd_unit'); //set column field database for datatable orderable
+		var $column_search = array('gd_name','gd_price','usggadet_qty','gd_unit'); //set column field database for datatable searchable 
+		var $order = array('usggadet_id' => 'desc'); // default order 
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id)
 		{		
 			$this->db->from($this->table);
-			$this->db->join('parent_type b','b.partp_id = a.partp_id');
-			$this->db->where("par_dtsts","1");
+			$this->db->join('master_goods', 'master_goods.gd_id = usg_ga_details.gd_id');
+			$this->db->join('trx_usage_ga', 'trx_usage_ga.usgga_id = usg_ga_details.usgga_id');
+			$this->db->where('usg_ga_details.usgga_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item) // loop column 
 			{
@@ -46,17 +47,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
@@ -64,6 +65,6 @@
 		{
 			$this->db->from($this->table);
 			return $this->db->count_all_results();
-		}
+		}		
 	}
 ?>

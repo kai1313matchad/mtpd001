@@ -52,6 +52,12 @@ function money_conv(inp)
     return out;
 };
 
+function money_convint(inp)
+{
+    var out = parseInt(inp.replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return out;
+};
+
 function money_rev(inp)
 {
     var out = parseFloat(inp.replace(/,/g, ""));

@@ -3,25 +3,25 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Accounting - Buku Besar</h1>
+                        <h1 class="page-header">Accounting - Laba Rugi</h1>
                     </div>
                 </div>
                 <div class="row">
-                    <form class="form-horizontal" id="form_ledger" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="form_trbal" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Cabang</label>
                             <div class="col-sm-1">
                                 <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                             <div class="col-sm-7">
-                                <input class="form-control" type="text" name="ldg_branch" readonly>
-                                <input type="hidden" name="ldg_branchid">
+                                <input class="form-control" type="text" name="trbal_branch" readonly>
+                                <input type="hidden" name="trbal_branchid">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nomor Rekening</label>
                             <div class="col-sm-8">
-                                <select class="form-control text-center" name="ldg_coaid" id="ldg_coaid" data-live-search="true">
+                                <select class="form-control text-center" name="trbal_coaid" id="trbal_coaid" data-live-search="true">
                                 </select>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="ldg_datestart" type='text' class="form-control input-group-addon" name="ldg_datestart" value="" />
+                                    <input id="trbal_datestart" type='text' class="form-control input-group-addon" name="trbal_datestart" value="" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -40,18 +40,18 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="ldg_dateend" type='text' class="form-control input-group-addon" name="ldg_dateend" value="" />
+                                    <input id="trbal_dateend" type='text' class="form-control input-group-addon" name="trbal_dateend" value="" />
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-2">
-                                <a href="javascript:void(0)" onclick="filter_ledger()" class="btn btn-block btn-primary">
+                                <a href="javascript:void(0)" onclick="filter_profloss()" class="btn btn-block btn-primary">
                                     <span class="glyphicon glyphicon-filter"> Tampilkan</span>
                                 </a>
                             </div>
                             <div class="col-sm-2">
-                                <a href="javascript:void(0)" onclick="print_ledger()" class="btn btn-block btn-info">
+                                <a href="javascript:void(0)" onclick="print_profloss()" class="btn btn-block btn-info">
                                     <span class="glyphicon glyphicon-print"> Cetak</span>
                                 </a>
                             </div>
@@ -60,20 +60,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 table-responsive">
-                        <table id="dtb_ledger" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <table id="dtb_trbal" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th class="text-center">
                                         No
-                                    </th>
-                                    <th class="text-center">
-                                        No Jurnal
-                                    </th>
-                                    <th class="text-center">
-                                        Tanggal
-                                    </th>
-                                    <th class="text-center">
-                                        No Bukti
                                     </th>
                                     <th class="text-center">
                                         Rekening
@@ -150,30 +141,29 @@
     <script>
         $(document).ready(function()
         {
-            dt_ledger();
+            dt_trialbal();
             drop_coa();
         });
 
-        function filter_ledger()
+        function filter_trbal()
         {
-            $('#dtb_ledger').DataTable().ajax.reload(null,false);
+            $('#dtb_trbal').DataTable().ajax.reload(null,false);
         }
 
-        function print_ledger()
+        function print_profloss()
         {
-            var seg1 = $('[name="ldg_coaid"]').val()?$('[name="ldg_coaid"]').val():'null';
-            var seg2 = $('[name="ldg_datestart"]').val()?$('[name="ldg_datestart"]').val():'null';
-            var seg3 = $('[name="ldg_dateend"]').val()?$('[name="ldg_dateend"]').val():'null';
-            var seg4 = $('[name="ldg_branchid"]').val()?$('[name="ldg_branchid"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Accounting/print_ledger/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
-            window.open ( "<?php echo site_url('administrator/Accounting/print_ledger2/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+            var seg1 = $('[name="trbal_coaid"]').val()?$('[name="trbal_coaid"]').val():'null';
+            var seg2 = $('[name="trbal_datestart"]').val()?$('[name="trbal_datestart"]').val():'null';
+            var seg3 = $('[name="trbal_dateend"]').val()?$('[name="trbal_dateend"]').val():'null';
+            var seg4 = $('[name="trbal_branchid"]').val()?$('[name="trbal_branchid"]').val():'null';
+            window.open ( "<?php echo site_url('administrator/Accounting/print_profitloss/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
         }
     </script>
     <!-- Showdata -->
     <script>
-        function dt_ledger()
+        function dt_trialbal()
         {            
-            table = $('#dtb_ledger').DataTable({
+            table = $('#dtb_trbal').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -181,13 +171,13 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showrpt_ledger')?>",
+                    "url": "<?php echo site_url('administrator/Showdata/showrpt_trialbal')?>",
                     "type": "POST",
                     "data": function(data){
-                        data.coaid = $('[name="ldg_coaid"]').val();
-                        data.date_start = $('[name="ldg_datestart"]').val();
-                        data.date_end = $('[name="ldg_dateend"]').val();
-                        data.branch = $('[name="ldg_branchid"]').val();
+                        data.coaid = $('[name="trbal_coaid"]').val();
+                        data.date_start = $('[name="trbal_datestart"]').val();
+                        data.date_end = $('[name="trbalg_dateend"]').val();
+                        data.branch = $('[name="trbal_branchid"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -210,7 +200,7 @@
             success: function(data)
                 {
                     $('#ldg_coaid').empty();
-                    var select = document.getElementById('ldg_coaid');
+                    var select = document.getElementById('trbal_coaid');
                     var option;
                     option = document.createElement('option');
                         option.value = ''
@@ -222,10 +212,10 @@
                         option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                         select.add(option);
                     }
-                    $('#ldg_coaid').selectpicker({
+                    $('#trbal_coaid').selectpicker({
                         dropupAuto: false
                     });
-                    $('#ldg_coaid').selectpicker('refresh');                    
+                    $('#trbal_coaid').selectpicker('refresh');                    
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -270,8 +260,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="ldg_branchid"]').val(data.BRANCH_ID);
-                    $('[name="ldg_branch"]').val(data.BRANCH_NAME);
+                    $('[name="trbal_branchid"]').val(data.BRANCH_ID);
+                    $('[name="trbal_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

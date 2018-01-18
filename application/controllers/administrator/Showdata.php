@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_bank','master_bank');
+			$this->load->model('datatables/showdata/Dt_coapartp','coa_partp');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
@@ -20,6 +21,8 @@
 			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
 			$this->load->model('datatables/showdata/Dt_showledger','ledger');
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
+			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
+			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
 		}
 
 		public function index()
@@ -72,6 +75,29 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->master_bank->count_all(),
 							"recordsFiltered" => $this->master_bank->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Master Tipe Rek Induk
+		public function showmaster_coapartp()
+		{
+			$list = $this->coa_partp->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PARTP_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_partp('."'".$dat->PARTP_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_partp('."'".$dat->PARTP_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->coa_partp->count_all(),
+							"recordsFiltered" => $this->coa_partp->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -385,7 +411,6 @@
 				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
 				$row[] = $dat->JOUDET_DEBIT;
 				$row[] = $dat->JOUDET_CREDIT;
-				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_ledger('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
 				$data[] = $row;
 			}
 			$output = array(
@@ -421,6 +446,57 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_jou->count_all(),
 							"recordsFiltered" => $this->rpt_jou->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Invoice
+		public function showrpt_invoice()
+		{
+			$list = $this->rpt_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->INVDET_TERM;
+				$row[] = $dat->INVDET_AMOUNT;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_inv->count_all(),
+							"recordsFiltered" => $this->rpt_inv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Neraca Saldo
+		public function showrpt_trialbal()
+		{
+			$list = $this->rpt_trialbal->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->debit;
+				$row[] = $dat->credit;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_trialbal->count_all(),
+							"recordsFiltered" => $this->rpt_trialbal->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

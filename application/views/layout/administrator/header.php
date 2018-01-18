@@ -130,19 +130,19 @@
                                     <a <?php if ($menulist == 'po_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_po') ?>"><i class="fa <?php if ($menulist == 'po_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form PO</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'prc_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_prc') ?>"><i class="fa <?php if ($menulist == 'prc_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Pembelian</a>
+                                    <a <?php if ($menulist == 'prc_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_prc') ?>"><i class="fa <?php if ($menulist == 'prc_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Pembelian</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'retprc_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_retprc') ?>"><i class="fa <?php if ($menulist == 'retprc_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Retur Pembelian</a>
+                                    <a <?php if ($menulist == 'retprc_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_retprc') ?>"><i class="fa <?php if ($menulist == 'retprc_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Retur Pembelian</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'usage_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_usage') ?>"><i class="fa <?php if ($menulist == 'usage_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Pemakaian</a>
+                                    <a <?php if ($menulist == 'usage_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_usage') ?>"><i class="fa <?php if ($menulist == 'usage_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Pemakaian</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'retusg_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_retusage') ?>"><i class="fa <?php if ($menulist == 'retusg_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Retur Pemakaian</a>
+                                    <a <?php if ($menulist == 'retusg_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_retusage') ?>"><i class="fa <?php if ($menulist == 'retusg_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Retur Pemakaian</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'adjust_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/lgt_trx_adjust') ?>"><i class="fa <?php if ($menulist == 'adjust_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Penyesuaian</a>
+                                    <a <?php if ($menulist == 'adjust_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/ga_trx_adjust') ?>"><i class="fa <?php if ($menulist == 'adjust_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Penyesuaian</a>
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'report_ga') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Genaff/report') ?>"><i class="fa <?php if ($menulist == 'report_ga') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
@@ -205,7 +205,7 @@
                                     <a <?php if ($menulist == 'journal') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_acc')?>"><i class="fa <?php if ($menulist == 'journal') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Umum</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'journal_adj') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journaladj_acc')?>"><i class="fa <?php if ($menulist == 'journal_adj') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Penyesuaian</a>
+                                    <a <?php if ($menulist == 'journal_adj') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_adj')?>"><i class="fa <?php if ($menulist == 'journal_adj') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Penyesuaian</a>
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'ledger') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/ledger_acc')?>"><i class="fa <?php if ($menulist == 'ledger') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Buku Besar</a>
@@ -219,10 +219,10 @@
                             <a href="#"><i class="fa fa-folder fa-fw"></i> Transaction<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a <?php if ($menulist == 'dash_transact') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transact')?>"><i class="fa <?php if ($menulist == 'dash_transact') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
+                                    <a <?php if ($menulist == 'dash_transact') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction')?>"><i class="fa <?php if ($menulist == 'dash_transact') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'budget') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Marketing/trn_trx_budget')?>"><i class="fa <?php if ($menulist == 'budget') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Anggaran</a>
+                                    <a <?php if ($menulist == 'budget') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction/trn_trx_budget')?>"><i class="fa <?php if ($menulist == 'budget') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Anggaran</a>
                                 </li>                               
                             </ul>
                         </li>                        

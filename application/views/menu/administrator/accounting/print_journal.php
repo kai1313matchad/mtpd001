@@ -67,6 +67,7 @@
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN JURNAL UMUM</u></h2>
+                <h3 class="text-center" name="rptjou_branch"></h3>
                 <h4 class="text-center" name="rptjou_period"></h4>
             </div>
         </div>
@@ -130,7 +131,24 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_contenttes"></tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">Tes Group1</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">Tes Subgroup</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>a1</td>
+                            <td>12-12-2018</td>
+                            <td>asksoa</td>
+                            <td class="text-right">10</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-right">10</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div> -->
@@ -161,9 +179,9 @@
         {
             // var id = $('[name="inv_id"]').val();
             // pick_invoice(id);
-            pick_journal();            
-            // build_tes();
+            pick_journal();
             $('[name="rptjou_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            // $('#dtb_tes').DataTable();
         });
 
         function pick_journal()
@@ -175,6 +193,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('[name="rptjou_branch"]').text(data[0]["BRANCH_NAME"]);                    
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
@@ -232,6 +251,7 @@
         function dt_journal()
         {
             $('#dtb_rptjou').DataTable({
+                "iDisplayLength": "All",
                 "columnDefs":
                 [
                     // {"visible": false, "targets": 1},
@@ -288,10 +308,12 @@
             $('#dtb_rptjou').DataTable({
                 info: false,
                 searching: false,
+                bLengthChange: false,
                 // responsive: true,
                 columnDefs:
                 [
                     {visible: false, targets: 1},
+                    {visible: false, targets: 2},
                     {orderable: false, targets: '_all'}
                 ],
                 order: [[1, 'asc']],
@@ -304,17 +326,22 @@
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);
-                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+                        
                         var sum2 = rows.data().pluck(8)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);
+
+                        // var sum3 = sum+sum2;
+                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
                         sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        return $('<tr/>')
-                        .append( '<td colspan="6"></td>' )
-                        .append( '<td class="text-right">'+sum+'</td>' )                        
-                        .append( '<td class="text-right">'+sum2+'</td>' ); 
+                        // sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3);
+
+                        return $('<tr/>')                        
+                        .append( '<td colspan="5"></td>' )
+                        .append( '<td class="text-right">'+sum+'</td>')
+                        .append( '<td class="text-right">'+sum2+'</td>' );
                     },
                     dataSrc: 2
                 },

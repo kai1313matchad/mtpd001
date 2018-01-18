@@ -1009,7 +1009,7 @@
 				$row[] = $no;
 				$row[] = $dat->PAR_ACC;
 				$row[] = $dat->PAR_ACCNAME;
-				$row[] = $dat->PAR_TYPE;			
+				$row[] = $dat->PARTP_NAME;			
 				$row[] = $dat->PAR_INFO;				
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_par('."'".$dat->PAR_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_par('."'".$dat->PAR_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_par('."'".$dat->PAR_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
@@ -1053,10 +1053,31 @@
 	        echo json_encode($data);
 		}
 
+		public function getcoaprtp()
+		{
+			$this->db->where('partp_dtsts','1');
+			$que = $this->db->get('parent_type');
+			$data = $que->result();
+	        echo json_encode($data);
+		}
+
 		public function getcoa()
 		{
 			$data = $this->crud->get_coa();
 	        echo json_encode($data);
+		}
+
+		public function add_coaprtp()
+		{
+			$this->_validate_coaprtp();
+			$table = 'parent_type';
+			$data = array (
+					'partp_name' => $this->input->post('partp_name'),
+					'partp_sts' => $this->input->post('partp_sts'),
+					'partp_dtsts' => '1'
+				);
+			$insert = $this->crud->save($table,$data);
+			echo json_encode(array("status"=>TRUE));
 		}
 
 		public function add_coapr()
@@ -1072,7 +1093,7 @@
 				);
 			$insert = $this->crud->save($table,$data);
 			echo json_encode(array("status" => TRUE));
-		}
+		}		
 
 		public function add_coa()
 		{
@@ -1091,16 +1112,34 @@
 			echo json_encode(array("status" => TRUE));
 		}
 
+		public function edit_coaprtp($id)
+	    {
+	    	$data = $this->crud->get_by_id('parent_type',array('partp_id' => $id));
+        	echo json_encode($data);
+	    }
+
 		public function edit_coapr($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('parent_chart',array('par_id' => $id));
         	echo json_encode($data);
 	    }
 
 	    public function edit_coa($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('chart_of_account',array('coa_id' => $id));
         	echo json_encode($data);
+	    }
+
+	    public function update_coaprtp()
+	    {
+	    	$this->_validate_coaprtp();
+	    	$table = 'parent_type';
+	    	$data = array(
+	    			'partp_name' => $this->input->post('partp_name'),
+					'partp_sts' => $this->input->post('partp_sts')
+	            );
+	    	$update = $this->crud->update($table,$data,array('partp_id' => $this->input->post('partp_id')));
+	        echo json_encode(array("status" => TRUE));
 	    }
 
 	    public function update_coapr()
@@ -1130,8 +1169,17 @@
 	        echo json_encode(array("status" => TRUE));
 	    }
 
+	    public function delete_coaprtp($id)
+	    {
+	    	$data = array(	                
+	                'partp_dtsts' => '0'
+	            );
+	    	$update = $this->crud->update('parent_type',$data,array('partp_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+	    }
+
 	    public function delete_coapr($id)
-	    {	    	    	
+	    {
 	    	$data = array(	                
 	                'par_dtsts' => '0'
 	            );
@@ -1140,13 +1188,49 @@
 	    }
 
 	    public function delete_coa($id)
-	    {	    	    	
+	    {
 	    	$data = array(	                
 	                'coa_dtsts' => '0'
 	            );
 	    	$update = $this->crud->update('chart_of_account',$data,array('coa_id' => $id));
         	echo json_encode(array("status" => TRUE));
 	    }
+
+	    public function _validate_coaprtp()
+		{
+			$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('partp_name') == '')
+	        {
+	            $data['inputerror'][] = 'partp_name';
+	            $data['error_string'][] = 'Nama Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('partp_check') == '0')
+	        {
+	        	$this->form_validation->set_rules('partp_name', 'Nama', 'is_unique[parent_type.PARTP_NAME]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'partp_name';
+		            $data['error_string'][] = 'Nama Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
+	        }
+	       	if($this->input->post('partp_sts') == '')
+	        {
+	            $data['inputerror'][] = 'partp_sts';
+	            $data['error_string'][] = 'Status Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+			if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+		}
 
 		public function _validate_coapr()
 		{

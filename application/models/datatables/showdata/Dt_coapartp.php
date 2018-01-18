@@ -1,34 +1,20 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_showledger extends CI_Model 
+	class Dt_coapartp extends CI_Model 
 	{
 
-		var $table = 'jou_details a';
-		var $column_order = array(null,'jou_code','jou_date','jou_reff','coa_acc','joudet_debit','joudet_credit');
-		var $column_search = array('jou_code','jou_date','jou_reff','coa_acc','joudet_debit','joudet_credit');
-		var $order = array('a.jou_id' => 'asc');
+		var $table = 'parent_type';
+		var $column_order = array(null,'partp_name');
+		var $column_search = array('partp_name');
+		var $order = array('partp_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{
-			if ($this->input->post('coaid')) 
-			{
-				$this->db->where('a.coa_id', $this->input->post('coaid') );
-			}
-			if ($this->input->post('branch')) 
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
-        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
-			}
+		{		
 			$this->db->from($this->table);
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->where('partp_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -59,7 +45,6 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-
 		public function get_datatables()
 		{
 			$this->_get_datatables_query();

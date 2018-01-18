@@ -1,12 +1,12 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_showledger extends CI_Model 
+	class Dt_showrpttrialbal extends CI_Model 
 	{
 
 		var $table = 'jou_details a';
-		var $column_order = array(null,'jou_code','jou_date','jou_reff','coa_acc','joudet_debit','joudet_credit');
-		var $column_search = array('jou_code','jou_date','jou_reff','coa_acc','joudet_debit','joudet_credit');
-		var $order = array('a.jou_id' => 'asc');
+		var $column_order = array(null,'coa_acc','joudet_debit','joudet_credit');
+		var $column_search = array('coa_acc','joudet_debit','joudet_credit');
+		var $order = array('c.coa_id' => 'asc');
 		public function __construct()
 		{
 			parent::__construct();		
@@ -25,10 +25,12 @@
 				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
         		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
 			}
+			$this->db->select('c.*,sum(a.joudet_debit) as debit, sum(a.joudet_credit) as credit');
 			$this->db->from($this->table);
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
 			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->group_by('a.coa_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
