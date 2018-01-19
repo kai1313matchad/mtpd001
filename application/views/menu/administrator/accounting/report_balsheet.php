@@ -32,7 +32,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="trbal_datestart" type='text' class="form-control input-group-addon" name="balsh_datestart" value="" />
+                                    <input id="balsh_datestart" type='text' class="form-control input-group-addon" name="balsh_datestart" value="" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -40,7 +40,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="trbal_dateend" type='text' class="form-control input-group-addon" name="balsh_dateend" value="" />
+                                    <input id="balsh_dateend" type='text' class="form-control input-group-addon" name="balsh_dateend" value="" />
                                 </div>
                             </div>
                         </div>

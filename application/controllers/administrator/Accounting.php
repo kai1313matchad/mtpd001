@@ -111,7 +111,7 @@
 		}
 
 		public function print_journal()
-		{			
+		{
 			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);

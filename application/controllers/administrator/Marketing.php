@@ -133,6 +133,87 @@
 			$this->load->view('menu/administrator/marketing/print_bappimg',$data);
 		}
 
+		//Laporan Marketing
+		public function print_rptappr_t1()
+		{
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['location'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['sales'] = ($this->uri->segment(9) == 'null') ? '' : $this->uri->segment(9);
+			$data['rpt_type'] = ($this->uri->segment(10) == 'null') ? '' : $this->uri->segment(10);
+			$data['title']='Match Terpadu - Dashboard Marketing';
+			$data['menu']='marketing';
+			$data['menulist']='report_marketing';
+			$this->load->view('menu/administrator/marketing/print_reportappr_t1',$data);
+		}
+
+		public function gen_rptappr_t1()
+		{
+			if ($this->input->post('custid')) 
+			{
+				$this->db->like('a.cust_id', $this->input->post('custid') );
+			}
+			if ($this->input->post('locid')) 
+			{
+				$this->db->like('a.loc_id', $this->input->post('locid') );
+			}
+			if ($this->input->post('salesid')) 
+			{
+				$this->db->like('a.sales_id', $this->input->post('salesid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
+				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			}
+			$this->db->from('trx_approvalbill a');
+			$this->db->join('master_location b','b.loc_id = a.loc_id');			
+			$this->db->join('master_customer c','c.cust_id = a.cust_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('custid'))
+			{
+				$this->db->like('b.cust_id', $this->input->post('custid') );
+			}
+			if ($this->input->post('locid')) 
+			{
+				$this->db->like('b.loc_id', $this->input->post('locid') );
+			}
+			if ($this->input->post('salesid')) 
+			{
+				$this->db->like('b.sales_id', $this->input->post('salesid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('f.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
+				$this->db->where('b.appr_contract_end >=', $this->input->post('tgl_start'));
+        		$this->db->where('b.appr_contract_end <=', $this->input->post('tgl_end'));  
+			}
+			$this->db->select('group_concat(c.prmttyp_name SEPARATOR ", ") as ijin,a.apprprmt_id, b.appr_code, b.appr_id');
+			$this->db->from('appr_permit_det a');
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id');
+			$this->db->join('master_permit_type c','c.prmttyp_id = a.prmttyp_id');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');			
+			$this->db->join('master_customer e','e.cust_id = b.cust_id');
+			$this->db->join('master_user f','f.user_id = b.user_id');
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->join('master_sales h','h.sales_id = b.sales_id');
+			$this->db->group_by('a.appr_id');
+			$que2 = $this->db->get();
+			$data['b'] = $que2->result();
+			echo json_encode($data);
+		}
+
 		//ajax transaksi approval
 		public function ajax_srch_cust()
 		{

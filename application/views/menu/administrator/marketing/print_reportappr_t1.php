@@ -55,53 +55,86 @@
 </head>
 <body>
     <div class="container">
-        <form id="form_trbal">
-            <input type="hidden" name="coaid" value="<?php echo $coaid; ?>">
+        <form id="form_rptappr">
+            <input type="hidden" name="branch" value="<?php echo $branch; ?>">
+            <input type="hidden" name="custid" value="<?php echo $cust; ?>">
+            <input type="hidden" name="locid" value="<?php echo $location; ?>">
+            <input type="hidden" name="slsid" value="<?php echo $sales; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
-            <input type="hidden" name="branch" value="<?php echo $branch; ?>">
+            <input type="hidden" name="rpt_type" value="<?php echo $rpt_type; ?>">
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN NERACA</u></h2>
-                <h3 class="text-center" name="rptbalsh_branch"></h3>
-                <h4 class="text-center" name="rptbalsh_period"></h4>
+                <h2 class="text-center"><u>LAPORAN APPROVAL BILLBOARD <span name="rptappr_type"></span> </u></h2>
+                <h3 class="text-center" name="rptappr_branch"></h3>
+                <h4 class="text-center" name="rptappr_period"></h4>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-xs-12 table-responsive">
-                <table id="dtb_rptbalsh" class="table table-bordered" cellspacing="0" width="100%">
+                <table id="dtb_rptappr_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th class="text-center">
-                                Induk
+                                Approval
                             </th>
                             <th class="text-center">
-                                Rekening
+                                Tanggal
                             </th>                            
                             <th class="text-center">
-                                Debet
+                                Customer
                             </th>
                             <th class="text-center">
-                                Kredit
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                Kontrak
+                            </th>
+                            <th class="text-center">
+                                Ijin
+                            </th>
+                            <th class="text-center">
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp1"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t1" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>                            
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                Kontrak
+                            </th>
+                            <th class="text-center">
+                                Ijin
+                            </th>
+                            <th class="text-center">
+                                Total
                             </th>
                         </tr>
                     </thead>
                     <tbody id="tb_content"></tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="2" class="text-right">Saldo</th>
-                            <th name="saldodebit" class="text-right chgnum"></th>
-                            <th name="saldocredit" class="text-right chgnum"></th>
-                        </tr>
-                        <!-- <tr>                            
-                            <th colspan="3" name="saldostatus" class="text-right chgnum"></th>
-                            <th name="saldoend" class="text-right chgnum"></th>
-                        </tr> -->
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -130,15 +163,103 @@
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
         $(document).ready(function()
-        {
-            // pick_ledger();
-            tes();
-            $('[name="rpttrbal_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+        {            
+            check_();
+            $('[name="rptappr_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
             if($('[name="branch"]').val() != '')
-                {
-                    pick_branch($('[name="branch"]').val());
-                }
+            {
+                pick_branch($('[name="branch"]').val());
+            }
         });
+
+        function check_()
+        {
+            var tp = $('[name="rpt_type"]').val();            
+            if(tp == '1')
+            {
+                gen_tp1(0);
+            }
+            if(tp == '2')
+            {
+                gen_tp1(3);
+            }
+            if(tp == '3')
+            {
+                gen_tp1(2);
+            }
+            if(tp == '4')
+            {
+                gen_tp2();
+            }
+        }
+
+        function gen_tp1(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            ).appendTo('#tb_content_tp1');
+                    }
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
+                    }
+                    dt_tp1(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp2(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            ).appendTo('#tb_content_tp1');
+                    }
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
+                    }
+                    dt_tp1(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
 
         function tes()
         {
@@ -183,7 +304,29 @@
                     alert(errorThrown);
                 }
             });
-        }    
+        }
+
+        function dt_tp1(v)
+        {
+            $('#dtb_rptappr_t1').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                rowGroup:
+                {
+                    dataSrc: v
+                },
+            });
+        }
 
         function dt_journal()
         {
@@ -292,14 +435,14 @@
         }
 
         function pick_branch(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="rpttrbal_branch"]').text(data.BRANCH_NAME);
+                    $('[name="rptappr_branch"]').text(data.BRANCH_NAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

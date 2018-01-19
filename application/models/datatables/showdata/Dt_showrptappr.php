@@ -13,26 +13,32 @@
 		}
 		private function _get_datatables_query()
 		{	
-			if ($this->input->post('cust_name')) 
+			if ($this->input->post('custid')) 
 			{
-				$this->db->like('cust_name', $this->input->post('cust_name') );
+				$this->db->like('a.cust_id', $this->input->post('custid') );
 			}
-			if ($this->input->post('loc_name')) 
+			if ($this->input->post('locid')) 
 			{
-				$this->db->like('loc_name', $this->input->post('loc_name') );
+				$this->db->like('a.loc_id', $this->input->post('locid') );
 			}
-			if ($this->input->post('appr_branch')) 
+			if ($this->input->post('salesid')) 
 			{
-				$this->db->like('appr_branch', $this->input->post('appr_branch') );
+				$this->db->like('a.sales_id', $this->input->post('salesid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
 			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('appr_contract_end <=', $this->input->post('tgl_end'));  
+				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
 			}
-
 			$this->db->from($this->table);
-			$this->db->join('master_location b','b.loc_id = a.loc_id');			
+			$this->db->join('master_location b','b.loc_id = a.loc_id');
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_sales f','f.sales_id = a.sales_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

@@ -7,7 +7,6 @@
                     </div>                    
                 </div>
                 <div class="row">
-                	<!-- <div class="col-xs-12"> -->
                 		<ul class="nav nav-tabs">
                 			<li class="active">
                 				<a href="#1" data-toggle="tab">Data Approval</a>
@@ -707,10 +706,8 @@
                 		</form>
                 	<!-- </div> -->
                 </div>
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
+            </div>            
+        </div>        
     </div>
     <!-- Modal Search -->
     <div class="modal fade" id="modal_cust" role="dialog">
@@ -1595,7 +1592,7 @@
     	}
 
     	function pick_mkt(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_mkt/')?>" + id,
 	            type: "GET",
@@ -1636,7 +1633,7 @@
     	}
 
     	function pick_loc(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
 	            type: "GET",

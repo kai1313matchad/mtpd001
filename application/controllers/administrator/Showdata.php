@@ -114,12 +114,10 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_CONTRACT_END;
+				$row[] = date_format(date_create($dat->APPR_CONTRACT_END),"d-M-Y");
 				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
-				$row[] = $dat->CUST_NAME;
-				$row[] = $dat->APPR_BRANCH;
-				$row[] = 'Rp '.$dat->APPR_TOT_INCOME;
-				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_appr('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$row[] = $dat->CUST_NAME;				
+				$row[] = 'Rp '.number_format($dat->APPR_TOT_INCOME);
 				$data[] = $row;
 			}
 			$output = array(
