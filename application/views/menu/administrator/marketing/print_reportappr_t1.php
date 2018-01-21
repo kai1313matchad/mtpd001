@@ -66,10 +66,10 @@
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <!-- <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png"> -->
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN APPROVAL BILLBOARD <span name="rptappr_type"></span> </u></h2>
+                <h2 class="text-center"><u>LAPORAN <span name="rptappr_type2"></span> APPROVAL BILLBOARD <span name="rptappr_type"></span> </u></h2>
                 <h3 class="text-center" name="rptappr_branch"></h3>
                 <h4 class="text-center" name="rptappr_period"></h4>
             </div>
@@ -108,9 +108,99 @@
         </div>
         <div class="row">
             <div class="col-sm-12 col-xs-12 table-responsive">
-                <table id="dtb_rptappr_t1" class="table table-bordered" cellspacing="0" width="100%">
+                <table id="dtb_rptappr_t2" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th> 
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp2"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t3a" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th> 
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                Invoice
+                            </th>
+                            <th class="text-center">
+                                Sub Invoice
+                            </th>
+                            <th class="text-center">
+                                Nilai Approval
+                            </th>
+                            <th class="text-center">
+                                Sisa
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp3a"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t3b" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Cabang
+                            </th>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>                            
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp3b"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t4" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Sales
+                            </th> 
                             <th class="text-center">
                                 Approval
                             </th>
@@ -128,13 +218,36 @@
                             </th>
                             <th class="text-center">
                                 Ijin
+                            </th> 
+                            <th class="text-center">
+                                Total
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp4"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t5" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Cabang
                             </th>
+                            <th class="text-center">
+                                Kode
+                            </th>
+                            <th class="text-center">
+                                Nama
+                            </th> 
                             <th class="text-center">
                                 Total
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_content"></tbody>
+                    <tbody id="tb_content_tp5"></tbody>
                 </table>
             </div>
         </div>
@@ -158,12 +271,11 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
     <!-- Number to Money -->
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
         $(document).ready(function()
-        {            
+        {
             check_();
             $('[name="rptappr_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
             if($('[name="branch"]').val() != '')
@@ -174,22 +286,63 @@
 
         function check_()
         {
-            var tp = $('[name="rpt_type"]').val();            
+            var tp = $('[name="rpt_type"]').val();
+            // $('[name="rptappr_type"]').text('PER PER');
             if(tp == '1')
             {
+                $('[name="rptappr_type"]').text('PER NOMOR');
                 gen_tp1(0);
             }
             if(tp == '2')
             {
+                $('[name="rptappr_type"]').text('PER LOKASI');
                 gen_tp1(3);
             }
             if(tp == '3')
             {
+                $('[name="rptappr_type"]').text('PER CUSTOMER');
                 gen_tp1(2);
             }
             if(tp == '4')
             {
+                $('[name="rptappr_type"]').text('TANPA PO');
                 gen_tp2();
+            }
+            if(tp == '5')
+            {
+                $('[name="rptappr_type"]').text('SUDAH INVOICE');
+                gen_tp3a(0);
+            }
+            if(tp == '6')
+            {
+                $('[name="rptappr_type"]').text('BELUM INVOICE');
+                gen_tp3b(0);
+            }
+            if(tp == '7')
+            {
+                $('[name="rptappr_type"]').text('PER SALES DETAIL');
+                gen_tp4(0);
+            }
+            if(tp == '8')
+            {
+                $('[name="rptappr_type"]').text('PER SALES SUMMARY');
+                gen_tp5(0);
+            }
+            if(tp == '9')
+            {
+                $('[name="rptappr_type"]').text('SUDAH BAPP');
+                gen_tp6('null','');
+            }
+            if(tp == '10')
+            {
+                $('[name="rptappr_type"]').text('BELUM BAPP');
+                gen_tp6('left',5);
+            }
+            if(tp == '11')
+            {
+                $('[name="rptappr_type"]').text('');
+                $('[name="rptappr_type2"]').text('JATUH TEMPO');
+                gen_tp7();
             }
         }
 
@@ -227,7 +380,190 @@
             });
         }
 
-        function gen_tp2(v)
+        function gen_tp2()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>')
+                            ).appendTo('#tb_content_tp2');
+                    }
+                    dt_tp2();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp3a(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t3a')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var sub = data['a'][i]["sub"];
+                        var tot = data['a'][i]["APPR_TOT_INCOME"];
+                        var sisa = parseInt(tot) - parseInt(sub);
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["inv"]+'</td>'),
+                            $('<td class="text-center">'+sub+'</td>'),
+                            $('<td class="text-center">'+tot+'</td>'),
+                            $('<td class="text-center">'+sisa+'</td>')
+                            ).appendTo('#tb_content_tp3a');
+                    }
+                    dt_tp3a(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp3b(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t3b')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["BRANCH_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            ).appendTo('#tb_content_tp3b');
+                    }
+                    dt_tp3b(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp4(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t4')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["SALES_CODE"]+' - '+data['a'][i]["PERSON_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            ).appendTo('#tb_content_tp4');
+                    }
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
+                    }
+                    dt_tp4(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp5(v)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t5')?>",
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["BRANCH_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["SALES_CODE"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PERSON_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            ).appendTo('#tb_content_tp5');
+                    }
+                    dt_tp5(v);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp6(v1,v2)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t6/')?>"+v1,
+                type: "POST",
+                data: $('#form_rptappr').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var po = (data['a'][i]["PO_CODE"] == null) ? '-' : data['a'][i]["PO_CODE"];
+                        var bapp = (data['a'][i]["BAPP_CODE"] == null) ? '-' : data['a'][i]["BAPP_CODE"];
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
+                            $('<td class="text-center">'+po+'</td>'),
+                            $('<td class="text-center">'+bapp+'</td>')
+                            ).appendTo('#tb_content_tp6');
+                    }
+                    dt_tp6(v2);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        function gen_tp7()
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
@@ -244,15 +580,9 @@
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
                             $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
-                            $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
-                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
-                            ).appendTo('#tb_content_tp1');
+                            ).appendTo('#tb_content_tp7');
                     }
-                    for (var i = 0; i < data['b'].length; i++)
-                    {
-                        $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
-                    }
-                    dt_tp1(v);
+                    dt_tp7();
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -325,6 +655,159 @@
                 {
                     dataSrc: v
                 },
+            });
+        }
+
+        function dt_tp2()
+        {
+            $('#dtb_rptappr_t2').DataTable({
+                info: false,
+                searching: false,                
+                bLengthChange: false,
+                paging: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                ordering: false
+            });
+        }
+
+        function dt_tp3a(v)
+        {
+            $('#dtb_rptappr_t3a').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                rowGroup:
+                {
+                    dataSrc: v
+                },
+            });
+        }
+
+        function dt_tp3b(v)
+        {
+            $('#dtb_rptappr_t3b').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                rowGroup:
+                {
+                    endRender: function(rows, group)
+                    {
+                        var sum = rows.data().pluck(4)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                            // return a+b*1;
+                        }, 0);
+                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+                        return $('<tr/>')                        
+                        .append( '<td colspan="4">Total</td>' )
+                        .append( '<td class="text-right">'+sum+'</td>');
+                    },
+                    dataSrc: v
+                },
+            });
+        }
+
+        function dt_tp4(v)
+        {
+            $('#dtb_rptappr_t4').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                rowGroup:
+                {
+                    dataSrc: v
+                },
+            });
+        }
+
+        function dt_tp5(v)
+        {
+            $('#dtb_rptappr_t5').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                rowGroup:
+                {
+                    dataSrc: v
+                },
+            });
+        }
+
+        function dt_tp6(v)
+        {
+            $('#dtb_rptappr_t6').DataTable({
+                info: false,
+                searching: false,                
+                bLengthChange: false,
+                paging: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: v},
+                    {orderable: false, targets: '_all'}            
+                ],
+                // order: [[0, 'asc']],
+                ordering: false
+            });
+        }
+
+        function dt_tp7()
+        {
+            $('#dtb_rptappr_t7').DataTable({
+                info: false,
+                searching: false,                
+                bLengthChange: false,
+                paging: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                ordering: false
             });
         }
 

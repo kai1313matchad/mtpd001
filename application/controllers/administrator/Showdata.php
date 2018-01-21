@@ -11,6 +11,7 @@
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
+			$this->load->model('datatables/showdata/Dt_showrptbapp','showrptbapp');
 			$this->load->model('datatables/showdata/Dt_bankintrxdet','bankin_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
 			$this->load->model('datatables/showdata/Dt_bankouttrxdet','bankout_trxdet');
@@ -124,6 +125,33 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showrptappr->count_all(),
 							"recordsFiltered" => $this->showrptappr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan BAPP
+		public function showrpt_bapp()
+		{
+			$list = $this->showrptbapp->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = date_format(date_create($dat->APPR_CONTRACT_START),"d-M-Y").' s/d '.date_format(date_create($dat->APPR_CONTRACT_END),"d-M-Y");
+				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
+				$row[] = $dat->CUST_NAME;				
+				$row[] = $dat->BAPP_CODE;
+				$row[] = date_format(date_create($dat->BAPP_DATE),"d-M-Y");
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->showrptbapp->count_all(),
+							"recordsFiltered" => $this->showrptbapp->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
