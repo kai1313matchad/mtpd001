@@ -8,8 +8,10 @@
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
+			$this->load->model('datatables/search/Dt_srchpermittype','s_permittype');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
+			$this->load->model('datatables/search/Dt_srchappr','s_appr');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
@@ -25,6 +27,33 @@
 		public function index()
 		{
 
+		}
+
+		//Search Approval Cabang
+		public function srch_appr()
+		{
+			$list = $this->s_appr->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_BRCNAME;				
+				$row[] = $dat->APPR_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprgb('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_appr->count_all(),
+							"recordsFiltered" => $this->s_appr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 
 		//Search Approval Cabang
@@ -197,6 +226,37 @@
 		public function pick_invtype($id)
 		{
 			$data = $this->crud->get_by_id('invoice_type',array('inc_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Master Permit Type
+		public function srch_permittype()
+		{
+			$list = $this->s_permittype->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->PRMTTYP_CODE;
+				$row[] = $dat->PRMTTYP_NAME;				
+				$row[] = $dat->PRMTTYP_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_permittype('."'".$dat->PRMTTYP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_permittype->count_all(),
+							"recordsFiltered" => $this->s_permittype->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_permittype($id)
+		{
+			$data = $this->crud->get_by_id('master_permit_type',array('prmttyp_id' => $id));
 			echo json_encode($data);
 		}
 

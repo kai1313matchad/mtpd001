@@ -24,6 +24,8 @@
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
 			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
 			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
+			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
+			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
 		}
 
 		public function index()
@@ -523,6 +525,56 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_trialbal->count_all(),
 							"recordsFiltered" => $this->rpt_trialbal->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Biaya Persetujuan Ijin
+		public function showdetail_permitpay($id)
+		{
+			$list = $this->picost_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
+				$row[] = $dat->PPAY_INFO;
+				$row[] = $dat->PPAY_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->picost_det->count_all(),
+							"recordsFiltered" => $this->picost_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Dokumen Persetujuan Ijin
+		public function showdetail_permitdoc($id)
+		{
+			$list = $this->pidoc_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
+				$row[] = $dat->PPAY_INFO;
+				$row[] = $dat->PPAY_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->pidoc_det->count_all(),
+							"recordsFiltered" => $this->pidoc_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

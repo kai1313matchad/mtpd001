@@ -244,7 +244,6 @@
         $(document).ready(function()
         {
             dt_rptinv();
-
         });
 
         function filter_rptinv()
