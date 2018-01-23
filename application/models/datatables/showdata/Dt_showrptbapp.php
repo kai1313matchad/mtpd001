@@ -1,12 +1,12 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_showrptappr extends CI_Model 
+	class Dt_showrptbapp extends CI_Model 
 	{
 
-		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
-		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
-		var $order = array('appr_date' => 'desc');
+		var $table = 'trx_bapp a';
+		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','bapp_code','bapp_date');
+		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','bapp_code','bapp_date');
+		var $order = array('b.appr_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
@@ -15,30 +15,26 @@
 		{	
 			if ($this->input->post('custid')) 
 			{
-				$this->db->like('a.cust_id', $this->input->post('custid') );
+				$this->db->like('b.cust_id', $this->input->post('custid') );
 			}
 			if ($this->input->post('locid')) 
 			{
-				$this->db->like('a.loc_id', $this->input->post('locid') );
-			}
-			if ($this->input->post('salesid')) 
-			{
-				$this->db->like('a.sales_id', $this->input->post('salesid') );
+				$this->db->like('b.loc_id', $this->input->post('locid') );
 			}
 			if ($this->input->post('branch')) 
 			{
-				$this->db->like('d.branch_id', $this->input->post('branch') );
+				$this->db->like('e.branch_id', $this->input->post('branch') );
 			}
 			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+				$this->db->where('a.bapp_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.bapp_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from($this->table);
-			$this->db->join('master_location b','b.loc_id = a.loc_id');
-			$this->db->join('master_customer c','c.cust_id = a.cust_id');
-			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
-			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id');
+			$this->db->join('master_location c','c.loc_id = b.loc_id');
+			$this->db->join('master_customer d','d.cust_id = b.cust_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

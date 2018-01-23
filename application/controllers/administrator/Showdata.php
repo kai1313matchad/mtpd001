@@ -12,6 +12,7 @@
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 			$this->load->model('datatables/showdata/Dt_budgetdet','det_budget');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
+			$this->load->model('datatables/showdata/Dt_showrptbapp','showrptbapp');
 			$this->load->model('datatables/showdata/Dt_bankintrxdet','bankin_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
 			$this->load->model('datatables/showdata/Dt_bankouttrxdet','bankout_trxdet');
@@ -24,6 +25,8 @@
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
 			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
 			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
+			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
+			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
 		}
 
 		public function index()
@@ -115,18 +118,43 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				$row[] = $dat->APPR_CONTRACT_END;
+				$row[] = date_format(date_create($dat->APPR_CONTRACT_END),"d-M-Y");
 				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
-				$row[] = $dat->CUST_NAME;
-				$row[] = $dat->APPR_BRANCH;
-				$row[] = 'Rp '.$dat->APPR_TOT_INCOME;
-				$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="pilih_appr('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
+				$row[] = $dat->CUST_NAME;				
+				$row[] = 'Rp '.number_format($dat->APPR_TOT_INCOME);
 				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showrptappr->count_all(),
 							"recordsFiltered" => $this->showrptappr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan BAPP
+		public function showrpt_bapp()
+		{
+			$list = $this->showrptbapp->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = date_format(date_create($dat->APPR_CONTRACT_START),"d-M-Y").' s/d '.date_format(date_create($dat->APPR_CONTRACT_END),"d-M-Y");
+				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
+				$row[] = $dat->CUST_NAME;				
+				$row[] = $dat->BAPP_CODE;
+				$row[] = date_format(date_create($dat->BAPP_DATE),"d-M-Y");
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->showrptbapp->count_all(),
+							"recordsFiltered" => $this->showrptbapp->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -521,8 +549,58 @@
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
+
 							"recordsTotal" => $this->det_budget->count_all(),
 							"recordsFiltered" => $this->det_budget->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+		//Tampil Detail Biaya Persetujuan Ijin
+		public function showdetail_permitpay($id)
+		{
+			$list = $this->picost_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
+				$row[] = $dat->PPAY_INFO;
+				$row[] = $dat->PPAY_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->picost_det->count_all(),
+							"recordsFiltered" => $this->picost_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Dokumen Persetujuan Ijin
+		public function showdetail_permitdoc($id)
+		{
+			$list = $this->pidoc_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
+				$row[] = $dat->PPAY_INFO;
+				$row[] = $dat->PPAY_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->pidoc_det->count_all(),
+							"recordsFiltered" => $this->pidoc_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

@@ -196,10 +196,7 @@
 			return  $out;
 		}
 
-
-
 		//Gen Logistik
-
 		public function gen_numpolgt()
 		{
 			$res = $this->gen_num_('trx_po','po_code','PO');
@@ -295,8 +292,6 @@
 			return  $out;
 		}
 
-
-
 		public function gen_num_adjlgt()
 		{
 			$res = $this->gen_num_('trx_adjustment','adj_code','PS');
@@ -334,7 +329,6 @@
 			$out['adjga_code'] = $res;
 			return  $out;
 		}
-
 
 		//Gen Nomor Approval
 		public function gen_numappr()
@@ -431,6 +425,26 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['jou_code'] = $res;
+			return  $out;
+		}
+
+		//Gen Nomor Permit Approval
+		public function gen_numpermitappr()
+		{
+			$res = $this->gen_num_('trx_permitappr','pappr_code','PI');			
+			$check = $this->db->get_where('trx_permitappr',array('pappr_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+			}
+			$data = array(
+					'pappr_code'=>$res,
+					'pappr_sts'=>'0'
+				);			
+			$this->db->insert('trx_permitappr',$data);
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['pappr_code'] = $res;
 			return  $out;
 		}
 	}

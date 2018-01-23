@@ -15,7 +15,7 @@
                 </a>
             </div>
             <!-- /.navbar-header -->
-            <ul class="nav navbar-top-links navbar-right">                
+            <ul class="nav navbar-top-links navbar-right">''
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -228,7 +228,18 @@
                                     <a <?php if ($menulist == 'report_transaction') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction/report')?>"><i class="fa <?php if ($menulist == 'report_transaction') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
                                 </li>                            
                             </ul>
-                        </li>                        
+                        </li>
+                        <li <?php if ($menu == 'permit') {echo 'class=active';} ?>>
+                            <a href="#"><i class="fa fa-briefcase fa-fw"></i> Permit<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a <?php if ($menulist == 'dash_permit') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Permit')?>"><i class="fa <?php if ($menulist == 'dash_permit') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'permit_appr') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Permit/permit_approval')?>"><i class="fa <?php if ($menulist == 'permit_appr') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Persetujuan Ijin</a>
+                                </li>                               
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -101,8 +101,17 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report_balancesheet()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$data['isi']='menu/administrator/accounting/report_balsheet';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function print_journal()
-		{			
+		{
 			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
@@ -390,9 +399,73 @@
 			echo json_encode($data);
 		}
 
-		public function profitloss($val)
+		public function print_balancesheet()
 		{
-			
+			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='report_accounting';
+			$this->load->view('menu/administrator/accounting/print_balsheet',$data);
+		}
+
+		public function gen_balancesheet()
+		{
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('
+					c.*, e.*,
+					sum(a.joudet_credit - a.joudet_debit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts = 3 or f.partp_sts = 4 or f.partp_sts = 5');
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('
+					c.*, e.*,
+					sum(a.joudet_debit - a.joudet_credit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts = 1 or f.partp_sts = 2');
+			$this->db->group_by('a.coa_id');
+			$que2 = $this->db->get();
+			$data['b'] = $que2->result();			
+			echo json_encode($data);
 		}
 
 		public function tes()

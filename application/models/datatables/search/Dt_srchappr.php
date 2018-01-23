@@ -1,44 +1,22 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_showrptappr extends CI_Model 
+	class Dt_srchappr extends CI_Model 
 	{
 
 		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
-		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
-		var $order = array('appr_date' => 'desc');
+		var $column_order = array(null,'appr_code','appr_brcname','appr_date','cust_name','loc_name');
+		var $column_search = array('appr_code','appr_brcname','appr_date','cust_name','loc_name');
+		var $order = array('appr_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{	
-			if ($this->input->post('custid')) 
-			{
-				$this->db->like('a.cust_id', $this->input->post('custid') );
-			}
-			if ($this->input->post('locid')) 
-			{
-				$this->db->like('a.loc_id', $this->input->post('locid') );
-			}
-			if ($this->input->post('salesid')) 
-			{
-				$this->db->like('a.sales_id', $this->input->post('salesid') );
-			}
-			if ($this->input->post('branch')) 
-			{
-				$this->db->like('d.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
-			}
+		{
+			$this->db->join('master_customer b','b.cust_id = a.cust_id');
+			$this->db->join('master_location c','c.loc_id = a.loc_id');
 			$this->db->from($this->table);
-			$this->db->join('master_location b','b.loc_id = a.loc_id');
-			$this->db->join('master_customer c','c.cust_id = a.cust_id');
-			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
-			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$this->db->where('appr_sts','1');			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -69,7 +47,6 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-
 		public function get_datatables()
 		{
 			$this->_get_datatables_query();
