@@ -7,6 +7,13 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_pi()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#1" data-toggle="tab">Persetujuan Ijin</a>
@@ -51,13 +58,13 @@
                                     <label class="col-sm-3 control-label">Status</label>
                                     <div class="col-sm-8">
                                         <label class="radio-inline">
-                                            <input type="radio" name="pi_urg" value="1"> Standard
+                                            <input type="radio" name="pi_urg" value="Standard"> Standard
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="pi_urg" value="2"> Urgent
+                                            <input type="radio" name="pi_urg" value="Urgent"> Urgent
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="pi_urg" value="3"> Top Urgent
+                                            <input type="radio" name="pi_urg" value="Top Urgent"> Top Urgent
                                         </label>                                        
                                     </div>
                                 </div>
@@ -151,6 +158,34 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label">Ukuran P-L-T</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" name="pi_length" placeholder="panjang">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" name="pi_width" placeholder="lebar">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" name="pi_height" placeholder="tinggi">
+                                    </div>
+                                    <label class="col-sm-1 control-label">Meter</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Luas</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" name="pi_sumsize" placeholder="luas">
+                                    </div>                                    
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Sisi Muka || Jumlah</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="pi_side" placeholder="depan/belakang/samping">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" name="pi_plcsum" placeholder="jumlah">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label">Keterangan</label>
                                     <div class="col-sm-8">
                                         <textarea name="pi_info" class="form-control" rows="2" style="resize: vertical;" placeholder="Keterangan"></textarea>
@@ -233,8 +268,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">Tanggal Awal</label>
-                                    <div class="col-sm-8">
+                                    <label class="col-sm-3 control-label">Periode</label>
+                                    <div class="col-sm-4">
                                         <div class='input-group date dtp' id='dtp1'>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -242,10 +277,7 @@
                                             <input id="pidet_datestart" type='text' class="form-control input-group-addon" name="pidet_datestart" value="<?= date('Y-m-d')?>" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Tanggal Akhir</label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
                                         <div class='input-group date dtp' id='dtp1'>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -269,6 +301,11 @@
                                     <label class="col-sm-3 control-label">No Terima</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" name="pidet_rcvnum">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-4">
+                                        <a href="javascript:void(0)" onclick="add_docpi()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -306,6 +343,7 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    <!-- Modal -->
     <div class="modal fade" id="modal_branch" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -547,8 +585,15 @@
             $('#det_radio1').prop('checked',true);
             check_();
             dt_biayapi($('[name="pi_id"]').val());
+            dt_docpi($('[name="pi_id"]').val());
             drop_coa();
         });
+
+        function print_pi()
+        {
+            var id = $('[name=pi_id]').val();
+            window.open ( "<?php echo site_url('administrator/Permit/print_permitappr/')?>"+id,'_blank');
+        }
 
         function check_()
         {
@@ -617,7 +662,7 @@
             if(confirm('Are you sure delete this data?'))
             {               
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Permit/delete_picostdet/')?>"+id,
+                    url : "<?php echo site_url('administrator/Permit/delete_costpi/')?>"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
@@ -631,6 +676,100 @@
                     }
                 });
             }
+        }
+
+        function add_docpi()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Permit/add_docpi')?>",
+                type: "POST",
+                data: $('#form_pi').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Data Berhasil Disimpan');
+                        dt_docpi($('[name="pi_id"]').val());
+                        drop_coa();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            });
+        }
+
+        function delete_pidocdet(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {               
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Permit/delete_docpi/')?>"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        alert('Data Berhasil Dihapus');
+                        dt_docpi($('[name="pi_id"]').val());
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+
+        function save_pappr()
+        {
+            var n = checkradio();
+            if(n != null)
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Permit/save_permitappr')?>",
+                    type: "POST",
+                    data: $('#form_pi').serialize(),
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        if(data.status)
+                        {
+                            alert('Data Berhasil Disimpan');
+                            $('.nav-tabs a[href="#2"]').tab('show');                        
+                        }
+                        else
+                        {
+                            for (var i = 0; i < data.inputerror.length; i++) 
+                            {
+                                $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            }
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error adding / update data');
+                    }
+                });
+            }
+            else
+            {
+                alert('Status Masih Kosong');
+            }
+        }
+
+        function checkradio()
+        {
+            var n = $('[name="group"]:checked').val();
+            return n;
         }
 
         function new_jou()
@@ -652,7 +791,7 @@
     <!-- Showdata -->
     <script>
         function dt_biayapi(id)
-        {            
+        {
             table = $('#dtb_biaya').DataTable({
                 "info": false,
                 "destroy": true,
@@ -662,6 +801,27 @@
                 "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Showdata/showdetail_permitpay/')?>"+id,
+                    "type": "POST",
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function dt_docpi(id)
+        {
+            table = $('#dtb_pidet').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showdetail_permitdoc/')?>"+id,
                     "type": "POST",
                 },                
                 "columnDefs": [

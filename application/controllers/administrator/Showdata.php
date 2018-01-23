@@ -566,9 +566,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
-				$row[] = $dat->PPAY_INFO;
-				$row[] = $dat->PPAY_AMOUNT;				
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$row[] = $dat->PDOC_INFO;
+				$row[] = $dat->PDOC_AMOUNT;				
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_pidocdet('."'".$dat->PDOC_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
 			$output = array(
