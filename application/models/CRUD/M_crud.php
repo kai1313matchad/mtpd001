@@ -88,6 +88,15 @@
 	        return $query->result();
 	    }
 
+	    public function get_by_id5($tb1,$tb2,$id1,$id2)
+	    {
+	        $this->db->from($tb1);
+	        $this->db->join($tb2,$id2);
+	        $this->db->where($id1);
+	        $query = $this->db->get();
+	        return $query->result();
+	    }
+
 	    //get data for master dropdown
 	    public function get_branch()
 		{
@@ -437,6 +446,15 @@
 			$this->db->join('trx_giro_out','trx_giro_out.GROUT_ID = giroout_det.GROUT_ID');
 			$this->db->where('trx_giro_out.GROUT_ID',$id);
 			$query = $this->db->get('giroout_det');
+	        return $query->row();
+		}
+
+		public function sub_ra($id)
+		{					
+			$this->db->select_sum('budget_det.buddet_amount', 'SubTotal');
+			$this->db->join('trx_budget','trx_budget.BUD_ID = budget_det.BUD_ID');
+			$this->db->where('trx_budget.BUD_ID',$id);
+			$query = $this->db->get('budget_det');
 	        return $query->row();
 		}
 

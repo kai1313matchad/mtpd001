@@ -10,6 +10,7 @@
 			$this->load->model('datatables/showdata/Dt_coapartp','coa_partp');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
+			$this->load->model('datatables/showdata/Dt_budgetdet','det_budget');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
 			$this->load->model('datatables/showdata/Dt_bankintrxdet','bankin_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
@@ -497,6 +498,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_trialbal->count_all(),
 							"recordsFiltered" => $this->rpt_trialbal->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function showdetail_budget($id)
+		{
+			$list = $this->det_budget->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;				
+				$row[] = $dat->BUDDET_INFO;
+				$row[] = $dat->BUDDET_SUM;
+				$row[] = $dat->BUDDET_AMOUNT;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_budgetdet('."'".$dat->BUDDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->det_budget->count_all(),
+							"recordsFiltered" => $this->det_budget->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

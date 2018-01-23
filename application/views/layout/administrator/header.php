@@ -223,7 +223,10 @@
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'budget') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction/trn_trx_budget')?>"><i class="fa <?php if ($menulist == 'budget') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Form Anggaran</a>
-                                </li>                               
+                                </li>   
+                                <li>
+                                    <a <?php if ($menulist == 'report_transaction') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Transaction/report')?>"><i class="fa <?php if ($menulist == 'report_transaction') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
+                                </li>                            
                             </ul>
                         </li>                        
                     </ul>
