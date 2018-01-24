@@ -1,19 +1,20 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchbank extends CI_Model 
+	class Dt_govsts extends CI_Model 
 	{
-		var $table = 'master_bank';
-		var $column_order = array(null,'bank_code','bank_name','bank_info');
-		var $column_search = array('bank_code','bank_name','bank_info');
-		var $order = array('bank_id' => 'desc');
+
+		var $table = 'master_gov_type';
+		var $column_order = array(null,'gov_code','gov_name','gov_info');
+		var $column_search = array('gov_code','gov_name','gov_info');
+		var $order = array('gov_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{
+		{		
 			$this->db->from($this->table);
-			$this->db->where('bank_dtsts','1');			
+			$this->db->where('gov_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

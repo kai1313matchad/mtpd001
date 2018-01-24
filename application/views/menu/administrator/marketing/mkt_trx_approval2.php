@@ -1614,7 +1614,7 @@
     	}
 
     	function pick_bb(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>" + id,
 	            type: "GET",
@@ -1653,7 +1653,7 @@
     	}
 
     	function pick_plc(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_plc/')?>" + id,
 	            type: "GET",
@@ -1672,7 +1672,7 @@
     	}
 
     	function pick_curr(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_curr/')?>" + id,
 	            type: "GET",
@@ -1694,7 +1694,7 @@
     	}
 
     	function pick_apprbranch(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/pick_apprbranch/')?>" + id,
 	            type: "GET",

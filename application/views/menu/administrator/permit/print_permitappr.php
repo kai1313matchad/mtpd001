@@ -53,7 +53,7 @@
 </head>
 <body>
     <div class="container">
-        <input type="hidden" name="inv_id" value="<?php echo $id; ?>">
+        <input type="hidden" name="pr-pi-id" value="<?php echo $id; ?>">
         <div class="row">
             <div class="col-sm-4 col-xs-4">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
@@ -180,19 +180,20 @@
     <script>
         $(document).ready(function()
         {
-            var id = $('[name="inv_id"]').val();
-            pick_invoice(id);
+            var id = $('[name="pr-pi-id"]').val();
+            pick_pi(id);
         });
 
-        function pick_invoice(id)
+        function pick_pi(id)
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/get_inv/')?>"+id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_permitappr/')?>"+id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {
-                    var id = data.INV_ID;
+                    var id = data.PAPPR_ID;
+                    var prd = data.PAPPR
                     var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY')
                     $('[name="inv_date"]').text(invdate);
                     $('[name="inv_code"]').text(data.INV_CODE);

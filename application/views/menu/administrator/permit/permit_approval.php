@@ -140,7 +140,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Status Pemerintahan</label>
                                     <div class="col-sm-1">
-                                        <a href="javascript:void(0)" onclick="srch_plc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        <a href="javascript:void(0)" onclick="srch_gov()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
                                     </div>
                                     <div class="col-sm-7">
                                         <input class="form-control" type="text" name="pi_plc" readonly>
@@ -327,6 +327,9 @@
                                                     </th>
                                                     <th class="text-center">
                                                         No Terima
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Actions
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -558,6 +561,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_govsts" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_govsts" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -768,7 +801,7 @@
 
         function checkradio()
         {
-            var n = $('[name="group"]:checked').val();
+            var n = $('[name="pi_urg"]:checked').val();
             return n;
         }
 
@@ -985,6 +1018,29 @@
                 ],
             });
         }
+        function srch_gov()
+        {
+            $('#modal_govsts').modal('show');
+            $('.modal-title').text('Cari Status Pemerintahan');
+            table = $('#dtb_govsts').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_govsts')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function srch_brc()
         {
             $('#modal_branch').modal('show');
@@ -1045,6 +1101,145 @@
                     $('[name="jou_branchid"]').val(data.BRANCH_ID);
                     $('[name="jou_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_apprgb(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_apprid"]').val(data.APPR_ID);
+                    $('[name="pi_appr"]').val(data.APPR_CODE);
+                    $('[name="pi_apprbrcid"]').val(data.APPR_BRANCHID);
+                    $('[name="pi_apprbrc"]').val(data.APPR_BRANCH);
+                    $('[name="pi_width"]').val(data.APPR_WIDTH);
+                    $('[name="pi_length"]').val(data.APPR_LENGTH);
+                    $('[name="pi_height"]').val(data.APPR_HEIGHT);
+                    $('[name="pi_sumsize"]').val(data.APPR_SUMSIZE);
+                    $('[name="pi_side"]').val(data.APPR_SIDE);
+                    $('[name="pi_plcsum"]').val(data.APPR_PLCSUM);
+                    pick_cust(data.CUST_ID);
+                    pick_loc(data.LOC_ID);
+                    pick_bb(data.BB_ID);                    
+                    $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_cust(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_custid"]').val(data.CUST_ID);                    
+                    $('[name="pi_cust"]').val(data.CUST_NAME);
+                    $('[name="pi_custadd"]').val(data.CUST_ADDRESS+', '+data.CUST_CITY);
+                    $('[name="pi_custphonefax"]').val(data.CUST_PHONE+' / '+data.CUST_FAX);
+                    $('#modal_cust').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bb(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_bbtypeid"]').val(data.BB_ID);                    
+                    $('[name="pi_bbtype"]').val(data.BB_NAME);                                  
+                    $('#modal_bb').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_locid"]').val(data.LOC_ID);
+                    $('[name="pi_loc"]').val(data.LOC_NAME);                    
+                    $('#modal_loc').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_permittype(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_permittype/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_pattypeid"]').val(data.PRMTTYP_ID);
+                    $('[name="pi_pattype"]').val(data.PRMTTYP_NAME);
+                    $('#modal_pattyp').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_plc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_plc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_plcid"]').val(data.PLC_ID);
+                    $('[name="pi_plc"]').val(data.PLC_NAME);                  
+                    $('#modal_plc').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_govsts(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_govsts/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_plcid"]').val(data.GOV_ID);
+                    $('[name="pi_plc"]').val(data.GOV_NAME);                  
+                    $('#modal_govsts').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -23,8 +23,8 @@
 			$gen = $this->gen->gen_numpermitappr();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['pappr_code'];
-			// $data['id'] = '3';
-			// $data['kode'] = 'AB/1712/000003';
+			// $data['id'] = '5';
+			// $data['kode'] = 'PI/1712/000003';
 			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -53,13 +53,13 @@
 			$this->_validate_pi();
 			$data = array(
 				'user_id' => $this->input->post('user_id'),
-				'appr_id' => $this->input->post('appr_id'),
-				'gov_id' => $this->input->post('gov_id'),
-				'cust_id' => $this->input->post('cust_id'),
-				'bb_id' => $this->input->post('bb_id'),
-				'loc_id' => $this->input->post('loc_id'),
-				'plc_id' => $this->input->post('plc_id'),
-				'prmttyp_id' => $this->input->post('prmttyp_id'),
+				'appr_id' => $this->input->post('pi_apprid'),
+				'gov_id' => $this->input->post('pi_plcid'),
+				'cust_id' => $this->input->post('pi_custid'),
+				'bb_id' => $this->input->post('pi_bbtypeid'),
+				'loc_id' => $this->input->post('pi_locid'),
+				// 'plc_id' => $this->input->post('pi_plcid'),
+				'prmttyp_id' => $this->input->post('pi_pattypeid'),
 				'pappr_code' => $this->input->post('pi_code'),
 				'pappr_urg' => $this->input->post('pi_urg'),
 				'pappr_width' => $this->input->post('pi_width'),

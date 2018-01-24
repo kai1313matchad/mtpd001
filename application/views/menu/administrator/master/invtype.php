@@ -402,7 +402,7 @@
         if(confirm('Are you sure delete this data?'))
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc/')?>"+id,
+                url : "<?php echo site_url('administrator/Master/delete_invtype/')?>"+id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data)

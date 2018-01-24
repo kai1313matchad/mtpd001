@@ -14,7 +14,7 @@
 		private function _get_datatables_query($id)
 		{
 			$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');			
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
 			$this->db->from($this->table);
 			$this->db->where('b.pappr_id',$id);
 			$i = 0;

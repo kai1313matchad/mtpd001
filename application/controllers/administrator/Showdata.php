@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_bank','master_bank');
+			$this->load->model('datatables/showdata/Dt_govsts','master_govsts');
 			$this->load->model('datatables/showdata/Dt_coapartp','coa_partp');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
@@ -78,6 +79,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->master_bank->count_all(),
 							"recordsFiltered" => $this->master_bank->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Master Gov Status
+		public function showmaster_govsts()
+		{
+			$list = $this->master_govsts->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GOV_CODE;
+				$row[] = $dat->GOV_NAME;				
+				$row[] = $dat->GOV_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->master_govsts->count_all(),
+							"recordsFiltered" => $this->master_govsts->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -565,9 +591,10 @@
 				$no++;
 				$row = array();
 				$row[] = $no;
-				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
-				$row[] = $dat->PDOC_INFO;
-				$row[] = $dat->PDOC_AMOUNT;				
+				$row[] = $dat->PDOC_DATESTART;
+				$row[] = $dat->PDOC_DATEEND;
+				$row[] = $dat->PDOC_DATERCV;
+				$row[] = $dat->PDOC_RCVNUM;				
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_pidocdet('."'".$dat->PDOC_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
