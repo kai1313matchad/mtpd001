@@ -8,9 +8,11 @@
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
+			$this->load->model('datatables/search/Dt_srchgovsts','s_govsts');
 			$this->load->model('datatables/search/Dt_srchpermittype','s_permittype');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
+			$this->load->model('datatables/search/Dt_srchinv','s_inv');
 			$this->load->model('datatables/search/Dt_srchappr','s_appr');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
@@ -141,6 +143,37 @@
 			echo json_encode($output);
 		}
 
+		//Search Master Jenis Pemerintahan
+		public function srch_govsts()
+		{
+			$list = $this->s_govsts->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->GOV_CODE;
+				$row[] = $dat->GOV_NAME;
+				$row[] = $dat->GOV_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_govsts('."'".$dat->GOV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_govsts->count_all(),
+							"recordsFiltered" => $this->s_govsts->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_govsts($id)
+		{
+			$data = $this->crud->get_by_id('master_gov_type',array('gov_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Master Bank
 		public function srch_bank()
 		{
@@ -194,6 +227,38 @@
 		public function pick_branch($id)
 		{
 			$data = $this->crud->get_by_id('master_branch',array('branch_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Transaksi Invoice
+		public function srch_inv()
+		{
+			$list = $this->s_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->INV_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_inv('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_inv->count_all(),
+							"recordsFiltered" => $this->s_inv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_invoice($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
 			echo json_encode($data);
 		}
 
@@ -468,6 +533,13 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		//Persetujuan Ijin
+		public function pick_permitappr($id)
+		{
+			$data = $this->crud->get_by_id('trx_permitappr',array('pappr_id' => $id));
+			echo json_encode($data);
 		}
 	}
 ?>

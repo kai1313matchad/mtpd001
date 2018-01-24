@@ -1,27 +1,28 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchbank extends CI_Model 
+	class Dt_srchinv extends CI_Model 
 	{
-		var $table = 'master_bank';
-		var $column_order = array(null,'bank_code','bank_name','bank_info');
-		var $column_search = array('bank_code','bank_name','bank_info');
-		var $order = array('bank_id' => 'desc');
+		var $table = 'trx_invoice a';
+		var $column_order = array(null,'inv_code','inv_date','cust_name','inv_info'); //set column field database for datatable orderable
+		var $column_search = array('inv_code','inv_date','cust_name','inv_info'); //set column field database for datatable searchable 
+		var $order = array('inv_id' => 'desc'); // default order 
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{
+		{		
 			$this->db->from($this->table);
-			$this->db->where('bank_dtsts','1');			
+			$this->db->join('master_customer b','a.cust_id = b.cust_id');
+			$this->db->where('inv_dtsts','1');
 			$i = 0;
-			foreach ($this->column_search as $item)
+			foreach ($this->column_search as $item) // loop column 
 			{
-				if($_POST['search']['value'])
+				if($_POST['search']['value']) // if datatable send POST for search
 				{			
-					if($i===0)
+					if($i===0) // first loop
 					{
-						$this->db->group_start();
+						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
 						$this->db->like($item, $_POST['search']['value']);
 					}
 					else
@@ -29,12 +30,12 @@
 						$this->db->or_like($item, $_POST['search']['value']);
 					}
 
-					if(count($this->column_search) - 1 == $i)
-						$this->db->group_end();
+					if(count($this->column_search) - 1 == $i) //last loop
+						$this->db->group_end(); //close bracket
 				}
 				$i++;
 			}		
-			if(isset($_POST['order']))
+			if(isset($_POST['order'])) // here order processing
 			{
 				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
 			} 

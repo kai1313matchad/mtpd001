@@ -1,19 +1,23 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchbank extends CI_Model 
+	class Dt_taxinvdet extends CI_Model 
 	{
-		var $table = 'master_bank';
-		var $column_order = array(null,'bank_code','bank_name','bank_info');
-		var $column_search = array('bank_code','bank_name','bank_info');
-		var $order = array('bank_id' => 'desc');
+
+		var $table = 'tax_inv_details a';
+		var $column_order = array(null,'appr_code','tinvdet_info','appr_lokasi','tinvdet_sum');
+		var $column_search = array('appr_code','tinvdet_info','appr_lokasi','tinvdet_sum');
+		var $order = array('tinvdet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id)
 		{
+			$this->db->join('inv_details b','b.invdet_id = a.invdet_id');
+			$this->db->join('trx_approvalbill c', 'c.appr_id = b.appr_id');
+			$this->db->join('master_location d', 'd.loc_id = c.loc_id');
 			$this->db->from($this->table);
-			$this->db->where('bank_dtsts','1');			
+			$this->db->where('a.tinvdet_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -44,17 +48,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}

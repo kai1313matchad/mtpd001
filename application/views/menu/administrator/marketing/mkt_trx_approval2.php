@@ -206,20 +206,20 @@
 			                            </div>
 			                            <div class="col-sm-2">
 			                                <input class="form-control apprbrc" type="text" name="appr_height" placeholder="tinggi">
-			                            </div>			                            
+			                            </div>
 			                            <label class="col-sm-1 control-label">Meter</label>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Luas</label>
 			                            <div class="col-sm-2">
 			                                <input class="form-control apprbrc" type="text" name="appr_sumsize" placeholder="luas">
-			                            </div>			                            
+			                            </div>
 			                        </div>
 			                        <div class="form-group">
 			                            <label class="col-sm-3 control-label">Sisi Muka || Jumlah</label>
 			                            <div class="col-sm-6">
 			                                <input class="form-control apprbrc" type="text" name="appr_side" placeholder="depan/belakang/samping">
-			                            </div>			                            
+			                            </div>
 			                            <div class="col-sm-2">
 			                                <input class="form-control apprbrc" type="text" name="appr_plcsum" placeholder="jumlah">
 			                            </div>
@@ -1614,7 +1614,7 @@
     	}
 
     	function pick_bb(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>" + id,
 	            type: "GET",
@@ -1653,7 +1653,7 @@
     	}
 
     	function pick_plc(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_plc/')?>" + id,
 	            type: "GET",
@@ -1672,7 +1672,7 @@
     	}
 
     	function pick_curr(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_pick_curr/')?>" + id,
 	            type: "GET",
@@ -1694,7 +1694,7 @@
     	}
 
     	function pick_apprbranch(id)
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/pick_apprbranch/')?>" + id,
 	            type: "GET",

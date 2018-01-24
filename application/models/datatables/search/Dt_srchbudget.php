@@ -1,19 +1,22 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchbank extends CI_Model 
+	class Dt_srchbudget extends CI_Model 
 	{
-		var $table = 'master_bank';
-		var $column_order = array(null,'bank_code','bank_name','bank_info');
-		var $column_search = array('bank_code','bank_name','bank_info');
-		var $order = array('bank_id' => 'desc');
+
+		var $table = 'trx_budget a';
+		var $column_order = array(null,'bud_code','bud_date','appr_code','loc_name','bud_address','bud_info');
+		var $column_search = array('bud_code','bud_date','appr_code','loc_name','bud_address','bud_info');
+		var $order = array('bud_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
 		{
+			$this->db->join('master_location b','b.loc_id = a.bud_loc');
+			$this->db->join('trx_approvalbill c','c.appr_id = a.bud_appr');
 			$this->db->from($this->table);
-			$this->db->where('bank_dtsts','1');			
+			// $this->db->where('csh_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
