@@ -193,13 +193,13 @@
                 success: function(data)
                 {
                     var id = data.PAPPR_ID;
-                    var prd = data.PAPPR
-                    var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY')
-                    $('[name="inv_date"]').text(invdate);
-                    $('[name="inv_code"]').text(data.INV_CODE);
-                    $('[name="inv_custname"]').text(data.CUST_NAME);
-                    $('[name="inv_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="inv_custcity"]').text(data.CUST_CITY+', '+data.CUST_POSTAL);
+                    var prd = moment(data.PAPPR_DATE).format('YYYY');
+                    var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY');
+                    $('[name="pr-pi-period"]').text('PERIODE TAHUN '+prd);
+                    $('[name="pr-pi-date"]').text('TANGGAL '+moment(data.PAPPR_DATE).format('DD-MMMM-YYYY'));
+                    $('[name="pr-pi-sts"]').text('STATUS '+str.toUpperCase(data.PAPPR_URG));
+                    $('[name="pr-pi-noreg"]').text('<b>No. Reg : <b>'+data.PAPPR_CODE);
+                    $('[name="pr-pi-project"]').text();
                     $('[name="inv_custprov"]').text(data.CUST_NAME);
                     $('[name="inv_info"]').text(data.INV_INFO);
                     pick_invdet(id);
