@@ -256,6 +256,12 @@
 			echo json_encode($output);
 		}
 
+		public function pick_invoice($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Jenis Invoice
 		public function srch_invtype()
 		{
