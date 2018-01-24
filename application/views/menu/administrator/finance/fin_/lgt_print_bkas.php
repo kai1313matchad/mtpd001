@@ -407,7 +407,7 @@
                                          $('<td class="text-right"><span name="TK_'+account+'">0.00</span>').css({'border-top':'2px solid','border-bottom':'double','text-align':'right'})
                                          ).appendTo('#tb_content');
                                 var $tot = $('<tr>').append(
-                                          $('<td colspan="6"><span name="T_'+account+'">0.00</span>').css('text-align','right')
+                                           $('<td colspan="6"><span name="T_'+account+'">0.00</span>').css('text-align','right')
                                           ).appendTo('#tb_content');
                             }
                             if (cabang != data[i]["BRANCH_NAME"]) {
@@ -484,6 +484,7 @@
                     saldo_total_debet();
                     saldo_total_kredit();
                     saldo_total();
+                    var $t = $('<tr>').append(
                                $('<td>').text(''),
                                $('<td>').text(''),
                                $('<td>').text(''),

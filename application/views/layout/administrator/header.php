@@ -113,6 +113,9 @@
                                     <a <?php if ($menulist == 'bgout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_out') ?>"><i class="fa <?php if ($menulist == 'bgout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Giro Keluar</a>
                                 </li>
                                 <li>
+                                    <a <?php if ($menulist == 'fpjk') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/f_pjk') ?>"><i class="fa <?php if ($menulist == 'fpjk') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Faktur Pajak</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'ppnbrc') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/branch_ppn') ?>"><i class="fa <?php if ($menulist == 'ppnbrc') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> PPN Cabang</a>
                                 </li>
                                 <li>

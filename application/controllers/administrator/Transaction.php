@@ -331,5 +331,54 @@
         	$data = $res->result();
         	echo json_encode($data);
         }
+
+        public function pageprint_ra($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Transaction';
+			$data['menu']='transaction';
+			$data['menulist']='report_transaction';
+			$this->load->view('menu/administrator/transaction/budget_print',$data);
+		}
+
+		public function pageprint_anggaran_proyek_detail($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Transaction';
+			$data['menu']='transaction';
+			$data['menulist']='report_transaction';
+			$this->load->view('menu/administrator/transaction/anggaran_proyek_detail_print',$data);
+		}
+
+		public function pageprint_anggaran_proyek_summary($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Transaction';
+			$data['menu']='transaction';
+			$data['menulist']='report_transaction';
+			$this->load->view('menu/administrator/transaction/anggaran_proyek_summary_print',$data);
+		}
+
+		public function pageprint_anggaran_lokasi_detail($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Transaction';
+			$data['menu']='transaction';
+			$data['menulist']='report_transaction';
+			$this->load->view('menu/administrator/transaction/anggaran_lokasi_detail_print',$data);
+		}
+
+		public function pageprint_anggaran_lokasi_summary($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Transaction';
+			$data['menu']='transaction';
+			$data['menulist']='report_transaction';
+			$this->load->view('menu/administrator/transaction/anggaran_lokasi_summary_print',$data);
+		}
 	}
 ?>

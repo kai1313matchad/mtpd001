@@ -19,6 +19,7 @@
 			$this->load->model('datatables/showdata/Dt_bankoutdet','bankout_det');
 			$this->load->model('datatables/showdata/Dt_giroindet','giroin_det');
 			$this->load->model('datatables/showdata/Dt_girooutdet','giroout_det');
+			$this->load->model('datatables/showdata/Dt_taxinvdet','faktur_det');
 			$this->load->model('datatables/showdata/Dt_invdet','invoice_det');
 			$this->load->model('datatables/showdata/Dt_journaldet','jou_det');
 			$this->load->model('datatables/showdata/Dt_showledger','ledger');
@@ -370,6 +371,29 @@
 			echo json_encode($output);
 		}
 
+		public function showdetail_faktur($id)
+		{
+			$list = $this->faktur_det->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->TINVDET_INFO;
+				$row[] = $dat->TINVDET_SUM;
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_groutdet('."'".$dat->TINVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->giroout_det->count_all(),
+							"recordsFiltered" => $this->giroout_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
 		//Tampil Detail Invoice
 		public function showdetail_invoice($id)
 		{

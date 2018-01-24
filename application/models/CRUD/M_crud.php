@@ -148,6 +148,14 @@
 			return $que->result();
 		}
 
+		public function get_inv()
+		{
+			$this->db->order_by('inv_id','asc');
+			$this->db->where('inv_dtsts','1');
+			$que=$this->db->get('trx_invoice');
+			return $que->result();
+		}
+
 		//add approval
 		public function add_appr()
 		{

@@ -13,6 +13,7 @@
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 		    $this->load->model('datatables/Dt_srchbank','srch_bank');
+		    $this->load->model('datatables/Dt_srchinv','srch_inv');
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
@@ -267,6 +268,16 @@
 			$data['menulist']='bgout';
 			$data['bank'] = $this->crud->get_bank();
 			$data['isi']='menu/administrator/finance/fin_/trx_giroout';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function f_pjk()
+		{
+			$data['title']='Match Terpadu - Dashboard Giro Keluar';
+			$data['menu']='finance';
+			$data['menulist']='fpjk';
+			$data['invoice'] = $this->crud->get_inv();
+			$data['isi']='menu/administrator/finance/fin_/trx_taxinvoice';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -652,6 +663,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_cust->count_all(),
 							"recordsFiltered" => $this->srch_cust->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_inv()
+		{
+			$list = $this->srch_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->INV_INFO;								
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_inv('."'".$dat->INV_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_inv->count_all(),
+							"recordsFiltered" => $this->srch_inv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1316,6 +1352,12 @@
         public function ajax_pick_cust($id)
 		{
 			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_inv($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
         	echo json_encode($data);
 		}
 
