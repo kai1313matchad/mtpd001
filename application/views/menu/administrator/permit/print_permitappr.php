@@ -29,7 +29,7 @@
         }
         .bg-table
         {
-            min-height: 1000px;
+            min-height: 800px;
         }
         .bt-border
         {
@@ -99,7 +99,7 @@
         <div class="bg-table">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 table-responsive">
-                    <table class="table table-bordered" cellspacing="0" width="100%">
+                    <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="col-sm-1 col-xs-1 text-center">No</th>
@@ -185,7 +185,7 @@
         });
 
         function pick_pi(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_permitappr/')?>"+id,
                 type: "GET",
@@ -193,17 +193,18 @@
                 success: function(data)
                 {
                     var id = data.PAPPR_ID;
-                    var prd = moment(data.PAPPR_DATE).format('YYYY');
+                    var prd = moment(data.PAPPR_DATE).format('YYYY');                    
+                    var sts = (data.PAPPR_URG).toUpperCase();
                     var invdate = moment(data.INV_DATE).format('DD-MMMM-YYYY');
                     $('[name="pr-pi-period"]').text('PERIODE TAHUN '+prd);
                     $('[name="pr-pi-date"]').text('TANGGAL '+moment(data.PAPPR_DATE).format('DD-MMMM-YYYY'));
-                    $('[name="pr-pi-sts"]').text('STATUS '+str.toUpperCase(data.PAPPR_URG));
-                    $('[name="pr-pi-noreg"]').text('<b>No. Reg : <b>'+data.PAPPR_CODE);
-                    $('[name="pr-pi-project"]').text();
-                    $('[name="inv_custprov"]').text(data.CUST_NAME);
-                    $('[name="inv_info"]').text(data.INV_INFO);
-                    pick_invdet(id);
-                    pick_sub(id);
+                    $('[name="pr-pi-sts"]').text('STATUS '+sts);
+                    $('[name="pr-pi-noreg"]').text('No. Reg : '+data.PAPPR_CODE);
+                    pick_cust(data.CUST_ID);
+                    pick_bb(data.BB_ID);
+                    pick_loc(data.LOC_ID);
+                    $('[name="pr-pi-size"]').text(data.PAPPR_WIDTH+'m, '+data.PAPPR_LENGTH+'m, '+data.PAPPR_HEIGHT+'m, Luas : '+data.PAPPR_SUMSIZE+'m2');
+                    pick_permitapprdet(data.PAPPR_ID);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -212,6 +213,22 @@
             });
         }
 
+        function pick_apprgb(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="pi_apprid"]').val(data.APPR_ID);                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
         function pick_cust(id)
         {
             $.ajax({
@@ -220,12 +237,114 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="print_clientname"]').text(data.CUST_NAME);
-                    $('[name="print_clientnpwp"]').text(data.CUST_NPWPACC);
+                    $('[name="pr-pi-project"]').text(data.CUST_NAME);                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bb(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_bb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="pr-pi-bb"]').text(data.BB_NAME);
+                    $('[name="pr-pi-bbtype"]').text(data.BB_INFO);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_govsts(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_govsts/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="pr-pi-person"]').val(data.GOV_NAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="pr-pi-loc"]').val(data.LOC_NAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_permitapprdet(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Permit/gen_permitapprprint/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var tr = $('<tr>').append(                            
+                            $('<td class="text-center">'+(i+1)+'</td>'),
+                            $('<td class="text-center">'+data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["PPAY_INFO"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data[i]["PPAY_AMOUNT"]+'</td>')
+                            ).appendTo('#tb_content');
+                    }
+                    dt_journal();
+                    $('td.chgnum').number(true);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function dt_journal()
+        {
+            $('#dtb_rptpappr').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                ordering: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    // {visible: false, targets: 0},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                // order: [[0, 'asc']],
+                drawCallback: function(settings)
+                {
+                    var api = this.api(), data;
+                    total = api.column(3).data().reduce( function (a,b)
+                    {
+                        return parseInt(a) + parseInt(b);
+                    }, 0);                    
+                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
+                    $('[name="tb-total"]').text(sum);
                 }
             });
         }

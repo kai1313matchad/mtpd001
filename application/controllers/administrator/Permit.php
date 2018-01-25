@@ -38,6 +38,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='permit';
+			$data['menulist']='report_permit';
+			$data['isi']='menu/administrator/permit/dash_report';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function print_permitappr($id)
 		{
 			$data['id']=$id;
@@ -45,6 +54,15 @@
 			$data['menu']='finance';
 			$data['menulist']='report_inv';
 			$this->load->view('menu/administrator/permit/print_permitappr',$data);
+		}
+
+		public function report_permitappr()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='permit';
+			$data['menulist']='report_permit';
+			$data['isi']='menu/administrator/permit/report_permitappr';
+			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
 		//CRUD
@@ -61,6 +79,7 @@
 				// 'plc_id' => $this->input->post('pi_plcid'),
 				'prmttyp_id' => $this->input->post('pi_pattypeid'),
 				'pappr_code' => $this->input->post('pi_code'),
+				'pappr_date' => $this->input->post('pi_date'),
 				'pappr_urg' => $this->input->post('pi_urg'),
 				'pappr_width' => $this->input->post('pi_width'),
 				'pappr_length' => $this->input->post('pi_length'),
@@ -218,6 +237,18 @@
 	            echo json_encode($data);
 	            exit();
 	        }
+	    }
+
+	    //Cetak dan Laporan
+	    public function gen_permitapprprint($id)
+	    {
+	    	$this->db->from('permitpay_det a');
+	    	$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
+	    	$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+	    	$this->db->where('b.pappr_id',$id);
+	    	$que = $this->db->get();
+	    	$data = $que->result();
+	    	echo json_encode($data);
 	    }
 	}
 ?>

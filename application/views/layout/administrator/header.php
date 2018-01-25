@@ -234,7 +234,10 @@
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'permit_appr') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Permit/permit_approval')?>"><i class="fa <?php if ($menulist == 'permit_appr') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Persetujuan Ijin</a>
-                                </li>                               
+                                </li>
+                                <li>
+                                    <a <?php if ($menulist == 'report_permit') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Permit/report')?>"><i class="fa <?php if ($menulist == 'report_permit') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

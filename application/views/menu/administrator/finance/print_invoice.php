@@ -257,7 +257,7 @@
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(i+1),                    
+                            $('<td>').css('text-align','center').text(i+1),
                             $('<td>').css('text-align','center').text(data[i]["APPR_CODE"]),
                             $('<td>').css('text-align','center').text(data[i]["APPR_PO"]),
                             $('<td>').css('text-align','center').text(data[i]["LOC_NAME"]),
