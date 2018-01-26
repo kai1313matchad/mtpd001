@@ -30,8 +30,8 @@
 				$this->db->where('f.branch_id', $this->input->post('branch') );
 			}
 			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
-        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+				$this->db->where('b.pappr_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.pappr_date <=', $this->input->post('date_end'));
 			}			
 			$this->db->from($this->table);
 			$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
@@ -39,7 +39,7 @@
 			$this->db->join('master_location d','d.loc_id = b.loc_id');
 			$this->db->join('master_permit_type e','e.prmttyp_id = b.prmttyp_id');
 			$this->db->join('master_user f','f.user_id = b.user_id');
-			$this->db->join('master_branch g','g.branch_id = f.branch_id');			
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

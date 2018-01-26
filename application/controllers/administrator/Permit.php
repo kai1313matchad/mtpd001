@@ -65,6 +65,123 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		//Laporan
+		public function print_rptpappr()
+		{
+			$data['location'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['pattype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['appr'] = ($this->uri->segment(9) == 'null') ? '' : $this->uri->segment(9);
+			$data['rpt_type'] = ($this->uri->segment(10) == 'null') ? '' : $this->uri->segment(10);
+			$data['title']='Match Terpadu - Dashboard Permit';
+			$data['menu']='permit';
+			$data['menulist']='report_permit';
+			$this->load->view('menu/administrator/permit/print_rptpermitappr',$data);
+		}
+
+		public function gen_rptpappr_t1()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->where('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('locid')) 
+			{
+				$this->db->where('b.loc_id', $this->input->post('locid') );
+			}
+			if ($this->input->post('prmttypid')) 
+			{
+				$this->db->where('b.prmttyp_id', $this->input->post('prmttypid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('f.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.pappr_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.pappr_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('permitdoc_det a');
+			$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');
+			$this->db->join('master_permit_type e','e.prmttyp_id = b.prmttyp_id');
+			$this->db->join('master_user f','f.user_id = b.user_id');
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptpappr_t2()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->where('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('locid')) 
+			{
+				$this->db->where('b.loc_id', $this->input->post('locid') );
+			}
+			if ($this->input->post('prmttypid')) 
+			{
+				$this->db->where('b.prmttyp_id', $this->input->post('prmttypid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('f.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.pappr_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.pappr_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('permitpay_det a');
+			$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');
+			$this->db->join('master_permit_type e','e.prmttyp_id = b.prmttyp_id');
+			$this->db->join('master_user f','f.user_id = b.user_id');
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->join('chart_of_account h','h.coa_id = a.coa_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptpappr_t3()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->where('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('locid')) 
+			{
+				$this->db->where('b.loc_id', $this->input->post('locid') );
+			}
+			if ($this->input->post('prmttypid')) 
+			{
+				$this->db->where('b.prmttyp_id', $this->input->post('prmttypid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('f.branch_id', $this->input->post('branch') );
+			}
+			$this->db->from('permitdoc_det a');
+			$this->db->join('trx_permitappr b','b.pappr_id = a.pappr_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');
+			$this->db->join('master_permit_type e','e.prmttyp_id = b.prmttyp_id');
+			$this->db->join('master_user f','f.user_id = b.user_id');
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->where('a.pdoc_dateend >=', $this->input->post('date_start'));
+			$this->db->where('a.pdoc_dateend <=', $this->input->post('date_end'));
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
 		//CRUD
 		public function save_permitappr()
 		{

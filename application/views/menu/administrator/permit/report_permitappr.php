@@ -68,6 +68,23 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Laporan</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="rptpappr_type" name="rptpappr_type">
+                                    <option value="">Pilih</option>
+                                    <option value="1">Per Nomor</option>
+                                    <option value="2">Per Jenis</option>
+                                    <option value="3">Per Proyek</option>
+                                    <option value="4">Per Lokasi</option>
+                                    <option value="5">Anggaran Biaya Per Nomor</option>
+                                    <option value="6">Anggaran Biaya Per Jenis</option>
+                                    <option value="7">Anggaran Biaya Per Proyek</option>
+                                    <option value="8">Anggaran Biaya Per Lokasi</option>
+                                    <option value="9">Ijin Lokasi Akan Berakhir</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-2">
                                 <a href="javascript:void(0)" onclick="filter_pappr()" class="btn btn-block btn-primary">
                                     <span class="glyphicon glyphicon-filter"> Tampilkan</span>
@@ -269,11 +286,21 @@
 
         function print_pappr()
         {
-            var seg1 = $('[name="pappr_coaid"]').val()?$('[name="pappr_coaid"]').val():'null';
-            var seg2 = $('[name="pappr_datestart"]').val()?$('[name="pappr_datestart"]').val():'null';
-            var seg3 = $('[name="pappr_dateend"]').val()?$('[name="pappr_dateend"]').val():'null';
-            var seg4 = $('[name="pappr_branchid"]').val()?$('[name="pappr_branchid"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Accounting/print_balancesheet/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+            if($('[name="rptpappr_type"]').val() == '')
+            {
+                alert('Pilih Jenis Laporan');
+            }
+            else
+            {
+                var seg1 = $('[name="pappr_locid"]').val()?$('[name="pappr_locid"]').val():'null';
+                var seg2 = $('[name="pappr_datestart"]').val()?$('[name="pappr_datestart"]').val():'null';
+                var seg3 = $('[name="pappr_dateend"]').val()?$('[name="pappr_dateend"]').val():'null';
+                var seg4 = $('[name="pappr_branchid"]').val()?$('[name="pappr_branchid"]').val():'null';
+                var seg5 = $('[name="pappr_pattypeid"]').val()?$('[name="pappr_pattypeid"]').val():'null';
+                var seg6 = $('[name="pappr_apprid"]').val()?$('[name="pappr_apprid"]').val():'null';
+                var seg7 = $('[name="rptpappr_type"]').val()?$('[name="rptpappr_type"]').val():'null';
+                window.open ( "<?php echo site_url('administrator/Permit/print_rptpappr/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5+'/'+seg6+'/'+seg7,'_blank');
+            }
         }
     </script>
     <!-- Showdata -->
