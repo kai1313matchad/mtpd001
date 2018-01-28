@@ -1,21 +1,19 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchpo extends CI_Model 
+	class Dt_srchsupp extends CI_Model 
 	{
-
-		var $table = 'trx_po';
-		var $column_order = array(null,'po_code','appr_code','cust_name' ,'po_ordnum','po_date');
-		var $column_search = array('po_code','appr_code', 'cust_name', 'po_ordnum','po_date');
-		var $order = array('po_id' => 'desc');
+		var $table = 'master_supplier';
+		var $column_order = array(null,'supp_code','supp_name','supp_info');
+		var $column_search = array('supp_code','supp_name','supp_info');
+		var $order = array('supp_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{		
+		{
 			$this->db->from($this->table);
-			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id','left');
-			$this->db->join('master_customer','master_customer.cust_id = trx_approvalbill.cust_id','left');	
+			$this->db->where('supp_dtsts','1');			
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

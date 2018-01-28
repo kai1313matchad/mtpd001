@@ -28,6 +28,7 @@
 			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
 			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
 			$this->load->model('datatables/showdata/Dt_showrptpermitappr','rpt_permitappr');
+			$this->load->model('datatables/showdata/Dt_showrptpo','rpt_po');
 		}
 
 		public function index()
@@ -181,6 +182,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showrptbapp->count_all(),
 							"recordsFiltered" => $this->showrptbapp->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan PO
+		public function showrpt_po()
+		{
+			$list = $this->rpt_po->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PO_CODE;
+				$row[] = date_format(date_create($dat->PO_DATE),"d-M-Y");
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->SUPP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_po->count_all(),
+							"recordsFiltered" => $this->rpt_po->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
