@@ -212,7 +212,7 @@
 				$row[] = $no;				
 				$row[] = $dat->SUPP_CODE;
 				$row[] = $dat->SUPP_NAME;				
-				$row[] = $dat->SUPP_INFO;
+				$row[] = $dat->SUPP_ADDRESS.','.$dat->SUPP_CITY;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_supp('."'".$dat->SUPP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 				$data[] = $row;
 			}

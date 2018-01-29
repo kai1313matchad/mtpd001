@@ -63,14 +63,14 @@
                                 <select class="form-control" id="rptprc_type" name="rptprc_type">
                                     <option value="">Pilih</option>
                                     <option value="1">Per Nomor</option>
-                                    <option value="1">Harian Detail</option>
-                                    <option value="1">Harian Summary</option>
-                                    <option value="2">Per Supplier Detail</option>
-                                    <option value="2">Per Supplier Summary</option>
-                                    <option value="2">Per Proyek Detail</option>
-                                    <option value="2">Per Proyek Summary</option>
-                                    <option value="3">Per Divisi</option>
-                                    <option value="4">Histori Harga</option>
+                                    <option value="2">Harian Detail</option>
+                                    <option value="3">Harian Summary</option>
+                                    <option value="4">Per Supplier Detail</option>
+                                    <option value="5">Per Supplier Summary</option>
+                                    <option value="6">Per Proyek Detail</option>
+                                    <option value="7">Per Proyek Summary</option>
+                                    <!-- <option value="8">Per Divisi</option>
+                                    <option value="9">Histori Harga</option> -->
                                 </select>
                             </div>
                         </div>
@@ -242,6 +242,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_supp" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_supp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>                
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -266,36 +296,37 @@
     <script>
         $(document).ready(function()
         {
-            dt_po();            
+            dt_prc();            
         });
 
-        function filter_po()
+        function filter_prc()
         {
-            $('#dtb_po').DataTable().ajax.reload(null,false);
+            $('#dtb_prc').DataTable().ajax.reload(null,false);
         }
 
-        function print_po()
+        function print_prc()
         {
-            if($('[name="rptpo_type"]').val() == '')
+            if($('[name="rptprc_type"]').val() == '')
             {
                 alert('Pilih Jenis Laporan');
             }
             else
             {
-                var seg1 = $('[name="po_apprid"]').val()?$('[name="po_apprid"]').val():'null';
-                var seg2 = $('[name="po_datestart"]').val()?$('[name="po_datestart"]').val():'null';
-                var seg3 = $('[name="po_dateend"]').val()?$('[name="po_dateend"]').val():'null';
-                var seg4 = $('[name="po_branchid"]').val()?$('[name="po_branchid"]').val():'null';
-                var seg5 = $('[name="rptpo_type"]').val()?$('[name="rptpo_type"]').val():'null';
-                window.open ( "<?php echo site_url('administrator/Logistik/print_rptpo/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+                var seg1 = $('[name="prc_suppid"]').val()?$('[name="prc_suppid"]').val():'null';
+                var seg2 = $('[name="prc_apprid"]').val()?$('[name="prc_apprid"]').val():'null';
+                var seg3 = $('[name="prc_datestart"]').val()?$('[name="prc_datestart"]').val():'null';
+                var seg4 = $('[name="prc_dateend"]').val()?$('[name="prc_dateend"]').val():'null';
+                var seg5 = $('[name="prc_branchid"]').val()?$('[name="prc_branchid"]').val():'null';
+                var seg6 = $('[name="rptprc_type"]').val()?$('[name="rptprc_type"]').val():'null';
+                window.open ( "<?php echo site_url('administrator/Logistik/print_rptprc/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5+'/'+seg6,'_blank');
             }
         }
     </script>
     <!-- Showdata -->
     <script>
-        function dt_po()
+        function dt_prc()
         {            
-            table = $('#dtb_po').DataTable({
+            table = $('#dtb_prc').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -303,13 +334,14 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showrpt_po')?>",
+                    "url": "<?php echo site_url('administrator/Showdata/showrpt_prc')?>",
                     "type": "POST",
                     "data": function(data){
-                        data.apprid = $('[name="po_apprid"]').val();
-                        data.date_start = $('[name="po_datestart"]').val();
-                        data.date_end = $('[name="po_dateend"]').val();
-                        data.branch = $('[name="po_branchid"]').val();
+                        data.suppid = $('[name="prc_suppid"]').val();
+                        data.apprid = $('[name="prc_apprid"]').val();
+                        data.date_start = $('[name="prc_datestart"]').val();
+                        data.date_end = $('[name="prc_dateend"]').val();
+                        data.branch = $('[name="prc_branchid"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -381,11 +413,11 @@
                 ],
             });
         }
-        function srch_loc()
+        function srch_supp()
         {
-            $('#modal_loc').modal('show');
-            $('.modal-title').text('Cari Lokasi');          
-            table = $('#dtb_loc').DataTable({
+            $('#modal_supp').modal('show');
+            $('.modal-title').text('Cari Supplier');          
+            table = $('#dtb_supp').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -393,32 +425,9 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_loc')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_supp')?>",
                     "type": "POST",                
                 },              
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
-        function srch_pattype()
-        {
-            $('#modal_pattyp').modal('show');
-            $('.modal-title').text('Cari Jenis Ijin');            
-            table = $('#dtb_pattyp').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_permittype')?>",
-                    "type": "POST",                
-                },                
                 "columnDefs": [
                 { 
                     "targets": [ 0 ],
@@ -461,8 +470,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="po_branchid"]').val(data.BRANCH_ID);
-                    $('[name="po_branch"]').val(data.BRANCH_NAME);
+                    $('[name="prc_branchid"]').val(data.BRANCH_ID);
+                    $('[name="prc_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -471,35 +480,17 @@
                 }
             });
         }
-        function pick_loc(id)
+        function pick_supp(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_supp/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="po_locid"]').val(data.LOC_ID);
-                    $('[name="po_loc"]').val(data.LOC_NAME);                    
-                    $('#modal_loc').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-        function pick_permittype(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Searchdata/pick_permittype/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="po_pattypeid"]').val(data.PRMTTYP_ID);
-                    $('[name="po_pattype"]').val(data.PRMTTYP_NAME);
-                    $('#modal_pattyp').modal('hide');
+                    $('[name="prc_suppid"]').val(data.SUPP_ID);
+                    $('[name="prc_supp"]').val(data.SUPP_NAME);
+                    $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -515,8 +506,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="po_apprid"]').val(data.APPR_ID);
-                    $('[name="po_appr"]').val(data.APPR_CODE);                  
+                    $('[name="prc_apprid"]').val(data.APPR_ID);
+                    $('[name="prc_appr"]').val(data.APPR_CODE);                  
                     $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

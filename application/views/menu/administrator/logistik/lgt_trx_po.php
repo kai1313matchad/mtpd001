@@ -480,7 +480,7 @@
         }
 
         function sub_total(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>/" + id,
                 type: "GET",
@@ -519,7 +519,7 @@
         }
 
         function add_barang()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_add_brg')?>",
                 type: "POST",
@@ -591,7 +591,7 @@
             });
         }
         function srch_appr()
-        {            
+        {
             $('#modal_appr').modal('show');
             $('.modal-title').text('Cari Approval');            
             table = $('#dtb_appr').DataTable({
@@ -614,7 +614,7 @@
             });
         }
         function srch_supp()
-        {            
+        {
             $('#modal_supp').modal('show');
             $('.modal-title').text('Cari Supplier');            
             table = $('#dtb_supp').DataTable({
@@ -696,7 +696,7 @@
                 {   
                     $('[name="gd_id"]').val(data.GD_ID);
                     $('[name="gd_name"]').val(data.GD_NAME);
-                    $('[name="gd_unit1"]').val(' / ' +data.GD_MEASURE+' '+data.GD_UNIT);
+                    $('[name="gd_unit1"]').val(' / ' +data.GD_UNIT+' '+data.GD_MEASURE);
                     $('[name="gd_price"]').val(data.GD_PRICE);
                     prc = $('[name="gd_price"]').val();
                     $('[name="gd_unit2"]').val(data.GD_UNIT);

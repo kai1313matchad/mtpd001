@@ -4,8 +4,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Cetak Pembelian</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+                    </div>                    
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -184,8 +183,7 @@
         }
 
         function sub_total(id)
-        {
-            //Ajax Load data from ajax
+        {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>/" + id,
                 type: "GET",

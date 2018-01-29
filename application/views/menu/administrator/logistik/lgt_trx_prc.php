@@ -7,6 +7,13 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_prc()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -477,6 +484,12 @@
             });
         });
 
+        function print_prc()
+        {
+            var ids = $('[name=prc_id]').val();
+            window.open ( "<?php echo site_url('administrator/Logistik/pageprint_prc/')?>"+ids,'_blank');
+        }
+
         function tambah()
         {
             $.ajax({
@@ -871,7 +884,7 @@
                 {   
                     $('[name="gd_id"]').val(data[0]["GD_ID"]);
                     $('[name="gd_name"]').val(data[0]["GD_NAME"]);
-                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_MEASURE"]+' '+data[0]["GD_UNIT"]);
+                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_UNIT"]+' '+data[0]["GD_MEASURE"]);
                     $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
                     $('[name="gd_unit2"]').val(data[0]["GD_UNIT"]);
                     $('[name="po_qty"]').val(data[0]["PODET_QTYUNIT"]);
