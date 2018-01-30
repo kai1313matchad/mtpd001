@@ -97,6 +97,17 @@
 	        return $query->result();
 	    }
 
+	    public function get_by_id6($tb1,$tb2,$tb3,$tb4,$id1,$id2,$id3,$id4)
+	    {
+	        $this->db->from($tb1);
+	        $this->db->join($tb2,$id2);
+	        $this->db->join($tb3,$id3);
+	        $this->db->join($tb4,$id4);
+	        $this->db->where($id1);
+	        $query = $this->db->get();
+	        return $query->row();
+	    }
+
 	    //get data for master dropdown
 	    public function get_branch()
 		{

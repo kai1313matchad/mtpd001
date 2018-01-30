@@ -408,14 +408,15 @@
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
 				$row[] = $dat->TINVDET_INFO;
+				$row[] = $dat->LOC_ADDRESS;
 				$row[] = $dat->TINVDET_SUM;
-				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_groutdet('."'".$dat->TINVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_taxdet('."'".$dat->TINVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->giroout_det->count_all(),
-							"recordsFiltered" => $this->giroout_det->count_filtered($id),
+							"recordsTotal" => $this->faktur_det->count_all(),
+							"recordsFiltered" => $this->faktur_det->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

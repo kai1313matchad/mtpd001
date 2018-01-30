@@ -1,24 +1,25 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_taxinvdet extends CI_Model 
+	class Dt_srchapprinv extends CI_Model 
 	{
 
-		var $table = 'tax_inv_details a';
-		var $column_order = array(null,'appr_code','tinvdet_info','loc_address','tinvdet_sum');
-		var $column_search = array('appr_code','tinvdet_info','loc_address','tinvdet_sum');
-		var $order = array('tinvdet_id' => 'desc');
+		var $table = 'inv_details a';
+		var $column_order = array(null,'appr_code','appr_date','cust_name','loc_name');
+		var $column_search = array('appr_code','appr_date','cust_name','loc_name');
+		var $order = array('a.inv_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query($id)
 		{
-			$this->db->join('trx_tax_invoice b','b.tinv_id = a.tinv_id');
-			$this->db->join('inv_details c','c.inv_id = b.inv_id');
-			$this->db->join('trx_approvalbill d', 'd.appr_id = c.appr_id');
-			$this->db->join('master_location e', 'e.loc_id = d.loc_id');
 			$this->db->from($this->table);
-			$this->db->where('a.tinv_id',$id);
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->join('appr_terms_det c','c.termsdet_id = a.invdet_termid');
+			$this->db->join('trx_approvalbill d','d.appr_id = c.appr_id');
+			$this->db->join('master_customer e','e.cust_id = d.cust_id');	
+			$this->db->join('master_location f','f.loc_id = d.loc_id');
+			$this->db->where('a.inv_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

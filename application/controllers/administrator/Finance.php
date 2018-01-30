@@ -13,7 +13,7 @@
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
 		    $this->load->model('datatables/Dt_srchbank','srch_bank');
-		    $this->load->model('datatables/Dt_srchinv','srch_inv');
+		    $this->load->model('datatables/search/Dt_srchapprinv','srch_apprinv');
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
@@ -97,6 +97,14 @@
 		{
 			$data['id'] = '1';
 			$data['kode'] = 'GK/1712/000001';
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_tax()
+		{
+			$data['id'] = '7';
+			$data['kode'] = 'FP/1801/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -551,6 +559,17 @@
 			$this->load->view('menu/administrator/finance/fin_/bgiro_sudah_cair_print',$data);
 		}
 
+		public function pageprint_bfaktur($id)
+		{
+			// $data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			// $data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['id'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/faktur_print',$data);
+		}
+
 		public function print_giro_in()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -589,6 +608,15 @@
 			$this->load->view('menu/administrator/finance/fin_/bgiro_keluar_print',$data);
 		}
 
+		public function print_FP_Nomor()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_nomor';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function ajax_pick_acc($id)
 		{
 			$data = $this->crud->get_by_id('chart_of_account',array('COA_ID' => $id));
@@ -610,6 +638,12 @@
 		public function ajax_pick_appr($id)
 		{
 			$data = $this->crud->get_by_id('trx_approvalbill',array('APPR_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_apprinv($id)
+		{
+			$data = $this->crud->get_by_id6('inv_details','trx_approvalbill','appr_terms_det','master_location',array('inv_details.INVDET_ID' => $id),'inv_details.appr_id=trx_approvalbill.appr_id','appr_terms_det.appr_id=trx_approvalbill.appr_id','trx_approvalbill.loc_id=master_location.loc_id');
         	echo json_encode($data);
 		}
 
@@ -762,6 +796,30 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_appr->count_all(),
 							"recordsFiltered" => $this->srch_appr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_apprinv($id)
+		{
+			$list = $this->srch_apprinv->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;	
+				$row[] = $dat->LOC_ADDRESS;			
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprinv('."'".$dat->INVDET_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_apprinv->count_all($id),
+							"recordsFiltered" => $this->srch_apprinv->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1317,6 +1375,61 @@
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
+		public function ajax_simpan_tax()
+		{
+			// $appr = null;
+			// if($this->input->post('appr_id') != null)
+			// {
+			// 	$appr = $this->input->post('appr_id');
+			// }
+			$tgl = date('Y-m-d');
+			$data = array(	                
+	                // 'user_id' => $this->input->post('user_id'),
+	                // 'appr_id' => $appr,
+				    'USER_ID' => '1',
+				    'CUST_ID'  => $this->input->post('cust_id'),
+                    'TINV_CODE' => $this->input->post('tax_nomor'),
+                    'TINV_TAXHEADCODE' => $this->input->post('head_taxnumber'),
+                    'TINV_TAXCODE' => $this->input->post('taxnumber'),
+                    'INV_ID' => $this->input->post('invoice_id'),
+	                'TINV_STS' => '1',
+	                'TINV_DATE' => $tgl               
+	            );
+	        $update = $this->crud->save('trx_tax_invoice',$data);
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_simpan_tax_detail()
+		{
+			// $appr = null;
+			// if($this->input->post('appr_id') != null)
+			// {
+			// 	$appr = $this->input->post('appr_id');
+			// }
+			$tgl = date('Y-m-d');
+			$data = array(	                
+	                // 'user_id' => $this->input->post('user_id'),
+	                // 'appr_id' => $appr,
+				    // 'USER_ID' => '1',
+				    // 'CUST_ID'  => $this->input->post('cust_id'),
+                    'TINV_ID' => $this->input->post('tax_id'),
+                    'TINVDET_SUB' => $this->input->post('nominal'),
+                    'TINVDET_PPN' => $this->input->post('ppn'),
+                    'TINVDET_PPH' => $this->input->post('pph'),
+                    'TINVDET_SUM' => $this->input->post('jumlah'),
+                    'TINVDET_INFO' => $this->input->post('keterangan'),
+	                'TINVDET_STS' => '1',
+	                // 'TINV_DATE' => $tgl               
+	            );
+	        $update = $this->crud->save('tax_inv_details',$data);
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function ajax_hapus_tax_detail($id)
+		{
+            $hapus = $this->crud->delete_by_id('tax_inv_details',array('tinvdet_id'=>$id));
+	        echo json_encode(array("status" => TRUE)); 
+		}
 
 		public function ajax_srch_km()
 		{
@@ -1716,6 +1829,28 @@
         	$this->db->order_by('a.coa_id');
         	$this->db->where('a.csh_date >=',$tgl1);
         	$this->db->where('a.csh_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_faktur()
+        {
+        	$id = $this->input->post('tax_id');
+        	$this->db->from('trx_tax_invoice a');
+        	$this->db->join('trx_invoice b','a.inv_id=b.inv_id');
+        	$this->db->join('master_customer c','b.cust_id=c.cust_id');
+        	$this->db->where('a.tinv_id =',$id);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_faktur_details()
+        {
+        	$id = $this->input->post('tax_id');
+        	$this->db->from('tax_inv_details a');
+        	$this->db->where('a.tinv_id =',$id);
         	$res = $this->db->get();
         	$data = $res->result();
         	echo json_encode($data);

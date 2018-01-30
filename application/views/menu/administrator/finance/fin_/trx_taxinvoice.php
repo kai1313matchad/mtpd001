@@ -53,7 +53,7 @@
                                             <a id="genbtn" href="javascript:void(0)" onclick="gen_tax()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="ktax_nomor">
+                                            <input type="text" class="form-control" name="tax_nomor">
                                         </div>
                                         <input type="hidden" value='4' class="form-control" name="tax_id">
                                     </div>
@@ -84,7 +84,7 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_cust()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input class="form-control" type="hidden" name="tax_customer_id" readonly>
+                                        <input class="form-control" type="hidden" name="cust_id" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Alamat / Kota</label>
@@ -109,7 +109,7 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_inv()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
-                                        <input class="form-control" type="hidden" name="tax_invoice_id" readonly>
+                                        <input class="form-control" type="hidden" name="invoice_id" readonly>
                                     </div>
                                 </div>      
                                 <div class="tab-pane fade" id="2">
@@ -121,7 +121,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Kas Masuk</button>
+                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Approval</button>
                                         </div>
                                     </div><br>
                                     <div id="myDIV">
@@ -131,7 +131,7 @@
                                                   <input class="form-control" type="text" name="no_appr" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_appr('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_appr()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="appr_id">
                                         </div>
@@ -144,21 +144,24 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Lokasi</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="lokasi">
+                                                  <input class="form-control" type="text" name="lokasi" readonly>
                                              </div>
                                         </div>
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal">
+                                                  <input class="form-control" type="text" name="nominal" readonly>
                                              </div>
+                                             <input class="form-control" type="hidden" name="ppn">
+                                             <input class="form-control" type="hidden" name="pph">
+                                             <input class="form-control" type="hidden" name="jumlah">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" class="btn btn-success" onclick="save_tax_detail()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_kas_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                         <table id="dtb_tax_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                  <thead>
                                                     <tr>
                                                         <th class="text-center">
@@ -204,7 +207,9 @@
                                     </div>  -->
                                     <div id="mySave" class="row">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_cash_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <!-- <button type="button" class="btn btn-success" onclick="save_tax()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button> -->
+                                        <a href="javascript:void(0)" type="button" class="btn btn-success" onclick="save_tax()"><span class="glyphicon glyphicon-save"></span> Simpan</a>
+                                        <a href="javascript:void(0)" type="button" class="btn btn-default" onclick="printPre()"><span class="glyphicon glyphicon-print"></span> Print</a>
                                     </div>
                                     </div>
                                 </div>
@@ -220,7 +225,7 @@
     </div>
 
      <!-- Modal Invoice -->
-    <div class="modal fade" id="modal_invoice" name="modal_invoice" role="dialog">
+    <div class="modal fade" id="modal_inv" name="modal_inv" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <form id="formku" action="<?php echo base_url('Finance/f_pjk') ; ?>" method="post">
@@ -263,6 +268,39 @@
         </div>
     </div>
     <!-- modal invoice selesai -->
+
+     <!-- Modal Approval -->
+    <div class="modal fade" id="modal_appr" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomor Approval</th>
+                                        <th>Kode Lokasi</th>
+                                        <th>Alamat</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Approval selesai -->
 
      <!-- Modal Customer -->
     <div class="modal fade" id="modal_cust" role="dialog">
@@ -353,7 +391,7 @@ $(document).ready(function() {
     // $('[name="kas_mu"]').change(function(){
     //     curr($('select :selected').val());
     // })
-    var id = $('[name="kas_id"]').val();
+    var id = $('[name="tax_id"]').val();
     tax_detail(id);
 })
 
@@ -383,16 +421,24 @@ $(document).ready(function() {
         });
     }
 
-    function gen_cashin()
+    function printPre()
+        {
+            // var seg1 = $('[name="tgl1"]').val()?$('[name="tgl1"]').val():'null';
+            // var seg2 = $('[name="tgl2"]').val()?$('[name="tgl2"]').val():'null';
+            id = $('[name="tax_id"]').val()?$('[name="tax_id"]').val():'null';
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_bfaktur/')?>"+id,'_blank');
+        }
+
+    function gen_tax()
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/gen_cashin')?>",
+                url : "<?php echo site_url('administrator/Finance/gen_tax')?>",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {
-                    $('[name="kas_id"]').val(data.id);
-                    $('[name="kas_nomor"]').val(data.kode);
+                    $('[name="tax_id"]').val(data.id);
+                    $('[name="tax_nomor"]').val(data.kode);
                     $('#genbtn').attr('disabled',true);
                     // termapp(data.id);
                     // costapp(data.id);
@@ -404,128 +450,15 @@ $(document).ready(function() {
             });
         }
 
-    // function edit_cst(id)
-    // {
-    //     $.ajax({
-    //         url : "<?php echo site_url('administrator/Finance/ajax_pick_cst/')?>" + id,
-    //         type: "GET",
-    //         dataType: "JSON",
-    //         success: function(data)
-    //         {   
-    //             $('[name="kas_kode_customer"]').val(data.CUST_CODE);
-    //             $('[name="kas_nama_customer"]').val(data.CUST_NAME);
-    //             $('[name="kas_customer_id"]').val(data.CUST_ID);
-    //             $('#modal_customer').modal('hide');                 
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown)
-    //         {
-    //             alert('Error get data from ajax');
-    //         }
-    //     });
-    // }
-
-    //     function add_gd(t)
-    // {        
-    //     // save_method = 'add';
-    //     // $('#form')[0].reset();
-    //     // $('.form-group').removeClass('has-error');
-    //     // $('.help-block').empty();
-    //     $('#modal_account').modal('show');
-    //     $('.modal-title').text('Daftar Account');
-    //     sts=t;
-    //     // $('[name="tb"]').val("master_goods");
-    //     // $('[name="sts"]').val("1");
-    //     // $('[name="check"]').val("0");
-    //     // $('[name="gen"]').prop('disabled',false);
-    //     // gen_gd();
-    // }
-
-    // function add_cst(t)
-    // {        
-    //     $('#modal_customer').modal('show');
-    //     $('.modal-title').text('Daftar Customer');
-    // }
-
-    //     function myFunction() 
-    // {
-    // var x = document.getElementById("myDIV");
-    // if (x.style.display === "none") {
-    //     x.style.display = "block";
-    // } else {
-    //     x.style.display = "none";
-    // }
-    // }
-
-    // function curr(id)
-    // {   
-    //     $.ajax({
-    //         url : "<?php echo site_url('administrator/Finance/ajax_pick_curr/')?>" + id,
-    //         type: "GET",
-    //         dataType: "JSON",
-    //         success: function(data)
-    //         {   
-    //             if (data.CURR_RATE=='NULL') {$('[name="kas_kurs"]').val('')}else{
-    //             $('[name="kas_kurs"]').val(data.CURR_RATE);
-    //             $('[name="curr_id"]').val(data.CURR_ID);}
-    //             // $('#modal_customer').modal('hide');                 
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown)
-    //         {
-    //             alert('Error get data from ajax');
-    //         }
-    //     });
-    // }
-
-    // function srch_acc(t)
-    //     {
-    //         sts=t;
-    //         $('#modal_account').modal('show');
-    //         $('.modal-title').text('Cari Account');            
-    //         table = $('#dtb_acc').DataTable({
-    //             "info": false,
-    //             "destroy": true,
-    //             "responsive": true,
-    //             "processing": true,
-    //             "serverSide": true,
-    //             "order": [],                
-    //             "ajax": {
-    //                 "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc')?>",
-    //                 "type": "POST",                
-    //             },                
-    //             "columnDefs": [
-    //             { 
-    //                 "targets": [ 0 ],
-    //                 "orderable": false,
-    //             },
-    //             ],
-    //         });
-    //     }
-
-    // function pick_acc(id)
-    //     {            
-    //         $.ajax({
-    //             url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
-    //             type: "GET",
-    //             dataType: "JSON",
-    //             success: function(data)
-    //             {   
-    //                 // $('[name="kas_acc"]').val(data.COA_ACC);               
-    //                 // $('[name="acc_id"]').val(data.COA_ID);     
-    //                 if (sts=='1'){
-    //                    $('[name="kas_acc"]').val(data.COA_ACC);
-    //                    $('[name="acc_id"]').val(data.COA_ID);
-    //                 } else {
-    //                    $('[name="acc_detail"]').val(data.COA_ACC);
-    //                    $('[name="acc_id_detail"]').val(data.COA_ID);
-    //                 }  
-    //                 $('#modal_account').modal('hide');
-    //             },
-    //             error: function (jqXHR, textStatus, errorThrown)
-    //             {
-    //                 alert('Error get data from ajax');
-    //             }
-    //         });
-    //     }
+    function myFunction() 
+    {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
 
     function srch_inv()
         {
@@ -539,7 +472,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_inv')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_inv')?>",
                     "type": "POST",                
                 },              
                 "columnDefs": [
@@ -560,8 +493,60 @@ $(document).ready(function() {
                 success: function(data)
                 {   
                     $('[name="tax_invoice"]').val(data.INV_CODE);
-                    $('[name="tax_invoice_id"]').val(data.INV_ID);
+                    $('[name="invoice_id"]').val(data.INV_ID);
                     $('#modal_inv').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_appr()
+        {            
+            $('#modal_appr').modal('show');
+            $('.modal-title').text('Cari Approval');  
+            id = $('[name="invoice_id"]').val();          
+            table = $('#dtb_appr').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_apprinv/')?>" + id,
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_apprinv(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_apprinv/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="no_appr"]').val(data.APPR_CODE);
+                    $('[name="nominal"]').val(data.TERMSDET_DPP);
+                    $('[name="ppn"]').val(data.TERMSDET_PPN_SUM);
+                    $('[name="pph"]').val(data.TERMSDET_PPH_SUM);
+                    jumlah = data.TERMSDET_DPP + data.TERMSDET_PPN_SUM - data.TERMSDET_PPH_SUM;
+                    $('[name="jumlah"]').val(jumlah);
+                    $('[name="lokasi"]').val(data.LOC_ADDRESS);
+                    alert(data.TERMSDET_DPP);
+                    // pick_location(data.LOC_ID);                   
+                    $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -604,7 +589,7 @@ $(document).ready(function() {
                 {   
                     $('[name="tax_kode_customer"]').val(data.CUST_CODE);
                     $('[name="tax_nama_customer"]').val(data.CUST_NAME);
-                    $('[name="tax_customer_id"]').val(data.CUST_ID);
+                    $('[name="cust_id"]').val(data.CUST_ID);
                     $('[name="tax_alamat"]').val(data.CUST_ADDRESS);
                     $('[name="tax_npwp"]').val(data.CUST_NPWPACC);
                     $('[name="tax_nppkp"]').val(data.CUST_NPKP);
@@ -665,7 +650,7 @@ $(document).ready(function() {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_tax')?>",
                 type: "POST",
-                data: $('#form_kas').serialize(),
+                data: $('#form_faktur').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -685,15 +670,15 @@ $(document).ready(function() {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_tax_detail')?>",
                 type: "POST",
-                data: $('#form_kas').serialize(),
+                data: $('#form_faktur').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_masuk_detail(id);                     
+                        var id = $('[name="tax_id"]').val();
+                        tax_detail(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -705,7 +690,7 @@ $(document).ready(function() {
 
     function tax_detail(id)
         {
-            table = $('#dtb_kas_in_detail').DataTable({
+            table = $('#dtb_tax_detail').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -737,8 +722,8 @@ $(document).ready(function() {
                     if(data.status)
                     {
                         alert('Data Berhasil Dihapus');   
-                        var id = $('[name="kas_id"]').val();
-                        kas_masuk_detail(id);                     
+                        var id = $('[name="tax_id"]').val();
+                        tax_detail(id);                     
                     }                   
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -3,10 +3,10 @@
 	class Dt_srchappr extends CI_Model 
 	{
 
-		var $table = 'trx_approvalbill';
+		var $table = 'trx_approvalbill a';
 		var $column_order = array(null,'appr_code','appr_po','appr_date','cust_name','loc_name'); //set column field database for datatable orderable
 		var $column_search = array('appr_code','appr_po','appr_date','cust_name','loc_name'); //set column field database for datatable searchable 
-		var $order = array('appr_id' => 'desc'); // default order 
+		var $order = array('a.appr_id' => 'desc'); // default order 
 		public function __construct()
 		{
 			parent::__construct();		
@@ -14,8 +14,8 @@
 		private function _get_datatables_query()
 		{		
 			$this->db->from($this->table);
-			$this->db->join('master_customer','master_customer.cust_id = trx_approvalbill.cust_id');
-			$this->db->join('master_location','master_location.loc_id = trx_approvalbill.loc_id');
+			$this->db->join('master_customer b','b.cust_id = a.cust_id');
+			$this->db->join('master_location c','c.loc_id = a.loc_id');
 			$i = 0;
 			foreach ($this->column_search as $item) // loop column 
 			{
