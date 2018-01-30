@@ -4,18 +4,21 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Pemakaian Barang</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+                    </div>                    
                 </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_usg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#usg" data-toggle="tab">Data Pemakaian</a>
                             </li>
-                            <!-- <li>
-                                <a href="#gd" data-toggle="tab">Data Barang</a>
-                            </li> -->
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_usg">
                             <div class="tab-content">
@@ -27,22 +30,18 @@
                                     </div>                                    
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor Pakai</label>
-                                        <div class="col-sm-4">
-                                            <!-- <input class="form-control" type="text" name="usg_code" value="<?php echo $usg->USG_CODE?>" readonly>
-                                            <input type="hidden" name="usg_id" value="<?php echo $usg->USG_ID?>">
-                                            <input type="hidden" name="user_id" value="1"> -->
-
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="usg_code" value="" readonly>
                                             <input type="hidden" name="usg_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
                                         </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <div class='input-group date' id='dtp1'>     
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -53,29 +52,33 @@
                                     </div>
                                     <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="appr_code" readonly>
                                             <input type="hidden" name="appr_id">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Lokasi</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_loc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="loc_name" readonly>
+                                            <input type="hidden" name="loc_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Alamat</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <textarea name="usg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
@@ -87,42 +90,41 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nama Barang</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="srch_brg()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="gd_name" readonly>
                                             <input type="hidden" name="gd_id" value="">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_brg()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Info Barang</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <textarea name="gd_info" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Stock</label>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_stock" readonly>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit1" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jumlah Pakai</label>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_usg">
                                             <span class="help-block"></span>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit2" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-4">
-                                            <!-- <a href="javascript:void(0)" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</a> -->
                                             <button type="button" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</button>
                                         </div>
                                     </div>
@@ -156,25 +158,17 @@
                                     </div>
                                     <!-- selesai -->
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-3 text-center">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="save_usg()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-3 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
                                     <br>
-                                </div>
-                                <div class="tab-pane fade" id="gd">
-                                    
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
+            </div>        
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -244,6 +238,38 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_loc" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_loc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -260,31 +286,12 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
-        function tambah(){
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_usage_lgt') ?>",
-                type : "GET",
-                dataType : "JSON",
-                success : function(data)
-                {
-                    $('[name="usg_code"]').val(data.kode);
-                    $('[name="usg_id"]').val(data.id);
-
-                },
-                error : function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
-            })
-        }
-
         $(document).ready(function(){
-            $('#dtp1').datetimepicker({                
+            $('#dtp1').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
             var id = $('[name="usg_id"]').val();
             barang(id);
-
             // $('[name=gd_usg]').on('input', function() {
             //     stockchk();
             // });
@@ -301,9 +308,32 @@
             });
         });
 
+        function print_usg()
+        {
+            var ids = $('[name=usg_id]').val();
+            window.open ( "<?php echo site_url('administrator/Logistik/pageprint_usg/')?>"+ids,'_blank');
+        }
+
+        function tambah()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/gen_usage_lgt') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="usg_code"]').val(data.kode);
+                    $('[name="usg_id"]').val(data.id);
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
+
         function save_usg()
         {
-            // ajax adding data to database
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_simpanusg')?>",
                 type: "POST",
@@ -311,7 +341,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-                    if(data.status) //if success close modal and reload ajax table
+                    if(data.status)
                     {
                         alert('Data Berhasil Disimpan');                        
                     }                   
@@ -328,8 +358,6 @@
             stockchk();
             if ($('[name="gd_usg"]').parent().parent().hasClass('has-error') != 1)
             {
-                // alert('benar');
-                // ajax adding data to database
                 $.ajax({
                     url : "<?php echo site_url('administrator/Logistik/ajax_add_brgusg')?>",
                     type: "POST",
@@ -337,7 +365,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
-                        if(data.status) //if success close modal and reload ajax table
+                        if(data.status)
                         {
                             alert('Data Berhasil Ditambahkan');
                             id = $('[name="usg_id"]').val();
@@ -360,10 +388,9 @@
         function del_brg(id)
         {
             if(confirm('Are you sure delete this data?'))
-            {
-                // ajax delete data to database
+            {                
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgusg')?>/"+id,
+                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgusg/')?>"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
@@ -411,84 +438,98 @@
                     $(this).parent().parent().removeClass('has-error');
                     $(this).next().empty();
                 });                
-            }
-            alert(curr+' - '+old);
+            }            
         }
 
         function barang(id)
         {
-            //datatables
             table = $('#dtb_usage').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_brgusg')?>/"+id,
                     "type": "POST",                
                 },
-                //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
 
         function srch_appr()
-        {            
+        {
             $('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Approval');
             table = $('#dtb_appr').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
 
         function srch_brg()
-        {            
+        {
             $('#modal_goods').modal('show');
-            $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Barang');            
             table = $('#dtb_good').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brgusg')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function srch_loc()
+        {
+            $('#modal_loc').modal('show');
+            $('.modal-title').text('Cari Lokasi');          
+            table = $('#dtb_loc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_loc')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
@@ -496,15 +537,15 @@
 
         function pick_appr(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="appr_code"]').val(data.APPR_CODE);
+                    $('[name="loc_id"]').val(data.LOC_ID);
                     $('[name="loc_name"]').val(data.LOC_NAME);
                     $('[name="loc_address"]').val(data.LOC_ADDRESS);
                     $('#modal_appr').modal('hide');
@@ -518,9 +559,8 @@
 
         function pick_brg(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -532,6 +572,25 @@
                     $('[name="gd_unit1"]').val(data.GD_UNIT);
                     $('[name="gd_unit2"]').val(data.GD_UNIT);
                     $('#modal_goods').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="loc_name"]').val(data.LOC_NAME);
+                    $('[name="loc_address"]').val(data.LOC_ADDRESS);
+                    $('#modal_loc').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

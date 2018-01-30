@@ -48,7 +48,22 @@
             box-shadow: 0;
           }
         }
-    </style> 
+    </style>
+    <style>
+        .print-body
+        {
+            min-height: 560px;
+        }
+        .con-border
+        {
+            border: solid 2px black;
+            min-height: 560px;
+        }
+        .row-border
+        {
+            border-bottom: solid 2px black;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -58,9 +73,9 @@
 </head>
 <body>
     <page size="A4">
-    <div id="ygdiprint">
-        <input type="hidden" name="idpo" value="<?php echo $id;?>">
-        <div class="container-fluid">                
+    <div id="ygdiprint" class="print-body">
+        <input type="hidden" name="idusg" value="<?php echo $id;?>">
+        <!-- <div class="container-fluid">
             <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
             <div class="text-center">
                 <h5><strong><u>SURAT ORDER</u></strong></h5>
@@ -157,6 +172,80 @@
                     </div>
                 </div>
             </div>        
+        </div> -->
+        <div class="container-fluid con-border">
+            <div class="row row-border">
+                <div class="col-xs-offset-3 col-xs-6 text-center">
+                    <h4>FORM PENGAJUAN PERMINTAAN BARANG WORKSHOP MATCHAD</h4>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">NOMOR</label>
+                <div class="col-xs-10">
+                    <span name="pr-usg-code">PK/1801/000001</span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">NAMA</label>
+                <div class="col-xs-10">
+                    <span name="pr-usg-info"></span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">TANGGAL</label>
+                <div class="col-xs-10">
+                    <span name="pr-usg-date"></span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">PROYEK</label>
+                <div class="col-xs-10">
+                    <span name="pr-usg-prj"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 table-responsive">
+                    <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Kode Barang</th>
+                                <th class="text-center">Nama Barang</th>
+                                <th class="text-center">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb_content"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 table-responsive">
+                    <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">PEMOHON</th>
+                                <th class="text-center">KEPALA WORKSHOP</th>
+                                <th class="text-center">PLT WORKSHOP</th>
+                                <th class="text-center">PURCHASING</th>
+                                <th class="text-center">PRODUKSI</th>
+                                <th class="text-center">FINANCE</th>
+                                <th class="text-center">GENERAL MANAGER</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                                <th><br><br></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
@@ -178,64 +267,26 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <!-- Number to Money -->
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <script>
-        var id; var suppid; var prc; var qty; var sub;
+    <script>        
         $(document).ready(function()
         {
-            id=$('[name="idpo"]').val();            
-            prc = 0; qty = 0; sub = 0;
-            pick_po(id);
-            $('[name=po_qty]').on('input', function() {
-                // hitung();
-            });
+            pick_usg($('[name="idusg"]').val());
         });
 
-        function dtable()
-        {
-            table = $('#dtb_po').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_printpo')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
-
-        function pick_po(id)
+        function pick_usg(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_po/')?>" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usg/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
-                    $('[name="po_id"]').val(data.PO_ID);
-                    $('[name="po_code"]').val(data.PO_CODE);
-                    $('[name="no_po"]').text(data.PO_CODE);
-                    $('[name="po_info"]').text(data.PO_INFO);
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="supp_id"]').val(data.SUPP_ID);
-                    var appr_id = data.APPR_ID;
-                    var po_id = data.PO_ID;
-                    pick_supp(data.SUPP_ID);
-                    pick_podet(po_id);
-                    pick_loc(data.LOC_ID);
-                    if(appr_id != null)
-                    {
-                        pick_appr(appr_id);
-                    }                    
-                    $('#modal_po').modal('hide');
+                {
+                    var appr = (data.APPR_CODE =! null) ? data.APPR_CODE : '-';
+                    var loc = (data.LOC_NAME =! null) ? data.LOC_NAME : '-';
+                    $('[name="pr-usg-code"]').text(data.USG_CODE);
+                    $('[name="pr-usg-info"]').text(data.USG_INFO);
+                    $('[name="pr-usg-date"]').text(data.USG_DATE);
+                    $('[name="pr-usg-prj"]').text(appr+', '+loc);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

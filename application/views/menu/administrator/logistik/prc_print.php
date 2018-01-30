@@ -191,6 +191,8 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Number to Money -->
+    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <script>
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
@@ -205,24 +207,21 @@
 
         function dtable()
         {
-            //datatables        
             table = $('#dtb_po').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_printpo')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
@@ -230,9 +229,8 @@
 
         function pick_prc(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prc/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prc/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -248,6 +246,7 @@
                     var prc_id = data.PRC_ID;
                     pick_supp(appr_id);
                     pick_prcdet(prc_id);
+                    pick_loc(data.LOC_ID);
                     if(appr_id != null)
                     {
                         pick_appr(appr_id);
@@ -263,9 +262,8 @@
 
         function pick_supp(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -284,10 +282,9 @@
         }
 
         function pick_prcdet(id)
-        {            
-            //Ajax Load data from ajax
+        {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -296,40 +293,41 @@
                       var $tr = $('<tr>').append(
                             $('<td>').text(i+1),
                             $('<td>').text(data[i]["GD_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["PRCDET_QTY"]+' '+data[i]["GD_UNIT"]),
-                            $('<td>').css('text-align','right').text(data[i]["PRCDET_SUB"])
+                            $('<td>').css('text-align','center').text(data[i]["PRCDET_QTY"]+' '+data[i]["GD_MEASURE"]),
+                            $('<td class="text-right chgnum">'+data[i]["PRCDET_SUB"]+'</td>')
                             ).appendTo('#tb_content');
                     }
                     var $tr1 = $('<tr>').append(
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Sub Total Rp'),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(data[0]["PRC_SUB"])
+                            $('<td class="text-right chgnum" style="border-top: 2px solid; border-bottom: none; font-weight: bold;">'+data[0]["PRC_SUB"]+'</td>')
                             ).appendTo('#tb_content');
                     var $tr2 = $('<tr>').append(
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Diskon Rp'),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text(data[0]["PRC_DISC"])
+                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_DISC"]+'</td>')
                             ).appendTo('#tb_content');
                     var $tr3 = $('<tr>').append(
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('PPN Rp'),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text(data[0]["PRC_PPN"])
+                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_PPN"]+'</td>')
                             ).appendTo('#tb_content');
                     var $tr4 = $('<tr>').append(
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Biaya Rp'),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text(data[0]["PRC_COST"])
+                            $('<td class="text-right chgnum" style="border: none; font-weight: bold;">'+data[0]["PRC_COST"]+'</td>')
                             ).appendTo('#tb_content');
                     var $tr5 = $('<tr>').append(
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
                             $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text(data[0]["PRC_GTOTAL"])
+                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_GTOTAL"]+'</td>')
                             ).appendTo('#tb_content');
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -340,15 +338,33 @@
 
         function pick_appr(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="loc_name"]').text(data.LOC_NAME);
                     $('[name="loc_det"]').text(data.LOC_ADDRESS+', '+data.LOC_CITY);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="loc_name"]').val(data.LOC_NAME);
+                    $('[name="loc_det"]').text(data.LOC_ADDRESS+', '+data.LOC_CITY);
+                    $('#modal_loc').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

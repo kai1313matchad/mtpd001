@@ -62,6 +62,24 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report_po()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/report_po';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function report_prc()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/report_prc';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function gen_po_lgt()
 		{
 			$gen = $this->gen->gen_numpolgt();
@@ -237,6 +255,187 @@
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
 			$this->load->view('menu/administrator/logistik/retprc_print',$data);
+		}
+
+		public function pageprint_usg($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/usg_print',$data);
+		}
+
+		//Laporan
+		public function print_rptpo()
+		{
+			$data['appr'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpt_type'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_rptpo',$data);
+		}
+
+		public function gen_rptpo_t1()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.po_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.po_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('po_details a');
+			$this->db->join('trx_po b','b.po_id = a.po_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_supplier d','d.supp_id = b.supp_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_goods g','g.gd_id = a.gd_id');
+			$this->db->join('master_location h','h.loc_id = b.loc_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_rptprc()
+		{
+			$data['supp'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['appr'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['datestart'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['dateend'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['rpt_type'] = ($this->uri->segment(9) == 'null') ? '' : $this->uri->segment(9);
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_rptprc',$data);
+		}
+
+		public function gen_rptprc_t1()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('c.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('c.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('f.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.prc_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('prc_details a');
+			$this->db->join('trx_procurement b','b.prc_id = a.prc_id');
+			$this->db->join('trx_po c','c.po_id = b.po_id');
+			$this->db->join('trx_approvalbill d','d.appr_id = c.appr_id','left');
+			$this->db->join('master_supplier e','e.supp_id = c.supp_id');
+			$this->db->join('master_user f','f.user_id = b.user_id');
+			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->join('master_goods h','h.gd_id = a.gd_id');
+			$this->db->join('master_location i','i.loc_id = c.loc_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prc_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_procurement a');			
+			$this->db->join('trx_po b','b.po_id = a.po_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_supplier d','d.supp_id = b.supp_id');
+			$this->db->join('master_user e','e.user_id = a.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$que = $this->db->get();
+			$data['b'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prc_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_procurement a');			
+			$this->db->join('trx_po b','b.po_id = a.po_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_supplier d','d.supp_id = b.supp_id');
+			$this->db->join('master_user e','e.user_id = a.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');			
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2b($v)
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prc_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->select($v.', g.*, sum(a.prc_sub) as sub, sum(a.prc_disc) disc, sum(a.prc_ppn) as ppn, sum(a.prc_cost) cost, sum(a.prc_gtotal) as gt');
+			$this->db->from('trx_procurement a');			
+			$this->db->join('trx_po b','b.po_id = a.po_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_supplier d','d.supp_id = b.supp_id');
+			$this->db->join('master_user e','e.user_id = a.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_location g','g.loc_id = b.loc_id');	
+			$this->db->group_by($v);		
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
 		}
 
 		//Ajax Search
@@ -539,7 +738,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->PODET_QTYUNIT;
 				$row[] = $dat->PODET_SUB;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->PODET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
@@ -665,7 +864,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->PODET_QTYUNIT;
 				$row[] = $dat->PODET_SUB;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_podet('."'".$dat->PODET_ID."'".')">Pilih</a>';
@@ -718,6 +917,7 @@
 	                'curr_id' => $this->input->post('curr_id'),
 	                'appr_id' => $appr,
 	                'supp_id' => $this->input->post('supp_id'),
+	                'loc_id' => $this->input->post('loc_id'),
 	                'po_sts' => '1',
 	                'po_date' => $this->input->post('po_tgl'),
 	                'po_ordnum' => $this->input->post('po_so'),
@@ -731,7 +931,7 @@
 		}
 
 		public function ajax_add_brg()
-	    {	        
+	    {
 	      	$table = 'po_details';
 	        $data = array(
 	                'po_id' => $this->input->post('po_id'),
@@ -766,7 +966,7 @@
 	    }
 
 	    public function ajax_add_brgprc()
-	    {	        
+	    {
 	      	$this->_validate_po();
 	      	$table = 'prc_details';
 	        $data = array(
@@ -824,7 +1024,7 @@
 		}
 
 		public function ajax_add_brgretprc()
-	    {	        
+	    {
 	      	$this->_validate_ret();
 	      	$table = 'retprc_details';
 	        $data = array(
@@ -881,7 +1081,7 @@
 		}
 
 		public function ajax_add_brgusg()
-	    {	        
+	    {
 	      	$this->_validate_usg();
 	      	$table = 'usage_details';
 	        $data = array(
@@ -938,7 +1138,7 @@
 		}
 
 		public function ajax_add_brgrtusg()
-	    {	        
+	    {
 	      	$this->_validate_rtusg();
 	      	$table = 'retusg_details';
 	        $data = array(
@@ -1251,7 +1451,5 @@
 	            exit();
 	        }
 	    }
-
-	    
 	}
 ?>

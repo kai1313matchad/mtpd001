@@ -7,6 +7,13 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_prc()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -29,22 +36,18 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor BL</label>
-                                        <div class="col-sm-4">
-                                            <!-- <input class="form-control" type="text" name="prc_code" value="<?php echo $prc->PRC_CODE;?>" readonly>
-                                            <input type="hidden" name="prc_id" value="<?php echo $prc->PRC_ID;?>">
-                                            <input type="hidden" name="user_id" value="1"> -->
-
+                                        <div class="col-sm-1">
+                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                        </div>
+                                        <div class="col-sm-7">
                                              <input class="form-control" type="text" name="prc_code" value="" readonly>
                                             <input type="hidden" name="prc_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <div class='input-group date' id='dtp1'>     
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -55,135 +58,56 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor Faktur</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="prc_inv">
                                         </div>
                                     </div>
                                     <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor PO</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="po_code" readonly>
-                                            <input type="hidden" name="po_id">
-                                        </div>
                                         <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_po()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" type="text" name="po_code" readonly>
+                                            <input type="hidden" name="po_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor SO</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="po_so" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Nomor Approval</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="appr_code" readonly>
                                             <input type="hidden" name="appr_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Lokasi</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="loc_name" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">                              
                                         <label class="col-sm-3 control-label">Supplier</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="supp_name" readonly>
                                             <input type="hidden" name="supp_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Alamat</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="supp_address" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Kota</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="supp_city" readonly>
-                                        </div>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <div class="tab-pane fade" id="biaya">
-                                    <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Biaya</h2>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Termin</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="po_term" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Info</label>
-                                        <div class="col-sm-4">
-                                            <textarea name="po_info" class="form-control" rows="2" style="resize: vertical;"></textarea>       
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="fgroup">
-                                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_name" readonly>
-                                                <input type="hidden" name="curr_id" value="">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_rate" readonly>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                            </div>
-                                        </div>                            
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Sub Total</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="po_subs" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Discount</label>
-                                        <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="disc_perc">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="prc_disc" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">PPN</label>
-                                        <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="ppn_perc">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <input class="form-control" type="text" name="prc_ppn" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Biaya</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="prc_cost">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Grand Total</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="prc_gtotal" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="saveprc()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
                                     <br><br>
@@ -229,34 +153,34 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nama Barang</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="gd_name" readonly>
                                             <input type="hidden" name="gd_id" value="">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Harga Satuan</label>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_price" readonly>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit1" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jumlah Beli</label>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input onchange="hitung()" class="form-control" type="text" name="po_qty">
                                             <span class="help-block"></span>
                                             <input type="hidden" name="po_qty_old">
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit2" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Sub Total</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="po_sub" readonly>
                                         </div>
                                     </div>
@@ -291,6 +215,82 @@
                                                     </tr>                            
                                                 </thead>                        
                                             </table>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </div>
+                                <div class="tab-pane fade" id="biaya">
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-3 text-center">
+                                            <h2>Data Biaya</h2>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Termin</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="po_term" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Info</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="po_info" class="form-control" rows="2" style="resize: vertical;"></textarea>       
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="fgroup">
+                                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
+                                            <div class="col-sm-1">
+                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input class="form-control" type="text" name="curr_name" readonly>
+                                                <input type="hidden" name="curr_id" value="">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input class="form-control" type="text" name="curr_rate" readonly>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Sub Total</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="po_subs" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Discount</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="disc_perc">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="prc_disc" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">PPN</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="ppn_perc">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="prc_ppn" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Biaya</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="prc_cost">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Grand Total</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" name="prc_gtotal" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="saveprc()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
                                     </div>
                                     <br><br>
@@ -449,24 +449,6 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
-        function tambah(){
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_bl_lgt') ?>",
-                type : "GET",
-                dataType : "JSON",
-                success : function(data)
-                {
-                    $('[name="prc_code"]').val(data.kode);
-                    $('[name="prc_id"]').val(data.id);
-
-                },
-                error : function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
-            })
-        }
-
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
@@ -502,8 +484,33 @@
             });
         });
 
+        function print_prc()
+        {
+            var ids = $('[name=prc_id]').val();
+            window.open ( "<?php echo site_url('administrator/Logistik/pageprint_prc/')?>"+ids,'_blank');
+        }
+
+        function tambah()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/gen_bl_lgt') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="prc_code"]').val(data.kode);
+                    $('[name="prc_id"]').val(data.id);
+
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
+
         function saveprc()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_simpanprc')?>",
                 type: "POST",
@@ -563,7 +570,7 @@
         }
 
         function sub_total(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_subbl/')?>" + id,
                 type: "GET",
@@ -580,7 +587,7 @@
         }
 
         function brg_po(id)
-        {            
+        {
             table = $('#data_po').DataTable({
                 "info": false,
                 "destroy": true,
@@ -624,7 +631,7 @@
         }
 
         function add_barang()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_add_brgprc')?>",
                 type: "POST",
@@ -704,7 +711,7 @@
         }
 
         function pick_po(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_po/')?>" + id,
                 type: "GET",
@@ -719,11 +726,12 @@
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="po_so"]').val(data.PO_ORDNUM);
                     $('[name="po_term"]').val(data.PO_TERM);
-                    pick_supp($('[name="supp_id"]').val());                    
+                    pick_supp($('[name="supp_id"]').val());
+                    pick_loc(data.LOC_ID);
                     if(data.APPR_ID != null)
                     {
                         pick_appr($('[name="appr_id"]').val());
-                    }                    
+                    }
                     brg_po($('[name="po_id"]').val());
                     $('#modal_po').modal('hide');
                 },
@@ -760,7 +768,7 @@
         }
 
         function pick_brg(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>" + id,
                 type: "GET",
@@ -783,7 +791,7 @@
         }
 
         function pick_supp(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
                 type: "GET",
@@ -804,7 +812,7 @@
         }
 
         function pick_appr(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
@@ -847,7 +855,7 @@
         }
 
         function pick_curr(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_curr/')?>" + id,
                 type: "GET",
@@ -876,12 +884,30 @@
                 {   
                     $('[name="gd_id"]').val(data[0]["GD_ID"]);
                     $('[name="gd_name"]').val(data[0]["GD_NAME"]);
-                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_MEASURE"]+' '+data[0]["GD_UNIT"]);
+                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_UNIT"]+' '+data[0]["GD_MEASURE"]);
                     $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
                     $('[name="gd_unit2"]').val(data[0]["GD_UNIT"]);
                     $('[name="po_qty"]').val(data[0]["PODET_QTYUNIT"]);
                     $('[name="po_qty_old"]').val(data[0]["PODET_QTYUNIT"]);
                     hitung();                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="loc_name"]').val(data.LOC_NAME);                    
+                    $('#modal_loc').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

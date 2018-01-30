@@ -1,21 +1,35 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchpo extends CI_Model 
+	class Dt_showrptpo extends CI_Model 
 	{
 
-		var $table = 'trx_po';
-		var $column_order = array(null,'po_code','appr_code','cust_name' ,'po_ordnum','po_date');
-		var $column_search = array('po_code','appr_code', 'cust_name', 'po_ordnum','po_date');
-		var $order = array('po_id' => 'desc');
+		var $table = 'trx_po a';
+		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
+		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
+		var $order = array('appr_date' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{		
+		{	
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('a.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.po_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.po_date <=', $this->input->post('date_end'));  
+			}
 			$this->db->from($this->table);
-			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id','left');
-			$this->db->join('master_customer','master_customer.cust_id = trx_approvalbill.cust_id','left');	
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id','left');
+			$this->db->join('master_supplier c','c.supp_id = a.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -46,6 +60,7 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
+
 		public function get_datatables()
 		{
 			$this->_get_datatables_query();

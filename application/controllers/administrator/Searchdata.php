@@ -8,6 +8,7 @@
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
+			$this->load->model('datatables/search/Dt_srchsupp','s_supp');
 			$this->load->model('datatables/search/Dt_srchgovsts','s_govsts');
 			$this->load->model('datatables/search/Dt_srchpermittype','s_permittype');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
@@ -197,6 +198,37 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		//Search Master Supplier
+		public function srch_supp()
+		{
+			$list = $this->s_supp->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->SUPP_CODE;
+				$row[] = $dat->SUPP_NAME;				
+				$row[] = $dat->SUPP_ADDRESS.','.$dat->SUPP_CITY;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_supp('."'".$dat->SUPP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_supp->count_all(),
+							"recordsFiltered" => $this->s_supp->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_supp($id)
+		{
+			$data = $this->crud->get_by_id('master_supplier',array('supp_id' => $id));
+			echo json_encode($data);
 		}
 
 		//Search Master Cabang

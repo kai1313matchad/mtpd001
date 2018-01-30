@@ -29,6 +29,9 @@
 			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
 			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
 			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
+			$this->load->model('datatables/showdata/Dt_showrptpermitappr','rpt_permitappr');
+			$this->load->model('datatables/showdata/Dt_showrptpo','rpt_po');
+			$this->load->model('datatables/showdata/Dt_showrptprc','rpt_prc');
 		}
 
 		public function index()
@@ -182,6 +185,56 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showrptbapp->count_all(),
 							"recordsFiltered" => $this->showrptbapp->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan PO
+		public function showrpt_po()
+		{
+			$list = $this->rpt_po->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PO_CODE;
+				$row[] = date_format(date_create($dat->PO_DATE),"d-M-Y");
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->SUPP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_po->count_all(),
+							"recordsFiltered" => $this->rpt_po->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Pembelian
+		public function showrpt_prc()
+		{
+			$list = $this->rpt_prc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRC_CODE;
+				$row[] = date_format(date_create($dat->PRC_DATE),"d-M-Y");
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->SUPP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_prc->count_all(),
+							"recordsFiltered" => $this->rpt_prc->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -653,6 +706,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->pidoc_det->count_all(),
 							"recordsFiltered" => $this->pidoc_det->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Persetujuan Ijin
+		public function showrpt_permitappr()
+		{
+			$list = $this->rpt_permitappr->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PAPPR_CODE;
+				$row[] = $dat->PAPPR_DATE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->PRMTTYP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_permitappr->count_all(),
+							"recordsFiltered" => $this->rpt_permitappr->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
