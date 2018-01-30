@@ -4,18 +4,21 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Pemakaian Barang</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+                    </div>                    
                 </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_usgga()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#usg" data-toggle="tab">Data Pemakaian</a>
                             </li>
-                            <!-- <li>
-                                <a href="#gd" data-toggle="tab">Data Barang</a>
-                            </li> -->
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_usg">
                             <div class="tab-content">
@@ -28,10 +31,6 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor Pakai</label>
                                         <div class="col-sm-4">
-                                            <!-- <input class="form-control" type="text" name="usg_code" value="<?php echo $usg->USG_CODE?>" readonly>
-                                            <input type="hidden" name="usg_id" value="<?php echo $usg->USG_ID?>">
-                                            <input type="hidden" name="user_id" value="1"> -->
-
                                             <input class="form-control" type="text" name="usg_code" value="" readonly>
                                             <input type="hidden" name="usg_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
@@ -51,35 +50,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group">                              
-                                        <label class="col-sm-3 control-label">Nomor Approval</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="appr_code" readonly>
-                                            <input type="hidden" name="appr_id">
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Lokasi</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="loc_name" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Alamat</label>
-                                        <div class="col-sm-4">
-                                            <textarea name="loc_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
                                             <textarea name="usg_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
-                                    </div>
-                                    <!-- mulai -->
+                                    </div>                                    
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Barang</h2>
@@ -122,7 +98,6 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-4">
-                                            <!-- <a href="javascript:void(0)" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</a> -->
                                             <button type="button" onclick="add_barang()" class="btn btn-sm btn-primary" id="addbtn"><span class="glyphicon glyphicon-plus"></span> Tambah</button>
                                         </div>
                                     </div>
@@ -154,31 +129,22 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <!-- selesai -->
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-3 text-center">
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="save_usg()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-3 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
                                     <br>
-                                </div>
-                                <div class="tab-pane fade" id="gd">
-                                    
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    <!-- Modal -->
     <div class="modal fade" id="modal_appr" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -260,7 +226,33 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
-        function tambah(){
+        $(document).ready(function(){
+            $('#dtp1').datetimepicker({                
+                format: 'YYYY-MM-DD'
+            });
+            var id = $('[name="usg_id"]').val();
+            barang(id);
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                $($.fn.dataTable.tables(true)).DataTable()
+                   .columns.adjust()
+                   .responsive.recalc();
+            });
+
+            $("input").change(function(){
+                $(this).parent().parent().removeClass('has-error');
+                $(this).next().empty();
+            });
+        });
+
+        function print_usgga()
+        {
+            var ids = $('[name=usg_id]').val();
+            window.open ( "<?php echo site_url('administrator/Genaff/pageprint_usgga/')?>"+ids,'_blank');
+        }
+
+        function tambah()
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Genaff/gen_usage_ga') ?>",
                 type : "GET",
@@ -278,32 +270,8 @@
             })
         }
 
-        $(document).ready(function(){
-            $('#dtp1').datetimepicker({                
-                format: 'YYYY-MM-DD'
-            });
-            var id = $('[name="usg_id"]').val();
-            barang(id);
-
-            // $('[name=gd_usg]').on('input', function() {
-            //     stockchk();
-            // });
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                   .columns.adjust()
-                   .responsive.recalc();
-            });
-
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-        });
-
         function save_usg()
         {
-            // ajax adding data to database
             $.ajax({
                 url : "<?php echo site_url('administrator/Genaff/ajax_simpanusg')?>",
                 type: "POST",
@@ -311,7 +279,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-                    if(data.status) //if success close modal and reload ajax table
+                    if(data.status)
                     {
                         alert('Data Berhasil Disimpan');                        
                     }                   
@@ -328,8 +296,6 @@
             stockchk();
             if ($('[name="gd_usg"]').parent().parent().hasClass('has-error') != 1)
             {
-                // alert('benar');
-                // ajax adding data to database
                 $.ajax({
                     url : "<?php echo site_url('administrator/Genaff/ajax_add_brgusg')?>",
                     type: "POST",
@@ -337,7 +303,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
-                        if(data.status) //if success close modal and reload ajax table
+                        if(data.status)
                         {
                             alert('Data Berhasil Ditambahkan');
                             id = $('[name="usg_id"]').val();
@@ -361,7 +327,6 @@
         {
             if(confirm('Are you sure delete this data?'))
             {
-                // ajax delete data to database
                 $.ajax({
                     url : "<?php echo site_url('administrator/Genaff/ajax_del_brgusg')?>/"+id,
                     type: "POST",
@@ -416,24 +381,21 @@
 
         function barang(id)
         {
-            //datatables
             table = $('#dtb_usage').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Genaff/ajax_brgusg')?>/"+id,
+                    "url": "<?php echo site_url('administrator/Genaff/ajax_brgusg/')?>"+id,
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
@@ -442,25 +404,22 @@
         function srch_appr()
         {            
             $('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Approval');
             table = $('#dtb_appr').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
@@ -469,55 +428,29 @@
         function srch_brg()
         {            
             $('#modal_goods').modal('show');
-            $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Barang');
             table = $('#dtb_good').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Genaff/ajax_srch_brgusg')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
 
-        function pick_appr(id)
-        {
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="appr_code"]').val(data.APPR_CODE);
-                    $('[name="loc_name"]').val(data.LOC_NAME);
-                    $('[name="loc_address"]').val(data.LOC_ADDRESS);
-                    $('#modal_appr').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
         function pick_brg(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>/" + id,
                 type: "GET",

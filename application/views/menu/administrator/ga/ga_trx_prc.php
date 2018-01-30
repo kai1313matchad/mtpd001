@@ -7,6 +7,13 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_prcga()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -30,10 +37,6 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor BL</label>
                                         <div class="col-sm-4">
-                                            <!-- <input class="form-control" type="text" name="prc_code" value="<?php echo $prc->PRC_CODE;?>" readonly>
-                                            <input type="hidden" name="prc_id" value="<?php echo $prc->PRC_ID;?>">
-                                            <input type="hidden" name="user_id" value="1"> -->
-
                                              <input class="form-control" type="text" name="prc_code" value="" readonly>
                                             <input type="hidden" name="prc_id" value="0">
                                             <input type="hidden" name="user_id" value="1">
@@ -73,19 +76,6 @@
                                         <label class="col-sm-3 control-label">Nomor SO</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="po_so" readonly>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="form-group">                              
-                                        <label class="col-sm-3 control-label">Nomor Approval</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="appr_code" readonly>
-                                            <input type="hidden" name="appr_id">
-                                        </div>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Lokasi</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="loc_name" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">                              
@@ -181,9 +171,6 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="saveprc()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
                                     <br><br>
@@ -448,24 +435,6 @@
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
-        function tambah(){
-            $.ajax({
-                url : "<?php echo site_url('administrator/Genaff/gen_bl_ga') ?>",
-                type : "GET",
-                dataType : "JSON",
-                success : function(data)
-                {
-                    $('[name="prc_code"]').val(data.kode);
-                    $('[name="prc_id"]').val(data.id);
-
-                },
-                error : function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
-            })
-        }
-
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
@@ -505,8 +474,33 @@
             });
         });
 
+        function print_prcga()
+        {
+            var ids = $('[name=prc_id]').val();
+            window.open ( "<?php echo site_url('administrator/Genaff/pageprint_prc/')?>"+ids,'_blank');
+        }
+
+        function tambah()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Genaff/gen_bl_ga') ?>",
+                type : "GET",
+                dataType : "JSON",
+                success : function(data)
+                {
+                    $('[name="prc_code"]').val(data.kode);
+                    $('[name="prc_id"]').val(data.id);
+
+                },
+                error : function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                }
+            })
+        }
+
         function saveprc()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Genaff/ajax_simpanprc')?>",
                 type: "POST",
@@ -627,7 +621,7 @@
         }
 
         function add_barang()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Genaff/ajax_add_brgprc')?>",
                 type: "POST",
@@ -685,7 +679,7 @@
         }
 
         function srch_po()
-        {            
+        {
             $('#modal_po').modal('show');
             $('.modal-title').text('Cari PO');            
             table = $('#dtb_po').DataTable({
@@ -709,7 +703,7 @@
         }
 
         function pick_po(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Genaff/ajax_pick_po/')?>" + id,
                 type: "GET",
@@ -765,7 +759,7 @@
         }
 
         function pick_brg(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>" + id,
                 type: "GET",
@@ -774,7 +768,7 @@
                 {   
                     $('[name="gd_id"]').val(data.GD_ID);
                     $('[name="gd_name"]').val(data.GD_NAME);
-                    $('[name="gd_unit1"]').val(' / ' +data.GD_MEASURE+' '+data.GD_UNIT);
+                    $('[name="gd_unit1"]').val(' / ' +data.GD_UNIT+' '+data.GD_MEASURE);
                     $('[name="gd_price"]').val(data.GD_PRICE);
                     prc = $('[name="gd_price"]').val();
                     $('[name="gd_unit2"]').val(data.GD_UNIT);
@@ -788,7 +782,7 @@
         }
 
         function pick_supp(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
                 type: "GET",
@@ -809,7 +803,7 @@
         }
 
         function pick_appr(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
@@ -852,7 +846,7 @@
         }
 
         function pick_curr(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_curr/')?>" + id,
                 type: "GET",

@@ -5,11 +5,9 @@
 		public function __construct()
 		{
 			parent::__construct();
-			//$this->load->model('frontend/M_dashboard','M_dash');
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
 			$this->load->model('datatables/Dt_pogadet','gdpo');
-			
 			$this->load->model('datatables/Dt_srchgd','srch_gd');
 			$this->load->model('datatables/Dt_srchgdusg','srch_gdusg');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -118,7 +116,6 @@
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
-
 
 		public function ga_trx_po()
 		{
@@ -328,7 +325,6 @@
 			echo json_encode($output);
 		}
 
-		//Ajax CRUD
 		public function ajax_filter_po()
 		{
 
@@ -419,9 +415,9 @@
 			echo json_encode($output);
 		}
 
-
+		//Ajax CRUD
 		public function ajax_simpanpo()
-		{			
+		{
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
 	                'curr_id' => $this->input->post('curr_id'),
@@ -437,6 +433,12 @@
 	        $update = $this->crud->update('trx_po_ga',$data,array('poga_id' => $this->input->post('po_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function ajax_del_brgpo($id)
+	    {
+	    	$this->crud->delete_by_id('poga_details',array('pgdet_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+	    }
 
 		public function ajax_simpanprc()
 		{
@@ -647,7 +649,6 @@
 			echo json_encode($output);
 		}
 
-
 		public function ajax_del_brgrtusg($id)
 	    {
 	    	$getusg = $this->crud->get_by_id('retusgga_details',array('rtusggadet_id' => $id));
@@ -677,10 +678,8 @@
 	        echo json_encode(array("status" => TRUE));
 		}
 
-
-
 		public function ajax_add_brgusg()
-	    {	        
+	    {
 	      	$this->_validate_usg();
 	      	$table = 'usg_ga_details';
 	        $data = array(
@@ -710,7 +709,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->USGGADET_QTY;
 				$row[] = $dat->GD_UNIT;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->USGGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
@@ -744,9 +743,7 @@
 	    public function ajax_simpanusg()
 		{
 			$data = array(	                
-	                'user_id' => $this->input->post('user_id'),
-	                // 'appr_id' => $this->input->post('appr_id'),
-	                // 'appr_id' => $appr,	                
+	                'user_id' => $this->input->post('user_id'),            
 	                'usgga_date' => $this->input->post('usg_tgl'),
 	                'usgga_sts' => '1',
 	                'usgga_info' => $this->input->post('usg_info')
@@ -767,7 +764,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->PGDET_QTYUNIT;
 				$row[] = $dat->PGDET_SUB;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->PGDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
@@ -851,13 +848,13 @@
 
 		public function ajax_pick_prc2($id)
 		{
-			$data = $this->crud->get_by_id('trx_prc_ga',array('prcga_id' => $id));
+			$data = $this->crud->get_by_id2('trx_prc_ga','trx_po_ga',array('prcga_id' => $id),'trx_po_ga.poga_id = trx_prc_ga.poga_id');
         	echo json_encode($data);
 		}
 
 		public function ajax_pick_prcdet2($id)
 		{
-			$data = $this->crud->get_by_id3('prcga_details','master_goods','trx_prc_ga',array('prcga_details.prcgadet_id' => $id),'master_goods.gd_id = prcga_details.gd_id','trx_prc_ga.prcga_id = prcga_details.prcga_id');
+			$data = $this->crud->get_by_id3('prcga_details a','master_goods b','trx_prc_ga c',array('a.prcga_id' => $id),'b.gd_id = a.gd_id','c.prcga_id = a.prcga_id');
         	echo json_encode($data);
 		}
 
@@ -924,7 +921,6 @@
 	    	$this->crud->delete_by_id('prcga_details',array('prcgadet_id' => $id));
         	echo json_encode(array("status" => TRUE));        	
 	    }
-
 
 	    //Validation Code
 	    public function _validate_po()
