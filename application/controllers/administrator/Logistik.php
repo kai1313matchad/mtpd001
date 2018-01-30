@@ -80,6 +80,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report_usg()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/report_usg';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function gen_po_lgt()
 		{
 			$gen = $this->gen->gen_numpolgt();
@@ -433,6 +442,73 @@
 			$this->db->join('master_branch f','f.branch_id = e.branch_id');
 			$this->db->join('master_location g','g.loc_id = b.loc_id');	
 			$this->db->group_by($v);		
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_rptusg()
+		{
+			$data['appr'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpt_type'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_rptusg',$data);
+		}
+
+		public function gen_rptusg_t1()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.usg_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.usg_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('usage_details a');
+			$this->db->join('trx_usage b','b.usg_id = a.usg_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_goods g','g.gd_id = a.gd_id');			
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptusg_t2()
+		{
+			if ($this->input->post('apprid')) 
+			{
+				$this->db->like('b.appr_id', $this->input->post('apprid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.usg_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.usg_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->select('b.usg_code, b.usg_date, c.appr_code, d.loc_name, sum(a.usgdet_sub) as sub');
+			$this->db->from('usage_details a');
+			$this->db->join('trx_usage b','b.usg_id = a.usg_id');
+			$this->db->join('trx_approvalbill c','c.appr_id = b.appr_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_goods g','g.gd_id = a.gd_id');
+			$this->db->group_by('a.usg_id');			
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			echo json_encode($data);
@@ -813,9 +889,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->USGDET_QTY;
-				$row[] = $dat->GD_UNIT;
+				$row[] = $dat->GD_MEASURE;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->USGDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
 				$data[] = $row;
 			}
@@ -1083,11 +1159,15 @@
 		public function ajax_add_brgusg()
 	    {
 	      	$this->_validate_usg();
+	      	$price = $this->input->post('gd_price');
+	      	$usg = $this->input->post('gd_usg');
+	      	$sub = $price * $usg;
 	      	$table = 'usage_details';
 	        $data = array(
 	                'usg_id' => $this->input->post('usg_id'),
 	                'gd_id' => $this->input->post('gd_id'),
-	                'usgdet_qty' => $this->input->post('gd_usg')	                
+	                'usgdet_qty' => $this->input->post('gd_usg'),
+	                'usgdet_sub' => $sub
 	            );
 	        $insert = $this->crud->save($table,$data);
 	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
@@ -1098,7 +1178,7 @@
 	        		'gd_stock' => $up
 	        	);
 	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
-	        echo json_encode(array("status" => TRUE));	        
+	        echo json_encode(array("status" => TRUE,"price"=>$price, "usg"=>$usg, "sub"=>$sub));
 	    }
 
 	    public function ajax_del_brgusg($id)
@@ -1126,12 +1206,11 @@
 			}
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
-	                // 'appr_id' => $this->input->post('appr_id'),
+	                'loc_id' => $this->input->post('loc_id'),
 	                'appr_id' => $appr,	                
 	                'usg_date' => $this->input->post('usg_tgl'),
 	                'usg_sts' => '1',
 	                'usg_info' => $this->input->post('usg_info')
-
 	            );
 	        $update = $this->crud->update('trx_usage',$data,array('usg_id' => $this->input->post('usg_id')));
 	        echo json_encode(array("status" => TRUE));
@@ -1313,7 +1392,23 @@
 
 		public function ajax_pick_usage($id)
 		{
-			$data = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
+			$this->db->from('trx_usage a');
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id','left');
+			$this->db->join('master_location c','c.loc_id = a.loc_id');
+			$this->db->where('a.usg_id',$id);
+			$que = $this->db->get();
+			$data = $que->row();
+			echo json_encode($data);
+		}
+
+		public function ajax_pick_usgdet($id)
+		{
+			$this->db->from('usage_details a');
+			$this->db->join('trx_usage b','b.usg_id = a.usg_id');
+			$this->db->join('master_goods c','c.gd_id = a.gd_id');			
+			$this->db->where('a.usg_id',$id);
+			$que = $this->db->get();
+			$data = $que->result();
 			echo json_encode($data);
 		}
 

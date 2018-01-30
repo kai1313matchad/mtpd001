@@ -63,6 +63,10 @@
         {
             border-bottom: solid 2px black;
         }
+        .row-table
+        {
+            min-height: 300px;
+        }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -203,7 +207,7 @@
                     <span name="pr-usg-prj"></span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row row-table">
                 <div class="col-sm-12 col-xs-12 table-responsive">
                     <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
                         <thead>
@@ -271,21 +275,22 @@
         $(document).ready(function()
         {
             pick_usg($('[name="idusg"]').val());
+            pick_usgdet($('[name="idusg"]').val());
         });
 
         function pick_usg(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usg/')?>" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usage/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {
-                    var appr = (data.APPR_CODE =! null) ? data.APPR_CODE : '-';
-                    var loc = (data.LOC_NAME =! null) ? data.LOC_NAME : '-';
+                    var appr = (data.APPR_CODE == null) ?  '-' : data.APPR_CODE;
+                    var loc = (data.LOC_NAME == null) ? '-' : data.LOC_NAME;
                     $('[name="pr-usg-code"]').text(data.USG_CODE);
                     $('[name="pr-usg-info"]').text(data.USG_INFO);
-                    $('[name="pr-usg-date"]').text(data.USG_DATE);
+                    $('[name="pr-usg-date"]').text(moment(data.USG_DATE).format('DD-MMM-YYYY'));
                     $('[name="pr-usg-prj"]').text(appr+', '+loc);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -294,49 +299,22 @@
                 }
             });
         }
-        function pick_supp(id)
+        function pick_usgdet(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="inv_suppname"]').text(data.SUPP_NAME);
-                    $('[name="inv_suppaddr"]').text(data.SUPP_ADDRESS);
-                    $('[name="inv_suppcity"]').text(data.SUPP_CITY);
-                    $('[name="inv_suppphone"]').text(data.SUPP_PHONE);
-                    $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-        function pick_podet(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_podet/')?>" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usgdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {                       
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
-                            $('<td>').text(i+1),
-                            $('<td>').text(data[i]["GD_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["PODET_QTYUNIT"]+' '+data[i]["GD_MEASURE"]),
-                            $('<td class="text-right chgnum">'+data[i]["PODET_SUB"]+'</td>')
+                            $('<td class="text-center">'+(i+1)+'</td>'),
+                            $('<td class="text-center">'+data[i]['GD_CODE']+'</td>'),
+                            $('<td class="text-center">'+data[i]['GD_NAME']+'</td>'),
+                            $('<td class="text-center chgnum">'+data[i]["USGDET_QTY"]+' '+data[i]["GD_MEASURE"]+'</td>')
                             ).appendTo('#tb_content');
-                    }
-                    var $tr = $('<tr>').append(
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td class="text-right chgnum" style="border-top:2px solid; font-weight: bold;">'+data[0]["PO_GTOTAL"]+'</td>')
-                            ).appendTo('#tb_content');
-                    $('td.chgnum').number(true);
+                    }                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

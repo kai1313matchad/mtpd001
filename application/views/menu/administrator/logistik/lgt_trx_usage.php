@@ -96,6 +96,7 @@
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="gd_name" readonly>
                                             <input type="hidden" name="gd_id" value="">
+                                            <input type="hidden" name="gd_price" value="">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -221,8 +222,8 @@
                                         <th>No</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
+                                        <th>Satuan</th>
                                         <th>Ukuran</th>
-                                        <th>Satuan</th>                                        
                                         <th>Stock</th>
                                         <th>Pilih</th>
                                         <th>Info</th>
@@ -571,6 +572,7 @@
                     $('[name="gd_stock"]').val(data.GD_STOCK);
                     $('[name="gd_unit1"]').val(data.GD_UNIT);
                     $('[name="gd_unit2"]').val(data.GD_UNIT);
+                    $('[name="gd_price"]').val(data.GD_PRICE);
                     $('#modal_goods').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -588,6 +590,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('[name="loc_id"]').val(data.LOC_ID);
                     $('[name="loc_name"]').val(data.LOC_NAME);
                     $('[name="loc_address"]').val(data.LOC_ADDRESS);
                     $('#modal_loc').modal('hide');
