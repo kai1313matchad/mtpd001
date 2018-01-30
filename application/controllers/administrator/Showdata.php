@@ -32,6 +32,7 @@
 			$this->load->model('datatables/showdata/Dt_showrptpermitappr','rpt_permitappr');
 			$this->load->model('datatables/showdata/Dt_showrptpo','rpt_po');
 			$this->load->model('datatables/showdata/Dt_showrptprc','rpt_prc');
+			$this->load->model('datatables/showdata/Dt_showrptusg','rpt_usg');
 		}
 
 		public function index()
@@ -235,6 +236,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_prc->count_all(),
 							"recordsFiltered" => $this->rpt_prc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Pemakaian
+		public function showrpt_usg()
+		{
+			$list = $this->rpt_usg->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->USG_CODE;
+				$row[] = date_format(date_create($dat->USG_DATE),"d-M-Y");
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_usg->count_all(),
+							"recordsFiltered" => $this->rpt_usg->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
