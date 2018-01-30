@@ -100,6 +100,106 @@
 			return  $out;
 		}
 
+		//Gen Nomor Kas Keluar
+		public function gen_numcashout()
+		{
+			$res = $this->gen_num_('trx_cash_out','csho_code','KK');
+			$check = $this->db->get_where('trx_cash_out',array('csho_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_cash_out','csho_code','KK');
+			}
+			$data = array(
+					'csho_code'=>$res,
+					'csho_sts'=>'0'
+				);			
+			$this->db->insert('trx_cash_out',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['csho_code'] = $res;
+			return  $out;
+		}
+
+		//Gen Nomor Bank Masuk
+		public function gen_numbankin()
+		{
+			$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			$check = $this->db->get_where('trx_bankin',array('bnk_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			}
+			$data = array(
+					'bnk_code'=>$res,
+					'bnk_sts'=>'0'
+				);			
+			$this->db->insert('trx_bankin',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['bnk_code'] = $res;
+			return  $out;
+		}
+
+		//Gen Nomor Bank Keluar
+		public function gen_numbankout()
+		{
+			$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			$check = $this->db->get_where('trx_bankout',array('bnko_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			}
+			$data = array(
+					'bnko_code'=>$res,
+					'bnko_sts'=>'0'
+				);			
+			$this->db->insert('trx_bankout',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['bnko_code'] = $res;
+			return  $out;
+		}
+
+		//Gen Nomor Giro Masuk
+		public function gen_giroin()
+		{
+			$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			$check = $this->db->get_where('trx_giro_in',array('grin_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			}
+			$data = array(
+					'grin_code'=>$res,
+					'grin_sts'=>'0'
+				);			
+			$this->db->insert('trx_giro_in',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['grin_code'] = $res;
+			return  $out;
+		}
+
+		//Gen Nomor Giro Keluar
+		public function gen_giroout()
+		{
+			$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			$check = $this->db->get_where('trx_giro_out',array('grout_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			}
+			$data = array(
+					'grout_code'=>$res,
+					'grout_sts'=>'0'
+				);			
+			$this->db->insert('trx_giro_out',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['grout_code'] = $res;
+			return  $out;
+		}
+
 		//Gen Nomor PO GAgit 
 		public function gen_numpoga()
 		{

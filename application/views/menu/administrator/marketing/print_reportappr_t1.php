@@ -51,6 +51,10 @@
         tr.subgroup {
            background-color: cornsilk !important;
         }
+        .row-start
+        {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -74,7 +78,7 @@
                 <h4 class="text-center" name="rptappr_period"></h4>
             </div>
         </div>
-        <div class="row">
+        <div id="tp1" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -106,7 +110,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp2" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t2" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -129,7 +133,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp3a" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t3a" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -164,7 +168,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp3b" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t3b" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -193,7 +197,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp4" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t4" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -228,7 +232,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp5" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptappr_t5" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -248,6 +252,61 @@
                         </tr>
                     </thead>
                     <tbody id="tb_content_tp5"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="tp6" class="row row-start">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t6" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>                            
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                No PO
+                            </th>
+                            <th class="text-center">
+                                No BAPP
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp6"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="tp7" class="row row-start">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptappr_t7" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Approval
+                            </th>
+                            <th class="text-center">
+                                Tanggal
+                            </th>                            
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Lokasi
+                            </th>
+                            <th class="text-center">
+                                Kontrak
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content_tp7"></tbody>
                 </table>
             </div>
         </div>
@@ -290,56 +349,67 @@
             // $('[name="rptappr_type"]').text('PER PER');
             if(tp == '1')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER NOMOR');
                 gen_tp1(0);
             }
             if(tp == '2')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER LOKASI');
                 gen_tp1(3);
             }
             if(tp == '3')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER CUSTOMER');
                 gen_tp1(2);
             }
             if(tp == '4')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptappr_type"]').text('TANPA PO');
                 gen_tp2();
             }
             if(tp == '5')
             {
+                $('#tp3a').removeClass('row-start');
                 $('[name="rptappr_type"]').text('SUDAH INVOICE');
                 gen_tp3a(0);
             }
             if(tp == '6')
             {
+                $('#tp3b').removeClass('row-start');
                 $('[name="rptappr_type"]').text('BELUM INVOICE');
                 gen_tp3b(0);
             }
             if(tp == '7')
             {
+                $('#tp4').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER SALES DETAIL');
                 gen_tp4(0);
             }
             if(tp == '8')
             {
+                $('#tp5').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER SALES SUMMARY');
                 gen_tp5(0);
             }
             if(tp == '9')
             {
+                $('#tp6').removeClass('row-start');
                 $('[name="rptappr_type"]').text('SUDAH BAPP');
                 gen_tp6('null','');
             }
             if(tp == '10')
             {
+                $('#tp6').removeClass('row-start');
                 $('[name="rptappr_type"]').text('BELUM BAPP');
                 gen_tp6('left',5);
             }
             if(tp == '11')
             {
+                $('#tp7').removeClass('row-start');
                 $('[name="rptappr_type"]').text('');
                 $('[name="rptappr_type2"]').text('JATUH TEMPO');
                 gen_tp7();
@@ -427,12 +497,13 @@
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["inv"]+'</td>'),
-                            $('<td class="text-center">'+sub+'</td>'),
-                            $('<td class="text-center">'+tot+'</td>'),
-                            $('<td class="text-center">'+sisa+'</td>')
+                            $('<td class="text-right chgnum">'+sub+'</td>'),
+                            $('<td class="text-right chgnum">'+tot+'</td>'),
+                            $('<td class="text-right chgnum">'+sisa+'</td>')
                             ).appendTo('#tb_content_tp3a');
                     }
                     dt_tp3a(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -716,7 +787,7 @@
                 {
                     endRender: function(rows, group)
                     {
-                        var sum = rows.data().pluck(4)
+                        var sum = rows.data().pluck(5)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
@@ -724,7 +795,7 @@
                         }, 0);
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
                         return $('<tr/>')                        
-                        .append( '<td colspan="4">Total</td>' )
+                        .append( '<td colspan="4" class="text-right">Total</td>' )
                         .append( '<td class="text-right">'+sum+'</td>');
                     },
                     dataSrc: v

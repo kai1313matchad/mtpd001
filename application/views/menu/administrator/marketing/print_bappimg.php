@@ -49,6 +49,7 @@
             box-shadow: 0;
           }
         }
+        /*.img-size*/
     </style> 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -52,11 +52,11 @@
 
         public function gen_cashin()
 		{
-			$data['id'] = '16';
-			// $gen = $this->gen->gen_numinvo();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['invo_code'];
-			$data['kode'] = 'KM/1712/000001';
+			// $data['id'] = '16';
+			$gen = $this->gen->gen_numcashin();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['csh_code'];
+			// $data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -968,7 +968,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_cash_in',$data);
+	        // $update = $this->crud->save('trx_cash_in',$data);
+	        $update = $this->crud->update('trx_cash_in',$data,array('csh_id'=>$this->input->post('kas_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
