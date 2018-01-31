@@ -30,8 +30,11 @@
 
 		public function gen_budget()
 		{
-			$data['id'] = '1';
-			$data['kode'] = 'RA/1712/000001';
+			$gen = $this->gen->gen_numbudg();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bud_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'RA/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -157,7 +160,8 @@
 	                'BUD_DATE' => $tgl,
 	                'BUD_INFO' => $this->input->post('budget_keterangan')            
 	            );
-	        $update = $this->crud->save('trx_budget',$data);
+	        // $update = $this->crud->save('trx_budget',$data);
+	        $update = $this->crud->update('trx_budget',$data,array('bud_id'=>$this->input->post('budget_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 

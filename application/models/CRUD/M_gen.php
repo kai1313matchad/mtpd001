@@ -200,6 +200,26 @@
 			return  $out;
 		}
 
+		//Gen Nomor Anggaran
+		public function gen_numbudg()
+		{
+			$res = $this->gen_num_('trx_budget','bud_code','RA');
+			$check = $this->db->get_where('trx_budget',array('bud_code' => $res));
+			if($check->row() > 0)
+			{
+				$res = $this->gen_num_('trx_budget','bud_code','RA');
+			}
+			$data = array(
+					'bud_code'=>$res,
+					'bud_dtsts'=>'0'
+				);			
+			$this->db->insert('trx_budget',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['bud_code'] = $res;
+			return  $out;
+		}
+
 		//Gen Nomor PO GAgit 
 		public function gen_numpoga()
 		{

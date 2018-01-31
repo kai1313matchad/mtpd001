@@ -51,6 +51,10 @@
         tr.subgroup {
            background-color: cornsilk !important;
         }
+        .row-start
+        {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +76,7 @@
                 <h4 class="text-center" name="rptusg_period"></h4>
             </div>
         </div>
-        <div class="row">
+        <div id="tp1" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptusg_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -107,7 +111,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp2" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptusg_t2" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -171,21 +175,25 @@
             var tp = $('[name="rpt_type"]').val();            
             if(tp == '1')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptusg_type"]').text('LAPORAN PEMAKAIAN PER NOMOR DETAIL');
                 gen_tp1(0);
             }
             if(tp == '2')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptusg_type"]').text('LAPORAN PEMAKAIAN PER NOMOR SUMMARY');
                 gen_tp2(0);
             }
             if(tp == '3')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptusg_type"]').text('LAPORAN PEMAKAIAN PER PROYEK DETAIL');
                 gen_tp1(2);
             }
             if(tp == '4')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptusg_type"]').text('LAPORAN PEMAKAIAN PER PROYEK SUMMARY');
                 gen_tp2(2);
             }

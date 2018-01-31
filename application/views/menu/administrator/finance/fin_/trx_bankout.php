@@ -147,7 +147,7 @@
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Bank Masuk</h2>
+                                            <h2>Data Bank Keluar</h2>
                                         </div>
                                     </div>
 

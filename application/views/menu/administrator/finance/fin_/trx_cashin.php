@@ -540,7 +540,7 @@ $(document).ready(function() {
                 {   
                     $('[name="kas_kode_customer"]').val(data.CUST_CODE);
                     $('[name="kas_nama_customer"]').val(data.CUST_NAME);
-                    $('[name="kas_custome_id"]').val(data.CUST_ID);
+                    $('[name="kas_customer_id"]').val(data.CUST_ID);
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
