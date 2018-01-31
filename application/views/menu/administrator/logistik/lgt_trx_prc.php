@@ -687,7 +687,7 @@
         }
 
         function srch_po()
-        {            
+        {
             $('#modal_po').modal('show');
             $('.modal-title').text('Cari PO');            
             table = $('#dtb_po').DataTable({

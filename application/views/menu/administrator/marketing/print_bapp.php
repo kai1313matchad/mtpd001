@@ -72,20 +72,20 @@
                 <h4>1. Yang Mengerjakan</h4>
             </div>
                 <div class="row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Nama</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Nama</label>
+                    <div class="col-xs-9 bapp-border">
                         <strong>Rudy Wijaya</strong>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Perusahaan</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Perusahaan</label>
+                    <div class="col-xs-9 bapp-border">
                         <strong>PT. Multi Artistikacithra (Match Ad.)</strong>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Perusahaan</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Perusahaan</label>
+                    <div class="col-xs-9 bapp-border">
                         <strong>Jl. Lesti No.42</strong><br>
                         <strong>Surabaya - 60241</strong>
                     </div>
@@ -94,8 +94,8 @@
                     <h4>2. Dokumen</h4>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Dokumen</label>
-                        <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Dokumen</label>
+                        <div class="col-xs-9 bapp-border">
                             <span name="bapp_doc">Isinya Dokumen</span>
                         </div>
                 </div>
@@ -103,50 +103,50 @@
                     <h4>3. Deskripsi Pekerjaan</h4>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Client</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Client</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_client">Nama Client</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Jenis</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Jenis</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_bboard">Keterangan Reklame</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Ukuran</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Ukuran</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_size">Ukuran Reklame</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Teks Lama</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Teks Lama</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_oldtxt">Teks Reklame Lama</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Teks Baru</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Teks Baru</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_newtxt">Teks Reklame Baru</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Lokasi</label>
-                    <div class="col-sm-9 bapp-border">                    
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Lokasi</label>
+                    <div class="col-xs-9 bapp-border">                    
                         <span name="bapp_loc">Lokasi Reklame</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Nomor AB</label>
-                    <div class="col-sm-9 bapp-border">                    
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Nomor AB</label>
+                    <div class="col-xs-9 bapp-border">                    
                         <span name="bapp_appr">No Approval</span>
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Tanggal Penyeleseian</label>
-                    <div class="col-sm-9 bapp-border">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Tanggal Penyeleseian</label>
+                    <div class="col-xs-9 bapp-border">
                         <span name="bapp_findate">Tanggal Penyelesaian BAPP</span>
                     </div>
                 </div>
@@ -154,51 +154,51 @@
                     <h4>4. Pemeriksaan</h4>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Hari/Tanggal</label>
-                    <div class="col-sm-7 bapp-border-empty">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Hari/Tanggal</label>
+                    <div class="col-xs-7 bapp-border-empty">
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Jam</label>
-                    <div class="col-sm-5 bapp-border-empty">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Jam</label>
+                    <div class="col-xs-5 bapp-border-empty">
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Kondisi Fisik</label>
-                    <div class="col-sm-1 bapp-border-empty">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Kondisi Fisik</label>
+                    <div class="col-xs-1 bapp-border-empty">
                     </div>
-                    <label class="col-sm-2 control-label">Layak</label>
-                    <div class="col-sm-1 bapp-border-empty">
+                    <label class="col-xs-2 control-label">Layak</label>
+                    <div class="col-xs-1 bapp-border-empty">
                     </div>
-                    <label class="col-sm-2 control-label">Tidak Layak</label>
+                    <label class="col-xs-2 control-label">Tidak Layak</label>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Penerangan</label>
-                    <div class="col-sm-1 bapp-border-empty">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Penerangan</label>
+                    <div class="col-xs-1 bapp-border-empty">
                     </div>
-                    <label class="col-sm-2 control-label">Menyala Optimal</label>
-                    <div class="col-sm-1 bapp-border-empty">                    
+                    <label class="col-xs-2 control-label">Menyala Optimal</label>
+                    <div class="col-xs-1 bapp-border-empty">                    
                     </div>
-                    <label class="col-sm-2 control-label">Mati Sebagian</label>
-                    <div class="col-sm-1 bapp-border-empty">
+                    <label class="col-xs-2 control-label">Mati Sebagian</label>
+                    <div class="col-xs-1 bapp-border-empty">
                     </div>
-                    <label class="col-sm-2 control-label">Mati Total</label>
+                    <label class="col-xs-2 control-label">Mati Total</label>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Produk</label>
-                    <div class="col-sm-9 bapp-border-empty">
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Produk</label>
+                    <div class="col-xs-9 bapp-border-empty">
                     </div>
                 </div>
                 <div class="row bapp-row">
-                    <label class="col-sm-2 col-sm-offset-1 control-label">Keterangan</label>
-                    <div class="col-sm-9 bapp-border-empty">                    
+                    <label class="col-xs-2 col-xs-offset-1 control-label">Keterangan</label>
+                    <div class="col-xs-9 bapp-border-empty">                    
                     </div>
                 </div>
                 <div class="row">
                     <h4>5. Penyerahan Pekerjaan</h4>
                 </div>
                 <div class="row">
-                    <div class="col-sm-offset-3 col-sm-9 bapp-border" style="padding-top: 88px;">
+                    <div class="col-xs-offset-3 col-xs-9 bapp-border" style="padding-top: 88px;">
                     </div>
                 </div>
                 <div class="row bapp-row">
@@ -207,13 +207,13 @@
                     </p>
                 </div>
                 <div class="row">
-                <div class="col-sm-4 text-center">
+                <div class="col-xs-4 text-center">
                     <span>Yang Menyerahkan</span>
                     <br><br><br><br><br><br>
                     <strong><span>( Rudy Wijaya )</span></strong><br>
                     <i>Director</i>
                 </div>
-                <div class="col-sm-offset-4 col-sm-4 text-center">
+                <div class="col-xs-offset-4 col-xs-4 text-center">
                     <span>Yang Menerima</span>
                     <br><br><br><br><br><br>
                     <strong>

@@ -316,8 +316,8 @@
         		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from('trx_approvalbill a');
-			$this->db->join('inv_details g','g.appr_id = a.appr_id');
-			$this->db->join('trx_invoice h','h.inv_id = g.inv_id');
+			// $this->db->join('inv_details g','g.appr_id = a.appr_id');
+			// $this->db->join('trx_invoice h','h.inv_id = g.inv_id');
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');

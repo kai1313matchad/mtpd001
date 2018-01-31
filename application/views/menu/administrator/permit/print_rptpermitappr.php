@@ -51,6 +51,10 @@
         tr.subgroup {
            background-color: cornsilk !important;
         }
+        .row-start
+        {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -74,7 +78,7 @@
                 <h4 class="text-center" name="rptpappr_period"></h4>
             </div>
         </div>
-        <div class="row">
+        <div id="tp1" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptpappr_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -109,7 +113,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp2" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptpappr_t2" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -150,7 +154,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp3" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptpappr_t3" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -217,46 +221,55 @@
             var tp = $('[name="rpt_type"]').val();            
             if(tp == '1')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN PERSETUJUAN IJIN PER NOMOR');
                 gen_tp1(0);
             }
             if(tp == '2')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN PERSETUJUAN IJIN PER JENIS');
                 gen_tp1(5);
             }
             if(tp == '3')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN PERSETUJUAN IJIN PER PROYEK');
                 gen_tp1(2);
             }
             if(tp == '4')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN PERSETUJUAN IJIN PER LOKASI');
                 gen_tp1(4);
             }
             if(tp == '5')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN ANGGARAN BIAYA PERSETUJUAN IJIN PER NOMOR');
                 gen_tp2(0);
             }
             if(tp == '6')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN ANGGARAN BIAYA PERSETUJUAN IJIN PER JENIS');
                 gen_tp2(5);
             }
             if(tp == '7')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN ANGGARAN BIAYA PERSETUJUAN IJIN PER PROYEK');
                 gen_tp2(2);
             }
             if(tp == '8')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN ANGGARAN BIAYA PERSETUJUAN IJIN PER LOKASI');
                 gen_tp2(4);
             }
             if(tp == '9')
             {
+                $('#tp3').removeClass('row-start');
                 $('[name="rptpappr_type"]').text('LAPORAN IJIN LOKASI YANG AKAN BERAKHIR');
                 gen_tp3();
             }

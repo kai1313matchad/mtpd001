@@ -231,6 +231,7 @@
                 info: false,
                 searching: false,
                 bLengthChange: false,
+                paging: false,
                 // responsive: true,
                 columnDefs:
                 [

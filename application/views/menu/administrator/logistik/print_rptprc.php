@@ -51,6 +51,10 @@
         tr.subgroup {
            background-color: cornsilk !important;
         }
+        .row-start
+        {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +77,7 @@
                 <h4 class="text-center" name="rptprc_period"></h4>
             </div>
         </div>
-        <div class="row">
+        <div id="tp1" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptprc_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -111,7 +115,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp2" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptprc_t2" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -159,7 +163,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div id="tp2b" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptprc_t2b" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -236,38 +240,45 @@
             var tp = $('[name="rpt_type"]').val();            
             if(tp == '1')
             {
+                $('#tp1').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER NOMOR');
                 gen_tp1(0);
                 gen_tp1b();
             }
             if(tp == '2')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN HARIAN DETAIL');
                 gen_tp2(0);
             }
             if(tp == '3')
             {
+                $('#tp2b').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN HARIAN SUMMARY');
                 gen_tp2b('a.prc_date');
             }
             if(tp == '4')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER SUPPLIER DETAIL');
                 gen_tp2(3);
             }
             if(tp == '5')
             {
+                $('#tp2b').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER SUPPLIER SUMMARY');
                 $('[name="th-txt"]').text('Supplier');
                 gen_tp2c('d.supp_name');
             }
             if(tp == '6')
             {
+                $('#tp2').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER PROYEK DETAIL');
                 gen_tp2(2);
             }
             if(tp == '7')
             {
+                $('#tp2b').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER PROYEK SUMMARY');
                 $('[name="th-txt"]').text('Approval');
                 gen_tp2d('c.appr_code');

@@ -7,6 +7,13 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                 		<ul class="nav nav-tabs">
                 			<li class="active">
                 				<a href="#1" data-toggle="tab">Data Approval</a>
@@ -961,6 +968,12 @@
             termapp(id);
             costapp(id);
     	});
+
+    	function print_appr()
+        {
+            var ids = $('[name=appr_id]').val();
+            window.open ( "<?php echo site_url('administrator/Marketing/pageprint_approval/')?>"+ids,'_blank');
+        }
 
     	function inputchg()
     	{

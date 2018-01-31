@@ -7,7 +7,7 @@
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -21,13 +21,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
+                            <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a> -->
+                            </a>
 
                                 <div class="panel-footer">
                                     <a href="<?php echo base_url('administrator/Marketing/print_approval')?>">
@@ -65,7 +65,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">

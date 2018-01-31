@@ -88,33 +88,11 @@
                         <span name="inv_suppinfo"></span>
                     </address>
                 </div>
-               <!--  <div class="col-xs-4">
-                    <address>
-                        <strong>Info:</strong><br> 
-                        Lokasi <br><span name="loc_name"></span>, <span name="loc_det"></span><br>
-                        <span name="po_info"></span>
-                    </address>
-                </div> -->
             </div>
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <div class="panel panel-default">
-                        <!-- <div class="panel-heading">
-                            <h5 class="panel-title"><strong>Order Summary</strong></h5>
-                        </div> -->
                         <div class="panel-body">
-                            <!-- <div class="col-sm-12 col-xs-12 table-responsive">
-                                <table id="dtb_po" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Order</th>
-                                            <th>Quantity</th>
-                                            <th>Harga</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div> -->
                             <div class="table-responsive">
                                 <table id="tb_po" class="table table-condensed">
                                     <thead style="font-size: 9px">
@@ -176,9 +154,6 @@
     </div>
     <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
     </page>
-    
-
-    
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -194,6 +169,8 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Number to Money -->
+    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
     <script>
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
@@ -206,44 +183,16 @@
             });
         });
 
-        function dtable()
-        {
-            //datatables        
-            table = $('#dtb_po').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_printpo')?>",
-                    "type": "POST",                
-                },
-                //Set column definition initialisation properties.
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
-                },
-                ],
-            });
-        }
-
-
         function pick_po(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Genaff/ajax_pick_po/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_po/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="no_po"]').text(data.POGA_CODE);
                     $('[name="po_info"]').text(data.POGA_INFO);
-
                     var supp_id = data.SUPP_ID;
                     var poga_id = data.POGA_ID;
                     pick_supp(supp_id);
@@ -259,9 +208,8 @@
 
         function pick_supp(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Genaff/ajax_pick_supp/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_supp/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -280,10 +228,9 @@
         }
 
         function pick_podet(id)
-        {            
-            //Ajax Load data from ajax
+        {
             $.ajax({
-                url : "<?php echo site_url('administrator/Genaff/ajax_pick_podet/')?>/" + id,
+                url : "<?php echo site_url('administrator/Genaff/ajax_pick_podet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -292,35 +239,17 @@
                       var $tr = $('<tr>').append(
                             $('<td>').text(i+1),
                             $('<td>').text(data[i]["GD_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["PGDET_QTYUNIT"]+' '+data[i]["GD_UNIT"]),
-                            $('<td>').css('text-align','right').text(data[i]["PGDET_SUB"])
+                            $('<td>').css('text-align','center').text(data[i]["PGDET_QTYUNIT"]+' '+data[i]["GD_MEASURE"]),                            
+                            $('<td class="text-right chgnum">'+data[i]["PGDET_SUB"]+'</td>')
                             ).appendTo('#tb_content');
                     }
                     var $tr = $('<tr>').append(
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(data[0]["POGA_GTOTAL"])
+                            $('<td class="text-right chgnum" style="border-top:2px solid; font-weight: bold;">'+data[0]["POGA_GTOTAL"]+'</td>')
                             ).appendTo('#tb_content');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_appr(id)
-        {
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="loc_name"]').text(data.LOC_NAME);
-                    $('[name="loc_det"]').text(data.LOC_ADDRESS+', '+data.LOC_CITY);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

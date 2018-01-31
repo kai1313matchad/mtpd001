@@ -5,8 +5,14 @@
                     <div class="col-sm-12">
                         <h1 class="page-header">Marketing - BAPP</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_bapp()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                        </a>
+                    </div>
+                </div><br>
                 <div class="row">
                 	<div class="col-sm-12 col-xs-12">
                 		<ul class="nav nav-tabs">
@@ -151,9 +157,6 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="savebapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
-                                        </div>
-                                        <div class="col-sm-2 text-center">
-                                            <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
                                         </div>
                                     </div>
                             	</div>
@@ -321,23 +324,13 @@
     <script>
     	$(document).ready(function()
     	{
-    		// $('.dtp').datetimepicker({                
-      //           format: 'YYYY-MM-DD'
-      //       });
-      //       $("textarea").change(function(){
-      //           $(this).parent().parent().removeClass('has-error');
-      //           $(this).next().empty();
-      //       });
-      //       $("input").change(function(){
-      //           $(this).parent().parent().removeClass('has-error');
-      //           $(this).next().empty();
-      //       });
-      //       $("input").on('click',function(){
-      //           $(this).parent().parent().parent().removeClass('has-error');
-      //           $(this).next().empty();
-      //       });
             get_images();
     	});
+
+        function print_bapp()
+        {            
+            window.open ( "<?php echo site_url('administrator/Marketing/print_bapp/')?>",'_blank');
+        }
 
     	function add_img()
     	{

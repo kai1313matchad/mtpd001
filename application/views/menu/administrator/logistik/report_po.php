@@ -74,8 +74,8 @@
                                     <option value="">Pilih</option>
                                     <option value="1">Per Nomor</option>
                                     <option value="2">Per Proyek</option>
-                                    <option value="3">Histori PO</option>
-                                    <option value="4">Sisa PO</option>
+                                    <!-- <option value="3">Histori PO</option>
+                                    <option value="4">Sisa PO</option> -->
                                 </select>
                             </div>
                         </div>

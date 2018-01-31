@@ -244,7 +244,7 @@
                     $('[name="appr_id"]').val(data.APPR_ID);
                     var appr_id = data.APPR_ID;
                     var prc_id = data.PRC_ID;
-                    pick_supp(appr_id);
+                    pick_supp(data.SUPP_ID);
                     pick_prcdet(prc_id);
                     pick_loc(data.LOC_ID);
                     if(appr_id != null)

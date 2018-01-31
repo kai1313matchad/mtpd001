@@ -52,51 +52,66 @@
 
         public function gen_cashin()
 		{
-			$data['id'] = '16';
-			// $gen = $this->gen->gen_numinvo();
-			// $data['id'] = $gen['insertId'];
-			// $data['kode'] = $gen['invo_code'];
-			$data['kode'] = 'KM/1712/000001';
+			// $data['id'] = '16';
+			$gen = $this->gen->gen_numcashin();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['csh_code'];
+			// $data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
         public function gen_cashout()
 		{
-			$data['id'] = '8';
-			$data['kode'] = 'KK/1712/000001';
+			$gen = $this->gen->gen_numcashout();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['csho_code'];
+			// $data['id'] = '8';
+			// $data['kode'] = 'KK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function gen_bankin()
 		{
-			$data['id'] = '6';
-			$data['kode'] = 'BM/1712/000001';
+			$gen = $this->gen->gen_numbankin();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bnk_code'];
+			// $data['id'] = '6';
+			// $data['kode'] = 'BM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function gen_bankout()
 		{
-			$data['id'] = '1';
-			$data['kode'] = 'BK/1712/000001';
+			$gen = $this->gen->gen_numbankout();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bnko_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'BK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function gen_giroin()
 		{
-			$data['id'] = '5';
-			$data['kode'] = 'GM/1712/000001';
+			$gen = $this->gen->gen_giroin();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['grin_code'];
+			// $data['id'] = '5';
+			// $data['kode'] = 'GM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
 		public function gen_giroout()
 		{
-			$data['id'] = '1';
-			$data['kode'] = 'GK/1712/000001';
+			$gen = $this->gen->gen_giroout();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['grout_code'];
+			// $data['id'] = '1';
+			// $data['kode'] = 'GK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -968,7 +983,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_cash_in',$data);
+	        // $update = $this->crud->save('trx_cash_in',$data);
+	        $update = $this->crud->update('trx_cash_in',$data,array('csh_id'=>$this->input->post('kas_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1028,7 +1044,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_cash_out',$data);
+	        // $update = $this->crud->save('trx_cash_out',$data);
+	        $update = $this->crud->update('trx_cash_out',$data,array('csho_id'=>$this->input->post('kas_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1088,7 +1105,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_bankin',$data);
+	        // $update = $this->crud->save('trx_bankin',$data);
+	        $update = $this->crud->update('trx_bankin',$data,array('bnk_id'=>$this->input->post('bank_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1186,7 +1204,8 @@
 	                'BNKO_DATE' => $this->input->post('bank_tgl'),
 	                'BNKO_INFO' => $this->input->post('bank_info')               
 	            );
-	        $update = $this->crud->save('trx_bankout',$data);
+	        // $update = $this->crud->save('trx_bankout',$data);
+	        $update = $this->crud->update('trx_bankout',$data,array('bnko_id'=>$this->input->post('bank_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1286,7 +1305,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_giro_in',$data);
+	        // $update = $this->crud->save('trx_giro_in',$data);
+	        $update = $this->crud->update('trx_giro_in',$data,array('grin_id'=>$this->input->post('giro_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1343,7 +1363,8 @@
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );
-	        $update = $this->crud->save('trx_giro_out',$data);
+	        // $update = $this->crud->save('trx_giro_out',$data);
+	        $update = $this->crud->update('trx_giro_out',$data,array('grout_id'=>$this->input->post('giro_id')));
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1364,6 +1385,7 @@
             		'GR_CODE' => $this->input->post('giro_nomor'),
             		'CAIR_STS' => '1'
             	    );
+            $id = array('GR_NUMBER' => $this->input->post('nomor_giro'));
             $update = $this->crud->save('giroout_det',$data);
             $cair = $this->crud->update('buku_giro',$buku,$id);
 	        echo json_encode(array("status" => TRUE)); 
