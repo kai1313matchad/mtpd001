@@ -1856,6 +1856,28 @@
         	echo json_encode($data);
         }
 
+         public function show_fp_nomor()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('tax_inv_details a');
+        	$this->db->join('trx_tax_invoice b','b.tinv_id=a.tinv_id');
+        	$this->db->join('trx_invoice c','c.inv_id=b.inv_id');
+        	$this->db->join('inv_details d','d.inv_id=c.inv_id');
+        	$this->db->join('trx_approvalbill e','e.appr_id=d.appr_id');
+        	$this->db->join('master_customer f','f.cust_id=c.cust_id');
+        	$this->db->join('master_user g','g.user_id=b.user_id');
+        	$this->db->join('master_branch h','h.branch_id=g.branch_id');
+        	$this->db->join('master_location i','i.loc_id=e.loc_id');
+        	$this->db->order_by('b.tinv_code');
+        	$this->db->order_by('g.branch_id');
+        	$this->db->where('b.tinv_date >=',$tgl1);
+        	$this->db->where('b.tinv_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
         public function show_kas_awal_debet()
         {
         	$tgl1 = $this->input->post('tgl1');

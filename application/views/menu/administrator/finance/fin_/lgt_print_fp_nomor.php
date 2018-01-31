@@ -8,7 +8,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
-                        <form id="form_printanggaran" method="post" action="#" class="form-horizontal">
+                        <form id="form_printfaktur" method="post" action="#" class="form-horizontal">
                             <div class="form-group">                              
                                 <label class="col-sm-3 control-label">Periode</label>
                                 <div class="col-sm-4">
@@ -492,13 +492,13 @@
             });
         }
     
-        function show_anggaran()
+        function show_faktur()
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Transaction/show_anggaran_lokasi_detail/')?>/",
+                url : "<?php echo site_url('administrator/Finance/show_fp_nomor/')?>",
                 type: "POST",
-                data: $('#form_printanggaran').serialize(),
+                data: $('#form_printfaktur').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {                    
@@ -507,81 +507,85 @@
                     var periode = formattanggal(tgl1) + ' s/d ' + formattanggal(tgl2);
                     $('[name="periode"]').text(periode);
                     var cabang = "";
-                    var lokasi = "";
-                    var atotal = 0;
-                    var ctotal = 0;
+                    var nomor = "";
+                    var totaldpp = 0;
+                    var totalppn = 0;
                     var total = 0;
                     for (var i = 0; i < data.length; i++) {
-                        var jenis = data[i]["BNK_CODE"];
-                        if (lokasi != data[i]["BUD_LOC"]){
+                        // var jenis = data[i]["BNK_CODE"];
+                        if (nomor != data[i]["TINV_CODE"]){
                             if (cabang != data[i]["BRANCH_NAME"]) {
                                var $tr = $('<tr>').append(
                                          $('<td colspan="2">').text(data[i]["BRANCH_NAME"])
                                         ).appendTo('#tb_content');
                             }
                             var $lc = $('<tr>').append(
-                                      $('<td colspan="2">').text(data[i]["LOC_CODE"]+' + '+data[i]["LOC_ADDRESS"]),  
-                                      $('<td>').text(''),
-                                      $('<td>').text(''),
-                                      $('<td>').text(''),  
+                                      $('<td>').text(data[i]["TINV_CODE"]),
+                                      $('<td>').text(formattanggal(data[i]["TINV_DATE"])),  
+                                      $('<td>').text(data[i]["CUST_NAME"]),
+                                      $('<td>').text(data[i]["TINV_TAXCODE"]),  
                                       $('<td>').text('') 
                                     ).appendTo('#tb_content');  
-                            var $tr = $('<tr>').append(
-                                      $('<td>').text(data[i]["BUD_CODE"]),
-                                      $('<td>').text(data[i]["BUD_DATE"]),
-                                      $('<td>').text(data[i]["APPR_CODE"]),  
-                                      // $('<td>').text(data[i]["LOC_CODE"]+' + '+data[i]["LOC_ADDRESS"])  
-                                      $('<td>').text(data[i]["BUD_INFO"]) 
-                                    ).appendTo('#tb_content');
-                            var $hd = $('<tr>').append(
-                                      $('<td>').text('No Acc'),
-                                      $('<td colspan="3">').text('Keterangan'),
-                                      $('<td>').text('Jumlah'),
-                                      $('<td>').text('Harga'),
-                                      $('<td>').text('Total')
-                                    ).appendTo('#tb_content');
                         }
-                        var rtotal = data[i]["BUDDET_SUM"] * data[i]["BUDDET_AMOUNT"];
-                        atotal = atotal + rtotal;
-                        ctotal = ctotal + rtotal;
-                        total = total + rtotal;
+                        var rtotal = data[i]["TINVDET_SUB"];
+                        totaldpp = totaldpp + rtotal;
+                        totappn = totalppn + rtotal;
+                        total = total + totaldpp + totalppn;
                         var $rc = $('<tr>').append(
-                                      $('<td>').text(data[i]["COA_ACC"]),
-                                      $('<td colspan="3">').text(data[i]["BUDDET_INFO"]), 
-                                      $('<td>').text(data[i]["BUDDET_SUM"]), 
-                                      $('<td>').css('text-align','right').text(formatCurrency(data[i]["BUDDET_AMOUNT"],".",",",2)),
-                                      $('<td>').css('text-align','right').text(formatCurrency(rtotal,".",",",2))   
-                                   ).appendTo('#tb_content');
-                        if (lokasi != data[i]["BUD_LOC"]){
+                                  $('<td>').text(data[i]["APPR_CODE"]),
+                                  $('<td colspan="2">').text(data[i]["LOC_ADDRESS"]), 
+                                  $('<td>').text(data[i]["TINVDET_INFO"]),
+                                  $('<td>').css('text-align','right').text(formatCurrency(data[i]["TINVDET_SUB"],".",",",2)) 
+                               ).appendTo('#tb_content');
+                        if (nomor != data[i]["TINV_CODE"]){
                             var $ta = $('<tr>').append(
                                       $('<td>').text(''),
-                                      $('<td colspan="3">').text(''), 
-                                      $('<td>').text(''), 
-                                      $('<td>').text(''),
-                                      $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(atotal,".",",",2))  
+                                      $('<td colspan="2">').text(''), 
+                                      $('<td>').text('DPP'), 
+                                      // $('<td>').text(''),
+                                      $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2))  
                                      ).appendTo('#tb_content');
-                            lokasi=data[i]["BUD_LOC"];
-                            atotal = 0;
-                        }    
-                        if (cabang != data[i]["BRANCH_NAME"]) {
-                            var $tc = $('<tr>').append(
-                                         $('<td>').text(''),
-                                         $('<td colspan="3">').text(''), 
-                                         $('<td>').text(''), 
-                                         $('<td>').text(''),
-                                         $('<td>').css({'font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(ctotal,".",",",2))
-                                        ).appendTo('#tb_content');
-                            cabang=data[i]["BRANCH_NAME"];
-                            ctotal = 0;
+                            var $ta = $('<tr>').append(
+                                      $('<td>').text(''),
+                                      $('<td colspan="2">').text(''), 
+                                      $('<td>').text('PPN'), 
+                                      // $('<td>').text(''),
+                                      $('<td>').css('text-align','right').text(formatCurrency(totalppn,".",",",2))  
+                                     ).appendTo('#tb_content');
+                            var $ta = $('<tr>').append(
+                                      $('<td>').text(''),
+                                      $('<td colspan="2">').text(''), 
+                                      $('<td>').text('G Total'), 
+                                      // $('<td>').text(''),
+                                      $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
+                                     ).appendTo('#tb_content');
+                            nomor=data[i]["TINV_CODE"];
+                            totaldpp = 0;
+                            totalppn=0;
+                            total=0;
                         }    
                     };
-                    var $tot = $('<tr>').append(
-                                      $('<td>').text(''),
-                                      $('<td colspan="3">').text(''), 
-                                      $('<td>').text(''), 
-                                      $('<td>').text('Grand Total'),
-                                      $('<td>').css({'font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))   
-                                   ).appendTo('#tb_content');
+                    var $ta = $('<tr>').append(
+                              $('<td>').text(''),
+                              $('<td colspan="2">').text(''), 
+                              $('<td>').text('DPP'), 
+                              // $('<td>').text(''),
+                              $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2))  
+                             ).appendTo('#tb_content');
+                    var $ta = $('<tr>').append(
+                              $('<td>').text(''),
+                              $('<td colspan="2">').text(''), 
+                              $('<td>').text('PPN'), 
+                              // $('<td>').text(''),
+                              $('<td>').css('text-align','right').text(formatCurrency(totalppn,".",",",2))  
+                             ).appendTo('#tb_content');
+                    var $ta = $('<tr>').append(
+                              $('<td>').text(''),
+                              $('<td colspan="2">').text(''), 
+                              $('<td>').text('G Total'), 
+                              // $('<td>').text(''),
+                              $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
+                             ).appendTo('#tb_content');
 
                 },
                 error: function (jqXHR, textStatus, errorThrown)
