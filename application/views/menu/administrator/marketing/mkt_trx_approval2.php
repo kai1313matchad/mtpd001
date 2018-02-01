@@ -206,14 +206,14 @@
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control apprbrc" type="text" name="appr_length" placeholder="panjang">
+			                                <input class="form-control hit-luas apprbrc" type="text" name="appr_length" placeholder="panjang">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control apprbrc" type="text" name="appr_width" placeholder="lebar">
+			                                <input class="form-control hit-luas apprbrc" type="text" name="appr_width" placeholder="lebar">
 			                            </div>
-			                            <div class="col-sm-2">
+			                            <!-- <div class="col-sm-2">
 			                                <input class="form-control apprbrc" type="text" name="appr_height" placeholder="tinggi">
-			                            </div>
+			                            </div> -->
 			                            <label class="col-sm-1 control-label">Meter</label>
 			                        </div>
 			                        <div class="form-group">
@@ -1104,6 +1104,11 @@
     		$('[name="termpphn"]').val(pphntrm);
     		var sub2 = (sub1*1)+(ppnntrm*1)-(pphntrm*1);
     		$('[name="termsum"]').val(sub2);
+    	}
+
+    	function hit-luas()
+    	{
+    		
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->
