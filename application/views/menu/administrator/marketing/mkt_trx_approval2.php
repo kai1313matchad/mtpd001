@@ -963,6 +963,7 @@
             check_()
             inputchg();
             inputtermchg();
+            luaschg();
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
@@ -979,6 +980,13 @@
     	{
     		$('.chgcount').on('input', function() {
                 hitung_();                
+            });
+    	}
+
+    	function luaschg()
+    	{
+    		$('.hit-luas').on('input', function() {
+                hit_luas_();                
             });
     	}
 
@@ -1011,7 +1019,7 @@
     	}
 
     	function saveapp()
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_simpanapp')?>",
 	            type: "POST",
@@ -1106,9 +1114,12 @@
     		$('[name="termsum"]').val(sub2);
     	}
 
-    	function hit-luas()
+    	function hit_luas_()
     	{
-    		
+    		var panjang = $('[name="appr_length"]').val();
+    		var lebar = $('[name="appr_width"]').val();
+    		var luas = Math.abs(panjang*lebar);
+    		$('[name="appr_sumsize"]').val(luas);
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->

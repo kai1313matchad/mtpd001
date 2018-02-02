@@ -7,6 +7,12 @@
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
+                <div class="row">
+                   <h2>
+                    <?php 
+                        echo $this->session->userdata('log_id');
+                   ?></h2> 
+                </div>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
