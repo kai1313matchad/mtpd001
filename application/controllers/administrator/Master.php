@@ -161,6 +161,7 @@
 	                'person_id' => $this->input->post('person'),
 	                'user_name' => $this->input->post('username'),
 	                'user_password' => md5($this->input->post('password')),
+	                'user_level' => $this->input->post('level'),
 	                'user_dtsts' => $this->input->post('stsu')
 	            );
 	        $insert = $this->crud->save($table,$data);
@@ -192,7 +193,8 @@
 	                'user_code' => $this->input->post('codeu'),
 	                'branch_id' => $this->input->post('branch'),
 	                'person_id' => $this->input->post('person'),
-	                'user_name' => $this->input->post('username'),	                
+	                'user_name' => $this->input->post('username'),
+	                'user_level' => $this->input->post('level'),
 	                'user_dtsts' => $this->input->post('stsu')
 	            );
 	    	}

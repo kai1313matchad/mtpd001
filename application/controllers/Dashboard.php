@@ -23,7 +23,7 @@
 		public function loginauth()
 		{
 			$user = $this->input->post('username');
-			$pass = $this->input->post('password');
+			$pass = md5($this->input->post('password'));
 			$res = $this->authsys->login($user,$pass);
 			if ($res == '1')
 			{
@@ -36,6 +36,11 @@
 				$data['status'] = FALSE;
 			}
 			echo json_encode($data);
+		}
+
+		public function logout()
+		{
+			$this->authsys->logout();
 		}
 
 		public function tes()

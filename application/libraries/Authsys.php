@@ -78,7 +78,8 @@
 		//fungsi logout
 		public function logout()
 		{
-			$this->sessiondel();			
+			$this->sessiondel();
+			redirect(base_url('Dashboard/login_'));
 		}
 	}
 
