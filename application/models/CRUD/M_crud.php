@@ -80,6 +80,16 @@
 	        return $query->result();
 	    }
 
+	    public function get_by_id3b($tb1,$tb2,$tb3,$id1,$id2,$id3)
+	    {
+	        $this->db->from($tb1);
+	        $this->db->join($tb2,$id2);
+	        $this->db->join($tb3,$id3);
+	        $this->db->where($id1);
+	        $query = $this->db->get();
+	        return $query->row();
+	    }
+
 	    public function get_by_id4($tb,$id)
 	    {
 	        $this->db->from($tb);

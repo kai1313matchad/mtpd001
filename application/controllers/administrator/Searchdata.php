@@ -69,7 +69,7 @@
 				$no++;
 				$row = array();
 				$row[] = $no;				
-				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_CODE.' '.$dat->BRANCH_INIT;
 				$row[] = $dat->APPR_BRCNAME;				
 				$row[] = $dat->APPR_DATE;
 				$row[] = $dat->CUST_NAME;
@@ -84,6 +84,17 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		public function pick_apprbranch($id)
+		{
+			$this->db->from('trx_approvalbill a');
+			$this->db->join('master_user b','b.user_id = a.user_id');
+			$this->db->join('master_branch c','c.branch_id = b.branch_id');
+			$this->db->where('a.appr_id',$id);
+			$que = $this->db->get();
+			$data = $que->row();
+			echo json_encode($data);
 		}
 
 		//Search Approval Berdasarkan Client

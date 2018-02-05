@@ -131,8 +131,8 @@
 	    }
 
 	    public function ajax_lihat_user($id)
-	    {	    
-	    	$data = $this->crud->get_by_id3('master_user','master_person','master_branch',array('user_id' => $id),'master_person.person_id = master_user.person_id','master_branch.branch_id = master_user.branch_id');
+	    {
+	    	$data = $this->crud->get_by_id3b('master_user','master_person','master_branch',array('user_id' => $id),'master_person.person_id = master_user.person_id','master_branch.branch_id = master_user.branch_id');
         	echo json_encode($data);
 	    }
 
@@ -892,6 +892,7 @@
 	        $data = array(
 	                'branch_code' => $this->input->post('code'),
 	                'branch_name' => $this->input->post('nama'),
+	                'branch_init' => $this->input->post('inisial'),
 	                'branch_status' => $this->input->post('stat'),
 	                'branch_address' => $this->input->post('alamat'),
 	                'branch_city' => $this->input->post('kota'),
@@ -910,6 +911,7 @@
 	    	$data = array(
 	                'branch_code' => $this->input->post('code'),
 	                'branch_name' => $this->input->post('nama'),
+	                'branch_init' => $this->input->post('inisial'),
 	                'branch_status' => $this->input->post('stat'),
 	                'branch_address' => $this->input->post('alamat'),
 	                'branch_city' => $this->input->post('kota'),
@@ -2360,7 +2362,7 @@
 				$row[] = $dat->GD_NAME;
 				$row[] = $dat->GD_UNIT;
 				$row[] = $dat->GD_MEASURE;
-				$row[] = $dat->GD_PRICE;
+				$row[] = number_format($dat->GD_PRICE);
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -2393,6 +2395,7 @@
 	                'gd_info' => $this->input->post('info'),
 	                'gd_sts' => $this->input->post('stats'),
 	                'gd_type' => $this->input->post('jenis'),
+	                'gd_typestock' => $this->input->post('jstock'),
 	                'gd_stock' => '0',
 	                'gd_dtsts' => $this->input->post('sts')
 	            );
@@ -2413,7 +2416,8 @@
 	                'gd_price' => $this->input->post('harga'),
 	                'gd_info' => $this->input->post('info'),
 	                'gd_sts' => $this->input->post('stats'),
-	                'gd_type' => $this->input->post('jenis')
+	                'gd_type' => $this->input->post('jenis'),
+	                'gd_typestock' => $this->input->post('jstock')
 	                // 'gd_dtsts' => $this->input->post('sts')
 	            );
 	    	$update = $this->crud->update($table,$data,array('gd_id' => $this->input->post('id')));

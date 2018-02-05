@@ -23,7 +23,7 @@
 					'user_id'=>$usrdata->USER_ID,
 					'user_name'=>$usrdata->USER_NAME,
 					'user_branch'=>$usrdata->BRANCH_ID,
-					'branch_sts'=>$brcdata->BRANCH_STATUS,
+					'branch_sts'=>$brcdata->BRANCH_STATUS,					
 					'user_level'=>$usrdata->USER_LEVEL
 				);
 				$this->CI->session->set_userdata($ses);
@@ -78,6 +78,7 @@
 		//fungsi logout
 		public function logout()
 		{
+			$this->CI->session->set_flashdata('alert', '<div class="col-xs-12"><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button><strong>Logout Berhasil</strong></div></div>');
 			$this->sessiondel();
 			redirect(base_url('Dashboard/login_'));
 		}

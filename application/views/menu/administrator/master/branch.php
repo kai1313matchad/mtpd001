@@ -5,7 +5,6 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Master Cabang</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -41,11 +40,8 @@
                         </thead>                        
                     </table>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- Modal CRUD -->
     <div class="modal fade" id="modal_form" role="dialog">
@@ -74,6 +70,15 @@
                                 <label class="col-sm-2 control-label">Nama</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="nama">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Inisial</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="inisial">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -166,6 +171,15 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Inisial</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="vinisial" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Status</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="vstat" readonly>
@@ -218,24 +232,11 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>    
     $(document).ready(function() {
         dt_branch();
     });
-
     function dt_branch()
     {        
         table = $('#dtb_brc').DataTable({ 
@@ -256,12 +257,10 @@
             ],
         });
     }
-
     function reload_table()
     {
         table.ajax.reload(null,false);
     }
-
     function add_brc()
     {        
         save_method = 'add';
@@ -277,7 +276,6 @@
         gen_brc();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function edit_brc(id)
     {
         save_method = 'update';
@@ -296,6 +294,7 @@
                 $('[name="id"]').val(data.BRANCH_ID);
                 $('[name="code"]').val(data.BRANCH_CODE);
                 $('[name="nama"]').val(data.BRANCH_NAME);
+                $('[name="inisial"]').val(data.BRANCH_INIT);
                 var sts = data.BRANCH_STATUS;
                 document.querySelector('#stat [value="' + sts + '"]').selected = true;
                 $('[name="alamat"]').val(data.BRANCH_ADDRESS);
@@ -314,11 +313,10 @@
             }
         });
     }
-
     function lihat_brc(id)
     {        
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -326,6 +324,7 @@
                 $('[name="id"]').val(data.BRANCH_ID);
                 $('[name="vcode"]').val(data.BRANCH_CODE);
                 $('[name="vnama"]').val(data.BRANCH_NAME);
+                $('[name="vinisial"]').val(data.BRANCH_INIT);
                 var status = data.BRANCH_STATUS;
                 if(status == '0')
                 {
@@ -391,13 +390,12 @@
             }
         });
     }
-
     function delete_brc(id)
     {
         if(confirm('Are you sure delete this data?'))
         {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc')?>/"+id,
+                url : "<?php echo site_url('administrator/Master/ajax_delete_brc/')?>"+id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data)

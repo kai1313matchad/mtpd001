@@ -15,6 +15,8 @@
 		{
 			$this->db->join('master_customer b','b.cust_id = a.cust_id');
 			$this->db->join('master_location c','c.loc_id = a.loc_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
 			$this->db->from($this->table);
 			$this->db->where('appr_sts','1');
 			$this->db->where('appr_own !=','0');

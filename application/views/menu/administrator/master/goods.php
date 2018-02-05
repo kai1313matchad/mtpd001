@@ -43,11 +43,8 @@
                         </thead>                        
                     </table>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- Modal CRUD -->
     <div class="modal fade" id="modal_form" role="dialog">
@@ -75,8 +72,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Supplier</label>
                                 <div class="col-sm-9">
-                                    <select id="supp" name="supp" class="form-control" required>
-                                        <option value="">--Pilih--</option>
+                                    <select id="supp" name="supp" class="form-control text-center" data-live-search="true" required>
+                                        <option value="">Pilih</option>
                                     </select>
                                     <span class="help-block"></span>
                                 </div>
@@ -113,7 +110,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" type="text" name="harga">
+                                    <input class="form-control curr-num" type="text" name="harga">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -131,12 +128,11 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Status</label>
                                 <div class="col-sm-9">
-                                    <select id="supp" name="stats" class="form-control" required>
-                                        <option value="">--Pilih--</option>
+                                    <select id="stats" name="stats" class="form-control" required>
+                                        <option value="">Pilih</option>
                                         <option value="Baru">Baru</option>
                                         <option value="Bekas">Bekas</option>
                                     </select>
-                                    <!-- <input class="form-control" type="text" name="stats"> -->
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -145,12 +141,24 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Jenis</label>
                                 <div class="col-sm-9">
-                                    <select id="supp" name="jenis" class="form-control" required>
-                                        <option value="">--Pilih--</option>
+                                    <select id="jenis" name="jenis" class="form-control" required>
+                                        <option value="">Pilih</option>
                                         <option value="Barang">Barang</option>
                                         <option value="Jasa">Jasa</option>
                                     </select>
-                                    <!-- <input class="form-control" type="text" name="jenis"> -->
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jenis Stock</label>
+                                <div class="col-sm-9">
+                                    <select id="jstock" name="jstock" class="form-control" required>
+                                        <option value="">Pilih</option>
+                                        <option value="0">Stock</option>
+                                        <option value="1">NonStock</option>
+                                    </select>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -193,7 +201,7 @@
                                 <label class="col-sm-3 control-label">Supplier</label>
                                 <div class="col-sm-9">
                                     <select id="vsupp" name="vsupp" class="form-control" required readonly>
-                                        <option value="">--Pilih--</option>
+                                        <option value="">Pilih</option>
                                     </select>
                                     <span class="help-block"></span>
                                 </div>
@@ -262,6 +270,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jenis Stock</label>
+                                <div class="col-sm-9">
+                                    <select id="vjstock" name="vjstock" class="form-control" readonly>
+                                        <option value="">Pilih</option>
+                                        <option value="0">Stock</option>
+                                        <option value="1">NonStock</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <input type="hidden" name="id" value="">
                         <input type="hidden" name="tb" value="">
                     </form>
@@ -275,26 +296,13 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
     $(document).ready(function() {
         dt_goods();
         dropsupp();
         dropsupp2();
     });
-
     function dt_goods()
     {
         table = $('#dtb_goods').DataTable({ 
@@ -302,7 +310,7 @@
             "responsive": true,
             "processing": true,
             "serverSide": true,
-            "order": [],            
+            "order": [],
             "ajax": {
                 "url": "<?php echo site_url('administrator/Master/ajax_gd')?>",
                 "type": "POST",                
@@ -312,10 +320,15 @@
                 "targets": [ 0 ],
                 "orderable": false,
             },
+            {
+                "className":"text-right", "targets": [6],
+            },
+            {
+                "className":"text-center", "targets": [0,1,2,3,4,5,7],
+            },
             ],
-        });
+        });        
     }
-
     function dropsupp()
     {
         $.ajax({
@@ -332,6 +345,8 @@
                     option.text = data[i]["SUPP_NAME"];
                     select.add(option);
                 }
+                $('#supp').selectpicker({});
+                $('#supp').selectpicker('refresh');
             },
         error: function (jqXHR, textStatus, errorThrown)
             {
@@ -339,9 +354,8 @@
             }
         });
     }
-
     function dropsupp2()
-    {        
+    {
         $.ajax({
         url : "<?php echo site_url('administrator/Master/getsupp')?>",
         type: "GET",
@@ -363,7 +377,6 @@
             }
         });
     }
-
     function lihat_gd(id)
     {
         $.ajax({
@@ -383,6 +396,7 @@
                 $('[name="vinfo"]').val(data.GD_INFO);
                 $('[name="vstats"]').val(data.GD_STS);
                 $('[name="vjenis"]').val(data.GD_TYPE);
+                $('select#vjstock').val(data.GD_TYPESTOCK);
                 $('#modal_view').modal('show');
                 $('.modal-title').text('Edit Barang');
             },
@@ -392,9 +406,8 @@
             }
         });
     }
-
     function add_gd()
-    {        
+    {
         save_method = 'add';
         $('#form')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -408,7 +421,6 @@
         gen_gd();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function edit_gd(id)
     {
         save_method = 'update';
@@ -435,10 +447,12 @@
                 $('[name="info"]').val(data.GD_INFO);
                 $('[name="stats"]').val(data.GD_STS);
                 $('[name="jenis"]').val(data.GD_TYPE);
+                $('select#jstock').val(data.GD_TYPESTOCK);
                 $('[name="check"]').val("1");
                 $('[name="tb"]').val("master_goods");
                 $('#modal_form').modal('show');
                 $('.modal-title').text('Edit Barang');
+                $('#supp').selectpicker('refresh');
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -446,12 +460,10 @@
             }
         });
     }
-
     function reload_table()
     {
         table.ajax.reload(null,false);
     }
-
     function save()
     {
         $('#btnSave').text('saving...');
@@ -494,7 +506,6 @@
             }
         });
     }
-
     function delete_gd(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -515,7 +526,6 @@
             });
         }
     }
-
     function gen_gd()
     {
         $.ajax({

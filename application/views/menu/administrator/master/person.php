@@ -491,7 +491,7 @@
     function lihat_person(id)
     {
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_person/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_person/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -521,10 +521,11 @@
             success: function(data)
             {
                 $('[name="idu"]').val(data.USER_ID);
+                $('[name="vcodeu"]').val(data.USER_CODE);
                 $('[name="vnamau"]').val(data.PERSON_NAME);
                 $('[name="vbranchu"]').val(data.BRANCH_NAME);
                 $('[name="vusernameu"]').val(data.USER_NAME);
-                document.querySelector('#vlevelu [value="' + data.USER_LEVEL + '"]').selected = true;
+                $('select#vlevelu').val(data.USER_LEVEL);
                 $('[name="stsu"]').val(data.USER_DTSTS);
                 $('#modal_view2').modal('show');
                 $('.modal-title').text('Lihat User');
@@ -627,7 +628,7 @@
                 var branch = data.BRANCH_ID;
                 document.querySelector('#branch [value="' + branch + '"]').selected = true;
                 $('[name="username"]').val(data.USER_NAME);
-                document.querySelector('#level [value="' + data.USER_LEVEL + '"]').selected = true;
+                $('select#level').val(data.USER_LEVEL);
                 $('[name="stsu"]').val(data.USER_DTSTS);
                 $('[name="checku"]').val("1");
                 $('[name="tbu"]').val("master_user");
