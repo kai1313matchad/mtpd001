@@ -1128,7 +1128,7 @@
 	    }
 
 	    public function bapp_delimg($id)
-	    {	    	
+	    {
 	    	$get = $this->crud->get_by_id('bapp_details',array('detbapp_id' => $id));
 	    	$imgpath = $get->DETBAPP_IMGPATH;
 	    	$imgthumbs = $get->DETBAPP_THUMBS;
@@ -1136,6 +1136,17 @@
 	    	@unlink($imgthumbs);
 	    	$this->crud->delete_by_id('bapp_details',array('detbapp_id' => $id));
         	echo json_encode(array("status" => TRUE,"img" => $imgpath, "thumbs" => $imgthumbs));
+	    }
+
+	    public function get_imgsum($id)
+	    {
+	    	$this->db->select('count(a.detbapp_id) as sum');
+	    	$this->db->from('bapp_details a');
+	    	$this->db->join('trx_bapp b','b.bapp_id = a.bapp_id');
+	    	$this->db->where('a.bapp_id',$id);
+	    	$que = $this->db->get();
+	    	$data = $que->row();
+	    	echo json_encode($data);
 	    }
 
 	    //image configuration
