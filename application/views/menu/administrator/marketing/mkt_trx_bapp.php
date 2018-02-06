@@ -43,7 +43,7 @@
                                         </div>
 	                                    <div class="col-sm-7">
                                             <input class="form-control" type="text" name="bapp_code" value="" readonly>
-	                                        <input type="hidden" name="bapp_id" value="13">
+	                                        <input type="hidden" name="bapp_id" value="0">
 	                                        <input type="hidden" name="user_id" value="1">
 	                                    </div>	                                    
 	                                </div>
@@ -188,9 +188,7 @@
                 	</div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- Modal Search -->
     <div class="modal fade" id="modal_appr" role="dialog">
@@ -300,7 +298,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="reload()" type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                    <button onclick="reload()" type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Confirm</button>
                 </div>
             </div>
         </div>
@@ -312,24 +310,19 @@
     <script>
     	$(document).ready(function()
     	{
-            var Dropzone;
+            // var Dropzone;
             get_images();            
-    	});        
-
+    	});
         function print_bapp()
-        {            
+        {
             var ids = $('[name=bapp_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bapp/')?>"+ids,'_blank');
         }
-
         function print_bappimg()
-        {            
+        {
             var ids = $('[name=bapp_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bappimg/')?>"+ids,'_blank');
         }
-
-
-
     	function srch_appr()
     	{
     		$('#modal_appr').modal('show');
@@ -353,7 +346,6 @@
                 ],
             });
     	}
-
         function pick_appr(id)
         {
             $.ajax({
@@ -377,7 +369,6 @@
                 }
             });
         }
-
         function pick_cust(id)
         {
             $.ajax({
@@ -394,14 +385,12 @@
                 }
             });
         }
-
         function reload()
         {
             $("#foo").empty();
             var id = $('[name="bapp_id"]').val();
             get_images(id);
         }
-
         function get_images(id)
         {
             
@@ -564,7 +553,6 @@
                 }
             });
         }
-        
         function add_img()
         {
             var id = $('[name="bapp_id"]').val();
@@ -575,10 +563,7 @@
                 success: function(data)
                 {
                     var maks = 4 - data.sum;
-                    alert('hasil ajax '+maks);
-                    alert('dz awal '+myDropzone.options.maxFiles);
-                    myDropzone.options.maxFiles = maks;
-                    alert('dz akhir '+myDropzone.options.maxFiles);                   
+                    myDropzone.options.maxFiles = maks;                 
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -649,7 +634,7 @@
             }
         }
     </script> -->
-    <script>        
+    <script>
     	var Dropzone;
     	Dropzone.autoDiscover = false;
     	//Dapatkan HTML template dan menghapusnya dari dokumen
@@ -663,7 +648,7 @@
     		thumbnailHeight: 80,
     		parallelUploads: 1,
     		maxFilesize: 10,
-            maxFiles: 0,
+            maxFiles: 4,
     		// uploadMultiple: true,
     		acceptedFiles: 'image/jpg, image/jpeg',
     		previewTemplate: previewTemplate,
