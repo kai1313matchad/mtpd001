@@ -124,7 +124,7 @@
                                             <input class="form-control" type="text" name="bank_info">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-grou<input class="form-control" type="hidden" name="anggaran_id">p">
                                         <label class="col-sm-3 control-label">Departemen </label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" name="bank_dept">
@@ -143,6 +143,7 @@
                                             <button type="button" class="btn btn-info" onclick="srch_anggaran()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                     </div>
+                                    <input class="form-control" type="hidden" name="anggaran_id">
                                 </div>      
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
@@ -718,7 +719,7 @@ $(document).ready(function() {
                 success: function(data)
                 {   
                     $('[name="anggaran_id"]').val(data.BUD_ID);
-                    $('[name="kas_anggaran"]').val(data.BUD_CODE);                  
+                    $('[name="bank_anggaran"]').val(data.BUD_CODE);                  
                     $('#modal_anggaran').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
