@@ -508,23 +508,26 @@
                     var atotal = 0;
                     var ctotal = 0;
                     var total = 0;
+                    var n=0;
                     for (var i = 0; i < data.length; i++) {
                         var jenis = data[i]["BNK_CODE"];
                         var rtotal = data[i]["BUDDET_SUM"] * data[i]["BUDDET_AMOUNT"];
-                        if (lokasi != data[i]["BUD_LOC"]){
-                            atotal = atotal + rtotal;
-                            if (cabang != data[i]["BRANCH_NAME"]) {
-                               var $tr = $('<tr>').append(
-                                         $('<td colspan="3">').text(data[i]["BRANCH_NAME"])
-                                        ).appendTo('#tb_content');
-                            }
+                        atotal = atotal + rtotal;
+                        if ((cabang != data[i]["BRANCH_NAME"]) && (cabang != "")) {
+                           var $tr = $('<tr>').append(
+                                     $('<td colspan="3">').text(data[i]["BRANCH_NAME"])
+                                    ).appendTo('#tb_content');
+                        }
+                        if ((lokasi != data[i]["BUD_LOC"])  && (lokasi != "")) {
                             var $lc = $('<tr>').append(
                                       $('<td colspan="3">').text(data[i]["LOC_CODE"]+' + '+data[i]["LOC_ADDRESS"]),  
                                       $('<td>').text(''),
                                       $('<td>').text(''),
                                       $('<td>').text(''),  
                                       $('<td>').text('') 
-                                    ).appendTo('#tb_content');  
+                                    ).appendTo('#tb_content'); 
+                        } 
+                        if ((lokasi != data[i]["BUD_LOC"]) && (lokasi != "")) {
                             var $tr = $('<tr>').append(
                                       $('<td colspan="2">').text(''),
                                       $('<td>').text(data[i]["APPR_CODE"]),  
@@ -536,7 +539,7 @@
                         }
                         ctotal = ctotal + rtotal;
                         total = total + rtotal;
-                        if (lokasi != data[i]["BUD_LOC"]){
+                        if ((lokasi != data[i]["BUD_LOC"]) && (lokasi != "")) {
                             var $ta = $('<tr>').append(
                                       $('<td>').text(''),
                                       $('<td colspan="3">').text(''), 
@@ -545,10 +548,10 @@
                                       $('<td>').text(''),
                                       $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(atotal,".",",",2))  
                                      ).appendTo('#tb_content');
-                            lokasi=data[i]["BUD_LOC"];
+                            lokasi=data[i]["BUD_LOC"]; 
                             atotal = 0;
                         }    
-                        if (cabang != data[i]["BRANCH_NAME"]) {
+                        if ((cabang != data[i]["BRANCH_NAME"]) && (cabang != "")) {
                             var $tc = $('<tr>').append(
                                          $('<td>').text(''),
                                          $('<td colspan="3">').text(''), 
@@ -560,7 +563,34 @@
                             cabang=data[i]["BRANCH_NAME"];
                             ctotal = 0;
                         }    
+                        n = i;
                     };
+                    var $tr = $('<tr>').append(
+                                     $('<td colspan="3">').text(data[n]["BRANCH_NAME"])
+                                    ).appendTo('#tb_content');
+                    var $lc = $('<tr>').append(
+                                      $('<td colspan="3">').text(data[n]["LOC_CODE"]+' + '+data[n]["LOC_ADDRESS"]),  
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),  
+                                      $('<td>').text('') 
+                                    ).appendTo('#tb_content'); 
+                    var $tr = $('<tr>').append(
+                                  $('<td colspan="2">').text(''),
+                                  $('<td>').text(data[n]["APPR_CODE"]),  
+                                  $('<td>').text(data[n]["BUD_CODE"]),
+                                  $('<td>').text(data[n]["BUD_DATE"]), 
+                                  $('<td colspan="2">').text(data[n]["BUD_INFO"]),
+                                  $('<td>').css('text-align','right').text(formatCurrency(atotal,".",",",2))  
+                                ).appendTo('#tb_content');
+                    var $tc = $('<tr>').append(
+                                         $('<td>').text(''),
+                                         $('<td colspan="3">').text(''), 
+                                         $('<td>').text(''), 
+                                         $('<td>').text(''),
+                                         $('<td>').text(''),
+                                         $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(ctotal,".",",",2))
+                                        ).appendTo('#tb_content');
                     var $tot = $('<tr>').append(
                                       $('<td>').text(''),
                                       $('<td colspan="3">').text(''), 

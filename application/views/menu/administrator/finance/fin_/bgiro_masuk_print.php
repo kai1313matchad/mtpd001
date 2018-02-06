@@ -1,47 +1,73 @@
-<!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Cetak Laporan Pencairan Giro Masuk</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12">
-                        <form id="form_printbgiro" method="post" action="#" class="form-horizontal">
-                            <div class="form-group">                              
-                                <label class="col-sm-3 control-label">Periode</label>
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="tgl1">
-                                </div>
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="tgl2">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Cabang</label>
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="text" name="kode_cabang" readonly>
-                                </div>
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="text" name="nama_cabang" readonly>
-                                </div>
-                                <div class="col-sm-1">
-                                    <a href="javascript:void(0)" onclick="srch_branch()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-5 col-sm-2">
-                                    <a href="javascript:void(0)" onclick="show_gr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span> Preview</a>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>                
-                <div class="row" id="printArea">
-                    <hr style="border: solid 2px; color: black;"">
-                    <div class="text-center">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Project Match Terpadu" content="Match Terpadu">
+    <meta name="Author" content="Kaisha Satrio">
+    <title><?php echo $title;?></title>
+    <!-- Bootstrap Core CSS -->
+    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">   
+    <!-- MetisMenu CSS -->
+    <link href="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.css')?>" rel="stylesheet">
+    <!-- sbadmin -->
+    <link href="<?php echo base_url('assets/sbadmin/css/sb-admin-2.css')?>" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url('assets/addons/select2-bootstrap.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
+    <style type="text/css">
+        body {
+          background: rgb(204,204,204);
+          font-size: 10px;
+        }        
+        page {          
+          background: white;
+          display: block;
+          margin: 0 auto;
+          margin-bottom: 0.5cm;
+          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        }
+        page[size="A4"] {  
+          width: 21cm;
+          height: 21cm;
+        }
+        page[size="A4"][layout="portrait"] {
+          width: 29.7cm;
+          height: 21cm;  
+        }
+        @media print {
+          body, page {
+            margin: 0;
+            box-shadow: 0;
+          }
+        }
+    </style> 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <page size="A4">
+    <div id="ygdiprint">
+        <form id="form_printbgiro" method="post">
+            <input type="hidden" name="tgl1" value="<?php echo $datestart;?>">
+            <input type="hidden" name="tgl2" value="<?php echo $dateend;?>">
+            <!-- <input type="hidden" name="tax_id" value="<?php echo $id;?>"> -->
+            <input type="hidden" name="branch_id">
+        </form>
+        <div class="container-fluid">
+            <hr style="border: solid 2px; color: black;"">
+            <div class="text-center">
                         <h3><strong><u>LAPORAN Pencairan Giro Masuk</u></strong></h3>
                         <h3>Tgl. Terima :<span name="periode"></span></h3>
                     </div>
@@ -100,88 +126,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
-                    <hr style="border: solid 2px; color: black;">
-                </div>
-                <div class="row">
-                        <div class="col-xs-3 col-xs-offset-9 text-right">
-                            <a href="javascript:void(0)" type="button" class="btn btn-default" onclick="printDiv('printArea')" ><span class="glyphicon glyphicon-print"></span> Print</a>
-                            <a href="javascript:void(0)" type="button" class="btn btn-default" onclick="printPre()"><span class="glyphicon glyphicon-print"></span> Print</a>
-                            <br><br>
-                        </div>
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
-    </div>
-
-     <!-- Modal Branch -->
-    <div class="modal fade" id="modal_branch" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_branch" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Alamat</th>                
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div>
-            </div>
+                    </div>
         </div>
     </div>
-    <!-- modal Branch selesai -->
+    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    </page>
+    
 
-    <!-- Modal Search -->
-    <div class="modal fade" id="modal_gk" name="modal_gk" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_gk" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode Giro Masuk</th>
-                                        <th>Tanggal</th>  
-                                        <th>Keterangan</th>                                      
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>    
-    <!-- /#wrapper -->
+    
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -201,72 +153,37 @@
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
-            $('#dtp1').datetimepicker({                
-                format: 'YYYY-MM-DD'
-            });
-            id=$('[name="gk_id"]').val();            
-            prc = 0; qty = 0; sub = 0; 
+            // id=$('[name="tax_id"]').val();            
+
+            prc = 0; qty = 0; sub = 0;
+            show_gr();
         });
 
-        function printPre()
+        function dtable()
         {
-            var seg1 = $('[name="tgl1"]').val()?$('[name="tgl1"]').val():'null';
-            var seg2 = $('[name="tgl2"]').val()?$('[name="tgl2"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Finance/pageprint_giro_in/')?>"+seg1+'/'+seg2,'_blank');
-        }
-
-        function printDiv(divName)
-        {
-            var printContents = document.getElementById(divName).innerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-        }
-
-        function srch_branch()
-        {
-            $('#modal_branch').modal('show');
-            $('.modal-title').text('Cari Cabang');            
-            table = $('#dtb_branch').DataTable({
+            //datatables        
+            table = $('#dtb_bk').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
+                "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "order": [], //Initial no order.
+                // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_branch')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_printbk')?>",
                     "type": "POST",                
-                },                
+                },
+                //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ],
-                    "orderable": false,
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
                 },
                 ],
             });
         }
 
-        function pick_branch(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_branch/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="kode_cabang"]').val(data.BRANCH_CODE);    
-                    $('[name="nama_cabang"]').val(data.BRANCH_NAME);                 
-                    $('#modal_branch').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-    
         function show_gr()
         {            
             //Ajax Load data from ajax
@@ -418,6 +335,39 @@
                  return fixed.replace('.', decimalSeparator);  
             }  
         }  
+    </script>
+
+    <!-- print area -->
+    <script type="text/javascript">
+    function printContent(printpage){
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr+newstr+footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+
+    function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
+        {  
+            var num = parseFloat( amount ); //convert to float  
+            //default values  
+            decimalSeparator = decimalSeparator || '.';  
+            thousandsSeparator = thousandsSeparator || ',';  
+            nDecimalDigits = nDecimalDigits == null? 2 : nDecimalDigits;  
+      
+            var fixed = num.toFixed(nDecimalDigits); //limit or add decimal digits  
+            //separate begin [$1], middle [$2] and decimal digits [$4]  
+            var parts = new RegExp('^(-?\\d{1,3})((?:\\d{3})+)(\\.(\\d{' + nDecimalDigits + '}))?$').exec(fixed);   
+      
+            if(parts){ //num >= 1000 || num < = -1000  
+                 return parts[1] + parts[2].replace(/\d{3}/g, thousandsSeparator + '$&') + (parts[4] ? decimalSeparator + parts[4] : '');  
+            }else{  
+                 return fixed.replace('.', decimalSeparator);  
+            }  
+        }  
 
         function formattanggal(tanggal)
         {
@@ -429,5 +379,6 @@
             return todaynew;
         }
     </script>
+    
 </body>
 </html>

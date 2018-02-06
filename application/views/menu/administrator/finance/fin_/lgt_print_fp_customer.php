@@ -3,12 +3,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Cetak Laporan Giro Per Supplier</h1>
+                        <h1 class="page-header">Cetak Laporan Faktur Pajak Per Customer</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
-                        <form id="form_printbgiro" method="post" action="#" class="form-horizontal">
+                        <form id="form_printfaktur" method="post" action="#" class="form-horizontal">
                             <div class="form-group">                              
                                 <label class="col-sm-3 control-label">Periode</label>
                                 <div class="col-sm-4">
@@ -19,17 +19,27 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Supplier </label>
+                                <label class="col-sm-3 control-label">Customer</label>
                                 <div class="col-sm-4">
-                                        <input class="form-control" type="text" name="kas_sup" readonly>
+                                    <input class="form-control" type="text" name="kode_customer" readonly>
                                 </div>
                                 <div class="col-sm-4">
-                                        <input class="form-control" type="text" name="kas_sup_ket" readonly>
+                                    <input class="form-control" type="text" name="nama_customer" readonly>
                                 </div>
                                 <div class="col-sm-1">
-                                        <button type="button" class="btn btn-info" onclick="srch_supp()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                    <a href="javascript:void(0)" onclick="srch_cust()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                 </div>
-                                <input class="form-control" type="hidden" name="supp_id">
+                                <input class="form-control" type="hidden" name="cust_id">
+                            </div>
+                             <div class="form-group">
+                                <label class="col-sm-3 control-label">approval</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="nomor_approval" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" onclick="srch_approval()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
+                                </div>
+                                <input class="form-control" type="hidden" name="appr_id">
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Cabang</label>
@@ -42,10 +52,11 @@
                                 <div class="col-sm-1">
                                     <a href="javascript:void(0)" onclick="srch_branch()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                 </div>
+                                <input class="form-control" type="hidden" name="branch_id">
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-5 col-sm-2">
-                                    <a href="javascript:void(0)" onclick="show_gr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span> Preview</a>
+                                    <a href="javascript:void(0)" onclick="show_faktur()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span> Preview</a>
                                 </div>
                             </div>
 
@@ -55,8 +66,8 @@
                 <div class="row" id="printArea">
                     <hr style="border: solid 2px; color: black;"">
                     <div class="text-center">
-                        <h3><strong><u>LAPORAN Giro Per Supplier</u></strong></h3>
-                        <h3>Tgl. Terima :<span name="periode"></span></h3>
+                        <h3><strong><u>LAPORAN Faktur Pajak Per Customer</u></strong></h3>
+                        <h3>Per Periode :<span name="periode"></span></h3>
                     </div>
                     <hr>
                     <div class="row">
@@ -91,25 +102,22 @@
                                         <table id="tb_gm" class="table table-condensed">
                                             <thead>
                                                 <tr>
-                                                    <th class="col-sm-2 col-xs-2">Supplier</th>
+                                                    <th class="col-sm-1 col-xs-1">Nomor</th>
+                                                    <th class="col-sm-1 col-xs-1">Tanggal</th>
+                                                    <th class="col-sm-1 col-xs-1">Nomor FP</th>
                                                     <th class="col-sm-1 col-xs-1"></th>
-                                                    <th class="col-sm-1 col-xs-1"></th>
-                                                    <th class="col-sm-1 col-xs-1"></th>
-                                                    <!-- <th class="col-sm-2 col-xs-2"></th> -->
-                                                    <th colspan="2" class="col-sm-1 col-xs-1 text-center">Nominal</th>
-                                                    <!-- <th class="col-sm-1 col-xs-1"></th> -->
-                                                    <!-- <th class="col-sm-2 col-xs-2"></th>
-                                                    <th class="col-sm-1 col-xs-1"></th> -->
+                                                    <th class="col-sm-1 col-xs-1">DPP</th>
+                                                    <th class="col-sm-1 col-xs-1">PPN</th>
+                                                    <th class="col-sm-1 col-xs-1">TOTAL</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="col-sm-2 col-xs-2 text-center">No. Giro</th>
-                                                    <th class="col-sm-1 col-xs-1 text-center">Tgl. Terima</th>
-                                                    <th class="col-sm-1 col-xs-1 text-center">Tgl. Giro</th>
-                                                    <th class="col-sm-1 col-xs-1 text-center">Tgl. Cair</th> 
-                                                    <th class="col-sm-1 col-xs-1 text-center">Masuk</th> 
-                                                    <th class="col-sm-1 col-xs-1 text-center">Keluar</th> 
-                                                    <!-- <th class="col-sm-2 col-xs-2">Keterangan</th>
-                                                    <th class="col-sm-1 col-xs-1">Tgl Cair</th> -->
+                                                    <th class="col-sm-2 col-xs-2">No. Proyek</th>
+                                                    <th class="col-sm-1 col-xs-1">Lokasi</th>
+                                                    <th class="col-sm-1 col-xs-1"></th>
+                                                    <th class="col-sm-2 col-xs-2">Keterangan Detail</th>
+                                                    <th class="col-sm-1 col-xs-1"></th>
+                                                    <th class="col-sm-1 col-xs-1"></th>
+                                                    <th class="col-sm-1 col-xs-1" style="text-align: right">Nominal</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -142,8 +150,8 @@
         <!-- /#page-wrapper -->
     </div>
 
-    <!-- Modal Supplier Search -->
-    <div class="modal fade" id="modal_supp" role="dialog">
+     <!-- Modal Customer -->
+    <div class="modal fade" id="modal_cust" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -153,7 +161,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_supp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="dtb_cust" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -161,7 +169,39 @@
                                         <th>Nama</th>
                                         <th>Alamat</th>
                                         <th>Kota</th>
-                                        <th>No.Tlp</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal customer selesai -->
+
+    <!-- Modal Approval -->
+    <div class="modal fade" id="modal_appr" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomor Approval</th>
+                                        <th>Kode Lokasi</th>
+                                        <th>Alamat</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -175,42 +215,7 @@
             </div>
         </div>
     </div>
-    <!-- modal Supplier selesai -->
-
-     <!-- Modal Account -->
-    <div class="modal fade" id="modal_account" name="modal_account" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/cash_in') ; ?>" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <div class="maxh">
-                            <table id="dtb_acc" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                                        
-                            </table>
-                        </div>
-                        </div>
-                    </div>                  
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- modal account selesai -->
+    <!-- modal Approval selesai -->
 
      <!-- Modal Branch -->
     <div class="modal fade" id="modal_branch" role="dialog">
@@ -307,7 +312,7 @@
         {
             var seg1 = $('[name="tgl1"]').val()?$('[name="tgl1"]').val():'null';
             var seg2 = $('[name="tgl2"]').val()?$('[name="tgl2"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Finance/pageprint_giro_supp/')?>"+seg1+'/'+seg2,'_blank');
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_FP_customer/')?>"+seg1+'/'+seg2,'_blank');
         }
 
         function printDiv(divName)
@@ -317,50 +322,6 @@
             document.body.innerHTML = printContents;
             window.print();
             document.body.innerHTML = originalContents;
-        }
-
-         function srch_supp()
-        {            
-            $('#modal_supp').modal('show');
-            $('.modal-title').text('Cari Supplier');            
-            table = $('#dtb_supp').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_supp')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
-
-        function pick_supp(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="supp_id"]').val(data.SUPP_ID);
-                    $('[name="kas_sup"]').val(data.SUPP_NAME);
-                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
-                    $('#modal_supp').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
         }
 
         function srch_acc()
@@ -397,6 +358,94 @@
                 {   
                     $('[name="acc"]').val(data.COA_ACC);                    
                     $('#modal_account').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function srch_approval()
+        {            
+            $('#modal_appr').modal('show');
+            $('.modal-title').text('Cari Approval');            
+            table = $('#dtb_appr').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Transaction/ajax_srch_appr')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function pick_appr(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Transaction/ajax_pick_appr/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="nomor_approval"]').val(data.APPR_CODE);
+                    // pick_location(data.LOC_ID);                   
+                    $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function srch_cust()
+        {
+            $('#modal_cust').modal('show');
+            $('.modal-title').text('Cari Customer');            
+            table = $('#dtb_cust').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_cust')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_cust(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="kode_customer"]').val(data.CUST_CODE);
+                    $('[name="nama_customer"]').val(data.CUST_NAME);
+                    $('[name="cust_id"]').val(data.CUST_ID);
+                    $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -448,13 +497,13 @@
             });
         }
     
-        function show_gr()
+        function show_faktur()
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/show_giro_supp/')?>/",
+                url : "<?php echo site_url('administrator/Finance/show_fp_customer/')?>",
                 type: "POST",
-                data: $('#form_printbgiro').serialize(),
+                data: $('#form_printfaktur').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {                    
@@ -463,113 +512,124 @@
                     var periode = formattanggal(tgl1) + ' s/d ' + formattanggal(tgl2);
                     $('[name="periode"]').text(periode);
                     var cabang = "";
-                    var supp = "";
-                    var tdebet = 0;
-                    var tkredit = 0;
+                    var customer = "";
+                    var nomor = "";
+                    var totaldpp = 0;
+                    var totalppn = 0;
+                    var totalpph = 0;
                     var total = 0;
+                    var gtotaldpp = 0;
+                    var gtotalppn = 0;
+                    var gtotalpph = 0;
+                    var gtotal = 0;
+                    var jml = 0;
                     for (var i = 0; i < data.length; i++) {
-                        var jenis = data[i]["BNK_CODE"];
-                        if (supp != data[i]["SUPP_NAME"]){
-                            if ((cabang != "") && (supp != "")) {
-                              var $st = $('<tr>').append(
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text('Total'+' '+supp),
-                                        $('<td>').css({'border-top':'2px solid','text-align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                                        $('<td>').css({'border-top':'2px solid','text-align':'right'}).text(formatCurrency(tkredit,".",",",2))
-                                      ).appendTo('#tb_content');
-                            // var $tot = $('<tr>').append(
-                            //             $('<td colspan="7">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                            //           ).appendTo('#tb_content');
-                            }
-                            if (cabang != data[i]["BRANCH_NAME"]) {
+                        // var jenis = data[i]["BNK_CODE"];
+                        if (cabang != data[i]["BRANCH_NAME"]) {
                                var $tr = $('<tr>').append(
-                                         $('<td>').text(data[i]["BRANCH_NAME"])
+                                         $('<td colspan="2">').text(data[i]["BRANCH_NAME"])
                                         ).appendTo('#tb_content');
-                               cabang=data[i]["BRANCH_NAME"];
-                            }
-                            var $tr = $('<tr>').append(
-                                      $('<td>').text(data[i]["SUPP_NAME"]+' - '+data[i]["SUPP_NAME"])
-                                      ).appendTo('#tb_content');
-                            supp=data[i]["SUPP_NAME"];
-                            tdebet = 0;
-                            tkredit = 0;
-                            total = 0;
+                        }
+                        
+                        if (customer != data[i]["cust_id"]){
+                            var $lc = $('<tr>').append(
+                                      $('<td>').text(data[i]["CUST_CODE"]+'-'+data[i]["CUST_NAME"]),
+                                      $('<td>').text(''),  
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),  
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),
+                                      $('<td>').text('') 
+                                    ).appendTo('#tb_content');  
                         }
 
-                        var sts_cair='';
-                        if (data[i]["CAIR_STS"] != 1){
-                            if (data[i]["BLOKIR_STS"] != 0){
-                                    sts_cair='Blokir';
-                            } else {
-                                    sts_cair='Belum Cair';
-                            }
-                        } else {sts_cair='Sudah Cair';}
-                        if (jenis.substring(0,2)=="BM")
-                        {
-                            tdebet = tdebet + (data[i]["GR_AMOUNT"] * 1);
-                            total = total + (data[i]["GR_AMOUNT"] * 1);
-                            var $tr = $('<tr>').append(
-                                      $('<td>').text(data[i]["GR_NUMBER"]),
-                                      $('<td>').text(data[i]["RECEIVE_DATE"]), 
-                                      $('<td>').text(data[i]["GIRO_DATE"]),
-                                      $('<td>').text(data[i]["CAIR_DATE"]), 
-                                      // $('<td>').text(data[i]["CUST_CODE"]),    
-                                      // $('<td>').text(data[i]["CUST_NAME"]),
-                                      $('<td>').css('text-align','right').text(formatCurrency(data[i]["GR_AMOUNT"],".",",",2)),
-                                      $('<td>').css('text-align','right').text('0.00')
-                                      // $('<td>').text(sts_cair)
-                            
-                            ).appendTo('#tb_content');
-                            var $tr2 = $('<tr>').append(
-                                      $('<td>').text(''),
-                                      $('<td>').text(data[i]["BNK_CODE"]), 
-                                      $('<td>').text(''), 
-                                      $('<td>').css('text-align','right').text(data[i]["GR_CODE"]),
-                                      $('<td>').css('text-align','right').text(''),
-                                      $('<td>').css('text-align','right').text('')
-                            
-                            ).appendTo('#tb_content');
-                        }
-                        if (jenis.substring(0,2)=="BK")
-                        {
-                            tkredit = tkredit + (data[i]["GR_AMOUNT"] * 1);
-                            total = total - (data[i]["GR_AMOUNT"] * 1);
-                            var $tr = $('<tr>').append(
-                                      $('<td>').text(data[i]["GR_NUMBER"]),
-                                      $('<td>').text(data[i]["RECEIVE_DATE"]), 
-                                      $('<td>').text(data[i]["GIRO_DATE"]),
-                                      $('<td>').text(data[i]["CAIR_DATE"]), 
-                                      // $('<td>').text(data[i]["SUPP_CODE"]),    
-                                      // $('<td>').text(data[i]["SUPP_NAME"]),
-                                      $('<td>').css('text-align','right').text('0.00'),
-                                      $('<td>').css('text-align','right').text(formatCurrency(data[i]["GR_AMOUNT"],".",",",2))
-                                      // $('<td>').text(sts_cair)
-                            ).appendTo('#tb_content');
-                            var $tr2 = $('<tr>').append(
-                                      $('<td>').text(''),
-                                      $('<td>').text(data[i]["BNK_CODE"]), 
-                                      $('<td>').text(''), 
-                                      $('<td>').css('text-align','right').text(data[i]["GR_CODE"]),
-                                      $('<td>').css('text-align','right').text(''),
-                                      $('<td>').css('text-align','right').text('')
-                            
-                            ).appendTo('#tb_content');
+                        if (nomor != data[i]["TINV_CODE"]){
+
+                            var $lc1 = $('<tr>').append(
+                                       $('<td>').text(data[i]["TINV_CODE"]),
+                                       $('<td>').text(formattanggal(data[i]["TINV_DATE"])),  
+                                       $('<td>').text(data[i]["TINV_TAXCODE"]),
+                                       $('<td>').text(''),  
+                                       $('<td>').css('text-align','right').text(formatCurrency(data[i]["TINVDET_SUB"],".",",",2)), 
+                                       $('<td>').css('text-align','right').text(formatCurrency(data[i]["TINVDET_PPN"],".",",",2)),
+                                       $('<td>').css('text-align','right').text(formatCurrency(data[i]["TINVDET_SUM"],".",",",2)) 
+                                    ).appendTo('#tb_content');
                         }
 
+                        var rtotal = data[i]["TINVDET_SUB"] * 1;
+                        totaldpp = totaldpp + rtotal;
+                        totalppn = totalppn + (data[i]["TINVDET_PPN"] * 1);
+                        totalpph = totalpph + (data[i]["TINVDET_PPH"] * 1);
+                        total = total + totaldpp + totalppn - totalpph;
+                        gtotaldpp = gtotaldpp + rtotal;
+                        gtotalppn = gtotalppn + (data[i]["TINVDET_PPN"] * 1);
+                        gtotalpph = gtotalpph + (data[i]["TINVDET_PPH"] * 1);
+                        gtotal = gtotal + gtotaldpp + gtotalppn - gtotalpph;
+                        var $rc = $('<tr>').append(
+                                  $('<td>').text(data[i]["APPR_CODE"]),
+                                  $('<td colspan="2">').text(data[i]["LOC_ADDRESS"]), 
+                                  $('<td colspan="2">').text(data[i]["TINVDET_INFO"]),
+                                  $('<td>').text(''),
+                                  $('<td>').css('text-align','right').text(formatCurrency(data[i]["APPR_TOT_INCOME"],".",",",2))
+                               ).appendTo('#tb_content');
+                        if (nomor != data[i]["TINV_CODE"]){
+                            var $lc2 = $('<tr>').append(
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),  
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),  
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),
+                                      $('<td>').css({'border-bottom':'2px solid'}).text(''),
+                                      $('<td>').css({'border-bottom':'2px solid'}).text('') 
+                                    ).appendTo('#tb_content');
+                            var $lc2 = $('<tr>').append(
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),  
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),  
+                                      $('<td>').text(''),
+                                      $('<td>').text(''),
+                                      $('<td>').text('') 
+                                    ).appendTo('#tb_content');
+                            nomor = data[i]["TINV_CODE"];
+                        }
+                        if (customer != data[i]["CUST_ID"]){
+                            var $ta = $('<tr>').append(
+                                  $('<td>').text(''),
+                                  $('<td>').text(''),
+                                  $('<td>').text(''),
+                                  $('<td>').text(''), 
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2)),
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totalppn,".",",",2)),
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
+                                 ).appendTo('#tb_content');
+                            customer=data[i]["CUST_ID"];
+                            totaldpp = 0;
+                            totalppn=0;
+                            total=0;
+                        }   
+                        jml = jml + 1; 
                     };
-                    var $st = $('<tr>').append(
+                    if (jml > 1) {
+                        var $ta = $('<tr>').append(
+                                  $('<td>').text(''),
+                                  $('<td>').text(''),
+                                  $('<td>').text(''), 
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2)),
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totalppn,".",",",2)),
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
+                                 ).appendTo('#tb_content');
+                    }
+                    var $ta = $('<tr>').append(
                               $('<td>').text(''),
                               $('<td>').text(''),
+                              $('<td>').text(''), 
                               $('<td>').text(''),
-                              $('<td>').text('Total'+' '+supp),
-                              $('<td align="right">').css({'border-top':'2px solid','text-align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                              $('<td align="right">').css({'border-top':'2px solid','text-align':'right'}).text(formatCurrency(tkredit,".",",",2)),
-                              ).appendTo('#tb_content');
-                    // var $tot = $('<tr>').append(
-                    //            $('<td colspan="7">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                    //            ).appendTo('#tb_content');
+                              $('<td>').css({'border-top':'double','font-weight':'bold','text-align':'right','border-bottom':'2px solid'}).text(formatCurrency(gtotaldpp,".",",",2)),
+                              $('<td>').css({'border-top':'double','font-weight':'bold','text-align':'right','border-bottom':'2px solid'}).text(formatCurrency(gtotalppn,".",",",2)),
+                              $('<td>').css({'border-top':'double','font-weight':'bold','text-align':'right','border-bottom':'2px solid'}).text(formatCurrency(gtotal,".",",",2))  
+                            ).appendTo('#tb_content');
+
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

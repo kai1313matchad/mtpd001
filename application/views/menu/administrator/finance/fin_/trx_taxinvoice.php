@@ -541,7 +541,7 @@ $(document).ready(function() {
                     $('[name="nominal"]').val(data.TERMSDET_DPP);
                     $('[name="ppn"]').val(data.TERMSDET_PPN_SUM);
                     $('[name="pph"]').val(data.TERMSDET_PPH_SUM);
-                    jumlah = data.TERMSDET_DPP + data.TERMSDET_PPN_SUM - data.TERMSDET_PPH_SUM;
+                    jumlah = (data.TERMSDET_DPP * 1) + (data.TERMSDET_PPN_SUM * 1) - (data.TERMSDET_PPH_SUM * 1);
                     $('[name="jumlah"]').val(jumlah);
                     $('[name="lokasi"]').val(data.LOC_ADDRESS);
                     alert(data.TERMSDET_DPP);
