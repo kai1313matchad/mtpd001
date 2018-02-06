@@ -140,7 +140,7 @@
                                             <input class="form-control" type="text" name="bank_angaran">
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="add_ang()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                            <button type="button" class="btn btn-info" onclick="srch_anggaran()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                     </div>
                                 </div>      
@@ -649,6 +649,49 @@ $(document).ready(function() {
             }
         });
     }
+
+    function srch_anggaran()
+        {            
+            $('#modal_anggaran').modal('show');
+            $('.modal-title').text('Cari Anggaran');            
+            table = $('#dtb_anggaran').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_anggaran')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_anggaran(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_anggaran/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="anggaran_id"]').val(data.BUD_ID);
+                    $('[name="kas_anggaran"]').val(data.BUD_CODE);                  
+                    $('#modal_anggaran').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
 
     function srch_acc(t)
         {
