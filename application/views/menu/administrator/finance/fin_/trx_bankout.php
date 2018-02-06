@@ -137,7 +137,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">No. Anggaran</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="bank_angaran">
+                                            <input class="form-control" type="text" name="bank_anggaran">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_anggaran()"><span class="glyphicon glyphicon-search"></span> Cari</button>
