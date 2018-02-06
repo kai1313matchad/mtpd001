@@ -890,7 +890,7 @@
 				$row[] = $dat->APPR_CODE;
 				$row[] = $dat->LOC_NAME;
 				$row[] = $dat->BUD_ADDRESS;			
-				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_anggaran('."'".$dat->APPR_ID."'".')">Pilih</a>';
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_anggaran('."'".$dat->BUD_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
 			$output = array(
