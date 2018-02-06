@@ -103,16 +103,17 @@
                                             <thead>
                                                 <tr>
                                                     <th class="col-sm-2 col-xs-2">Nomor</th>
-                                                    <th class="col-sm-2 col-xs-2">Tanggal</th>
-                                                    <th class="col-sm-1 col-xs-1">Customer</th>
-                                                    <th colspan="3" class="col-sm-3 col-xs-4">Nomor FP</th>
+                                                    <th class="col-sm-1 col-xs-1">Tanggal</th>
+                                                    <th class="col-sm-2 col-xs-2">Customer</th>
+                                                    <th class="col-sm-3 col-xs-3">Nomor FP</th>
+                                                    <th class="col-sm-1 col-xs-1"></th>
                                                 </tr>
                                                 <tr>
                                                     <th class="col-sm-2 col-xs-2">No. Proyek</th>
                                                     <th class="col-sm-1 col-xs-1">Lokasi</th>
                                                     <th class="col-sm-2 col-xs-2"></th>
-                                                    <th colspan="3" class="col-sm-3 col-xs-4">Keterangan Detail</th>
-                                                    <th class="col-sm-2 col-xs-2">Nominal</th>
+                                                    <th class="col-sm-3 col-xs-3">Keterangan Detail</th>
+                                                    <th class="col-sm-1 col-xs-1">Nominal</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -307,7 +308,7 @@
         {
             var seg1 = $('[name="tgl1"]').val()?$('[name="tgl1"]').val():'null';
             var seg2 = $('[name="tgl2"]').val()?$('[name="tgl2"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Transaction/pageprint_anggaran_lokasi_detail/')?>"+seg1+'/'+seg2,'_blank');
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_FP_nomor/')?>"+seg1+'/'+seg2,'_blank');
         }
 
         function printDiv(divName)
@@ -510,7 +511,9 @@
                     var nomor = "";
                     var totaldpp = 0;
                     var totalppn = 0;
+                    var totalpph = 0;
                     var total = 0;
+                    var jml = 0;
                     for (var i = 0; i < data.length; i++) {
                         // var jenis = data[i]["BNK_CODE"];
                         if (nomor != data[i]["TINV_CODE"]){
@@ -527,10 +530,11 @@
                                       $('<td>').text('') 
                                     ).appendTo('#tb_content');  
                         }
-                        var rtotal = data[i]["TINVDET_SUB"];
+                        var rtotal = data[i]["TINVDET_SUB"] * 1;
                         totaldpp = totaldpp + rtotal;
-                        totappn = totalppn + rtotal;
-                        total = total + totaldpp + totalppn;
+                        totalppn = totalppn + (data[i]["TINVDET_PPN"] * 1);
+                        totalpph = totalpph + (data[i]["TINVDET_PPH"] * 1);
+                        total = total + totaldpp + totalppn - totalpph;
                         var $rc = $('<tr>').append(
                                   $('<td>').text(data[i]["APPR_CODE"]),
                                   $('<td colspan="2">').text(data[i]["LOC_ADDRESS"]), 
@@ -540,52 +544,55 @@
                         if (nomor != data[i]["TINV_CODE"]){
                             var $ta = $('<tr>').append(
                                       $('<td>').text(''),
-                                      $('<td colspan="2">').text(''), 
-                                      $('<td>').text('DPP'), 
-                                      // $('<td>').text(''),
+                                      $('<td>').text(''), 
+                                      $('<td>').text(''),
+                                      $('<td>').css({'font-weight':'bold','text-align':'right'}).text('DPP'), 
                                       $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2))  
                                      ).appendTo('#tb_content');
                             var $ta = $('<tr>').append(
                                       $('<td>').text(''),
-                                      $('<td colspan="2">').text(''), 
-                                      $('<td>').text('PPN'), 
-                                      // $('<td>').text(''),
+                                      $('<td>').text(''),
+                                      $('<td>').text(''), 
+                                      $('<td>').css({'font-weight':'bold','text-align':'right'}).text('PPN'), 
                                       $('<td>').css('text-align','right').text(formatCurrency(totalppn,".",",",2))  
                                      ).appendTo('#tb_content');
                             var $ta = $('<tr>').append(
                                       $('<td>').text(''),
-                                      $('<td colspan="2">').text(''), 
-                                      $('<td>').text('G Total'), 
-                                      // $('<td>').text(''),
+                                      $('<td>').text(''),
+                                      $('<td>').text(''), 
+                                      $('<td>').css({'font-weight':'bold','text-align':'right'}).text('G Total'), 
                                       $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
                                      ).appendTo('#tb_content');
                             nomor=data[i]["TINV_CODE"];
                             totaldpp = 0;
                             totalppn=0;
                             total=0;
-                        }    
+                        }   
+                        jml = jml + 1; 
                     };
-                    var $ta = $('<tr>').append(
-                              $('<td>').text(''),
-                              $('<td colspan="2">').text(''), 
-                              $('<td>').text('DPP'), 
-                              // $('<td>').text(''),
-                              $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2))  
-                             ).appendTo('#tb_content');
-                    var $ta = $('<tr>').append(
-                              $('<td>').text(''),
-                              $('<td colspan="2">').text(''), 
-                              $('<td>').text('PPN'), 
-                              // $('<td>').text(''),
-                              $('<td>').css('text-align','right').text(formatCurrency(totalppn,".",",",2))  
-                             ).appendTo('#tb_content');
-                    var $ta = $('<tr>').append(
-                              $('<td>').text(''),
-                              $('<td colspan="2">').text(''), 
-                              $('<td>').text('G Total'), 
-                              // $('<td>').text(''),
-                              $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
-                             ).appendTo('#tb_content');
+                    if (jml > 1) {
+                        var $ta = $('<tr>').append(
+                                  $('<td>').text(''),
+                                  $('<td>').text(''), 
+                                  $('<td>').text(''),
+                                  $('<td>').css({'font-weight':'bold','text-align':'right'}).text('DPP'), 
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(totaldpp,".",",",2))  
+                                 ).appendTo('#tb_content');
+                        var $ta = $('<tr>').append(
+                                  $('<td>').text(''),
+                                  $('<td>').text(''),
+                                  $('<td>').text(''), 
+                                  $('<td>').css({'font-weight':'bold','text-align':'right'}).text('PPN'), 
+                                  $('<td>').css('text-align','right').text(formatCurrency(totalppn,".",",",2))  
+                                 ).appendTo('#tb_content');
+                        var $ta = $('<tr>').append(
+                                  $('<td>').text(''),
+                                  $('<td>').text(''),
+                                  $('<td>').text(''), 
+                                  $('<td>').css({'font-weight':'bold','text-align':'right'}).text('G Total'), 
+                                  $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",",",2))  
+                                 ).appendTo('#tb_content');
+                    }
 
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -7,6 +7,16 @@
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
+                <div class="row">
+                   <h2>
+                    <?php 
+                        echo $this->session->userdata('log_id');
+                   ?></h2>
+                   <h2>
+                   <?php 
+                        echo $this->session->userdata('user_branch');
+                   ?></h2>
+                </div>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
@@ -15,12 +25,6 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
 </body>
 </html>

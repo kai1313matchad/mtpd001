@@ -249,6 +249,24 @@
 			$this->load->view('menu/administrator/ga/retprc_print',$data);
 		}
 
+		public function pageprint_usgga($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$this->load->view('menu/administrator/ga/usg_print',$data);
+		}
+
+		public function pageprint_adjga($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$this->load->view('menu/administrator/ga/adj_print',$data);
+		}
+
 		//Ajax Search
 		public function ajax_srch_po()
 		{
@@ -482,7 +500,7 @@
 		}
 
 		public function ajax_add_brg()
-	    {	        
+	    {
 	      	$table = 'poga_details';
 	        $data = array(
 	                'poga_id' => $this->input->post('po_id'),
@@ -495,7 +513,7 @@
 	    }
 
 	    public function ajax_add_brgretprc()
-	    {	        
+	    {
 	      	$this->_validate_ret();
 	      	$table = 'retprcga_details';
 	        $data = array(
@@ -604,7 +622,7 @@
 		}
 
 		public function ajax_add_brgrtusg()
-	    {	        
+	    {
 	      	$this->_validate_rtusg();
 	      	$table = 'retusgga_details';
 	        $data = array(
@@ -834,6 +852,27 @@
 			echo json_encode($data);
 		}
 
+		public function ajax_pick_usgdet($id)
+		{
+			$this->db->from('usg_ga_details a');
+			$this->db->join('trx_usage_ga b','b.usgga_id = a.usgga_id');
+			$this->db->join('master_goods c','c.gd_id = a.gd_id');			
+			$this->db->where('a.usgga_id',$id);
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function ajax_pick_adj($id)
+		{
+			$this->db->from('trx_adj_ga a');			
+			$this->db->join('master_goods b','b.gd_id = a.gd_id');			
+			$this->db->where('a.adjga_id',$id);
+			$que = $this->db->get();
+			$data = $que->row();
+			echo json_encode($data);
+		}
+
 		public function ajax_pick_podet($id)
 		{
 			$data = $this->crud->get_by_id3('poga_details','master_goods','trx_po_ga',array('poga_details.poga_id' => $id),'master_goods.gd_id = poga_details.gd_id','trx_po_ga.poga_id = poga_details.poga_id');
@@ -885,7 +924,7 @@
 		}
 
 		public function ajax_add_brgprc()
-	    {	        
+	    {
 	      	$this->_validate_po();
 	      	$table = 'prcga_details';
 	        $data = array(

@@ -583,6 +583,21 @@
                             ctotal = 0;
                         }    
                     };
+                    var $ta = $('<tr>').append(
+                                      $('<td>').text(''),
+                                      $('<td colspan="3">').text(''), 
+                                      $('<td>').text(''), 
+                                      $('<td>').text(''),
+                                      $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(atotal,".",",",2))  
+                                     ).appendTo('#tb_content');
+                    var $tc = $('<tr>').append(
+                                         $('<td>').text(''),
+                                         $('<td colspan="3">').text(''), 
+                                         $('<td>').text(''), 
+                                         $('<td>').text(''),
+                                         $('<td>').css({'font-weight':'bold','text-align':'right','border-bottom':'double'}).text(formatCurrency(ctotal,".",",",2))
+                                        ).appendTo('#tb_content');
+                            cabang=data[i]["BRANCH_NAME"];
                     var $tot = $('<tr>').append(
                                       $('<td>').text(''),
                                       $('<td colspan="3">').text(''), 

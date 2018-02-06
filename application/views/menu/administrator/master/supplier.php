@@ -121,7 +121,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Contact Lain</label>
+                                <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-9">
                                     <textarea name="other" class="form-control" rows="2" style="resize:vertical;"></textarea>
                                     <span class="help-block"></span>
@@ -226,7 +226,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Contact Lain</label>
+                                <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-9">
                                     <textarea name="vother" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
                                     <span class="help-block"></span>

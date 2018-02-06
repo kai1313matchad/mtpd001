@@ -23,32 +23,69 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
-        body {
-          background: rgb(204,204,204);
-          font-size: 10px;
+        body 
+        {
+          /*background: rgb(204,204,204);*/
+          background: white;
+          /*font-size: 15px;*/
         }        
-        page {          
+        page 
+        {
           background: white;
           display: block;
           margin: 0 auto;
           margin-bottom: 0.5cm;
           box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
         }
-        page[size="A4"] {  
+        page[size="A4"] 
+        {
           width: 21cm;
           height: 14.85cm; 
         }
-        page[size="A4"][layout="portrait"] {
+        page[size="A4"][layout="portrait"] 
+        {
           width: 29.7cm;
           height: 21cm;  
         }
-        @media print {
-          body, page {
+        @media print 
+        {
+          body, page 
+          {
             margin: 0;
             box-shadow: 0;
           }
         }
-    </style> 
+    </style>
+    <style>
+        .row-content
+        {
+            margin-top: 10px;
+            min-height: 350px;
+        }
+        .table th
+        {
+            border: solid 2px black !important;
+        }
+        .table td
+        {
+            border: solid 2px black !important;
+        }
+        .head-font
+        {
+            font-family:"times new roman";
+            font-size: 18px;
+        }
+        .content-font
+        {
+            font-family: "Arial";
+            font-size: 15px;
+        }
+        .foot-font
+        {
+            font-family:"times new roman";
+            font-size: 16px;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,103 +94,191 @@
     <![endif]-->
 </head>
 <body>
-    <page size="A4">
-    <div id="ygdiprint">
-        <input type="hidden" name="idpo" value="<?php echo $id;?>">
-        <div class="container-fluid">                
-            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
-            <div class="text-center">
-                <h5><strong><u>SURAT ORDER</u></strong></h5>
-                <h5>No.<span name="no_po"></span></h5>
-            </div>            
-            <div class="row">
-                <div class="col-xs-5">
-                    <address>
-                        <strong>Dari:</strong><br>
-                        Match Advertising<br>
-                        JL. Lesti No.42, Surabaya 60241<br>
-                        Telp. (031) 567 8346 (Hunting)<br>
-                        Fax. (031) 568 0646<br>
-                        Email : info@match-advertising.com<br>
-                        Website :
-                        www.match-advertising.com www.matchadonline.com
-                    </address>
+    <!-- <page size="A4">
+        <div id="ygdiprint">
+            <input type="hidden" name="idpo" value="<?php echo $id;?>">
+            <div class="container-fluid">
+                <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
+                <div class="text-center">
+                    <h5><strong><u>SURAT ORDER</u></strong></h5>
+                    <h5>No.<span name="no_po"></span></h5>
+                </div>            
+                <div class="row">
+                    <div class="col-xs-5">
+                        <address>
+                            <strong>Dari:</strong><br>
+                            Match Advertising<br>
+                            JL. Lesti No.42, Surabaya 60241<br>
+                            Telp. (031) 567 8346 (Hunting)<br>
+                            Fax. (031) 568 0646<br>
+                            Email : info@match-advertising.com<br>
+                            Website :
+                            www.match-advertising.com www.matchadonline.com
+                        </address>
+                    </div>
+                    <div class="col-xs-3">
+                        <address>
+                            <strong>Kepada Yth:</strong><br>
+                            <span name="inv_suppname"></span><br>
+                            <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
+                            <span name="inv_suppphone"></span><br>
+                            <span name="inv_suppinfo"></span>
+                        </address>
+                    </div>
                 </div>
-                <div class="col-xs-3">
-                    <address>
-                        <strong>Kepada Yth:</strong><br>
-                        <span name="inv_suppname"></span><br>
-                        <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
-                        <span name="inv_suppphone"></span><br>
-                        <span name="inv_suppinfo"></span>
-                    </address>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table id="tb_po" class="table table-condensed">
-                                    <thead style="font-size: 9px">
-                                        <tr>
-                                            <th class="col-sm-1 col-xs-1" >No</th>
-                                            <th class="col-sm-7 col-xs-7 text-center">Order</th>
-                                            <th class="col-sm-2 col-xs-2 text-center">Quantity</th>
-                                            <th class="col-sm-2 col-xs-2 text-center">Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tb_content" style="font-size: 9px">
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-3 text-center">
-                                    Pemesan
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tb_po" class="table table-condensed">
+                                        <thead style="font-size: 9px">
+                                            <tr>
+                                                <th class="col-sm-1 col-xs-1" >No</th>
+                                                <th class="col-sm-7 col-xs-7 text-center">Order</th>
+                                                <th class="col-sm-2 col-xs-2 text-center">Quantity</th>
+                                                <th class="col-sm-2 col-xs-2 text-center">Harga</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_content" style="font-size: 9px">
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Mengetahui
+                                <div class="row">
+                                    <div class="col-xs-3 text-center">
+                                        Pemesan
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Mengetahui
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Penerima
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Surabaya, <?php echo date('d-M-Y')?>
+                                    </div>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Penerima
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        
+                                    </div>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Surabaya, <?php echo date('d-M-Y')?>
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
+                                    </div>
                                 </div>
-                            </div>
-                            <br><br>
-                            <div class="row">
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-6 text-left">
-                                    <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 text-center">
-                                    CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>        
+                </div>        
+            </div>
+        </div>
+        <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    </page> -->
+    <div class="container">
+        <input type="hidden" name="idpo" value="<?php echo $id;?>">
+        <div class="row">
+            <div class="col-xs-4">
+                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+            </div>
+            <div class="col-xs-4 text-center">
+                <h3><strong><u>SURAT ORDER</u></strong></h3>
+                <h4><strong>No.<span name="no_po"></span></strong></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 head-font">
+                <address>
+                    <strong>Dari:</strong><br>
+                    Match Advertising<br>
+                    JL. Lesti No.42, Surabaya 60241<br>
+                    Telp. (031) 567 8346 (Hunting)<br>
+                    Fax. (031) 568 0646<br>
+                    Email : info@match-advertising.com<br>
+                    <!-- Website :<br>
+                    www.match-advertising.com - www.matchadonline.com -->
+                </address>
+            </div>
+            <div class="col-xs-offset-4 col-xs-4 head-font">
+                <address>
+                    <strong>Kepada Yth:</strong><br>
+                    <span name="inv_suppname"></span><br>
+                    <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
+                    <span name="inv_suppphone"></span><br>
+                    <span name="inv_suppinfo"></span>
+                </address>
+            </div>
+        </div>
+        <div class="row row-content content-font">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1 text-center" >No</th>
+                            <th class="col-xs-7 text-center">Order</th>
+                            <th class="col-xs-2 text-center">Quantity</th>
+                            <th class="col-xs-2 text-center">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row foot-font">
+            <div class="col-xs-3 text-center">
+                Pemesan
+            </div>
+            <div class="col-xs-3 text-center">
+                Mengetahui
+            </div>
+            <div class="col-xs-3 text-center">
+                Penerima
+            </div>
+            <div class="col-xs-3 text-center">
+                Surabaya, <?php echo date('d-M-Y')?>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 text-left">
+                <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+            </div>
         </div>
     </div>
-    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -169,8 +294,12 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <!-- Select Bst -->
+    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
     <!-- Number to Money -->
     <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
+    <!-- Addon -->
+    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
@@ -237,19 +366,21 @@
                 {                       
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
-                            $('<td>').text(i+1),
-                            $('<td>').text(data[i]["GD_NAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["PGDET_QTYUNIT"]+' '+data[i]["GD_MEASURE"]),                            
+                            $('<td class="text-center">'+(i+1)+'</td>'),
+                            $('<td class="text-center">'+data[i]["GD_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["PGDET_QTYUNIT"]+' '+data[i]["GD_MEASURE"]+'</td>'),                            
                             $('<td class="text-right chgnum">'+data[i]["PGDET_SUB"]+'</td>')
                             ).appendTo('#tb_content');
                     }
                     var $tr = $('<tr>').append(
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td class="text-right chgnum" style="border-top:2px solid; font-weight: bold;">'+data[0]["POGA_GTOTAL"]+'</td>')
+                            $('<th colspan="3" class="text-right">Total Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["POGA_GTOTAL"]+'</th>')
+                            ).appendTo('#tb_content');
+                    var $tr = $('<tr>').append(
+                            $('<td colspan="4" class="text-left">Ket : '+data[0]["POGA_INFO"]+'</td>')
                             ).appendTo('#tb_content');
                     $('td.chgnum').number(true);
+                    $('th.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

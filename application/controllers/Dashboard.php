@@ -12,9 +12,44 @@
 			redirect('administrator/Dashboard');
 		}
 
-		public function login_menu()
+		public function login_()
 		{
+			$data['title']='Match Terpadu';
+			$data['menu']='dashboard';
+			$data['menulist']='';
+			$this->load->view('menu/general/login',$data);
+		}
 
+		public function loginauth()
+		{
+			$user = $this->input->post('username');
+			$pass = md5($this->input->post('password'));
+			$res = $this->authsys->login($user,$pass);
+			if ($res == '1')
+			{
+				$data['tes'] = 'Sukses Login'.$res.$pass;
+				$data['status'] = TRUE;
+			}
+			else
+			{
+				$data['tes'] = 'Gagal Login'.$res.$pass;
+				$data['status'] = FALSE;
+			}
+			echo json_encode($data);
+		}
+
+		public function logout()
+		{
+			$this->authsys->logout();
+		}
+
+		public function tes()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='dashboard';
+			$data['menulist']='';
+			$data['isi']='menu/administrator/dashboard';
+			$this->load->view('layout/administrator/wrapper',$data);
 		}
 	}
 ?>

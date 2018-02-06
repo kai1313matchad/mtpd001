@@ -376,8 +376,8 @@
                                         $('<td>').text(data[i]["TINVDET_INFO"]),
                                         $('<td>').css('text-align','right').text(formatCurrency(data[i]["TINVDET_SUB"],".",",",2))
                                 ).appendTo('#tb_content');
-                        total = total + data[i]["TINVDET_SUB"];
-                        ppn = ppn + data[i]["TINVDET_PPN"];
+                        total = total + data[i]["TINVDET_SUB"] * 1;
+                        ppn = ppn + data[i]["TINVDET_PPN"] * 1;
                     };
                     var baris= 8 - nomor;
                     for (var i = 0; i < baris; i++) {

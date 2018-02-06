@@ -26,6 +26,9 @@
                 			</li>
                 		</ul>
                 		<form class="form-horizontal" id="form_appr" enctype="multipart/form-data">
+                			<input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+	                        <input type="hidden" name="user_brc" value="<?= $this->session->userdata('user_branch')?>">
+	                        <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                 			<div class="tab-content">
                 				<div class="tab-pane fade in active" id="1">
                 					<div class="form-group">
@@ -33,18 +36,17 @@
 		                                	<h2>Data Approval</h2>
 		                                </div>
 	                            	</div>
-	                            	<!-- <input type="hidden" name="appr_id" value="<?php echo $appr->APPR_ID;?>"> -->
-	                            	<input type="hidden" name="appr_id" value="0">
-	                            	<input type="hidden" name="user_id" value="1">
-	                            	<input type="hidden" name="user_brc" value="0">
 	                            	<div class="form-group">
 					                    <label class="col-sm-3 control-label">Nomor Approval</label>
 					                    <div class="col-sm-1">
 	                                        <a id="genbtn" href="javascript:void(0)" onclick="gen_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
 	                                    </div>
-					                    <div class="col-sm-7">
-					                        <!-- <input class="form-control" type="text" name="appr_code" value="<?php echo $appr->APPR_CODE;?>" readonly> -->
+					                    <div class="col-sm-5">
 					                        <input class="form-control" type="text" name="appr_code" value="" readonly>
+					                        <input type="hidden" name="appr_id" value="0">
+					                	</div>
+					                	<div class="col-sm-2">
+					                		<input type="text" class="form-control" name="appr_init" readonly>
 					                	</div>
 									</div>									
 									<div class="form-group hid-form">
@@ -206,14 +208,14 @@
                             		<div class="form-group">
 			                            <label class="col-sm-3 control-label">Ukuran P-L-T</label>
 			                            <div class="col-sm-2">
-			                                <input class="form-control apprbrc" type="text" name="appr_length" placeholder="panjang">
+			                                <input class="form-control hit-luas apprbrc" type="text" name="appr_length" placeholder="panjang">
 			                            </div>
 			                            <div class="col-sm-2">
-			                                <input class="form-control apprbrc" type="text" name="appr_width" placeholder="lebar">
+			                                <input class="form-control hit-luas apprbrc" type="text" name="appr_width" placeholder="lebar">
 			                            </div>
-			                            <div class="col-sm-2">
+			                            <!-- <div class="col-sm-2">
 			                                <input class="form-control apprbrc" type="text" name="appr_height" placeholder="tinggi">
-			                            </div>
+			                            </div> -->
 			                            <label class="col-sm-1 control-label">Meter</label>
 			                        </div>
 			                        <div class="form-group">
@@ -324,12 +326,6 @@
 	                            			</div>
 	                            		</div>
 			                        </div>
-			                        <!-- <div class="form-group">
-			                            <label class="col-sm-3 control-label">Pembayaran</label>
-			                            <div class="col-sm-8">
-			                                <input class="form-control" type="text" name="appr_pay">
-			                            </div>
-			                        </div> -->
 			                        <div class="form-group hid-form">
 			                            <label class="col-sm-3 control-label">Nominal Cabang</label>
 			                            <div class="col-sm-8">
@@ -670,7 +666,7 @@
                             			<label class="col-sm-3 control-label">Jenis Ijin</label>
 	                                    <div class="col-sm-8">
 	                                        <select id="pattyp" name="pat_id" class="form-control" data-live-search="true">
-		                                        <option value="">--Pilih--</option>
+		                                        <option value="">Pilih</option>
 		                                    <?php
 		                                        for($i=0; $i<count($pattyp); $i++)
 		                                    { ?>
@@ -935,26 +931,7 @@
     <!-- /Modal Search -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
     	$(document).ready(function()
     	{
@@ -963,32 +940,35 @@
             check_()
             inputchg();
             inputtermchg();
+            luaschg();
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
             costapp(id);
     	});
-
     	function print_appr()
         {
             var ids = $('[name=appr_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_approval/')?>"+ids,'_blank');
         }
-
     	function inputchg()
     	{
     		$('.chgcount').on('input', function() {
                 hitung_();                
             });
     	}
-
+    	function luaschg()
+    	{
+    		$('.hit-luas').on('input', function() {
+                hit_luas_();                
+            });
+    	}
     	function inputtermchg()
     	{
     		$('.termchgcount').on('input', function() {
     			hitungterm_();
     		});
     	}
-
     	function gen_appr()
     	{
     		$.ajax({
@@ -1002,6 +982,7 @@
 					$('#genbtn').attr('disabled',true);
     				termapp(data.id);
             		costapp(data.id);
+            		pick_init($('[name="user_brc"]').val());
     			},
     			error: function (jqXHR, textStatus, errorThrown)
     			{
@@ -1009,9 +990,8 @@
     			}
     		});
     	}
-
     	function saveapp()
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_simpanapp')?>",
 	            type: "POST",
@@ -1038,7 +1018,6 @@
 	            }
 	        });
     	}
-
     	function check_()
         {
             if($('#det_radio1').is(':checked'))
@@ -1049,7 +1028,7 @@
             {
                 $('#det_biaya').css({'display':'block'});
             }
-            if($('[name="user_brc"]').val() != '0')
+            if($('[name="user_brcsts"]').val() != '0')
             {
             	$('.hid-form').css({'display':'none'});
             }
@@ -1085,7 +1064,6 @@
 			$('[name="dpp_appr"]').val(sub1);
 			$('[name="bbtax_appr"]').val(bbtax);
     	}
-
     	function hitungterm_()
     	{
     		var dppappr = $('[name="dpp_appr"]').val();
@@ -1104,6 +1082,13 @@
     		$('[name="termpphn"]').val(pphntrm);
     		var sub2 = (sub1*1)+(ppnntrm*1)-(pphntrm*1);
     		$('[name="termsum"]').val(sub2);
+    	}
+    	function hit_luas_()
+    	{
+    		var panjang = $('[name="appr_length"]').val();
+    		var lebar = $('[name="appr_width"]').val();
+    		var luas = Math.abs(panjang*lebar);
+    		$('[name="appr_sumsize"]').val(luas);
     	}
     </script>
     <!-- Fungsi Tampilan Data Detail -->
@@ -1130,7 +1115,6 @@
 	            ],
 	        });
     	}
-
     	function add_costapp()
     	{
 	        $.ajax({
@@ -1164,7 +1148,6 @@
 	            }
 	        });
     	}
-
     	function del_costapp(id)
     	{
     		if(confirm('Are you sure delete this data?'))
@@ -1187,7 +1170,6 @@
 	            });
 	        }
     	}
-
     	function get_subcost(id)
     	{
     		$.ajax({
@@ -1252,7 +1234,6 @@
 	            ],
 	        });
     	}
-
     	function add_termapp()
     	{    		
 	        $.ajax({
@@ -1275,7 +1256,6 @@
 	            }
 	        });
     	}
-
     	function del_termapp(id)
     	{
     		if(confirm('Are you sure delete this data?'))
@@ -1321,7 +1301,7 @@
     	}
     	//Detail Permit
     	function ijinapp(id)
-    	{    		    		
+    	{
 	        table = $('#dtb_ijinapp').DataTable({
 	            "info": false,
 	            "destroy": true,
@@ -1341,9 +1321,8 @@
 	            ],
 	        });
     	}
-
     	function add_ijinapp()
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_add_ijinapp')?>",
 	            type: "POST",
@@ -1364,7 +1343,6 @@
 	            }
 	        });
     	}
-
     	function del_ijinapp(id)
     	{
     		if(confirm('Are you sure delete this data?'))
@@ -1388,7 +1366,7 @@
     	}
     	//Detail Permit Cabang
     	function ijinappbrc(id)
-    	{    		    		
+    	{
 	        table = $('#dtb_ijinappbrc').DataTable({
 	            "info": false,
 	            "destroy": true,
@@ -1458,7 +1436,6 @@
 	            ],
 	        });
     	}
-
     	function srch_mkt()
     	{
     		$('#modal_mkt').modal('show');
@@ -1482,7 +1459,6 @@
 	            ],
 	        });
     	}
-
     	function srch_bb()
     	{
     		$('#modal_bb').modal('show');
@@ -1506,7 +1482,6 @@
 	            ],
 	        });
     	}
-
     	function srch_loc()
     	{
     		$('#modal_loc').modal('show');
@@ -1530,7 +1505,6 @@
 	            ],
 	        });
     	}
-
     	function srch_plc()
     	{
     		$('#modal_plc').modal('show');
@@ -1554,7 +1528,6 @@
 	            ],
 	        });
     	}
-
     	function srch_curr()
     	{
     		$('#modal_curr').modal('show');
@@ -1603,7 +1576,6 @@
 	            }
 	        });
     	}
-
     	function pick_mkt(id)
     	{
 	        $.ajax({
@@ -1625,7 +1597,6 @@
 	            }
 	        });
     	}
-
     	function pick_bb(id)
     	{
 	        $.ajax({
@@ -1644,7 +1615,6 @@
 	            }
 	        });
     	}
-
     	function pick_loc(id)
     	{
 	        $.ajax({
@@ -1664,7 +1634,6 @@
 	            }
 	        });
     	}
-
     	function pick_plc(id)
     	{
 	        $.ajax({
@@ -1683,7 +1652,6 @@
 	            }
 	        });
     	}
-
     	function pick_curr(id)
     	{
 	        $.ajax({
@@ -1705,18 +1673,17 @@
 	            }
 	        });
     	}
-
     	function pick_apprbranch(id)
     	{
 	        $.ajax({
-	            url : "<?php echo site_url('administrator/Marketing/pick_apprbranch/')?>" + id,
+	            url : "<?php echo site_url('administrator/Searchdata/pick_apprbranch/')?>" + id,
 	            type: "GET",
 	            dataType: "JSON",
 	            success: function(data)
 	            {   
 	                $('.apprbrc').attr('readonly',true);
 	                $('[name="appr_brcid"]').val(data.APPR_ID);
-	                $('[name="appr_brc"]').val(data.APPR_CODE);
+	                $('[name="appr_brc"]').val(data.APPR_CODE+' '+data.BRANCH_INIT);
 	                $('[name="appr_po"]').val(data.APPR_PO);
 	                $('[name="tgl_awal"]').val(data.APPR_CONTRACT_START);
 	                $('[name="tgl_akhir"]').val(data.APPR_CONTRACT_END);
@@ -1752,7 +1719,6 @@
 	            }
 	        });
     	}
-
     	function pick_costappbrc(id)
     	{
     		$.ajax({
@@ -1770,7 +1736,6 @@
 	            }
 	        });
     	}
-
     	function pick_termappbrc(id)
     	{
     		$.ajax({
@@ -1793,7 +1758,6 @@
 	            }
 	        });
     	}
-
     	function pick_ijinappbrc(id)
     	{
     		$.ajax({
@@ -1804,6 +1768,22 @@
 	            {   
 					$('select#pattyp').val(data.PRMTTYP_ID);
                 	$('#pattyp').selectpicker('refresh');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+    	function pick_init(id)
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                $('[name="appr_init"]').val(data.BRANCH_INIT);
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {

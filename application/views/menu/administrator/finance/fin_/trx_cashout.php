@@ -122,9 +122,10 @@
                                             <input class="form-control" type="text" name="kas_anggaran" readonly>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="add_ang()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                            <button type="button" class="btn btn-info" onclick="srch_anggaran()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
                                     </div>
+                                    <input class="form-control" type="hidden" name="anggaran_id">
                                 </div>      
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
@@ -145,7 +146,7 @@
                                                   <input class="form-control" type="text" name="acc_detail" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="add_gd('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_acc('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
@@ -407,6 +408,41 @@
     </div>
     <!-- modal Supplier selesai -->
 
+    <!-- Modal Anggaran Search -->
+    <div class="modal fade" id="modal_anggaran" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_anggaran" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Tanggal</th>
+                                        <th>Nomor Approval</th>
+                                        <th>Nama Lokasi</th>
+                                        <th>Alamat Lokasi</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Anggaran selesai -->
+
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -529,7 +565,8 @@ $(document).ready(function() {
                 }
             });
         } 
-        function srch_appr()
+    
+    function srch_appr()
         {            
             $('#modal_appr').modal('show');
             $('.modal-title').text('Cari Approval');            
@@ -553,7 +590,27 @@ $(document).ready(function() {
             });
         }
 
-         function srch_supp()
+    function pick_appr(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_appr/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="kas_approval"]').val(data.APPR_CODE);
+                    pick_location(data.LOC_ID);                   
+                    $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_supp()
         {            
             $('#modal_supp').modal('show');
             $('.modal-title').text('Cari Supplier');            
@@ -577,7 +634,27 @@ $(document).ready(function() {
             });
         }
 
-        function srch_dept()
+    function pick_supp(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="supp_id"]').val(data.SUPP_ID);
+                    $('[name="kas_sup"]').val(data.SUPP_NAME);
+                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
+                    $('#modal_supp').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_dept()
         {            
             $('#modal_dept').modal('show');
             $('.modal-title').text('Cari Departemen');            
@@ -598,6 +675,68 @@ $(document).ready(function() {
                     "orderable": false,
                 },
                 ],
+            });
+        }
+
+    function pick_dept(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_dept/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="dept_id"]').val(data.DEPT_ID);
+                    $('[name="kas_dept"]').val(data.DEPT_NAME);                  
+                    $('#modal_dept').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_anggaran()
+        {            
+            $('#modal_anggaran').modal('show');
+            $('.modal-title').text('Cari Anggaran');            
+            table = $('#dtb_anggaran').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_anggaran')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_anggaran(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_anggaran/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="anggaran_id"]').val(data.BUD_ID);
+                    $('[name="kas_anggaran"]').val(data.BUD_CODE);                  
+                    $('#modal_anggaran').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
 
@@ -661,7 +800,7 @@ $(document).ready(function() {
         });
     }
 
-        function srch_curr()
+    function srch_curr()
         {
             $('#modal_curr').modal('show');
             $('.modal-title').text('Cari Rate Mata Uang');            
@@ -685,7 +824,7 @@ $(document).ready(function() {
             });
         }
 
-        function pick_curr(id)
+    function pick_curr(id)
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_pick_curr/')?>" + id,
@@ -705,47 +844,7 @@ $(document).ready(function() {
             });
         }
 
-        function pick_appr(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_appr/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="kas_approval"]').val(data.APPR_CODE);
-                    pick_location(data.LOC_ID);                   
-                    $('#modal_appr').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_supp(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="supp_id"]').val(data.SUPP_ID);
-                    $('[name="kas_sup"]').val(data.SUPP_NAME);
-                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
-                    $('#modal_supp').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_location(id)
+    function pick_location(id)
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_pick_location/')?>" + id,
@@ -763,26 +862,7 @@ $(document).ready(function() {
             });
         }
 
-        function pick_dept(id)
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_dept/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="dept_id"]').val(data.DEPT_ID);
-                    $('[name="kas_dept"]').val(data.DEPT_NAME);                  
-                    $('#modal_dept').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function save_cash_out()
+    function save_cash_out()
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_cash_out')?>",

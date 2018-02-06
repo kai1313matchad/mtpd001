@@ -303,8 +303,8 @@
         	$this->db->join('chart_of_account g','a.coa_id=g.coa_id');
         	// $this->db->join('chart_of_account d','a.coa_id=d.coa_id');
         	$this->db->order_by('c.branch_id');
+        	$this->db->order_by('b.bud_appr');
         	$this->db->order_by('a.bud_id');
-            $this->db->order_by('b.bud_appr');
         	// $this->db->order_by('a.coa_id');
         	$this->db->where('b.bud_date >=',$tgl1);
         	$this->db->where('b.bud_date <=',$tgl2);

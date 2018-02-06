@@ -211,7 +211,7 @@
         {
             var seg1 = $('[name="tgl1"]').val()?$('[name="tgl1"]').val():'null';
             var seg2 = $('[name="tgl2"]').val()?$('[name="tgl2"]').val():'null';
-            window.open ( "<?php echo site_url('administrator/Finance/pageprint_bkas/')?>"+seg1+'/'+seg2,'_blank');
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_giro_blm_cr/')?>"+seg1+'/'+seg2,'_blank');
         }
 
         function printDiv(divName)

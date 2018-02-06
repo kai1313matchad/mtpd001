@@ -29,7 +29,7 @@
                                 <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Tambah Karyawan</button>
                             </div>
                         </div><br>
-                        <div class="col-sm-12 col-xs-12 table-responsive">                    
+                        <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_prs" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -90,11 +90,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- Modal CRUD -->
     <div class="modal fade" id="modal_form" role="dialog">
@@ -196,6 +193,20 @@
                                 <div class="col-sm-10">
                                     <select name="branch" id="branch" class="form-control text-center">
                                         <option value="">--Pilih--</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Level</label>
+                                <div class="col-sm-10">
+                                    <select name="level" id="level" class="form-control text-center">
+                                        <option value="">--Pilih--</option>
+                                        <option value="1">Administrator</option>
+                                        <option value="2">Supervisor</option>
+                                        <option value="3">Regular</option>
                                     </select>
                                     <span class="help-block"></span>
                                 </div>
@@ -322,6 +333,20 @@
                                 <label class="col-sm-2 control-label">Cabang</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="vbranchu" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Level</label>
+                                <div class="col-sm-10">
+                                    <select name="vlevelu" id="vlevelu" class="form-control text-center" readonly>
+                                        <option value="">--Pilih--</option>
+                                        <option value="1">Administrator</option>
+                                        <option value="2">Supervisor</option>
+                                        <option value="3">Regular</option>
+                                    </select>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -466,7 +491,7 @@
     function lihat_person(id)
     {
         $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_person/')?>/" + id,
+            url : "<?php echo site_url('administrator/Master/ajax_edit_person/')?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -494,11 +519,13 @@
             type: "GET",
             dataType: "JSON",
             success: function(data)
-            {   
+            {
                 $('[name="idu"]').val(data.USER_ID);
+                $('[name="vcodeu"]').val(data.USER_CODE);
                 $('[name="vnamau"]').val(data.PERSON_NAME);
                 $('[name="vbranchu"]').val(data.BRANCH_NAME);
                 $('[name="vusernameu"]').val(data.USER_NAME);
+                $('select#vlevelu').val(data.USER_LEVEL);
                 $('[name="stsu"]').val(data.USER_DTSTS);
                 $('#modal_view2').modal('show');
                 $('.modal-title').text('Lihat User');
@@ -511,7 +538,7 @@
     }
 
     function add_person()
-    {        
+    {
         save_method = 'add';
         $('#form')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -527,7 +554,7 @@
     }
 
     function add_user()
-    {        
+    {
         save_method = 'add';
         $('#form2')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -601,6 +628,7 @@
                 var branch = data.BRANCH_ID;
                 document.querySelector('#branch [value="' + branch + '"]').selected = true;
                 $('[name="username"]').val(data.USER_NAME);
+                $('select#level').val(data.USER_LEVEL);
                 $('[name="stsu"]').val(data.USER_DTSTS);
                 $('[name="checku"]').val("1");
                 $('[name="tbu"]').val("master_user");
@@ -615,7 +643,7 @@
     }
 
     function reload_table()
-    {        
+    {
         $('#dtb_prs').DataTable().ajax.reload(null,false);
         $('#dtb_prs2').DataTable().ajax.reload(null,false);
     }

@@ -16,6 +16,7 @@
 		    $this->load->model('datatables/search/Dt_srchapprinv','srch_apprinv');
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
+		    $this->load->model('datatables/search/Dt_srchbudget','srch_ra');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
 		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
             $this->load->model('datatables/search/Dt_srchgiroin','srch_gm');
@@ -574,17 +575,6 @@
 			$this->load->view('menu/administrator/finance/fin_/bgiro_sudah_cair_print',$data);
 		}
 
-		public function pageprint_bfaktur($id)
-		{
-			// $data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
-			// $data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
-			$data['id'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
-			$data['title']='Match Terpadu - Dashboard Finance';
-			$data['menu']='finance';
-			$data['menulist']='report_finance';
-			$this->load->view('menu/administrator/finance/fin_/faktur_print',$data);
-		}
-
 		public function print_giro_in()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -623,6 +613,17 @@
 			$this->load->view('menu/administrator/finance/fin_/bgiro_keluar_print',$data);
 		}
 
+		public function pageprint_bfaktur($id)
+		{
+			// $data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			// $data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['id'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/faktur_print',$data);
+		}
+
 		public function print_FP_Nomor()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -630,6 +631,92 @@
 			$data['menulist']='report_finance';
 			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_nomor';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_FP_Nomor()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/Finance/fin_/fp_nomor_print',$data);
+		}
+
+		public function print_FP_Nomor_Summary()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_nomor_summary';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_FP_Nomor_Summary()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/Finance/fin_/fp_nomor_summary_print',$data);
+		}
+
+		public function print_FP_Customer()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_customer';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_FP_Customer()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/Finance/fin_/fp_customer_print',$data);
+		}
+
+		public function print_FP_Proyek()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_proyek';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_FP_Proyek()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/Finance/fin_/fp_proyek_print',$data);
+		}
+
+		public function print_FP_Invoice()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_fp_invoice';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_FP_Invoice()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/Finance/fin_/fp_invoice_print',$data);
 		}
 
 		public function ajax_pick_acc($id)
@@ -789,6 +876,32 @@
 			echo json_encode($output);
 		}
 
+		public function ajax_srch_anggaran()
+		{
+			$list = $this->srch_ra->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BUD_CODE;
+				$row[] = $dat->BUD_DATE;	
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->BUD_ADDRESS;			
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_anggaran('."'".$dat->APPR_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_appr->count_all(),
+							"recordsFiltered" => $this->srch_appr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function ajax_srch_appr()
 		{
 			$list = $this->srch_appr->get_datatables();
@@ -799,9 +912,6 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
-				// $row[] = $dat->APPR_PO;
-				// $row[] = $dat->APPR_DATE;				
-				// $row[] = $dat->CUST_NAME;
 				$row[] = $dat->LOC_NAME;	
 				$row[] = $dat->LOC_ADDRESS;			
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appr('."'".$dat->APPR_ID."'".')">Pilih</a>';
@@ -1055,7 +1165,7 @@
             $data = array(
                     'CSHO_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
-                    'CSHODET_REFF' => $this->input->post('no_jual'),
+                    'CSHODET_REFF' => $this->input->post('no_beli'),
                     'CSHODET_INFO' => $this->input->post('ket_detail'),
                     'CSHODET_AMOUNT' => $this->input->post('nominal')
                 );
@@ -1490,6 +1600,12 @@
         	echo json_encode($data);
 		}
 
+		public function ajax_pick_anggaran($id)
+		{
+			$data = $this->crud->get_by_id('trx_budget',array('BUD_ID' => $id));
+        	echo json_encode($data);
+		}
+
 		public function ajax_pick_inv($id)
 		{
 			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
@@ -1892,6 +2008,72 @@
         	$this->db->join('master_branch h','h.branch_id=g.branch_id');
         	$this->db->join('master_location i','i.loc_id=e.loc_id');
         	$this->db->order_by('b.tinv_code');
+        	$this->db->order_by('g.branch_id');
+        	$this->db->where('b.tinv_date >=',$tgl1);
+        	$this->db->where('b.tinv_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_fp_customer()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('tax_inv_details a');
+        	$this->db->join('trx_tax_invoice b','b.tinv_id=a.tinv_id');
+        	$this->db->join('trx_invoice c','c.inv_id=b.inv_id');
+        	$this->db->join('inv_details d','d.inv_id=c.inv_id');
+        	$this->db->join('trx_approvalbill e','e.appr_id=d.appr_id');
+        	$this->db->join('master_customer f','f.cust_id=c.cust_id');
+        	$this->db->join('master_user g','g.user_id=b.user_id');
+        	$this->db->join('master_branch h','h.branch_id=g.branch_id');
+        	$this->db->join('master_location i','i.loc_id=e.loc_id');
+        	$this->db->order_by('c.cust_id');
+        	$this->db->order_by('g.branch_id');
+        	$this->db->where('b.tinv_date >=',$tgl1);
+        	$this->db->where('b.tinv_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_fp_proyek()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('tax_inv_details a');
+        	$this->db->join('trx_tax_invoice b','b.tinv_id=a.tinv_id');
+        	$this->db->join('trx_invoice c','c.inv_id=b.inv_id');
+        	$this->db->join('inv_details d','d.inv_id=c.inv_id');
+        	$this->db->join('trx_approvalbill e','e.appr_id=d.appr_id');
+        	$this->db->join('master_customer f','f.cust_id=c.cust_id');
+        	$this->db->join('master_user g','g.user_id=b.user_id');
+        	$this->db->join('master_branch h','h.branch_id=g.branch_id');
+        	$this->db->join('master_location i','i.loc_id=e.loc_id');
+        	$this->db->order_by('e.appr_id');
+        	$this->db->order_by('g.branch_id');
+        	$this->db->where('b.tinv_date >=',$tgl1);
+        	$this->db->where('b.tinv_date <=',$tgl2);
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
+        public function show_fp_invoice()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$tgl2 = $this->input->post('tgl2');
+        	$this->db->from('tax_inv_details a');
+        	$this->db->join('trx_tax_invoice b','b.tinv_id=a.tinv_id');
+        	$this->db->join('trx_invoice c','c.inv_id=b.inv_id');
+        	$this->db->join('inv_details d','d.inv_id=c.inv_id');
+        	$this->db->join('trx_approvalbill e','e.appr_id=d.appr_id');
+        	$this->db->join('master_customer f','f.cust_id=c.cust_id');
+        	$this->db->join('master_user g','g.user_id=b.user_id');
+        	$this->db->join('master_branch h','h.branch_id=g.branch_id');
+        	$this->db->join('master_location i','i.loc_id=e.loc_id');
+        	$this->db->order_by('c.inv_id');
         	$this->db->order_by('g.branch_id');
         	$this->db->where('b.tinv_date >=',$tgl1);
         	$this->db->where('b.tinv_date <=',$tgl2);

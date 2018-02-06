@@ -9,7 +9,12 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <a href="javascript:void(0)" onclick="print_bapp()" class="btn btn-block btn-primary">
-                            <span class="glyphicon glyphicon-print"> Cetak</span>
+                            <span class="glyphicon glyphicon-print"> CetakForm</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="print_bappimg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-print"> CetakGambar</span>
                         </a>
                     </div>
                 </div><br>
@@ -303,24 +308,7 @@
     <!-- /Modal Search -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Dropzone -->
-    <script src="<?php echo base_url('assets/addons/dropzone.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
     	$(document).ready(function()
     	{
@@ -329,7 +317,14 @@
 
         function print_bapp()
         {            
-            window.open ( "<?php echo site_url('administrator/Marketing/print_bapp/')?>",'_blank');
+            var ids = $('[name=bapp_id]').val();
+            window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bapp/')?>"+ids,'_blank');
+        }
+
+        function print_bappimg()
+        {            
+            var ids = $('[name=bapp_id]').val();
+            window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bappimg/')?>"+ids,'_blank');
         }
 
     	function add_img()
@@ -568,7 +563,8 @@
     		thumbnailWidth: 80,
     		thumbnailHeight: 80,
     		parallelUploads: 1,
-    		maxFilesize: 0.5,
+    		maxFilesize: 10,
+            maxFiles: 4,
     		// uploadMultiple: true,
     		acceptedFiles: 'image/jpg, image/jpeg',
     		previewTemplate: previewTemplate,
