@@ -124,7 +124,7 @@
                                             <input class="form-control" type="text" name="bank_info">
                                         </div>
                                     </div>
-                                    <div class="form-grou<input class="form-control" type="hidden" name="anggaran_id">p">
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Departemen </label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" name="bank_dept">
