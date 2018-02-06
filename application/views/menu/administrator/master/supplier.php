@@ -121,6 +121,15 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Jatuh Tempo</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="jtempo">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-9">
                                     <textarea name="other" class="form-control" rows="2" style="resize:vertical;"></textarea>
@@ -226,6 +235,15 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Jatuh Tempo</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="vjtempo" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-9">
                                     <textarea name="vother" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
@@ -272,7 +290,6 @@
     $(document).ready(function() {
         dt_supp();
     });
-
     function dt_supp()
     {
         table = $('#dtb_supp').DataTable({ 
@@ -293,7 +310,6 @@
             ],
         });
     }
-
     function lihat_supp(id)
     {        
         $.ajax({
@@ -310,6 +326,7 @@
                 $('[name="vpostal"]').val(data.SUPP_POSTAL);
                 $('[name="vphone"]').val(data.SUPP_PHONE);
                 $('[name="vfax"]').val(data.SUPP_FAX);
+                $('[name="vjtempo"]').val(data.SUPP_DUE);
                 $('[name="vother"]').val(data.SUPP_OTHERCTC);
                 $('[name="vacc"]').val(data.SUPP_ACC);
                 $('#modal_view').modal('show');
@@ -321,7 +338,6 @@
             }
         });
     }
-
     function add_supp()
     {        
         save_method = 'add';
@@ -337,7 +353,6 @@
         gen_supp();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function edit_supp(id)
     {
         save_method = 'update';
@@ -345,8 +360,7 @@
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
         $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);        
-        
+        $('[name="gen"]').prop('disabled',true);
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_sup/')?>" + id,
             type: "GET",
@@ -361,6 +375,7 @@
                 $('[name="postal"]').val(data.SUPP_POSTAL);
                 $('[name="phone"]').val(data.SUPP_PHONE);
                 $('[name="fax"]').val(data.SUPP_FAX);
+                $('[name="jtempo"]').val(data.SUPP_DUE);
                 $('[name="other"]').val(data.SUPP_OTHERCTC);
                 $('[name="acc"]').val(data.SUPP_ACC);
                 $('[name="sts"]').val(data.SUPP_DTSTS);
@@ -375,12 +390,10 @@
             }
         });
     }
-
     function reload_table()
     {
         table.ajax.reload(null,false);
     }
-
     function save()
     {
         $('#btnSave').text('saving...');

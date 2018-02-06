@@ -393,7 +393,6 @@
         }
         function get_images(id)
         {
-            
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/temp_gallery/')?>"+id,
                 type: "GET",

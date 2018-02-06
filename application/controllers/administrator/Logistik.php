@@ -1052,14 +1052,17 @@
 	                'prcdet_sub' => $this->input->post('po_sub')
 	            );
 	        $insert = $this->crud->save($table,$data);
-	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
-	        $stock = $getinv->GD_STOCK;
-	        $add = $this->input->post('po_qty');
-	        $up = $stock + $add; 
-	        $data_up = array (
-	        		'gd_stock' => $up
-	        	);
-	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        if($this->input->post('gd_typestock') == '0')
+	        {
+	        	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+		        $stock = $getinv->GD_STOCK;
+		        $add = $this->input->post('po_qty');
+		        $up = $stock + $add; 
+		        $data_up = array (
+		        		'gd_stock' => $up
+		        	);
+		        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $this->input->post('gd_id')));
+	        }
 	        echo json_encode(array("status" => TRUE));	        
 	    }
 
@@ -1068,13 +1071,16 @@
 	    	$getprc = $this->crud->get_by_id('prc_details',array('prcdet_id' => $id));
 	    	$gdid = $getprc->GD_ID;
 	    	$substract =  $getprc->PRCDET_QTY;
-	    	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
-	    	$stock = $getinv->GD_STOCK;
-	        $up = $stock - $substract;
-	        $data_up = array (
-	        		'gd_stock' => $up
-	        	);
-	        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	if($this->input->post('gd_typestock') == '0')
+	    	{
+	    		$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+		    	$stock = $getinv->GD_STOCK;
+		        $up = $stock - $substract;
+		        $data_up = array (
+		        		'gd_stock' => $up
+		        	);
+		        $update = $this->crud->update('master_goods',$data_up,array('gd_id' => $gdid));
+	    	}
 	    	$this->crud->delete_by_id('prc_details',array('prcdet_id' => $id));
         	echo json_encode(array("status" => TRUE));        	
 	    }

@@ -165,232 +165,213 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
-    <script>    
-    $(document).ready(function() {
-        dt_bank();
-        drop_acc();
-    });
-
-    function dt_bank()
-    {        
-        table = $('#dtb_bank').DataTable({ 
-            "info": false,
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": {
-                "url": "<?php echo site_url('administrator/Showdata/showmaster_bank')?>",
-                "type": "POST",                
-            },
-            "columnDefs": [
-            { 
-                "targets": [ 0 ],
-                "orderable": false,
-            },
-            ],
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <script>
+        $(document).ready(function() 
+        {
+            dt_bank();
+            drop_acc();
         });
-    }
-
-    function reload_table()
-    {
-        table.ajax.reload(null,false);
-    }
-
-    function add_bank()
-    {        
-        save_method = 'add';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah Bank');
-        $('[name="tb"]').val("master_bank");
-        $('[name="sts"]').val("1");
-        $('[name="check"]').val("0");
-        $('[name="gen"]').prop('disabled',false);
-        gen_bank();        
-    }
-
-    function edit_bank(id)
-    {
-        save_method = 'update';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);
-
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.BANK_ID);
-                $('[name="code"]').val(data.BANK_CODE);
-                $('[name="nama"]').val(data.BANK_NAME);
-                var sts = data.COA_ID;
-                // document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
-                $('#acc_bank').selectpicker('val', sts);
-                $('[name="info"]').val(data.BANK_INFO);                
-                $('[name="sts"]').val(data.BANK_DTSTS);
-                $('[name="check"]').val("1");
-                $('[name="tb"]').val("master_bank");
-                $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Bank');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function lihat_bank(id)
-    {        
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.BANK_ID);
-                $('[name="vcode"]').val(data.BANK_CODE);
-                $('[name="vnama"]').val(data.BANK_NAME);              
-                $('[name="vacc_bank"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
-                $('[name="vinfo"]').val(data.BANK_INFO);
-                $('#modal_view').modal('show');
-                $('.modal-title').text('Lihat Bank');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function save()
-    {
-        $('#btnSave').text('saving...');
-        $('#btnSave').attr('disabled',true);
-        var url;        
-        if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/ajax_add_bank')?>";
-        } else {
-            url = "<?php echo site_url('administrator/Master/ajax_update_bank')?>";
+        function dt_bank()
+        {
+            table = $('#dtb_bank').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showmaster_bank')?>",
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                {
+                    "className": "text-center", "targets": [0,4]
+                }
+                ],
+            });
         }
+        function reload_table()
+        {
+            table.ajax.reload(null,false);
+        }
+        function add_bank()
+        {
+            save_method = 'add';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('#modal_form').modal('show');
+            $('.modal-title').text('Tambah Bank');
+            $('[name="tb"]').val("master_bank");
+            $('[name="sts"]').val("1");
+            $('[name="check"]').val("0");
+            $('[name="gen"]').prop('disabled',false);
+            gen_bank();        
+        }
+        function edit_bank(id)
+        {
+            save_method = 'update';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('[name="code"]').prop('readonly',true);
+            $('[name="gen"]').prop('disabled',true);
 
-        $.ajax({
-            url : url,
-            type: "POST",
-            data: $('#form').serialize(),
-            dataType: "JSON",
-            success: function(data)
-            {
-                if(data.status)
-                {
-                    $('#modal_form').modal('hide');
-                    reload_table();
-                }
-                else
-                {
-                    for (var i = 0; i < data.inputerror.length; i++) 
-                    {
-                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
-                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-                    }
-                }
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error adding / update data');
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            }
-        });
-    }
-
-    function delete_bank(id)
-    {
-        if(confirm('Are you sure delete this data?'))
-        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_bank/')?>"+id,
-                type: "POST",
+                url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
+                type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {                    
-                    $('#modal_form').modal('hide');
-                    reload_table();
+                {   
+                    $('[name="id"]').val(data.BANK_ID);
+                    $('[name="code"]').val(data.BANK_CODE);
+                    $('[name="nama"]').val(data.BANK_NAME);
+                    var sts = data.COA_ID;
+                    // document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
+                    $('#acc_bank').selectpicker('val', sts);
+                    $('[name="info"]').val(data.BANK_INFO);                
+                    $('[name="sts"]').val(data.BANK_DTSTS);
+                    $('[name="check"]').val("1");
+                    $('[name="tb"]').val("master_bank");
+                    $('#modal_form').modal('show');
+                    $('.modal-title').text('Edit Bank');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error deleting data');
+                    alert('Error get data from ajax');
                 }
             });
         }
-    }
-
-    function drop_acc()
-    {
-        $.ajax({
-        url : "<?php echo site_url('administrator/Master/getcoa')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-            {   
-                var select = document.getElementById('acc_bank');
-                var option;
-                for (var i = 0; i < data.length; i++) {
-                    option = document.createElement('option');
-                    option.value = data[i]["COA_ID"]
-                    option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
-                    select.add(option);
+        function lihat_bank(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id"]').val(data.BANK_ID);
+                    $('[name="vcode"]').val(data.BANK_CODE);
+                    $('[name="vnama"]').val(data.BANK_NAME);              
+                    $('[name="vacc_bank"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
+                    $('[name="vinfo"]').val(data.BANK_INFO);
+                    $('#modal_view').modal('show');
+                    $('.modal-title').text('Lihat Bank');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
-                $('#acc_bank').selectpicker({});                
-            },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
+            });
+        }
+        function save()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if(save_method == 'add') {
+                url = "<?php echo site_url('administrator/Master/ajax_add_bank')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/ajax_update_bank')?>";
             }
-        });
-    }
 
-    function gen_bank()
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_bank')?>",
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
+        function delete_bank(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {            
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/ajax_delete_bank/')?>"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {                    
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+        function drop_acc()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Master/getcoa')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)
-            {                    
-                $('[name="code"]').val(data.kode);
-                // alert(data.kode);
-            },
+                {   
+                    var select = document.getElementById('acc_bank');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["COA_ID"]
+                        option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
+                        select.add(option);
+                    }
+                    $('#acc_bank').selectpicker({});                
+                },
             error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Generate Number');
-            }
-        });
-    }
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function gen_bank()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/gen_bank')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    $('[name="code"]').val(data.kode);
+                    // alert(data.kode);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Generate Number');
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -2214,6 +2214,7 @@
 	                'supp_postal' => $this->input->post('postal'),
 	                'supp_phone' => $this->input->post('phone'),
 	                'supp_fax' => $this->input->post('fax'),
+	                'supp_due' => $this->input->post('jtempo'),
 	                'supp_otherctc' => $this->input->post('other'),
 	                'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')
@@ -2234,6 +2235,7 @@
 	                'supp_postal' => $this->input->post('postal'),
 	                'supp_phone' => $this->input->post('phone'),
 	                'supp_fax' => $this->input->post('fax'),
+	                'supp_due' => $this->input->post('jtempo'),
 	                'supp_otherctc' => $this->input->post('other'),
 	                'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')

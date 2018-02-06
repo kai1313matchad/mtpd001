@@ -3,19 +3,20 @@
 	class Dt_srchpo extends CI_Model 
 	{
 
-		var $table = 'trx_po';
+		var $table = 'trx_po a';
 		var $column_order = array(null,'po_code','appr_code','cust_name' ,'po_ordnum','po_date');
 		var $column_search = array('po_code','appr_code', 'cust_name', 'po_ordnum','po_date');
-		var $order = array('po_id' => 'desc');
+		var $order = array('a.po_id' => 'desc');
 		public function __construct()
 		{
-			parent::__construct();		
+			parent::__construct();
 		}
 		private function _get_datatables_query()
 		{		
 			$this->db->from($this->table);
-			$this->db->join('trx_approvalbill','trx_approvalbill.appr_id = trx_po.appr_id','left');
-			$this->db->join('master_customer','master_customer.cust_id = trx_approvalbill.cust_id','left');	
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id');
+			$this->db->join('master_customer c','c.cust_id = b.cust_id');
+			$this->db->where('a.po_id NOT IN (select d.po_id from trx_procurement d join trx_po e on e.po_id = d.po_id)');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

@@ -233,201 +233,200 @@
     <!-- /#wrapper -->
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
-    <script>    
-    $(document).ready(function() {
-        dt_branch();
-    });
-    function dt_branch()
-    {        
-        table = $('#dtb_brc').DataTable({ 
-            "info": false,
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": {
-                "url": "<?php echo site_url('administrator/Master/ajax_brc')?>",
-                "type": "POST",                
-            },
-            "columnDefs": [
-            { 
-                "targets": [ 0 ],
-                "orderable": false,
-            },
-            ],
+    <script>
+        $(document).ready(function() 
+        {
+            dt_branch();
         });
-    }
-    function reload_table()
-    {
-        table.ajax.reload(null,false);
-    }
-    function add_brc()
-    {        
-        save_method = 'add';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah Cabang');
-        $('[name="tb"]').val("master_branch");
-        $('[name="sts"]').val("1");
-        $('[name="check"]').val("0");
-        $('[name="gen"]').prop('disabled',false);
-        gen_brc();
-        // $('[name="code"]').prop('readonly',false);
-    }
-    function edit_brc(id)
-    {
-        save_method = 'update';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);
-
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.BRANCH_ID);
-                $('[name="code"]').val(data.BRANCH_CODE);
-                $('[name="nama"]').val(data.BRANCH_NAME);
-                $('[name="inisial"]').val(data.BRANCH_INIT);
-                var sts = data.BRANCH_STATUS;
-                document.querySelector('#stat [value="' + sts + '"]').selected = true;
-                $('[name="alamat"]').val(data.BRANCH_ADDRESS);
-                $('[name="kota"]').val(data.BRANCH_CITY);
-                $('[name="notlp"]').val(data.BRANCH_PHONE);
-                $('[name="fax"]').val(data.BRANCH_FAX);
-                $('[name="sts"]').val(data.BRANCH_DTSTS);
-                $('[name="check"]').val("1");
-                $('[name="tb"]').val("master_branch");
-                $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Cabang');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    function lihat_brc(id)
-    {        
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.BRANCH_ID);
-                $('[name="vcode"]').val(data.BRANCH_CODE);
-                $('[name="vnama"]').val(data.BRANCH_NAME);
-                $('[name="vinisial"]').val(data.BRANCH_INIT);
-                var status = data.BRANCH_STATUS;
-                if(status == '0')
-                {
-                    $('[name="vstat"]').val('Pusat');
-                }
-                if(status == '1')
-                {
-                    $('[name="vstat"]').val('Cabang');
-                }                
-                $('[name="valamat"]').val(data.BRANCH_ADDRESS);
-                $('[name="vkota"]').val(data.BRANCH_CITY);
-                $('[name="vnotlp"]').val(data.BRANCH_PHONE);
-                $('[name="vfax"]').val(data.BRANCH_FAX);
-                $('#modal_view').modal('show');
-                $('.modal-title').text('Lihat Cabang');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function save()
-    {
-        $('#btnSave').text('saving...');
-        $('#btnSave').attr('disabled',true);
-        var url;        
-        if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/ajax_add_brc')?>";
-        } else {
-            url = "<?php echo site_url('administrator/Master/ajax_update_brc')?>";
+        function dt_branch()
+        {
+            table = $('#dtb_brc').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Master/ajax_brc')?>",
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
         }
+        function reload_table()
+        {
+            table.ajax.reload(null,false);
+        }
+        function add_brc()
+        {
+            save_method = 'add';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('#modal_form').modal('show');
+            $('.modal-title').text('Tambah Cabang');
+            $('[name="tb"]').val("master_branch");
+            $('[name="sts"]').val("1");
+            $('[name="check"]').val("0");
+            $('[name="gen"]').prop('disabled',false);
+            gen_brc();
+            // $('[name="code"]').prop('readonly',false);
+        }
+        function edit_brc(id)
+        {
+            save_method = 'update';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('[name="code"]').prop('readonly',true);
+            $('[name="gen"]').prop('disabled',true);
 
-        $.ajax({
-            url : url,
-            type: "POST",
-            data: $('#form').serialize(),
-            dataType: "JSON",
-            success: function(data)
-            {
-                if(data.status)
-                {
-                    $('#modal_form').modal('hide');
-                    reload_table();
-                }
-                else
-                {
-                    for (var i = 0; i < data.inputerror.length; i++) 
-                    {
-                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
-                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-                    }
-                }
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error adding / update data');
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            }
-        });
-    }
-    function delete_brc(id)
-    {
-        if(confirm('Are you sure delete this data?'))
-        {            
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_brc/')?>"+id,
-                type: "POST",
+                url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>" + id,
+                type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {                    
-                    $('#modal_form').modal('hide');
-                    reload_table();
+                {   
+                    $('[name="id"]').val(data.BRANCH_ID);
+                    $('[name="code"]').val(data.BRANCH_CODE);
+                    $('[name="nama"]').val(data.BRANCH_NAME);
+                    $('[name="inisial"]').val(data.BRANCH_INIT);
+                    var sts = data.BRANCH_STATUS;
+                    document.querySelector('#stat [value="' + sts + '"]').selected = true;
+                    $('[name="alamat"]').val(data.BRANCH_ADDRESS);
+                    $('[name="kota"]').val(data.BRANCH_CITY);
+                    $('[name="notlp"]').val(data.BRANCH_PHONE);
+                    $('[name="fax"]').val(data.BRANCH_FAX);
+                    $('[name="sts"]').val(data.BRANCH_DTSTS);
+                    $('[name="check"]').val("1");
+                    $('[name="tb"]').val("master_branch");
+                    $('#modal_form').modal('show');
+                    $('.modal-title').text('Edit Cabang');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error deleting data');
+                    alert('Error get data from ajax');
                 }
             });
         }
-    }
-
-    function gen_brc()
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_brc')?>",
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {                    
-                $('[name="code"]').val(data.kode);
-                // alert(data.kode);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Generate Number');
+        function lihat_brc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_brc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id"]').val(data.BRANCH_ID);
+                    $('[name="vcode"]').val(data.BRANCH_CODE);
+                    $('[name="vnama"]').val(data.BRANCH_NAME);
+                    $('[name="vinisial"]').val(data.BRANCH_INIT);
+                    var status = data.BRANCH_STATUS;
+                    if(status == '0')
+                    {
+                        $('[name="vstat"]').val('Pusat');
+                    }
+                    if(status == '1')
+                    {
+                        $('[name="vstat"]').val('Cabang');
+                    }                
+                    $('[name="valamat"]').val(data.BRANCH_ADDRESS);
+                    $('[name="vkota"]').val(data.BRANCH_CITY);
+                    $('[name="vnotlp"]').val(data.BRANCH_PHONE);
+                    $('[name="vfax"]').val(data.BRANCH_FAX);
+                    $('#modal_view').modal('show');
+                    $('.modal-title').text('Lihat Cabang');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function save()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if(save_method == 'add') {
+                url = "<?php echo site_url('administrator/Master/ajax_add_brc')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/ajax_update_brc')?>";
             }
-        });
-    }
+
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
+        function delete_brc(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {            
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/ajax_delete_brc/')?>"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {                    
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+        function gen_brc()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/gen_brc')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    $('[name="code"]').val(data.kode);
+                    // alert(data.kode);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Generate Number');
+                }
+            });
+        }
     </script>
 </body>
 </html>

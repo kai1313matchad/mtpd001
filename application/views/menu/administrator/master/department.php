@@ -145,199 +145,183 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
-    <script type="text/javascript">    
-    $(document).ready(function() {
-        dt_dept();        
-    });
-
-    function dt_dept()
-    {
-        table = $('#dtb_dept').DataTable({ 
-            "info": false,
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": {
-                "url": "<?php echo site_url('administrator/Showdata/showmaster_dept')?>",
-                "type": "POST",                
-            },
-            "columnDefs": [
-            { 
-                "targets": [ 0 ],
-                "orderable": false,
-            },
-            ],
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <script>
+        $(document).ready(function() 
+        {
+            dt_dept();        
         });
-    }
-
-    function lihat_dept(id)
-    {        
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_dept/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.DEPT_ID);
-                $('[name="vcode"]').val(data.DEPT_CODE);
-                $('[name="vdept_name"]').val(data.DEPT_NAME);
-                $('[name="vdept_info"]').val(data.DEPT_INFO);                
-                $('#modal_view').modal('show');
-                $('.modal-title').text('Lihat Data Departemen');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function add_dept()
-    {        
-        save_method = 'add';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah Departemen');
-        $('[name="tb"]').val("master_dept");
-        $('[name="sts"]').val("1");
-        $('[name="check"]').val("0");
-        $('[name="gen"]').prop('disabled',false);
-        gen_dept();        
-    }
-
-    function edit_dept(id)
-    {
-        save_method = 'update';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);
-
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_dept/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.DEPT_ID);
-                $('[name="code"]').val(data.DEPT_CODE);
-                $('[name="dept_name"]').val(data.DEPT_NAME);
-                $('[name="dept_info"]').val(data.DEPT_INFO);                
-                $('[name="sts"]').val(data.DEPT_DTSTS);
-                $('[name="check"]').val("1");
-                $('[name="tb"]').val("master_dept");
-                $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Departemen');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function reload_table()
-    {
-        table.ajax.reload(null,false);
-    }
-
-    function save()
-    {
-        $('#btnSave').text('saving...');
-        $('#btnSave').attr('disabled',true);
-        var url;        
-        if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/ajax_add_dept')?>";
-        } else {
-            url = "<?php echo site_url('administrator/Master/ajax_update_dept')?>";
+        function dt_dept()
+        {
+            table = $('#dtb_dept').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showmaster_dept')?>",
+                    "type": "POST",                
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                {
+                    "className":"text-center", "targets": [0,2,4],
+                },
+                ],
+            });
         }
-        
-        $.ajax({
-            url : url,
-            type: "POST",
-            data: $('#form').serialize(),
-            dataType: "JSON",
-            success: function(data)
-            {
-                if(data.status)
-                {
-                    $('#modal_form').modal('hide');
-                    reload_table();
-                }
-                else
-                {
-                    for (var i = 0; i < data.inputerror.length; i++) 
-                    {
-                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
-                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-                    }
-                }
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error adding / update data');
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            }
-        });
-    }
-
-    function delete_dept(id)
-    {
-        if(confirm('Are you sure delete this data?'))
+        function lihat_dept(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_dept/')?>"+id,
-                type: "POST",
+                url : "<?php echo site_url('administrator/Master/ajax_edit_dept/')?>" + id,
+                type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {                    
-                    $('#modal_form').modal('hide');
-                    reload_table();
+                {   
+                    $('[name="id"]').val(data.DEPT_ID);
+                    $('[name="vcode"]').val(data.DEPT_CODE);
+                    $('[name="vdept_name"]').val(data.DEPT_NAME);
+                    $('[name="vdept_info"]').val(data.DEPT_INFO);                
+                    $('#modal_view').modal('show');
+                    $('.modal-title').text('Lihat Data Departemen');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error deleting data');
+                    alert('Error get data from ajax');
                 }
             });
         }
-    }
+        function add_dept()
+        {
+            save_method = 'add';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('#modal_form').modal('show');
+            $('.modal-title').text('Tambah Departemen');
+            $('[name="tb"]').val("master_dept");
+            $('[name="sts"]').val("1");
+            $('[name="check"]').val("0");
+            $('[name="gen"]').prop('disabled',false);
+            gen_dept();        
+        }
+        function edit_dept(id)
+        {
+            save_method = 'update';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('[name="code"]').prop('readonly',true);
+            $('[name="gen"]').prop('disabled',true);
 
-    function gen_dept()
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_dept')?>",
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {                    
-                $('[name="code"]').val(data.kode);                
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Generate Number');
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_dept/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id"]').val(data.DEPT_ID);
+                    $('[name="code"]').val(data.DEPT_CODE);
+                    $('[name="dept_name"]').val(data.DEPT_NAME);
+                    $('[name="dept_info"]').val(data.DEPT_INFO);                
+                    $('[name="sts"]').val(data.DEPT_DTSTS);
+                    $('[name="check"]').val("1");
+                    $('[name="tb"]').val("master_dept");
+                    $('#modal_form').modal('show');
+                    $('.modal-title').text('Edit Departemen');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function reload_table()
+        {
+            table.ajax.reload(null,false);
+        }
+        function save()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if(save_method == 'add') {
+                url = "<?php echo site_url('administrator/Master/ajax_add_dept')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/ajax_update_dept')?>";
             }
-        });
-    }
+            
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
+        function delete_dept(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/ajax_delete_dept/')?>"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {                    
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+        function gen_dept()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/gen_dept')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    $('[name="code"]').val(data.kode);                
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Generate Number');
+                }
+            });
+        }
     </script>
 </body>
 </html>

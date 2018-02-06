@@ -1,10 +1,11 @@
-body {
+body 
+{
   
   font-family: 'Khula', sans-serif;
 }
 
 #page-wrapper{
-background: #eee;  /* fallback for old browsers */
+background: #E9EBEE;  /* fallback for old browsers */
 }
 
 .iki a{
@@ -13,8 +14,8 @@ color:black;
 
 .iku{
 background: #2AC4C3;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #13A4FF, #2AC4C3);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #13A4FF, #2AC4C3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: -webkit-linear-gradient(to left, #13A4FF, #2AC4C3);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #13A4FF, #2AC4C3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .nav-tabs {

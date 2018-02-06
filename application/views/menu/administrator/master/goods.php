@@ -298,250 +298,251 @@
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
-    $(document).ready(function() {
-        dt_goods();
-        dropsupp();
-        dropsupp2();
-    });
-    function dt_goods()
-    {
-        table = $('#dtb_goods').DataTable({ 
-            "info": false,
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": {
-                "url": "<?php echo site_url('administrator/Master/ajax_gd')?>",
-                "type": "POST",                
-            },            
-            "columnDefs": [
-            { 
-                "targets": [ 0 ],
-                "orderable": false,
-            },
-            {
-                "className":"text-right", "targets": [6],
-            },
-            {
-                "className":"text-center", "targets": [0,1,2,3,4,5,7],
-            },
-            ],
-        });        
-    }
-    function dropsupp()
-    {
-        $.ajax({
-        url : "<?php echo site_url('administrator/Master/getsupp')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-            {   
-                var select = document.getElementById('supp');
-                var option;
-                for (var i = 0; i < data.length; i++) {
-                    option = document.createElement('option');
-                    option.value = data[i]["SUPP_ID"]
-                    option.text = data[i]["SUPP_NAME"];
-                    select.add(option);
-                }
-                $('#supp').selectpicker({});
-                $('#supp').selectpicker('refresh');
-            },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
+        $(document).ready(function() 
+        {
+            dt_goods();
+            dropsupp();
+            dropsupp2();
         });
-    }
-    function dropsupp2()
-    {
-        $.ajax({
-        url : "<?php echo site_url('administrator/Master/getsupp')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-            {   
-                var select = document.getElementById('vsupp');
-                var option;
-                for (var i = 0; i < data.length; i++) {
-                    option = document.createElement('option');
-                    option.value = data[i]["SUPP_ID"]
-                    option.text = data[i]["SUPP_NAME"];
-                    select.add(option);
-                }
-            },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    function lihat_gd(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.GD_ID);
-                $('[name="vcode"]').val(data.GD_CODE);
-                var supp = data.SUPP_ID;
-                document.querySelector('#vsupp [value="' + supp + '"]').selected = true;
-                $('[name="vnama"]').val(data.GD_NAME);
-                $('[name="vunit"]').val(data.GD_UNIT);
-                $('[name="vukuran"]').val(data.GD_MEASURE);
-                $('[name="vharga"]').val(data.GD_PRICE);
-                $('[name="vinfo"]').val(data.GD_INFO);
-                $('[name="vstats"]').val(data.GD_STS);
-                $('[name="vjenis"]').val(data.GD_TYPE);
-                $('select#vjstock').val(data.GD_TYPESTOCK);
-                $('#modal_view').modal('show');
-                $('.modal-title').text('Edit Barang');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    function add_gd()
-    {
-        save_method = 'add';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah Barang');
-        $('[name="tb"]').val("master_goods");
-        $('[name="sts"]').val("1");
-        $('[name="check"]').val("0");
-        $('[name="gen"]').prop('disabled',false);
-        gen_gd();
-        // $('[name="code"]').prop('readonly',false);
-    }
-    function edit_gd(id)
-    {
-        save_method = 'update';
-        $('#form')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-        $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);
-
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>/" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="id"]').val(data.GD_ID);
-                $('[name="code"]').val(data.GD_CODE);
-                var supp = data.SUPP_ID;
-                document.querySelector('#supp [value="' + supp + '"]').selected = true;
-                $('[name="nama"]').val(data.GD_NAME);
-                $('[name="unit"]').val(data.GD_UNIT);
-                $('[name="ukuran"]').val(data.GD_MEASURE);
-                $('[name="harga"]').val(data.GD_PRICE);
-                $('[name="info"]').val(data.GD_INFO);
-                $('[name="stats"]').val(data.GD_STS);
-                $('[name="jenis"]').val(data.GD_TYPE);
-                $('select#jstock').val(data.GD_TYPESTOCK);
-                $('[name="check"]').val("1");
-                $('[name="tb"]').val("master_goods");
-                $('#modal_form').modal('show');
-                $('.modal-title').text('Edit Barang');
-                $('#supp').selectpicker('refresh');
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    function reload_table()
-    {
-        table.ajax.reload(null,false);
-    }
-    function save()
-    {
-        $('#btnSave').text('saving...');
-        $('#btnSave').attr('disabled',true);
-        var url;        
-        if(save_method == 'add') {
-            url = "<?php echo site_url('administrator/Master/ajax_add_gd')?>";
-        } else {
-            url = "<?php echo site_url('administrator/Master/ajax_update_gd')?>";
-        }
-        
-        $.ajax({
-            url : url,
-            type: "POST",
-            data: $('#form').serialize(),
-            dataType: "JSON",
-            success: function(data)
-            {
-                if(data.status)
-                {
-                    $('#modal_form').modal('hide');
-                    reload_table();
-                }
-                else
-                {
-                    for (var i = 0; i < data.inputerror.length; i++) 
-                    {
-                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
-                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-                    }
-                }
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error adding / update data');
-                $('#btnSave').text('save');
-                $('#btnSave').attr('disabled',false);
-            }
-        });
-    }
-    function delete_gd(id)
-    {
-        if(confirm('Are you sure delete this data?'))
-        {            
-            $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_delete_gd')?>/"+id,
-                type: "POST",
-                dataType: "JSON",
-                success: function(data)
-                {                    
-                    $('#modal_form').modal('hide');
-                    reload_table();
+        function dt_goods()
+        {
+            table = $('#dtb_goods').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Master/ajax_gd')?>",
+                    "type": "POST",                
+                },            
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
-                error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error deleting data');
+                    "className":"text-right", "targets": [6],
+                },
+                {
+                    "className":"text-center", "targets": [0,1,2,3,4,5,7],
+                },
+                ],
+            });        
+        }
+        function dropsupp()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Master/getsupp')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById('supp');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["SUPP_ID"]
+                        option.text = data[i]["SUPP_NAME"];
+                        select.add(option);
+                    }
+                    $('#supp').selectpicker({});
+                    $('#supp').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
             });
         }
-    }
-    function gen_gd()
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Master/gen_gd')?>",
+        function dropsupp2()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Master/getsupp')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)
-            {                    
-                $('[name="code"]').val(data.kode);                
-            },
+                {   
+                    var select = document.getElementById('vsupp');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["SUPP_ID"]
+                        option.text = data[i]["SUPP_NAME"];
+                        select.add(option);
+                    }
+                },
             error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Generate Number');
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function lihat_gd(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id"]').val(data.GD_ID);
+                    $('[name="vcode"]').val(data.GD_CODE);
+                    var supp = data.SUPP_ID;
+                    document.querySelector('#vsupp [value="' + supp + '"]').selected = true;
+                    $('[name="vnama"]').val(data.GD_NAME);
+                    $('[name="vunit"]').val(data.GD_UNIT);
+                    $('[name="vukuran"]').val(data.GD_MEASURE);
+                    $('[name="vharga"]').val(data.GD_PRICE);
+                    $('[name="vinfo"]').val(data.GD_INFO);
+                    $('[name="vstats"]').val(data.GD_STS);
+                    $('[name="vjenis"]').val(data.GD_TYPE);
+                    $('select#vjstock').val(data.GD_TYPESTOCK);
+                    $('#modal_view').modal('show');
+                    $('.modal-title').text('Edit Barang');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function add_gd()
+        {
+            save_method = 'add';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('#modal_form').modal('show');
+            $('.modal-title').text('Tambah Barang');
+            $('[name="tb"]').val("master_goods");
+            $('[name="sts"]').val("1");
+            $('[name="check"]').val("0");
+            $('[name="gen"]').prop('disabled',false);
+            gen_gd();
+            // $('[name="code"]').prop('readonly',false);
+        }
+        function edit_gd(id)
+        {
+            save_method = 'update';
+            $('#form')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('[name="code"]').prop('readonly',true);
+            $('[name="gen"]').prop('disabled',true);
+
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id"]').val(data.GD_ID);
+                    $('[name="code"]').val(data.GD_CODE);
+                    var supp = data.SUPP_ID;
+                    document.querySelector('#supp [value="' + supp + '"]').selected = true;
+                    $('[name="nama"]').val(data.GD_NAME);
+                    $('[name="unit"]').val(data.GD_UNIT);
+                    $('[name="ukuran"]').val(data.GD_MEASURE);
+                    $('[name="harga"]').val(data.GD_PRICE);
+                    $('[name="info"]').val(data.GD_INFO);
+                    $('[name="stats"]').val(data.GD_STS);
+                    $('[name="jenis"]').val(data.GD_TYPE);
+                    $('select#jstock').val(data.GD_TYPESTOCK);
+                    $('[name="check"]').val("1");
+                    $('[name="tb"]').val("master_goods");
+                    $('#modal_form').modal('show');
+                    $('.modal-title').text('Edit Barang');
+                    $('#supp').selectpicker('refresh');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function reload_table()
+        {
+            table.ajax.reload(null,false);
+        }
+        function save()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if(save_method == 'add') {
+                url = "<?php echo site_url('administrator/Master/ajax_add_gd')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/ajax_update_gd')?>";
             }
-        });
-    }
+            
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
+        function delete_gd(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {            
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/ajax_delete_gd')?>/"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {                    
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+        function gen_gd()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/gen_gd')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    $('[name="code"]').val(data.kode);                
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Generate Number');
+                }
+            });
+        }
     </script>
 </body>
 </html>

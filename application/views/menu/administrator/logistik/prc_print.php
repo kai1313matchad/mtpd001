@@ -24,8 +24,9 @@
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
         body {
-          background: rgb(204,204,204);
-          font-size: 10px;
+          /*background: rgb(204,204,204);*/
+          background: white;
+          /*font-size: 10px;*/
         }        
         page {          
           background: white;
@@ -48,7 +49,37 @@
             box-shadow: 0;
           }
         }
-    </style> 
+    </style>
+    <style>
+        .row-content
+        {
+            margin-top: 10px;
+            min-height: 350px;
+        }
+        .table th
+        {
+            border: solid 2px black !important;
+        }
+        .table td
+        {
+            border: solid 2px black !important;
+        }
+        .head-font
+        {
+            font-family:"times new roman";
+            font-size: 18px;
+        }
+        .content-font
+        {
+            font-family: "Arial";
+            font-size: 12px;
+        }
+        .foot-font
+        {
+            font-family:"times new roman";
+            font-size: 16px;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,125 +88,206 @@
     <![endif]-->
 </head>
 <body>
-    <page size="A4">
-    <div id="ygdiprint">
-        <input type="hidden" name="idprc" value="<?php echo $id;?>">
-        <div class="container-fluid">                
-            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
-            <div class="text-center">
-                <h5><strong><u>ORDER PEMBELIAN</u></strong></h5>
-                <h5>No.<span name="no_prc"></span></h5>
-            </div>            
-            <div class="row">
-                <div class="col-xs-5">
-                    <address>
-                        <strong>Dari:</strong><br>
-                        Match Advertising<br>
-                        JL. Lesti No.42, Surabaya 60241<br>
-                        Telp. (031) 567 8346 (Hunting)<br>
-                        Fax. (031) 568 0646<br>
-                        Email : info@match-advertising.com<br>
-                        Website :
-                        www.match-advertising.com www.matchadonline.com
-                    </address>
+    <!-- <page size="A4">
+        <div id="ygdiprint">
+            <input type="hidden" name="idprc" value="<?php echo $id;?>">
+            <div class="container-fluid">
+                <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
+                <div class="text-center">
+                    <h5><strong><u>ORDER PEMBELIAN</u></strong></h5>
+                    <h5>No.<span name="no_prc"></span></h5>
+                </div>            
+                <div class="row">
+                    <div class="col-xs-5">
+                        <address>
+                            <strong>Dari:</strong><br>
+                            Match Advertising<br>
+                            JL. Lesti No.42, Surabaya 60241<br>
+                            Telp. (031) 567 8346 (Hunting)<br>
+                            Fax. (031) 568 0646<br>
+                            Email : info@match-advertising.com<br>
+                            Website :
+                            www.match-advertising.com www.matchadonline.com
+                        </address>
+                    </div>
+                    <div class="col-xs-3">
+                        <address>
+                            <strong>Kepada Yth:</strong><br>
+                            <span name="inv_suppname"></span><br>
+                            <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
+                            <span name="inv_suppphone"></span><br>
+                            <span name="inv_suppinfo"></span>
+                        </address>
+                    </div>
+                    <div class="col-xs-4">
+                        <address>
+                            <strong>Info:</strong><br> 
+                            Lokasi <br><span name="loc_name"></span>, <span name="loc_det"></span><br>
+                            <span name="prc_info"></span>
+                        </address>
+                    </div>
                 </div>
-                <div class="col-xs-3">
-                    <address>
-                        <strong>Kepada Yth:</strong><br>
-                        <span name="inv_suppname"></span><br>
-                        <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
-                        <span name="inv_suppphone"></span><br>
-                        <span name="inv_suppinfo"></span>
-                    </address>
-                </div>
-                <div class="col-xs-4">
-                    <address>
-                        <strong>Info:</strong><br> 
-                        Lokasi <br><span name="loc_name"></span>, <span name="loc_det"></span><br>
-                        <span name="prc_info"></span>
-                    </address>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default">
-                        <!-- <div class="panel-heading">
-                            <h5 class="panel-title"><strong>Order Summary</strong></h5>
-                        </div> -->
-                        <div class="panel-body">
-                            <!-- <div class="col-sm-12 col-xs-12 table-responsive">
-                                <table id="dtb_po" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Order</th>
-                                            <th>Quantity</th>
-                                            <th>Harga</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div> -->
-                            <div class="table-responsive">
-                                <table id="tb_po" class="table table-condensed">
-                                    <thead style="font-size: 9px">
-                                        <tr>
-                                            <th class="col-sm-1 col-xs-1" >No</th>
-                                            <th class="col-sm-7 col-xs-7 text-center">Order</th>
-                                            <th class="col-sm-2 col-xs-2 text-center">Quantity</th>
-                                            <th class="col-sm-2 col-xs-2 text-center">Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tb_content" style="font-size: 9px">
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-3 text-center">
-                                    Pemesan
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tb_po" class="table table-condensed">
+                                        <thead style="font-size: 9px">
+                                            <tr>
+                                                <th class="col-sm-1 col-xs-1" >No</th>
+                                                <th class="col-sm-7 col-xs-7 text-center">Order</th>
+                                                <th class="col-sm-2 col-xs-2 text-center">Quantity</th>
+                                                <th class="col-sm-2 col-xs-2 text-center">Harga</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_content" style="font-size: 9px">
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Mengetahui
+                                <div class="row">
+                                    <div class="col-xs-3 text-center">
+                                        Pemesan
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Mengetahui
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Penerima
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        Surabaya, <?php echo date('d-M-Y')?>
+                                    </div>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Penerima
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        (.................)
+                                    </div>
+                                    <div class="col-xs-3 text-center">
+                                        
+                                    </div>
                                 </div>
-                                <div class="col-xs-3 text-center">
-                                    Surabaya, <?php echo date('d-M-Y')?>
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
+                                    </div>
                                 </div>
-                            </div>
-                            <br><br>
-                            <div class="row">
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    (.................)
-                                </div>
-                                <div class="col-xs-3 text-center">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-6 text-left">
-                                    <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 text-center">
-                                    CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>        
+                </div>        
+            </div>
+        </div>
+        <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    </page> -->
+    <div class="container">
+        <input type="hidden" name="idprc" value="<?php echo $id;?>">
+        <div class="row">
+            <div class="col-xs-4">
+                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+            </div>
+            <div class="col-xs-4 text-center">
+                <h3><strong><u>ORDER PEMBELIAN</u></strong></h3>
+                <h4><strong>No.<span name="no_po"></span></strong></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 head-font">
+                <address>
+                    <strong>Dari:</strong><br>
+                    Match Advertising<br>
+                    JL. Lesti No.42, Surabaya 60241<br>
+                    Telp. (031) 567 8346 (Hunting)<br>
+                    Fax. (031) 568 0646<br>
+                    Email : info@match-advertising.com<br>
+                    <!-- Website :<br>
+                    www.match-advertising.com - www.matchadonline.com -->
+                </address>
+            </div>
+            <div class="col-xs-4 head-font">
+                <address>
+                    <strong>Kepada Yth:</strong><br>
+                    <span name="inv_suppname"></span><br>
+                    <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
+                    <span name="inv_suppphone"></span><br>
+                    <span name="inv_suppinfo"></span>
+                </address>
+            </div>
+            <div class="col-xs-4 head-font">
+                <address>
+                    <strong>Info:</strong><br> 
+                    Lokasi <br><span name="loc_name"></span>, <span name="loc_det"></span><br>
+                    <!-- <span name="inv_suppdue"></span><br> -->
+                    <span name="prc_info"></span>
+                </address>
+            </div>
+        </div>
+        <div class="row row-content content-font">
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1 text-center" >No</th>
+                            <th class="col-xs-7 text-center">Order</th>
+                            <th class="col-xs-2 text-center">Quantity</th>
+                            <th class="col-xs-2 text-center">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row foot-font">
+            <div class="col-xs-3 text-center">
+                Pemesan
+            </div>
+            <div class="col-xs-3 text-center">
+                Mengetahui
+            </div>
+            <div class="col-xs-3 text-center">
+                Penerima
+            </div>
+            <div class="col-xs-3 text-center">
+                Surabaya, <?php echo date('d-M-Y')?>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+                (.................)
+            </div>
+            <div class="col-xs-3 text-center">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 text-left">
+                <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
+            </div>
         </div>
     </div>
-    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -204,28 +316,6 @@
                 // hitung();
             });
         });
-
-        function dtable()
-        {
-            table = $('#dtb_po').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_printpo')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
 
         function pick_prc(id)
         {
@@ -298,36 +388,27 @@
                             ).appendTo('#tb_content');
                     }
                     var $tr1 = $('<tr>').append(
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css('border-top','2px solid').text(''),
-                            $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text('Sub Total Rp'),
-                            $('<td class="text-right chgnum" style="border-top: 2px solid; border-bottom: none; font-weight: bold;">'+data[0]["PRC_SUB"]+'</td>')
+                            $('<th colspan="3" class="text-right">Sub Total Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["PRC_SUB"]+'</th>')
                             ).appendTo('#tb_content');
                     var $tr2 = $('<tr>').append(
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Diskon Rp'),
-                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_DISC"]+'</td>')
+                            $('<th colspan="3" class="text-right">Diskon Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["PRC_DISC"]+'</th>')
                             ).appendTo('#tb_content');
                     var $tr3 = $('<tr>').append(
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('PPN Rp'),
-                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_PPN"]+'</td>')
+                            $('<th colspan="3" class="text-right">PPN Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["PRC_PPN"]+'</th>')
                             ).appendTo('#tb_content');
                     var $tr4 = $('<tr>').append(
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Biaya Rp'),
-                            $('<td class="text-right chgnum" style="border: none; font-weight: bold;">'+data[0]["PRC_COST"]+'</td>')
+                            $('<th colspan="3" class="text-right">Biaya Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["PRC_COST"]+'</th>')
                             ).appendTo('#tb_content');
                     var $tr5 = $('<tr>').append(
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none'}).text(''),
-                            $('<td>').css({'border-bottom':'none','border-top':'none','font-weight':'bold','text-align':'right'}).text('Total Rp'),
-                            $('<td class="text-right chgnum" style="font-weight: bold; border: none;">'+data[0]["PRC_GTOTAL"]+'</td>')
+                            $('<th colspan="3" class="text-right">Grand Total Rp</th>'),
+                            $('<th class="text-right chgnum">'+data[0]["PRC_GTOTAL"]+'</th>')
                             ).appendTo('#tb_content');
                     $('td.chgnum').number(true);
+                    $('th.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

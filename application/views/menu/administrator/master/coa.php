@@ -182,7 +182,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Jenis Rekening</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control text-center" name="par_type" id="par_type">
+                                    <select class="form-control text-center" name="par_type" id="par_type" data-live-search="true">
                                         <option value="">Pilih</option>
                                         <option value="aktiva">Aktiva</option>
                                         <option value="kewajiban">Kewajiban</option>
@@ -233,7 +233,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Rek. Induk</label>
                                 <div class="col-sm-9">
-                                    <select name="coa_par" id="coa_par" class="form-control text-center">
+                                    <select name="coa_par" id="coa_par" class="form-control text-center" data-live-search="true">
                                     </select>
                                     <span class="help-block"></span>
                                 </div>
@@ -390,19 +390,7 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function() 
         {
@@ -411,7 +399,6 @@
             dt_parent();
             dt_coa();
         });
-
         function open_parenttype()
         {
             if(!$('#parenttype').is(':visible'))
@@ -423,7 +410,6 @@
                 $('#parenttype').css({'display':'none'});
             }
         }
-
         function dropcoaprtp(id)
         {
             $.ajax({
@@ -444,6 +430,8 @@
                         option.text = data[i]["PARTP_NAME"];
                         select.add(option);
                     }
+                    $('#'+id).selectpicker({});
+                    $('#'+id).selectpicker('refresh');
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -451,7 +439,6 @@
                 }
             });
         }
-
         function dropcoapr(id)
         {
             $.ajax({
@@ -472,6 +459,8 @@
                         option.text = data[i]["PAR_ACC"]+'-'+data[i]["PAR_ACCNAME"];
                         select.add(option);
                     }
+                    $('#'+id).selectpicker({});
+                    $('#'+id).selectpicker('refresh');
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -479,7 +468,6 @@
                 }
             });
         }
-
         function dt_parenttype()
         {
             table = $('#dtb_partype').DataTable({ 
@@ -497,10 +485,12 @@
                     "targets": [ 0 ],
                     "orderable": false,
                 },
+                {
+                    "className":"text-center", "targets": [0,2],
+                },
                 ],
             });
         }
-
         function dt_parent()
         {
             table = $('#dtb_parent').DataTable({ 
@@ -518,10 +508,12 @@
                     "targets": [ 0 ],
                     "orderable": false,
                 },
+                {
+                    "className":"text-center", "targets": [0,1,5],
+                },
                 ],
             });
         }
-
         function dt_coa()
         {
             table = $('#dtb_coa').DataTable({ 
@@ -539,17 +531,18 @@
                     "targets": [ 0 ],
                     "orderable": false,
                 },
+                {
+                    "className":"text-center", "targets": [0,2,4],
+                },
                 ],
             });
         }
-
         function reload_table()
         {
             $('#dtb_partype').DataTable().ajax.reload(null,false);
             $('#dtb_parent').DataTable().ajax.reload(null,false);
             $('#dtb_coa').DataTable().ajax.reload(null,false);
         }
-
         function add_parent()
         {
             save_method = 'add';
@@ -564,7 +557,6 @@
             $('#par_type').empty();
             dropcoaprtp('par_type');
         }
-
         function add_chart()
         {
             save_method = 'add';
@@ -579,7 +571,6 @@
             $('#coa_par').empty();
             dropcoapr('coa_par');
         }
-
         function edit_partp(id)
         {
             $('[name="partp_savests"]').val('1');
@@ -605,7 +596,6 @@
                 }
             });
         }
-
         function edit_par(id)
         {
             save_method = 'update';
@@ -638,7 +628,6 @@
                 }
             });
         }
-
         function edit_coa(id)
         {
             save_method = 'update';
@@ -670,7 +659,6 @@
                 }
             });
         }
-
         function save_partp()
         {
             $('#btnSave').text('saving...');
@@ -713,7 +701,6 @@
                 }
             });
         }
-
         function save_par()
         {
             $('#btnSave').text('saving...');
@@ -755,7 +742,6 @@
                 }
             });
         }
-
         function save_coa()
         {
             $('#btnSave2').text('saving...');
@@ -797,7 +783,6 @@
                 }
             });
         }
-
         function delete_partp(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -817,7 +802,6 @@
                 });
             }
         }
-
         function delete_par(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -837,7 +821,6 @@
                 });
             }
         }
-
         function delete_coa(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -857,7 +840,6 @@
                 });
             }
         }
-
         function lihat_par(id)
         {
             $('#par_type').empty();
@@ -883,7 +865,6 @@
                 }
             });
         }
-
         function lihat_coa(id)
         {
             $('#coa_parv').empty();

@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Nomor SO</label>
+                                        <label class="col-sm-3 control-label">Nomor Penawaran Vendor</label>
                                         <div class="col-sm-8">
                                             <input class="form-control" type="text" name="po_so">
                                         </div>
@@ -74,10 +74,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Lokasi</label>
-                                        <div class="col-sm-1">
+                                        <!-- <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_loc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                                        </div>
-                                        <div class="col-sm-7">
+                                        </div> -->
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="loc_name" readonly>
                                             <input type="hidden" name="loc_id">
                                         </div>
@@ -104,6 +104,12 @@
                                             <input class="form-control" type="text" name="supp_city" readonly>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Info</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="supp_info" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                        </div>
+                                    </div>
                                     <br>
                                 </div>
                                 <div class="tab-pane fade" id="barang">
@@ -125,7 +131,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Harga Satuan</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="gd_price" readonly>
+                                            <input class="form-control curr-num" type="text" name="gd_price" readonly>
                                         </div>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit1" readonly>
@@ -143,7 +149,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Sub Total</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="po_sub" readonly>
+                                            <input class="form-control curr-num" type="text" name="po_sub" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -196,7 +202,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Info</label>
                                         <div class="col-sm-8">
-                                            <textarea name="po_info" class="form-control" rows="2" style="resize: vertical;"></textarea>       
+                                            <textarea name="po_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -210,14 +216,14 @@
                                                 <input type="hidden" name="curr_id" value="">
                                             </div>
                                             <div class="col-sm-4">
-                                                <input class="form-control" type="text" name="curr_rate" readonly>
+                                                <input class="form-control curr-num" type="text" name="curr_rate" readonly>
                                             </div>
                                         </div>                            
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Total</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="po_subs" readonly>
+                                            <input class="form-control curr-num" type="text" name="po_subs" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -397,20 +403,7 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
@@ -699,7 +692,7 @@
                     $('[name="gd_unit1"]').val(' / ' +data.GD_UNIT+' '+data.GD_MEASURE);
                     $('[name="gd_price"]').val(data.GD_PRICE);
                     prc = $('[name="gd_price"]').val();
-                    $('[name="gd_unit2"]').val(data.GD_UNIT);
+                    $('[name="gd_unit2"]').val(data.GD_MEASURE);
                     $('#modal_barang').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -715,11 +708,12 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="supp_name"]').val(data.SUPP_NAME);
                     $('[name="supp_address"]').val(data.SUPP_ADDRESS);
-                    $('[name="supp_city"]').val(data.SUPP_CITY);                    
+                    $('[name="supp_city"]').val(data.SUPP_CITY);
+                    $('[name="supp_info"]').val(data.SUPP_DUE+"\n"+data.SUPP_OTHERCTC);
                     $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

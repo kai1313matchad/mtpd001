@@ -235,6 +235,7 @@
                 <address>
                     <strong>Info:</strong><br> 
                     Lokasi <br><span name="loc_name"></span>, <span name="loc_det"></span><br>
+                    <span name="inv_suppdue"></span><br>
                     <span name="po_info"></span>
                 </address>
             </div>
@@ -321,7 +322,6 @@
                 // hitung();
             });
         });
-
         function dtable()
         {
             table = $('#dtb_po').DataTable({
@@ -343,7 +343,6 @@
                 ],
             });
         }
-
         function pick_po(id)
         {
             $.ajax({
@@ -388,6 +387,7 @@
                     $('[name="inv_suppcity"]').text(data.SUPP_CITY);
                     $('[name="inv_suppphone"]').text(data.SUPP_PHONE);
                     $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
+                    $('[name="inv_suppdue"]').text(data.SUPP_DUE);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
