@@ -59,10 +59,10 @@
     <![endif]-->
 </head>
 <body>
-    <!-- <page size="A4"> -->    
+    <!-- <page size="A4"> -->
         <input type="hidden" name="img_siang" value="<?php echo $img_siang;?>">
         <input type="hidden" name="img_malam" value="<?php echo $img_malam;?>">
-        <div class="container">                
+        <div class="container" id="images">                
             <div class="row">
                 <hr style="border: solid 2px; color: black;"">
                 <div class="text-center">
@@ -70,7 +70,7 @@
                     <hr style="border: solid 1.5px; color: black;"">                    
                 </div>                
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <img id="img_siang" class="img-responsive" src="">
@@ -83,7 +83,7 @@
                         <img id="img_malam" class="img-responsive" src="">
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     <!-- </page> -->
     <!-- jQuery -->
@@ -104,13 +104,13 @@
     <script>
         $(document).ready(function()
         {
-            set_imgsiang($('[name="img_siang"]').val());
-            set_imgmalam($('[name="img_malam"]').val());
+            get_images($('[name="img_siang"]').val());
+            // set_imgsiang($('[name="img_siang"]').val());
+            // set_imgmalam($('[name="img_malam"]').val());
         });
 
         function set_imgsiang(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/getimgbapp/')?>" + id,
                 type: "GET",
@@ -130,7 +130,6 @@
 
         function set_imgmalam(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/getimgbapp/')?>" + id,
                 type: "GET",
@@ -140,6 +139,29 @@
                     var newSrc = "<?php echo base_url()?>"+data.DETBAPP_IMGPATH;
                     $('#img_malam').attr('src', newSrc);
                     $('[name="img_malam"]').val(data.DETBAPP_ID);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function get_images(id)
+        {
+            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/temp_gallery/')?>"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var cr = $('<div class=row>').append(
+                                $('<div class="panel panel-default"><div class="panel-body"><div class="col-xs-12"><img src="<?php echo base_url()?>'+data[i]['DETBAPP_IMGPATH']+'" class="img-responsive img-thumbnail" title="'+data[i]['DETBAPP_IMGNAME']+'"></div></div></div>')
+                            ).appendTo('#images');
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
