@@ -66,7 +66,7 @@
             <div class="row">
                 <hr style="border: solid 2px; color: black;"">
                 <div class="text-center">
-                    <h3><strong>Berita Acara Penyerahan Pekerjaan</strong></h3>
+                    <h3 style="font-family: 'arial black'"><strong>Berita Acara Penyerahan Pekerjaan</strong></h3>
                     <hr style="border: solid 1.5px; color: black;"">                    
                 </div>                
             </div>
