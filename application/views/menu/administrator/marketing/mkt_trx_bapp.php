@@ -179,7 +179,6 @@
                                     <div class="row">
                                         <div class="panel panel-default">
                                             <div id="foo" class="panel-body">
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -189,9 +188,7 @@
                 	</div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- Modal Search -->
     <div class="modal fade" id="modal_appr" role="dialog">
@@ -235,6 +232,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="actions" class="row">
+                        <input type="hidden" name="imgcount">
                         <div class="col-sm-12 col-xs-12">
                         	<div class="row">
                         		<div class="col-sm-4 col-xs-4">
@@ -300,7 +298,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="reload()" type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                    <button onclick="reload()" type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Confirm</button>
                 </div>
             </div>
         </div>
@@ -312,27 +310,19 @@
     <script>
     	$(document).ready(function()
     	{
-            get_images();
+            // var Dropzone;
+            get_images();            
     	});
-
         function print_bapp()
-        {            
+        {
             var ids = $('[name=bapp_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bapp/')?>"+ids,'_blank');
         }
-
         function print_bappimg()
-        {            
+        {
             var ids = $('[name=bapp_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bappimg/')?>"+ids,'_blank');
         }
-
-    	function add_img()
-    	{
-    		$('#modal_upload').modal('show');
-            $('.modal-title').text('Tambah Foto');
-    	}
-
     	function srch_appr()
     	{
     		$('#modal_appr').modal('show');
@@ -356,9 +346,8 @@
                 ],
             });
     	}
-
         function pick_appr(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
@@ -380,9 +369,8 @@
                 }
             });
         }
-
         function pick_cust(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
                 type: "GET",
@@ -397,14 +385,12 @@
                 }
             });
         }
-
         function reload()
         {
             $("#foo").empty();
             var id = $('[name="bapp_id"]').val();
             get_images(id);
         }
-
         function get_images(id)
         {
             
@@ -548,7 +534,106 @@
                 $('[name="bapp_endper"]').parent().parent().parent().addClass('has-error');
             }
         }
+        function get_imgsum()
+        {
+            var id = $('[name="bapp_id"]').val();
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/get_imgsum/')?>"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    maks = 4 - data.sum;
+                    $('[name="imgcount"]').val(data.sum);
+                    return maks;
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Approval');
+                }
+            });
+        }
+        function add_img()
+        {
+            var id = $('[name="bapp_id"]').val();
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/get_imgsum/')?>"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    var maks = 4 - data.sum;
+                    myDropzone.options.maxFiles = maks;                 
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Nomor Approval');
+                }
+            });
+            $('#modal_upload').modal('show');
+            $('.modal-title').text('Tambah Foto');
+        }
     </script>
+    <<!-- script>
+        Dropzone.autoDiscover = false;
+        //Dapatkan HTML template dan menghapusnya dari dokumen
+        var previewNode = document.querySelector('#template');
+        previewNode.id = '';
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+        Dropzone.options.previewNode =
+        {
+            url: '<?php echo base_url('administrator/Marketing/upload_bapp');?>',
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 1,
+            maxFilesize: 10,
+            maxFiles: 0,
+            // uploadMultiple: true,
+            acceptedFiles: 'image/jpg, image/jpeg',
+            previewTemplate: previewTemplate,
+            autoQueue: false,
+            previewsContainer: '#previews',
+            clickable: '.fileinput-button',
+            dictFileTooBig: 'Ukuran File Terlalu Besar ({{filesize}}Mb). Max ukuran file {{maxFilesize}}Mb',
+            init: function()
+            {
+                myDropzone = this;
+                this.on('addedfile', function(file){
+                    //menghubungkan tombol start
+                    file.previewElement.querySelector('.start').onclick = function() { this.enqueueFile(file);};
+                });
+                //update total progress bar pada saat proses upload
+                this.on('addedfile', function(progress){
+                    document.querySelector('#total-progress .progress-bar').style.width = progress + '%';
+                });
+                this.on('sending', function(file){
+                    //menampilkan total progressbar
+                    document.querySelector('#total-progress').style.opacity = '1';
+                    //pada saat upload berlangsung, tombol start akan mati
+                    file.previewElement.querySelector('.start').setAttribute('disabled', 'disabled');
+                });
+                this.on('sending', function(file,xhr,formData){  
+                    var other_data = $('#form_bapp').serializeArray();
+                    $.each(other_data,function(key,input){
+                        formData.append(input.name,input.value);
+                    });         
+                });
+                //progress bar akan disembunyikan ketika proses upload selesai
+                this.on('queuecomplete', function(progress){
+                    document.querySelector('#total-progress').style.opacity = '0';
+                })
+                //membuat fungsi upload semua gambar pada tombol start
+                document.querySelector('#actions .start').onclick = function() {
+                    this.enqueueFiles(this.getFilesWithStatus(Dropzone.ADDED));
+                };
+                //membuat fungsi pembatalan semua gambar pada saat upload
+                document.querySelector('#actions .cancel').onclick = function() {
+                    this.removeAllFiles(true);
+                };
+            }
+        }
+    </script> -->
     <script>
     	var Dropzone;
     	Dropzone.autoDiscover = false;
@@ -557,7 +642,6 @@
     	previewNode.id = '';
     	var previewTemplate = previewNode.parentNode.innerHTML;
     	previewNode.parentNode.removeChild(previewNode);
-
     	var myDropzone = new Dropzone(document.body, {
     		url: '<?php echo base_url('administrator/Marketing/upload_bapp');?>',
     		thumbnailWidth: 80,
@@ -573,43 +657,35 @@
     		clickable: '.fileinput-button',
     		dictFileTooBig: 'Ukuran File Terlalu Besar ({{filesize}}Mb). Max ukuran file {{maxFilesize}}Mb',
     	});
-
     	//myDropzone.emit('addedfile')
-
     	myDropzone.on('addedfile', function(file){
     		//menghubungkan tombol start
     		file.previewElement.querySelector('.start').onclick = function() { myDropzone.enqueueFile(file);};
     	});
-
     	//update total progress bar pada saat proses upload
     	myDropzone.on('addedfile', function(progress){
     		document.querySelector('#total-progress .progress-bar').style.width = progress + '%';
     	});
-
     	myDropzone.on('sending', function(file){
     		//menampilkan total progressbar
     		document.querySelector('#total-progress').style.opacity = '1';
     		//pada saat upload berlangsung, tombol start akan mati
     		file.previewElement.querySelector('.start').setAttribute('disabled', 'disabled');
     	});
-
     	myDropzone.on('sending', function(file,xhr,formData){  
     		var other_data = $('#form_bapp').serializeArray();
 		    $.each(other_data,function(key,input){
 		        formData.append(input.name,input.value);
 		    });    		
     	});
-
     	//progress bar akan disembunyikan ketika proses upload selesai
     	myDropzone.on('queuecomplete', function(progress){
     		document.querySelector('#total-progress').style.opacity = '0';
     	})
-
     	//membuat fungsi upload semua gambar pada tombol start
     	document.querySelector('#actions .start').onclick = function() {
     		myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
     	};
-
     	//membuat fungsi pembatalan semua gambar pada saat upload
     	document.querySelector('#actions .cancel').onclick = function() {
     		myDropzone.removeAllFiles(true);
