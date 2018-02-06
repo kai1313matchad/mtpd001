@@ -702,7 +702,7 @@ $(document).ready(function() {
             {   
                 $('[name="bank_kode"]').val(data.BANK_CODE);
                 // $('[name="bank_nama_bank"]').val(data.BANK_NAME);
-                $('[name="bank_id"]').val(data.BANK_ID);
+                $('[name="kode_bank"]').val(data.BANK_ID);
                 // pick_acc(data.COA_ID);
                 $('#modal_bank').modal('hide');                 
             },

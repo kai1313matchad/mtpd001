@@ -1197,12 +1197,12 @@
 			// 	$appr = $this->input->post('appr_id');
 			// }
 			$data = array(	                
-	                // 'user_id' => $this->input->post('user_id'),
+	                'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
-				    'USER_ID' => '1',
+				    // 'USER_ID' => '1',
                     'BNK_CODE' => $this->input->post('bank_nomor'),
                     // 'CSHO_APPR' => $this->input->post('kas_approval'),
-                    'BANK_ID' => $this->input->post('bank_id'),
+                    'BANK_ID' => $this->input->post('kode_bank'),
                     'COA_ID' => $this->input->post('acc_id'),
                     'CUST_ID' => $this->input->post('bank_customer_id'),
 	                
@@ -1303,10 +1303,10 @@
 			// 	$appr = $this->input->post('appr_id');
 			// }
 			$data = array(	                
-	                // 'user_id' => $this->input->post('user_id'),
-				    'USER_ID' => '1',
+	                'user_id' => $this->input->post('user_id'),
+				    // 'USER_ID' => '1',
                     'BNKO_CODE' => $this->input->post('bank_nomor'),
-                    'BNKO_ID' => $this->input->post('bank_id'),
+                    'BANK_ID' => $this->input->post('kode_bank'),
                     'COA_ID' => $this->input->post('acc_id'),
                     'BNKO_SUPP' => $this->input->post('supp_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
