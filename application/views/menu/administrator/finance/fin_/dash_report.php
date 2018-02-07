@@ -317,7 +317,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"></div>
-                                        <div>Faktur Pajak>
+                                        <div>Faktur Pajak</div>
                                     </div>
                                 </div>
                             </div>

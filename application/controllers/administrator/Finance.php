@@ -1399,9 +1399,9 @@
 			// 	$appr = $this->input->post('appr_id');
 			// }
 			$data = array(	                
-	                // 'user_id' => $this->input->post('user_id'),
+	                'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
-				    'USER_ID' => '1',
+				    // 'USER_ID' => '1',
                     'GRIN_CODE' => $this->input->post('giro_nomor'),
                     'BANK_ID' => $this->input->post('giro_bank_id'),
                  //    'CUST_ID' => $this->input->post('kas_customer_id'),
