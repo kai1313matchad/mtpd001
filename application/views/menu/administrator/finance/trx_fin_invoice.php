@@ -15,6 +15,7 @@
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_inv">
                             <div class="tab-content">
+                                <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                 <div class="tab-pane fade in active" id="1">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
@@ -197,7 +198,7 @@
                                                             </th>
                                                             <th class="text-center">
                                                                 Approval
-                                                            </th>                              
+                                                            </th>
                                                             <th class="text-center">
                                                                 Lokasi
                                                             </th>
@@ -492,26 +493,7 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -525,7 +507,6 @@
                 termbrcnom($('#inv_termbrc option:selected').val());
             });
         })
-
         function check_()
         {
             if($('#det_radio1').is(':checked'))
@@ -538,7 +519,6 @@
             }
             invdet($('[name="inv_id"]').val());
         }
-
         function gen_invo()
         {
             $.ajax({
@@ -559,7 +539,6 @@
                 }
             });
         }
-
         function save_inv()
         {
             $.ajax({
@@ -589,7 +568,6 @@
                 }
             });
         }
-
         function print_inv()
         {
             var id = $('[name=inv_id]').val();
@@ -621,7 +599,6 @@
                 ],
             });
         }
-
         function srch_appr()
         {
             var id = $('[name="inv_custid"]').val();
@@ -646,7 +623,6 @@
                 ],
             });
         }
-
         function srch_brc()
         {
             $('#modal_branch').modal('show');
@@ -670,7 +646,6 @@
                 ],
             });
         }
-
         function srch_cust()
         {
             $('#modal_cust').modal('show');
@@ -694,7 +669,6 @@
                 ],
             });
         }
-
         function srch_curr()
         {
             $('#modal_curr').modal('show');
@@ -741,7 +715,6 @@
                 }
             });
         }
-
         function pick_branch(id)
         {
             $.ajax({
@@ -760,7 +733,6 @@
                 }
             });
         }
-
         function pick_cust(id)
         {
             $.ajax({
@@ -779,9 +751,8 @@
                 }
             });
         }
-
         function pick_loc(id)
-        {           
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
                 type: "GET",
@@ -796,7 +767,6 @@
                 }
             });
         }
-
         function pick_curr(id)
         {
             $.ajax({
@@ -818,7 +788,6 @@
                 }
             });
         }
-
         function pick_apprbyclient(id)
         {
             $.ajax({
@@ -885,7 +854,6 @@
                 }
             });
         }
-
         function drop_termbrc(id)
         {
             $.ajax({
@@ -919,6 +887,10 @@
     </script>
     <!-- Other -->
     <script>
+        function reload_table()
+        {
+            $('#dtb_invdet').DataTable().ajax.reload(null,false);
+        }
         function invdet(id)
         {
             table = $('#dtb_invdet').DataTable({
@@ -940,7 +912,6 @@
                 ],
             });
         }
-
         function add_invdet()
         {
             $.ajax({
@@ -953,7 +924,8 @@
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');
-                        invdet($('[name="inv_id"]').val());
+                        // invdet($('[name="inv_id"]').val());
+                        reload_table();
                         get_sub();
                         var appr = $('[name="inv_apprid"]').val();
                         var apprbrc = $('[name="inv_apprbrcid"]').val();
@@ -983,7 +955,6 @@
                 }
             });
         }
-
         function delete_invdet(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -1018,7 +989,6 @@
                 });
             }
         }
-
         function termnom(id)
         {
             $.ajax({
@@ -1040,7 +1010,6 @@
                 }
             });
         }
-
         function termbrcnom(id)
         {
             $.ajax({
@@ -1062,7 +1031,6 @@
                 }
             });
         }
-
         function hit_curr()
         {
             var curr = $('[name="inv_currrate"]').val();
@@ -1073,7 +1041,6 @@
             $('[name="invdet_sub"]').val(res1);
             $('[name="invdet_brcsub"]').val(res2);
         }
-
         function get_sub()
         {
             var id = $('[name="inv_id"]').val();
@@ -1105,7 +1072,6 @@
                 }
             });
         }
-
         function term_clean_()
         {
             $('[name="invdet_sub"]').val('');
@@ -1119,7 +1085,6 @@
             $('[name="inv_termppnbrc"]').val('');
             $('[name="inv_termpphbrc"]').val('');
         }
-
         function test()
         {
             var id = $('[name="inv_id"]').val();

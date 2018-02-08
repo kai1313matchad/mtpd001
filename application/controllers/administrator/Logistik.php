@@ -689,8 +689,8 @@
 				$row[] = $no;
 				$row[] = $dat->GD_CODE;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_MEASURE;				
 				$row[] = $dat->GD_UNIT;				
+				$row[] = $dat->GD_MEASURE;				
 				$row[] = $dat->GD_STOCK;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_brg('."'".$dat->GD_ID."'".')">Pilih</a>';
 				$row[] = $dat->GD_INFO;
@@ -889,7 +889,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
 				$row[] = $dat->USGDET_QTY;
 				$row[] = $dat->GD_MEASURE;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->USGDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';

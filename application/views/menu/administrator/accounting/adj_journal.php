@@ -238,7 +238,8 @@
                     if(data.status)
                     {
                         alert('Data Berhasil Disimpan');
-                        dt_journaldet($('[name="jou_id"]').val());
+                        // dt_journaldet($('[name="jou_id"]').val());
+                        reload_table();
                         drop_coa();
                     }
                     else
@@ -292,6 +293,11 @@
             $('[name="jou_branchid"]').val('0');
             $('[name="jou_date"]').val('<?= date('Y-m-d')?>');
             drop_coa();
+        }
+
+        function reload_table()
+        {
+            $('#dtb_journaldet').DataTable().ajax.reload(null,false);            
         }
     </script>
     <!-- Showdata -->

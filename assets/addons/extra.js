@@ -4,10 +4,26 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     	.columns.adjust()
         .responsive.recalc();
  });
-
 $('.dtp').datetimepicker({
     format: 'YYYY-MM-DD'
  });
+// $("#tabs").tabs(
+//     {
+//         activate: function (event, ui) 
+//         {        
+//           $($.fn.dataTable.tables(true)).DataTable()
+//             .columns.adjust()
+//             .responsive.recalc();
+//         },
+//        create: function (event, ui) 
+//        {
+//           $($.fn.dataTable.tables(true)).DataTable()
+//             .columns.adjust()
+//             .responsive.recalc();
+//         }
+//     });
+
+
 
 $("input").change(function(){
 	$(this).parent().parent().removeClass('has-error');

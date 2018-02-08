@@ -523,6 +523,7 @@
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">Rp</span>
 	                                    		<input class="form-control termchgcount curr-num" type="text" name="bbtax_appr" readonly>
+	                                    		<input type="hidden" name="termbbtax">
 	                                    	</div>
 	                                    </div>
                             		</div>
@@ -945,6 +946,11 @@
             ijinapp(id);
             termapp(id);
             costapp(id);
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				$($.fn.dataTable.tables(true)).DataTable()
+			    	.columns.adjust()
+			        .responsive.recalc();
+			 });
     	});
     	function print_appr()
         {
@@ -1033,6 +1039,12 @@
             	$('.hid-form').css({'display':'none'});
             }
         }
+        function reload_table()
+        {
+            $('#dtb_biaya').DataTable().ajax.reload(null,false);
+            $('#dtb_termin').DataTable().ajax.reload(null,false);
+            $('#dtb_ijinapp').DataTable().ajax.reload(null,false);
+        }
     </script>
     <!-- Fungsi Hitung -->
     <script>
@@ -1071,6 +1083,7 @@
     		var trmp = $('[name="termperc"]').val();
     		var dppterm = dppappr*trmp/100;
     		var bbterm = bbappr*trmp/100;
+    		$('[name="termbbtax"]').val(bbterm);
     		$('[name="termdpp"]').val(dppterm);
     		var sub1 = (dppterm+bbterm)*1;
     		$('[name="termsub"]').val(sub1);
