@@ -2379,7 +2379,7 @@
         }
 
         public function get_invdet($id)
-        {        	
+        {
         	$this->db->from('inv_details a');
         	$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
         	$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
@@ -2512,6 +2512,34 @@
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
+	    	//simpan jurnal
+	    	$gen = $this->gen->gen_numjou();
+			$jouid = $gen['insertId'];
+			$joucode = $gen['jou_code'];
+	    	$jou = array(
+	    			'branch_id'=>$this->input->post('inv_branchid'),
+					'user_id'=>$this->input->post('user_id'),
+					'jou_code'=>$joucode,
+					'jou_reff'=>$this->input->post('inv_code'),
+					'jou_date'=>$this->input->post('inv_date'),
+					'jou_info'=>$this->input->post('inv_info'),
+					'jou_sts'=>'1'
+	    	);
+	    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+	    	$joudet1 = array(
+					'jou_id'=>$jouid,
+					'coa_id'=>$this->input->post('inv_accrcvid'),
+					'joudet_debit'=>$this->input->post('inv_gtotappr'),
+					'joudet_credit'=>0,
+					);
+			$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+			$joudet2 = array(
+					'jou_id'=>$jouid,
+					'coa_id'=>$this->input->post('inv_accincid'),
+					'joudet_debit'=>0,
+					'joudet_credit'=>$this->input->post('inv_gtotappr'),
+					);
+			$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 	    	echo json_encode(array('status'=>TRUE));
 	    }
 
