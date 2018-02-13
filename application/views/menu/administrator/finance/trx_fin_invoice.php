@@ -25,8 +25,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis Form</label>
                                         <div class="col-sm-8">
-                                            <label class="radio-inline"><input type="radio" name="inv_typechk" value="0">Invoice</label>
-                                            <label class="radio-inline"><input type="radio" name="inv_typechk" value="1">Pajak Reklame</label> 
+                                            <label class="radio-inline"><input type="radio" name="inv_typechk" value="0" onclick="redrop()">Invoice</label>
+                                            <label class="radio-inline"><input type="radio" name="inv_typechk" value="1" onclick="redrop()">Pajak Reklame</label> 
                                         </div>
                                         </div>
                                     <div class="form-group">
@@ -502,6 +502,7 @@
         $(document).ready(function()
         {
             $('#det_radio0').prop('checked',true);
+            $('[name="inv_typechk"][value="0"]').prop('checked',true);
             check_();
             $('select').selectpicker({});
             $('#inv_term').change(function(){
@@ -587,15 +588,15 @@
         }
         function print_inv()
         {
-            var n = checkradio();
-            if()
-            {
+            // var n = checkradio();
+            // if()
+            // {
 
-            }
-            else
-            {
-                alert('Jenis Form Belum Dipilih');
-            }
+            // }
+            // else
+            // {
+            //     alert('Jenis Form Belum Dipilih');
+            // }
             var id = $('[name=inv_id]').val();
             window.open ( "<?php echo site_url('administrator/Finance/print_invoice/')?>"+id,'_blank');
         }
@@ -858,7 +859,8 @@
         {
             $.ajax({
             url : "<?php echo site_url('administrator/Finance/get_apprterm/')?>"+id,
-            type: "GET",
+            type: "POST",
+            data: $('#form_inv').serialize(),
             dataType: "JSON",
             success: function(data)
                 {
@@ -888,7 +890,8 @@
         {
             $.ajax({
             url : "<?php echo site_url('administrator/Finance/get_apprtermbrc/')?>"+id,
-            type: "GET",
+            type: "POST",
+            data: $('#form_inv').serialize(),
             dataType: "JSON",
             success: function(data)
                 {
@@ -920,6 +923,21 @@
         function reload_table()
         {
             $('#dtb_invdet').DataTable().ajax.reload(null,false);
+        }
+        function redrop()
+        {
+            var appr = $('[name="inv_apprid"]').val();
+            var apprbrc = $('[name="inv_apprbrcid"]').val();
+            if(appr == null)
+            {
+                appr = '0';
+            }
+            if(apprbrc == null)
+            {
+                apprbrc = '0';
+            }
+            drop_term(appr);
+            drop_termbrc(apprbrc);
         }
         function invdet(id)
         {
@@ -1056,9 +1074,9 @@
                             var nom1 = ($('[name="inv_currrate"]').val()*(Math.abs(data.TERMSDET_BBTAX)));
                             $('[name="invdet_sub"]').val(nom1);
                             $('[name="inv_termcode"]').val(data.TERMSDET_CODE);
-                            $('[name="inv_termsub"]').val(data.TERMSDET_DPP);
-                            $('[name="inv_termppn"]').val(data.TERMSDET_PPN_SUM);
-                            $('[name="inv_termpph"]').val(data.TERMSDET_PPH_SUM);
+                            $('[name="inv_termsub"]').val(nom1);
+                            $('[name="inv_termppn"]').val(0);
+                            $('[name="inv_termpph"]').val(0);
                         },
                         error: function (jqXHR, textStatus, errorThrown)
                         {
@@ -1070,18 +1088,7 @@
             else
             {
                 alert('Jenis Form Belum Dipilih');
-                var appr = $('[name="inv_apprid"]').val();
-                var apprbrc = $('[name="inv_apprbrcid"]').val();
-                if(appr == null)
-                {
-                    appr = '0';
-                }
-                if(apprbrc == null)
-                {
-                    apprbrc = '0';
-                }
-                drop_term(appr);
-                drop_termbrc(apprbrc);                
+                redrop();                
             }
         }
         function termbrcnom(id)
@@ -1121,9 +1128,9 @@
                             var nom2 = ($('[name="inv_currrate"]').val()*(Math.abs(data.TERMSDET_BBTAX)));
                             $('[name="invdet_brcsub"]').val(nom2);
                             $('[name="inv_termbrccode"]').val(data.TERMSDET_CODE);
-                            $('[name="inv_termsubbrc"]').val(data.TERMSDET_DPP);
-                            $('[name="inv_termppnbrc"]').val(data.TERMSDET_PPN_SUM);
-                            $('[name="inv_termpphbrc"]').val(data.TERMSDET_PPH_SUM);
+                            $('[name="inv_termsubbrc"]').val(nom2);
+                            $('[name="inv_termppnbrc"]').val(0);
+                            $('[name="inv_termpphbrc"]').val(0);
                         },
                         error: function (jqXHR, textStatus, errorThrown)
                         {
@@ -1135,18 +1142,7 @@
             else
             {
                 alert('Jenis Form Belum Dipilih');
-                var appr = $('[name="inv_apprid"]').val();
-                var apprbrc = $('[name="inv_apprbrcid"]').val();
-                if(appr == null)
-                {
-                    appr = '0';
-                }
-                if(apprbrc == null)
-                {
-                    apprbrc = '0';
-                }
-                drop_term(appr);
-                drop_termbrc(apprbrc);
+                redrop();
             }
         }
         function hit_curr()

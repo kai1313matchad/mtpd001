@@ -96,7 +96,7 @@
                                     <a href="javascript:void(0)" onclick="save_adj()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <a href="#" class="btn btn-block btn-danger btn-default">Batal</a>
+                                    <a href="javascript:void(0)" onclick="print_adj()" class="btn btn-block btn-info btn-default">Print</a>
                                 </div>
                             </div>                                    
                         </form>
@@ -171,22 +171,37 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
-        function tambah(){
+        $(document).ready(function()
+        {
+            $('#dtp1').datetimepicker({                
+                format: 'YYYY-MM-DD'
+            });
+            var id = $('[name="rtusg_id"]').val();
+            barang(id);
+            // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            //     $($.fn.dataTable.tables(true)).DataTable()
+            //        .columns.adjust()
+            //        .responsive.recalc();
+            // });
+            // $('[name="adj_curr"]').on('input', function() {
+            //     selisih();
+            // });
+            // $("textarea").change(function(){
+            //     $(this).parent().parent().removeClass('has-error');
+            //     $(this).next().empty();
+            // });
+            // $("input").change(function(){
+            //     $(this).parent().parent().removeClass('has-error');
+            //     $(this).next().empty();
+            // });
+            // $('#dtp1').on('click',function(){                
+            //     $('[name="adj_tgl"]').parent().parent().parent().removeClass('has-error');
+            // });
+        });
+        function tambah()
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_adj_lgt') ?>",
                 type : "GET",
@@ -203,39 +218,16 @@
                 }
             })
         }
-        $(document).ready(function(){
-            $('#dtp1').datetimepicker({                
-                format: 'YYYY-MM-DD'
-            });
-            var id = $('[name="rtusg_id"]').val();
-            barang(id);
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                   .columns.adjust()
-                   .responsive.recalc();
-            });
-            $('[name="adj_curr"]').on('input', function() {
-                selisih();
-            });
-            $("textarea").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
-            $('#dtp1').on('click',function(){                
-                $('[name="adj_tgl"]').parent().parent().parent().removeClass('has-error');
-            });
-        });
-
+        function print_adj()
+        {
+            var ids = $('[name=adj_id]').val();
+            window.open ( "<?php echo site_url('administrator/Logistik/pageprint_adj/')?>"+ids,'_blank');
+        }
         function save_adj()
         {
             validasi();
             if ($('.form-group').hasClass('has-error') != 1)
             {
-                // ajax adding data to database
                 $.ajax({
                     url : "<?php echo site_url('administrator/Logistik/ajax_simpan_adj')?>",
                     type: "POST",
@@ -243,7 +235,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
-                        if(data.status) //if success close modal and reload ajax table
+                        if(data.status)
                         {
                             alert('Data Berhasil Disimpan');                        
                         }                   
@@ -259,7 +251,6 @@
                 alert('Ada input yang salah');
             }
         }
-
         function selisih()
         {
             var old = $('[name="gd_stock"]').val();
@@ -282,7 +273,6 @@
                 $('[name="adj_plus"]').val(dif);
             }
         }
-
         function validasi()
         {
             var curr = $('[name="adj_curr"]').val();
@@ -308,91 +298,77 @@
                 $('[name="adj_tgl"]').parent().parent().parent().addClass('has-error');
             }
         }
-
         function barang(id)
         {
-            //datatables
             table = $('#dtb_usage').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_brgrtusg')?>/"+id,
-                    "type": "POST",                
+                    "url": "<?php echo site_url('administrator/Logistik/ajax_brgrtusg/')?>"+id,
+                    "type": "POST",
                 },
-                //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
-
         function srch_usg()
-        {            
+        {
             $('#modal_usg').modal('show');
-            $('.modal-title').text('Cari Approval'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Approval');
             table = $('#dtb_usg').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_usg')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
-
         function srch_brg()
-        {            
+        {
             $('#modal_goods').modal('show');
-            $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Barang');
             table = $('#dtb_good').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brgusg')?>",
                     "type": "POST",                
-                },
-                //Set column definition initialisation properties.
+                },                
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
-
         function pick_usage(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usage/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usage/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -413,12 +389,10 @@
                 }
             });
         }
-
         function pick_appr(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -434,12 +408,10 @@
                 }
             });
         }
-
         function pick_brg(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -459,7 +431,6 @@
                 }
             });
         }
-
         function bersih()
         {
             $('[name="gd_id"]').val('');

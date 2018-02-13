@@ -275,6 +275,15 @@
 			$this->load->view('menu/administrator/logistik/usg_print',$data);
 		}
 
+		public function pageprint_adj($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/adj_print',$data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{
@@ -1415,6 +1424,16 @@
 			$this->db->where('a.usg_id',$id);
 			$que = $this->db->get();
 			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function ajax_pick_adj($id)
+		{
+			$this->db->from('trx_adjustment a');			
+			$this->db->join('master_goods b','b.gd_id = a.gd_id');			
+			$this->db->where('a.adj_id',$id);
+			$que = $this->db->get();
+			$data = $que->row();
 			echo json_encode($data);
 		}
 

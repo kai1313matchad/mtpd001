@@ -162,7 +162,8 @@
     <!-- Addon -->
     <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function()
+        {
             $('#dtp1').datetimepicker({                
                 format: 'YYYY-MM-DD'
             });
