@@ -143,6 +143,15 @@
 			$this->load->view('menu/administrator/finance/print_invoice',$data);
 		}
 
+		public function print_invoicetax($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_inv';
+			$this->load->view('menu/administrator/finance/print_invoicetax',$data);
+		}
+
 		public function rpt_invoice()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -2517,10 +2526,34 @@
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('inv_code'));
 	    	$que = $this->db->get();
-	    	$cou = $que->num_rows();
+	    	$get = $que->row();
+	    	$cou = count($get);
 	    	if($cou > 0)
 	    	{
-
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('inv_branchid'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('inv_code'),
+						'jou_date'=>$this->input->post('inv_date'),
+						'jou_info'=>$this->input->post('inv_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('inv_accrcvid'),
+						'joudet_debit'=>$this->input->post('inv_gtotappr'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('inv_accincid'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('inv_gtotappr'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 	    	}
 	    	else
 	    	{

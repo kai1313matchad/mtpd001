@@ -588,17 +588,24 @@
         }
         function print_inv()
         {
-            // var n = checkradio();
-            // if()
-            // {
-
-            // }
-            // else
-            // {
-            //     alert('Jenis Form Belum Dipilih');
-            // }
-            var id = $('[name=inv_id]').val();
-            window.open ( "<?php echo site_url('administrator/Finance/print_invoice/')?>"+id,'_blank');
+            var n = checkradio();
+            if(n != null)
+            {
+                if(n == '0')
+                {
+                    var id = $('[name=inv_id]').val();
+                    window.open ( "<?php echo site_url('administrator/Finance/print_invoice/')?>"+id,'_blank');
+                }
+                if(n == '1')
+                {
+                    var id = $('[name=inv_id]').val();
+                    window.open ( "<?php echo site_url('administrator/Finance/print_invoicetax/')?>"+id,'_blank');
+                }
+            }
+            else
+            {
+                alert('Jenis Form Belum Dipilih');
+            }
         }
     </script>
     <!-- Search -->
