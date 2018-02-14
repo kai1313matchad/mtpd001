@@ -118,7 +118,7 @@
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Jual</label>
+                                             <label class="col-sm-3 control-label">No Reff</label>
                                              <div class="col-sm-4">
                                                   <input class="form-control" type="text" name="no_jual">
                                              </div>
@@ -132,7 +132,7 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal">
+                                                  <input class="form-control curr-num" type="text" name="nominal">
                                              </div>
                                         </div>
                                         <div class="form-group">
@@ -150,7 +150,7 @@
                                                             No Acc
                                                         </th>
                                                         <th class="text-center">
-                                                            No Jual
+                                                            No Reff
                                                         </th>
                                                         <th class="text-center">
                                                             Keterangan
@@ -310,21 +310,9 @@
         </div>
     </div>
     <!-- modal customer selesai -->
+
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     
-    <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="http://localhost/mtpd/assets/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="http://localhost/mtpd/assets/datatables/js/dataTables.bootstrap.min.js"></script>
-    <script src="http://localhost/mtpd/assets/datatables/js/dataTables.responsive.js"></script>
-    <!-- Addon -->
-    <script src="http://localhost/mtpd/assets/addons/extra.js"></script>
 </body>
 </html>
 <script>

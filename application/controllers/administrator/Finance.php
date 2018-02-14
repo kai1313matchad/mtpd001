@@ -23,6 +23,7 @@
             $this->load->model('datatables/search/Dt_srchgiroinrec','srch_gmrec');
             $this->load->model('datatables/search/Dt_srchgiroout','srch_gk');
             $this->load->model('datatables/search/Dt_srchgirooutrec','srch_gkrec');
+            $this->load->model('datatables/search/Dt_srchinv','s_inv');
 		}
 
 		public function index()
@@ -121,6 +122,14 @@
 		{
 			$data['id'] = '7';
 			$data['kode'] = 'FP/1801/000001';
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function gen_pos_ppn()
+		{
+			$data['id'] = '1';
+			$data['kode'] = 'PC/1802/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -302,6 +311,16 @@
 			$data['menulist']='fpjk';
 			$data['invoice'] = $this->crud->get_inv();
 			$data['isi']='menu/administrator/finance/fin_/trx_taxinvoice';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function branch_ppn()
+		{
+			$data['title']='Match Terpadu - Dashboard Posting PPN Cabang';
+			$data['menu']='finance';
+			$data['menulist']='ppnbrc';
+			$data['invoice'] = $this->crud->get_inv();
+			$data['isi']='menu/administrator/finance/fin_/trx_posting_ppn_cabang';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -824,6 +843,30 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_inv->count_all(),
 							"recordsFiltered" => $this->srch_inv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_inv_ppn()
+		{
+			$list = $this->s_inv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->INV_INFO;								
+				$row[] = '<input type="checkbox" id="pilih" name="pilih" onclick="pick_inv_ppn('."'".$dat->INV_ID."'".')">';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_inv->count_all(),
+							"recordsFiltered" => $this->s_inv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1609,6 +1652,12 @@
 		public function ajax_pick_inv($id)
 		{
 			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_inv_ppn($id)
+		{
+			$data = $this->crud->get_by_id('inv_details',array('inv_id' => $id));
         	echo json_encode($data);
 		}
 

@@ -33,6 +33,7 @@
 			$this->load->model('datatables/showdata/Dt_showrptpo','rpt_po');
 			$this->load->model('datatables/showdata/Dt_showrptprc','rpt_prc');
 			$this->load->model('datatables/showdata/Dt_showrptusg','rpt_usg');
+			$this->load->model('datatables/showdata/Dt_showinvppn','showinvppn');
 		}
 
 		public function index()
@@ -757,6 +758,33 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_permitappr->count_all(),
 							"recordsFiltered" => $this->rpt_permitappr->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Data PPN Cabang
+		public function show_invppn($id)
+		{
+			$list = $this->showinvppn->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->TOT;		
+				$row[] = $dat->DPP;	
+				$row[] = $dat->PPN;					
+				$row[] = '<input type="checkbox" id="pilih" name="pilih" onclick="pick_inv_ppn('."'".$dat->INV_ID."'".')">';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->showinvppn->count_all(),
+							"recordsFiltered" => $this->showinvppn->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

@@ -150,7 +150,7 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nominal" readonly>
+                                                  <input class="form-control curr-num" type="text" name="nominal" readonly>
                                              </div>
                                              <input class="form-control" type="hidden" name="ppn">
                                              <input class="form-control" type="hidden" name="pph">
@@ -370,19 +370,20 @@
     <!-- modal customer selesai -->
     
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
+    <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
+    <!-- <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>     -->
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
+    <!-- <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script> -->
     <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
+    <!-- <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script> -->
     <!-- Datatables -->
-    <script src="http://localhost/mtpd/assets/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="http://localhost/mtpd/assets/datatables/js/dataTables.bootstrap.min.js"></script>
-    <script src="http://localhost/mtpd/assets/datatables/js/dataTables.responsive.js"></script>
+    <!-- <script src="http://localhost/mtpd/assets/datatables/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.bootstrap.min.js"></script> -->
+    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.responsive.js"></script> -->
     <!-- Addon -->
-    <script src="http://localhost/mtpd/assets/addons/extra.js"></script>
+    <!-- <script src="http://localhost/mtpd/assets/addons/extra.js"></script> -->
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
 </body>
 </html>
 <script>

@@ -116,7 +116,7 @@
                                     <a <?php if ($menulist == 'fpjk') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/f_pjk') ?>"><i class="fa <?php if ($menulist == 'fpjk') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Faktur Pajak</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'ppnbrc') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/branch_ppn') ?>"><i class="fa <?php if ($menulist == 'ppnbrc') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> PPN Cabang</a>
+                                    <a <?php if ($menulist == 'ppnbrc') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/branch_ppn') ?>"><i class="fa <?php if ($menulist == 'ppnbrc') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Posting PPN Cabang</a>
                                 </li>
                                 <li>
                                     <a <?php if ($menulist == 'report_finance') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/report') ?>"><i class="fa <?php if ($menulist == 'report_finance') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
