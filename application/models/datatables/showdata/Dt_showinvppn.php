@@ -2,18 +2,17 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showinvppn extends CI_Model 
 	{
-
 		var $table = 'inv_details a';
 		var $column_order = array(null,'inv_code','cust_name');
 		var $column_search = array('inv_code','cust_name');
 		var $order = array('a.inv_id' => 'desc');
 		public function __construct()
 		{
-			parent::__construct();		
+			parent::__construct();
 		}
 		private function _get_datatables_query($id)
 		{
-			$this->db->select('b.*,c.*,sum(a.invdet_amount) as tot,sum(a.invdet_sub) as dpp,sum(a.invdet_ppnam) as ppn')
+			$this->db->select('b.*,c.*,sum(a.invdet_amount) as tot,sum(a.invdet_sub) as dpp,sum(a.invdet_ppnam) as ppn');
 			$this->db->from($this->table);
 			$this->db->join('trx_invoice b','b.inv_id=a.inv_id');
 			$this->db->join('master_customer c','c.cust_id=b.cust_id');

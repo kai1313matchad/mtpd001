@@ -395,7 +395,7 @@
         $(document).ready(function()
         {
             $('#det_radio0').prop('checked',true);
-            check_();
+            // check_();
             $('select').selectpicker({});
             $('#inv_term').change(function(){
                 termnom($('#inv_term option:selected').val());
@@ -403,6 +403,8 @@
             $('#inv_termbrc').change(function(){
                 termbrcnom($('#inv_termbrc option:selected').val());
             });
+
+            show_inv_ppn('3');
         })
 
         function check_()
@@ -550,11 +552,8 @@
             });
         }
 
-        function srch_inv_ppn()
+        function show_inv_ppn(id)
         {
-            // $('#modal_branch').modal('show');
-            // $('.modal-title').text('Cari Cabang');     
-            var id = $('[name="_branchid"]').val();       
             table = $('#dtb_invdet').DataTable({
                 "info": false,
                 "destroy": true,
@@ -563,9 +562,9 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/show_invppn')?>"+id,
+                    "url": "<?php echo site_url('administrator/Showdata/show_invppn/')?>"+id,
                     "type": "POST",                
-                },                
+                },              
                 "columnDefs": [
                 { 
                     "targets": [ 0 ],
@@ -849,27 +848,27 @@
     </script>
     <!-- Other -->
     <script>
-        function invdet(id)
-        {
-            table = $('#dtb_invdet').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_invoice/')?>"+id,
-                    "type": "POST",                
-                },              
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
+        // function invdet(id)
+        // {
+        //     table = $('#dtb_invdet').DataTable({
+        //         "info": false,
+        //         "destroy": true,
+        //         "responsive": true,
+        //         "processing": true,
+        //         "serverSide": true,
+        //         "order": [],                
+        //         "ajax": {
+        //             "url": "<?php echo site_url('administrator/Showdata/showdetail_invoice/')?>"+id,
+        //             "type": "POST",                
+        //         },              
+        //         "columnDefs": [
+        //         { 
+        //             "targets": [ 0 ],
+        //             "orderable": false,
+        //         },
+        //         ],
+        //     });
+        // }
 
         function add_invdet()
         {
