@@ -60,7 +60,7 @@
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-4 col-xs-4">
-                <h3 class="text-center"><u>INVOICE</u></h3>
+                <h3 class="text-center"><u>PAJAK REKLAME</u></h3>
                 <h4 class="text-center" name="inv_date">31 Dec 2017</h4>
             </div>
         </div>
@@ -172,7 +172,6 @@
             var id = $('[name="inv_id"]').val();
             pick_invoice(id);
         });
-
         function pick_invoice(id)
         {            
             $.ajax({
@@ -199,7 +198,6 @@
                 }
             });
         }
-
         function pick_cust(id)
         {
             $.ajax({
@@ -217,7 +215,6 @@
                 }
             });
         }
-
         function pick_sub(id)
         {
             $.ajax({
@@ -238,7 +235,6 @@
                 }
             });
         }
-
         function pick_invdet(id)
         {
             $.ajax({
@@ -265,7 +261,6 @@
                 }
             });
         }
-
         function pick_getappterm(id)
         {
             $.ajax({
@@ -295,7 +290,6 @@
                 }
             });
         }
-
         function pick_spelledtotal(v)
         {
             $.ajax({

@@ -152,6 +152,15 @@
 			$this->load->view('menu/administrator/finance/print_invoice',$data);
 		}
 
+		public function print_invoicetax($id)
+		{
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_inv';
+			$this->load->view('menu/administrator/finance/print_invoicetax',$data);
+		}
+
 		public function rpt_invoice()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -2428,7 +2437,7 @@
         }
 
         public function get_invdet($id)
-        {        	
+        {
         	$this->db->from('inv_details a');
         	$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
         	$this->db->join('trx_approvalbill c','c.appr_id = a.appr_id');
@@ -2442,9 +2451,9 @@
 		public function get_apprterm($id)
 		{
 			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
-			$this->db->from('appr_terms_det a');			
+			$this->db->from('appr_terms_det a');
 			$this->db->where('a.appr_id',$id);
-			$this->db->where('a.termsdet_id NOT IN (select invdet_termid from inv_details)');
+			$this->db->where('a.termsdet_id NOT IN (select b.invdet_termid from inv_details b join trx_invoice c on c.inv_id = b.inv_id where c.inv_type = '.$this->input->post('inv_typechk').')');
 			$res = $this->db->get();
 			$data = $res->result();
 			echo json_encode($data);
@@ -2454,8 +2463,8 @@
 		{
 			// $data = $this->crud->get_by_id4('appr_terms_det',array('appr_id'=>$id));
 			$this->db->from('appr_terms_det a');			
-			$this->db->where('a.appr_id',$id);
-			$this->db->where('a.termsdet_id NOT IN (select invdet_termbrcid from inv_details)');
+			$this->db->where('a.appr_id',$id);			
+			$this->db->where('a.termsdet_id NOT IN (select b.invdet_termbrcid from inv_details b join trx_invoice c on c.inv_id = b.inv_id where c.inv_type = '.$this->input->post('inv_typechk').')');
 			$res = $this->db->get();
 			$data = $res->result();
 			echo json_encode($data);
@@ -2557,10 +2566,75 @@
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'inv_info'=>$this->input->post('inv_info'),
 	    			'inv_term'=>$this->input->post('inv_term'),
-	    			'inv_date'=>$this->input->post('inv_date'),	    			
+	    			'inv_date'=>$this->input->post('inv_date'),
+	    			'inv_type'=>$this->input->post('inv_typechk'),
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
+	    	//cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('inv_code'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('inv_branchid'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('inv_code'),
+						'jou_date'=>$this->input->post('inv_date'),
+						'jou_info'=>$this->input->post('inv_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('inv_accrcvid'),
+						'joudet_debit'=>$this->input->post('inv_gtotappr'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('inv_accincid'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('inv_gtotappr'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('inv_branchid'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('inv_code'),
+						'jou_date'=>$this->input->post('inv_date'),
+						'jou_info'=>$this->input->post('inv_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('inv_accrcvid'),
+						'joudet_debit'=>$this->input->post('inv_gtotappr'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('inv_accincid'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('inv_gtotappr'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
 	    	echo json_encode(array('status'=>TRUE));
 	    }
 

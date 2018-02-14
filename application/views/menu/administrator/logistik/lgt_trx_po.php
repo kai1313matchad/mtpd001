@@ -42,7 +42,7 @@
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="po_code" value="" readonly>
                                             <input type="hidden" name="po_id" value="0">
-                                            <input type="hidden" name="user_id" value="1">
+                                            <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">

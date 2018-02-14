@@ -44,8 +44,8 @@
 	                                    <div class="col-sm-7">
                                             <input class="form-control" type="text" name="bapp_code" value="" readonly>
 	                                        <input type="hidden" name="bapp_id" value="0">
-	                                        <input type="hidden" name="user_id" value="1">
-	                                    </div>	                                    
+	                                        <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+	                                    </div>
 	                                </div>
 	                                <div class="form-group">                              
 	                                    <label class="col-sm-3 control-label">Nomor Approval</label>
@@ -141,7 +141,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startper" placeholder="Tanggal" />
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_startper" placeholder="Tanggal" readonly />
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -149,7 +149,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_endper" placeholder="Tanggal" />
+                                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_endper" placeholder="Tanggal" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -361,6 +361,8 @@
                     $('[name="appr_jenis"]').val(jenis);
                     var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + 'mk';
                     $('[name="appr_size"]').val(size);
+                    $('[name="bapp_startper"]').val(data.APPR_CONTRACT_START);
+                    $('[name="bapp_endper"]').val(data.APPR_CONTRACT_END);
                     $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

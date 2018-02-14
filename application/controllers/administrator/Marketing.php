@@ -823,6 +823,7 @@
 	                'termsdet_date' => $this->input->post('tgl_term'),
 	                'termsdet_perc' => $this->input->post('termperc'),
 	                'termsdet_dpp' => $this->input->post('termdpp'),
+	                'termsdet_bbtax' => $this->input->post('termbbtax'),
 	                'termsdet_sub' => $this->input->post('termsub'),
 	                'termsdet_sum' => $this->input->post('termsum'),	                
 	                'termsdet_ppn_perc' => $this->input->post('termppnp'),

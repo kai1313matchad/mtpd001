@@ -18,7 +18,8 @@
     <link href="<?php echo base_url('assets/sbadmin/css/sb-admin-2.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/datatables/css/responsive.dataTables.css')?>" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"> -->
     <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/basic.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/dropzone.css')?>" rel="stylesheet">

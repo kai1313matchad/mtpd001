@@ -272,49 +272,21 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function()
+        {
             $('#dtp1').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
             var id = $('[name="usg_id"]').val();
             barang(id);
-            // $('[name=gd_usg]').on('input', function() {
-            //     stockchk();
-            // });
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                   .columns.adjust()
-                   .responsive.recalc();
-            });
-
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
-            });
         });
-
         function print_usg()
         {
             var ids = $('[name=usg_id]').val();
             window.open ( "<?php echo site_url('administrator/Logistik/pageprint_usg/')?>"+ids,'_blank');
         }
-
         function tambah()
         {
             $.ajax({
@@ -332,7 +304,6 @@
                 }
             })
         }
-
         function save_usg()
         {
             $.ajax({
@@ -353,7 +324,6 @@
                 }
             });
         }
-
         function add_barang()
         {
             stockchk();
@@ -385,7 +355,6 @@
                 alert('error');
             }
         }
-
         function del_brg(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -407,7 +376,6 @@
                 });
             }
         }
-
         function stockchk()
         {
             var old = $('[name="gd_stock"]').val();
@@ -441,7 +409,6 @@
                 });                
             }            
         }
-
         function barang(id)
         {
             table = $('#dtb_usage').DataTable({
