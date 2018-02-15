@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_branch" readonly>
-                                            <input type="hidden" name="inv_branchid">
+                                            <input type="hidden" name="inv_branchid" value="0">
                                         </div>
                                     </div>
                                     
@@ -403,8 +403,7 @@
             $('#inv_termbrc').change(function(){
                 termbrcnom($('#inv_termbrc option:selected').val());
             });
-
-            show_inv_ppn('3');
+            show_inv_ppn($('[name="inv_branchid"]').val());
         })
 
         function check_()
@@ -681,7 +680,7 @@
                     $('[name="inv_branchid"]').val(data.BRANCH_ID);
                     $('[name="inv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
-                    srch_inv_ppn();
+                    show_inv_ppn(data.BRANCH_ID);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

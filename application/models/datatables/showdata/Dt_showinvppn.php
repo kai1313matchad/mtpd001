@@ -17,6 +17,7 @@
 			$this->db->join('trx_invoice b','b.inv_id=a.inv_id');
 			$this->db->join('master_customer c','c.cust_id=b.cust_id');
 			$this->db->where('b.branch_id',$id);
+			$this->db->group_by('a.inv_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
