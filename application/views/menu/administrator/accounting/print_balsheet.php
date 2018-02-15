@@ -28,6 +28,8 @@
         body 
         {
             background-color: white;
+            font-size: 12px;
+            font-family: 'times new roman';
         }
         .bg-table
         {
@@ -54,7 +56,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <form id="form_trbal">
             <input type="hidden" name="coaid" value="<?php echo $coaid; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
@@ -72,20 +74,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 col-xs-12 table-responsive">
+            <div class="col-sm-6 col-xs-6 table-responsive">
                 <table id="dtb_rptbalsh" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th class="text-center">
+                            <th class="col-xs-2 text-center">
                                 Induk
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-4 text-center">
                                 Rekening
                             </th>                            
-                            <th class="text-center">
+                            <th class="col-xs-3 text-center">
                                 Debet
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-3 text-center">
                                 Kredit
                             </th>
                         </tr>
@@ -97,43 +99,46 @@
                             <th name="saldodebit" class="text-right chgnum"></th>
                             <th name="saldocredit" class="text-right chgnum"></th>
                         </tr>
-                        <!-- <tr>                            
-                            <th colspan="3" name="saldostatus" class="text-right chgnum"></th>
-                            <th name="saldoend" class="text-right chgnum"></th>
-                        </tr> -->
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-sm-6 col-xs-6 table-responsive">
+                <table id="dtb_rptbalsh2" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-2 text-center">
+                                Induk
+                            </th>
+                            <th class="col-xs-4 text-center">
+                                Rekening
+                            </th>                            
+                            <th class="col-xs-3 text-center">
+                                Debet
+                            </th>
+                            <th class="col-xs-3 text-center">
+                                Kredit
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content2"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" class="text-right">Saldo</th>
+                            <th name="saldodebit2" class="text-right chgnum"></th>
+                            <th name="saldocredit2" class="text-right chgnum"></th>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
-            // pick_ledger();
             tes();
-            $('[name="rpttrbal_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            $('[name="rptbalsh_period"]').text(moment($('[name="date_start"]').val()).format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).format('DD-MMM-YYYY'));
             if($('[name="branch"]').val() != '')
                 {
                     pick_branch($('[name="branch"]').val());
@@ -156,8 +161,6 @@
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["PAR_ACCNAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
-                            // $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
-                            // $('<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["saldo"]+'</td>')
                             $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+sld+'</td>'),
                             $('<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+slc+'</td>')
                             ).appendTo('#tb_content');
@@ -169,12 +172,11 @@
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['b'][i]["PAR_ACCNAME"]+'</td>'),
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
-                            // $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>'),
-                            // $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>')
                             $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+sld+'</td>'),
                             $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+slc+'</td>')
-                            ).appendTo('#tb_content');
+                            ).appendTo('#tb_content2');
                     }
+                    dt_journal();
                     dt_journal2();
                     $('td.chgnum').number(true);                    
                 },
@@ -189,46 +191,6 @@
         {
             $('#dtb_rptbalsh').DataTable({
                 info: false,
-                searching: false,                
-                bLengthChange: false,
-                paging: false,
-                // responsive: true,
-                columnDefs:
-                [   
-                    // {visible: false, targets: 7},
-                    // {visible: false, targets: 8},
-                    {orderable: false, targets: '_all'}
-                ],
-                // order: [[0, 'asc']],
-                ordering: false,
-                drawCallback: function(settings)
-                {
-                    var api = this.api(), data;
-                    total = api.column(2).data().reduce( function (a,b)
-                    {
-                        return parseInt(a) + parseInt(b);
-                    }, 0);
-                    total2 = api.column(3).data().reduce( function (a,b)
-                    {
-                        return parseInt(a) + parseInt(b);
-                    }, 0);
-                    total3 = Math.abs(total2) - total;
-                    (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
-                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total2));
-                    sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total3));
-                    $('[name="saldodebit"]').text(sum);
-                    $('[name="saldocredit"]').text(sum2);
-                    $('[name="saldostatus"]').text(txt);
-                    $('[name="saldoend"]').text(sum3);
-                }
-            });
-        }
-
-        function dt_journal2()
-        {
-            $('#dtb_rptbalsh').DataTable({
-                info: false,
                 searching: false,
                 bLengthChange: false,
                 paging: false,
@@ -238,7 +200,6 @@
                     {visible: false, targets: 0},                    
                     {orderable: false, targets: '_all'}
                 ],
-                // order: [[0, 'asc']],
                 rowGroup:
                 {
                     endRender: function(rows, group)
@@ -246,7 +207,6 @@
                         var sum = rows.data().pluck(2)
                         .reduce(function(a,b)
                         {
-                            // return a+b.replace(/[^\d]/g, '')*1;
                             return a+b*1;
                         }, 0);
                         
@@ -256,10 +216,8 @@
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);
 
-                        // var sum3 = sum+sum2;
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
                         sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        // sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3);
 
                         return $('<tr/>')                        
                         .append( '<td>'+group+'</td>' )
@@ -290,6 +248,70 @@
                     $('[name="saldoend"]').text(sum3);
                 }
             });
+
+        }
+
+        function dt_journal2()
+        {
+            $('#dtb_rptbalsh2').DataTable({
+                info: false,
+                searching: false,
+                bLengthChange: false,
+                paging: false,
+                // responsive: true,
+                columnDefs:
+                [
+                    {visible: false, targets: 0},                    
+                    {orderable: false, targets: '_all'}
+                ],
+                rowGroup:
+                {
+                    endRender: function(rows, group)
+                    {
+                        var sum = rows.data().pluck(2)
+                        .reduce(function(a,b)
+                        {
+                            return a+b*1;
+                        }, 0);
+                        
+                        var sum2 = rows.data().pluck(3)
+                        .reduce(function(a,b)
+                        {
+                            return a+b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+
+                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
+                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
+
+                        return $('<tr/>')                        
+                        .append( '<td>'+group+'</td>' )
+                        .append( '<td class="text-right">'+sum+'</td>')
+                        .append( '<td class="text-right">'+sum2+'</td>' );
+                    },
+                    dataSrc: 0
+                },
+                drawCallback: function(settings)
+                {
+                    var api = this.api(), data;
+                    total = api.column(2).data().reduce( function (a,b)
+                    {
+                        return parseInt(a) + parseInt(b);
+                    }, 0);
+                    total2 = api.column(3).data().reduce( function (a,b)
+                    {
+                        return parseInt(a) + parseInt(b);
+                    }, 0);
+                    total3 = Math.abs(total2) - total;
+                    (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
+                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
+                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total2));
+                    sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total3));
+                    $('[name="saldodebit2"]').text(sum);
+                    $('[name="saldocredit2"]').text(sum2);
+                    $('[name="saldostatus"]').text(txt);
+                    $('[name="saldoend"]').text(sum3);
+                }
+            });
         }
 
         function pick_branch(id)
@@ -300,7 +322,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="rpttrbal_branch"]').text(data.BRANCH_NAME);
+                    $('[name="rptbalsh_branch"]').text(data.BRANCH_NAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

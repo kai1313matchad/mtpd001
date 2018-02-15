@@ -145,6 +145,7 @@
 				$this->db->where('b.branch_id',$this->input->post('branch'));
 			}
 			$this->db->where('b.jou_sts','1');
+			$this->db->order_by('b.jou_code');
 			$que = $this->db->get();
 			$data = $que->result();
 			echo json_encode($data);

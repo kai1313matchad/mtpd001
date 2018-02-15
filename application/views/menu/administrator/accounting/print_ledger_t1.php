@@ -28,6 +28,8 @@
         body 
         {
             background-color: white;
+            font-family: 'times new roman';
+            font-size: 12px;
         }
         .bg-table
         {
@@ -54,7 +56,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <form id="form_ldg">
             <input type="hidden" name="coaid" value="<?php echo $coaid; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
@@ -82,7 +84,7 @@
                             <th class="text-center">
                                 Rekening
                             </th>
-                            <th class="col-sm-2 text-center">
+                            <th class="col-xs-2 text-center">
                                 No Jurnal
                             </th>                            
                             <th class="text-center">
@@ -91,10 +93,10 @@
                             <th class="text-center">
                                 Keterangan
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-2 text-center">
                                 Debet
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-2 text-center">
                                 Kredit
                             </th>
                         </tr>
@@ -105,33 +107,22 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
             pick_ledger();
-            $('[name="rptldg_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());            
+            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).format('DD-MMM-YYYY'));
+            var brc = $('[name="branch"]').val();
+            if(brc != '')
+            {
+                pick_branch($('[name="branch"]').val());
+            }
+            else
+            {
+                $('[name="rptldg_branch"]').text('');
+            }
         });
-
         function pick_ledger()
         {
             $.ajax({
@@ -141,17 +132,16 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-                    $('[name="rptldg_branch"]').text(data[0]["BRANCH_NAME"]);                    
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td>').css('text-align','center').text(data[i]["JOU_DATE"]),
-                            $('<td>').css('text-align','center').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_CODE"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_REFF"]),
-                            $('<td>').css('text-align','center').text(data[i]["JOU_INFO"]),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_DEBIT"])),
-                            $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["JOUDET_CREDIT"]))
+                            $('<td class="text-center">'+data[i]["JOU_DATE"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["JOU_CODE"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["JOU_REFF"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["JOU_INFO"]+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_DEBIT"])+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_CREDIT"])+'</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
@@ -162,7 +152,6 @@
                 }
             });
         }
-
         function dt_journal()
         {
             $('#dtb_rptldg').DataTable({
@@ -197,7 +186,6 @@
                         sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(sum3))+')';
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
                         sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        // sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3);
 
                         return $('<tr/>')                        
                         .append( '<td colspan="4"></td>' )
@@ -207,6 +195,22 @@
                     dataSrc: 1
                 },
             });
+        }
+        function pick_branch(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="rptldg_branch"]').text(data.BRANCH_NAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
         }
     </script>
 </body>
