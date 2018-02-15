@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="inv_branch" readonly>
-                                            <input type="hidden" name="inv_branchid">
+                                            <input type="hidden" name="inv_branchid" value="0">
                                         </div>
                                     </div>
                                     
@@ -395,7 +395,7 @@
         $(document).ready(function()
         {
             $('#det_radio0').prop('checked',true);
-            check_();
+            // check_();
             $('select').selectpicker({});
             $('#inv_term').change(function(){
                 termnom($('#inv_term option:selected').val());
@@ -403,6 +403,7 @@
             $('#inv_termbrc').change(function(){
                 termbrcnom($('#inv_termbrc option:selected').val());
             });
+            show_inv_ppn($('[name="inv_branchid"]').val());
         })
 
         function check_()
@@ -550,11 +551,8 @@
             });
         }
 
-        function srch_inv_ppn()
+        function show_inv_ppn(id)
         {
-            // $('#modal_branch').modal('show');
-            // $('.modal-title').text('Cari Cabang');     
-            var id = $('[name="_branchid"]').val();       
             table = $('#dtb_invdet').DataTable({
                 "info": false,
                 "destroy": true,
@@ -563,9 +561,9 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/show_invppn')?>"+id,
+                    "url": "<?php echo site_url('administrator/Showdata/show_invppn/')?>"+id,
                     "type": "POST",                
-                },                
+                },              
                 "columnDefs": [
                 { 
                     "targets": [ 0 ],
@@ -682,7 +680,7 @@
                     $('[name="inv_branchid"]').val(data.BRANCH_ID);
                     $('[name="inv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
-                    srch_inv_ppn();
+                    show_inv_ppn(data.BRANCH_ID);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -849,27 +847,27 @@
     </script>
     <!-- Other -->
     <script>
-        function invdet(id)
-        {
-            table = $('#dtb_invdet').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showdetail_invoice/')?>"+id,
-                    "type": "POST",                
-                },              
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
+        // function invdet(id)
+        // {
+        //     table = $('#dtb_invdet').DataTable({
+        //         "info": false,
+        //         "destroy": true,
+        //         "responsive": true,
+        //         "processing": true,
+        //         "serverSide": true,
+        //         "order": [],                
+        //         "ajax": {
+        //             "url": "<?php echo site_url('administrator/Showdata/showdetail_invoice/')?>"+id,
+        //             "type": "POST",                
+        //         },              
+        //         "columnDefs": [
+        //         { 
+        //             "targets": [ 0 ],
+        //             "orderable": false,
+        //         },
+        //         ],
+        //     });
+        // }
 
         function add_invdet()
         {

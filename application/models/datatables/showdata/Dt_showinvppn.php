@@ -2,14 +2,13 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showinvppn extends CI_Model 
 	{
-
 		var $table = 'inv_details a';
 		var $column_order = array(null,'inv_code','cust_name');
 		var $column_search = array('inv_code','cust_name');
 		var $order = array('a.inv_id' => 'desc');
 		public function __construct()
 		{
-			parent::__construct();		
+			parent::__construct();
 		}
 		private function _get_datatables_query($id)
 		{
@@ -18,6 +17,7 @@
 			$this->db->join('trx_invoice b','b.inv_id=a.inv_id');
 			$this->db->join('master_customer c','c.cust_id=b.cust_id');
 			$this->db->where('b.branch_id',$id);
+			$this->db->group_by('a.inv_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

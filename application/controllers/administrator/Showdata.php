@@ -775,9 +775,9 @@
 				$row[] = $no;
 				$row[] = $dat->INV_CODE;
 				$row[] = $dat->CUST_NAME;
-				$row[] = $dat->TOT;		
-				$row[] = $dat->DPP;	
-				$row[] = $dat->PPN;					
+				$row[] = $dat->tot;		
+				$row[] = $dat->dpp;	
+				$row[] = $dat->ppn;					
 				$row[] = '<input type="checkbox" id="pilih" name="pilih" onclick="pick_inv_ppn('."'".$dat->INV_ID."'".')">';
 				$data[] = $row;
 			}
