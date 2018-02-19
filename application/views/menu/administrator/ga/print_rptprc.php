@@ -18,7 +18,7 @@
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/rowGroup.dataTables.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">    
+    <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="<?php echo base_url('assets/addons/select2-bootstrap.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
@@ -48,7 +48,6 @@
         tr.group:hover {
             background-color: #ddd !important;
         }
-
         tr.subgroup,
         tr.subgroup {
            background-color: cornsilk !important;
@@ -93,9 +92,6 @@
                                 Data PO
                             </th>
                             <th class="text-center">
-                                Lokasi
-                            </th>
-                            <th class="text-center">
                                 Faktur
                             </th>
                             <th class="text-center">
@@ -104,10 +100,10 @@
                             <th class="text-center">
                                 Jumlah
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-2 text-center">
                                 Harga
                             </th>
-                            <th class="text-center">
+                            <th class="col-xs-2 text-center">
                                 Sub
                             </th>
                         </tr>
@@ -127,9 +123,6 @@
                             <th class="text-center">
                                 No Beli
                             </th>
-                            <th class="text-center">
-                                Approval
-                            </th> 
                             <th class="text-center">
                                 Supplier
                             </th>
@@ -153,7 +146,7 @@
                     <tbody id="tb_content_tp2"></tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="4" class="text-right">Grand Total</th>
+                            <th colspan="3" class="text-right">Grand Total</th>
                             <th class="text-right" name="gt-sub"></th>
                             <th class="text-right" name="gt-disc"></th>
                             <th class="text-right" name="gt-ppn"></th>
@@ -205,26 +198,7 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -235,7 +209,6 @@
                 pick_branch($('[name="branch"]').val());
             }
         });
-
         function check_()
         {
             var tp = $('[name="rpt_type"]').val();            
@@ -256,40 +229,26 @@
             {
                 $('#tp2b').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN HARIAN SUMMARY');
-                gen_tp2b('a.prc_date');
+                gen_tp2b('a.prcga_date');
             }
             if(tp == '4')
             {
                 $('#tp2').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER SUPPLIER DETAIL');
-                gen_tp2(3);
+                gen_tp2(2);
             }
             if(tp == '5')
             {
                 $('#tp2b').removeClass('row-start');
                 $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER SUPPLIER SUMMARY');
                 $('[name="th-txt"]').text('Supplier');
-                gen_tp2c('d.supp_name');
-            }
-            if(tp == '6')
-            {
-                $('#tp2').removeClass('row-start');
-                $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER PROYEK DETAIL');
-                gen_tp2(2);
-            }
-            if(tp == '7')
-            {
-                $('#tp2b').removeClass('row-start');
-                $('[name="rptprc_type"]').text('LAPORAN PEMBELIAN PER PROYEK SUMMARY');
-                $('[name="th-txt"]').text('Approval');
-                gen_tp2d('c.appr_code');
+                gen_tp2c('c.supp_name');
             }
         }
-
         function gen_tp1(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t1')?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_rptprc_t1')?>",
                 type: "POST",
                 data: $('#form_rptpo').serialize(),
                 dataType: "JSON",
@@ -297,17 +256,15 @@
                 {
                     for (var i = 0; i < data['a'].length; i++)
                     {
-                        var appr = (data['a'][i]["APPR_CODE"] != null) ? data['a'][i]["APPR_CODE"] : '-';
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+data['a'][i]["PRC_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["PRC_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["PO_CODE"]+'<br>'+appr+'<br>'+data['a'][i]["SUPP_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["PRC_INVOICE"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PRCGA_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["PRCGA_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["POGA_CODE"]+'<br>'+data['a'][i]["SUPP_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PRCGA_INV"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["GD_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["PRCDET_QTY"]+' '+data['a'][i]["GD_MEASURE"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PRCGADET_QTY"]+' '+data['a'][i]["GD_MEASURE"]+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["GD_PRICE"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRCDET_SUB"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGADET_SUB"]+'</td>'),
                             ).appendTo('#tb_content_tp1');
                     }
                     dt_tp1(v);
@@ -319,11 +276,10 @@
                 }
             });
         }
-
         function gen_tp1b()
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t1')?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_rptprc_t1')?>",
                 type: "POST",
                 data: $('#form_rptpo').serialize(),
                 dataType: "JSON",
@@ -331,10 +287,10 @@
                 {
                     for (var i = 0; i < data['b'].length; i++)
                     {
-                        $('[name="dsc'+data['b'][i]["PRC_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRC_DISC"]));
-                        $('[name="ppn'+data['b'][i]["PRC_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRC_PPN"]));
-                        $('[name="cst'+data['b'][i]["PRC_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRC_COST"]));
-                        $('[name="gt'+data['b'][i]["PRC_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRC_GTOTAL"]));
+                        $('[name="dsc'+data['b'][i]["PRCGA_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRCGA_DISC"]));
+                        $('[name="ppn'+data['b'][i]["PRCGA_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRCGA_PPN"]));
+                        $('[name="cst'+data['b'][i]["PRCGA_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRCGA_COST"]));
+                        $('[name="gt'+data['b'][i]["PRCGA_CODE"]+'"]').text('Rp '+money_conv(data['b'][i]["PRCGA_GTOTAL"]));
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -343,11 +299,10 @@
                 }
             });
         }
-
         function gen_tp2(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2')?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_rptprc_t2')?>",
                 type: "POST",
                 data: $('#form_rptpappr').serialize(),
                 dataType: "JSON",
@@ -355,17 +310,15 @@
                 {
                     for (var i = 0; i < data['a'].length; i++)
                     {
-                        var appr = (data['a'][i]["APPR_CODE"] != null) ? data['a'][i]["APPR_CODE"] : '-';
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+moment(data['a'][i]["PRC_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["PRC_CODE"]+'</td>'),
-                            $('<td class="text-center">'+appr+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["PRCGA_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PRCGA_CODE"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["SUPP_NAME"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRC_SUB"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRC_DISC"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRC_PPN"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRC_COST"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["PRC_GTOTAL"]+'</td>')
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGA_SUB"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGA_DISC"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGA_PPN"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGA_COST"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PRCGA_GTOTAL"]+'</td>')
                             ).appendTo('#tb_content_tp2');
                     }
                     dt_tp2(v);
@@ -377,11 +330,10 @@
                 }
             });
         }
-
         function gen_tp2b(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2b/')?>"+v,
+                url : "<?php echo site_url('administrator/Genaff/gen_rptprc_t2b/')?>"+v,
                 type: "POST",
                 data: $('#form_rptpappr').serialize(),
                 dataType: "JSON",
@@ -390,7 +342,7 @@
                     for (var i = 0; i < data['a'].length; i++)
                     {
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+moment(data['a'][i]["prc_date"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["prcga_date"]).format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["sub"]+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["disc"]+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["ppn"]+'</td>'),
@@ -407,11 +359,10 @@
                 }
             });
         }
-
         function gen_tp2c(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2b/')?>"+v,
+                url : "<?php echo site_url('administrator/Genaff/gen_rptprc_t2b/')?>"+v,
                 type: "POST",
                 data: $('#form_rptpappr').serialize(),
                 dataType: "JSON",
@@ -437,7 +388,6 @@
                 }
             });
         }
-
         function gen_tp2d(v)
         {
             $.ajax({
@@ -468,7 +418,6 @@
                 }
             });
         }
-
         function gen_tp3()
         {
             $.ajax({
@@ -497,7 +446,6 @@
                 }
             });
         }
-
         function dt_tp1(v)
         {
             $('#dtb_rptprc_t1').DataTable({
@@ -517,21 +465,20 @@
                 {
                     endRender: function(rows, group)
                     {                        
-                        var sum = rows.data().pluck(8)
+                        var sum = rows.data().pluck(7)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
                         return $('<tr/>')                        
-                        .append( '<td colspan="7" class="text-right">Sub Total<br>Disc.<br>PPN<br>Biaya<br>Grand Total</td>' )
+                        .append( '<td colspan="6" class="text-right">Sub Total<br>Disc.<br>PPN<br>Biaya<br>Grand Total</td>' )
                         .append( '<td class="text-right">'+sum+'<br><span name="dsc'+group+'"></span><br><span name="ppn'+group+'"></span><br><span name="cst'+group+'"></span><br><span style="border-bottom: 3px double;" name="gt'+group+'"></span></td>');
                     },
                     dataSrc: v
                 },
             });
         }
-
         function dt_tp2(v)
         {
             $('#dtb_rptprc_t2').DataTable({
@@ -551,38 +498,38 @@
                 {
                     endRender: function(rows, group)
                     {
-                        var sum = rows.data().pluck(4)
+                        var sum = rows.data().pluck(3)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        var sum2 = rows.data().pluck(5)
+                        var sum2 = rows.data().pluck(4)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-                        var sum3 = rows.data().pluck(6)
+                        var sum3 = rows.data().pluck(5)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3);
-                        var sum4 = rows.data().pluck(7)
+                        var sum4 = rows.data().pluck(6)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum4 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum4);
-                        var sum5 = rows.data().pluck(8)
+                        var sum5 = rows.data().pluck(7)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
                         }, 0);                        
                         sum5 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum5);
-                        return $('<tr/>')                        
-                        .append( '<td colspan="3" class="text-right">Sub Total</td>' )
+                        return $('<tr/>')
+                        .append( '<td colspan="2" class="text-right">Sub Total</td>' )
                         .append( '<td class="text-right">'+sum+'</td>')
                         .append( '<td class="text-right">'+sum2+'</td>')
                         .append( '<td class="text-right">'+sum3+'</td>')
@@ -594,27 +541,27 @@
                 drawCallback: function(settings)
                 {
                     var api = this.api(), data;
-                    total = api.column(4).data().reduce( function (a,b)
+                    total = api.column(3).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);                    
                     sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    total2 = api.column(5).data().reduce( function (a,b)
+                    total2 = api.column(4).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);                    
                     sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total2);
-                    total3 = api.column(6).data().reduce( function (a,b)
+                    total3 = api.column(5).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);                    
                     sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total3);
-                    total4 = api.column(7).data().reduce( function (a,b)
+                    total4 = api.column(6).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);                    
                     sum4 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total4);
-                    total5 = api.column(8).data().reduce( function (a,b)
+                    total5 = api.column(7).data().reduce( function (a,b)
                     {
                         return parseInt(a) + parseInt(b);
                     }, 0);                    
@@ -627,7 +574,6 @@
                 }
             });
         }
-
         function dt_tp2b()
         {
             $('#dtb_rptprc_t2b').DataTable({
@@ -679,7 +625,6 @@
                 }
             });
         }
-
         function dt_tp3()
         {
             $('#dtb_rptpappr_t3').DataTable({

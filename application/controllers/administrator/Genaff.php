@@ -1178,5 +1178,100 @@
 			$data['menulist']='report_ga';
 			$this->load->view('menu/administrator/ga/print_rptprc',$data);
 		}
+
+		public function gen_rptprc_t1()
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('c.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('prcga_details a');
+			$this->db->join('trx_prc_ga b','b.prcga_id = a.prcga_id');
+			$this->db->join('trx_po_ga c','c.poga_id = b.poga_id');
+			$this->db->join('master_supplier d','d.supp_id = c.supp_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_goods g','g.gd_id = a.gd_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$que = $this->db->get();
+			$data['b'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2()
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');			
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2b($v)
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->select($v.', sum(a.prcga_sub) as sub, sum(a.prcga_disc) disc, sum(a.prcga_ppn) as ppn, sum(a.prcga_cost) cost, sum(a.prcga_gtotal) as gt');
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->group_by($v);		
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
 	}
 ?>

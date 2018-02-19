@@ -24,11 +24,11 @@
     <link href="<?php echo base_url('assets/addons/basic.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/dropzone.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/bootstrap-select/css/bootstrap-select.min.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"> -->
     
     <!-- Custom Fonts -->
-    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet">  
-
+    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Khula|Muli|Play|Signika" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
