@@ -42,7 +42,7 @@
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="po_code" value="" readonly>
                                             <input type="hidden" name="po_id" value="0">
-                                            <input type="hidden" name="user_id" value="1">
+                                            <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -68,20 +68,21 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="po_tgl" type='text' class="form-control text-center" name="po_tgl" value="<?php echo date('d-m-y')?>" readonly />
+                                                <input id="po_tgl" type='text' class="form-control text-center" name="po_tgl" value="<?php echo date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Alamat</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="supp_address" readonly>
+                                            <!-- <input class="form-control" type="text" name="supp_address" readonly> -->
+                                            <textarea name="supp_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Kota</label>
+                                        <label class="col-sm-3 control-label">Info</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="supp_city" readonly>
+                                            <textarea class="form-control" rows="2" style="resize: vertical;" name="supp_info" readonly></textarea>
                                         </div>
                                     </div>
                                     <br>
@@ -190,7 +191,7 @@
                                                 <input type="hidden" name="curr_id" value="">
                                             </div>
                                             <div class="col-sm-4">
-                                                <input class="form-control" type="text" name="curr_rate" readonly>
+                                                <input class="form-control curr-num" type="text" name="curr_rate" readonly>
                                             </div>
                                         </div>                            
                                     </div>
@@ -536,8 +537,8 @@
                 {   
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="supp_name"]').val(data.SUPP_NAME);
-                    $('[name="supp_address"]').val(data.SUPP_ADDRESS);
-                    $('[name="supp_city"]').val(data.SUPP_CITY);                    
+                    $('[name="supp_address"]').val(data.SUPP_ADDRESS+', '+data.SUPP_CITY);
+                    $('[name="supp_info"]').val(data.SUPP_OTHERCTC+'\n'+((data.SUPP_DUE != null)?data.SUPP_DUE:''));
                     $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

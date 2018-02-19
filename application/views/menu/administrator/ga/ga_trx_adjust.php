@@ -16,76 +16,76 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nomor Penyesuaian</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" id="genbtn" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                </div>
+                                <div class="col-sm-7">
                                     <input class="form-control" type="text" name="adj_code" value="" readonly>
                                     <input type="hidden" name="adj_id" value="1">
-                                    <input type="hidden" name="user_id" value="1">
-                                </div>
-                                <div class="col-sm-1">
-                                    <a href="javascript:void(0)" onclick="tambah()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                                    <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tanggal</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <div class='input-group date' id='dtp1'>
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control input-group-addon" name="adj_tgl" placeholder="Tanggal">
+                                        <input type='text' class="form-control text-center" name="adj_tgl" value="<?php echo date('Y-m-d')?>" readonly >
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nama Barang</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" onclick="srch_brg()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                </div>
+                                <div class="col-sm-7">
                                     <input class="form-control" type="text" name="gd_name" disabled>
                                     <input type="hidden" name="gd_id" value="">
-                                </div>
-                                <div class="col-sm-1">
-                                    <a href="javascript:void(0)" onclick="srch_brg()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Info Barang</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <textarea name="gd_info" class="form-control" rows="2" style="resize: vertical;" disabled></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Stock Awal</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="gd_stock" readonly>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="gd_unit1" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Stock Opname</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="adj_curr">
                                     <span class="help-block"></span>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="gd_unit2" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Selisih</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="adj_diff" readonly>
                                     <span class="help-block"></span>
                                     <input type="hidden" name="adj_plus" value="">
                                     <input type="hidden" name="adj_minus" value="">
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <input class="form-control" type="text" name="gd_unit3" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <textarea name="adj_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                     <span class="help-block"></span>
                                 </div>
@@ -141,26 +141,7 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -176,13 +157,11 @@
                 $('[name="adj_tgl"]').parent().parent().parent().removeClass('has-error');
             });
         });
-
         function print_adjga()
         {
             var ids = $('[name=adj_id]').val();
             window.open ( "<?php echo site_url('administrator/Genaff/pageprint_adjga/')?>"+ids,'_blank');
         }
-
         function tambah()
         {
             $.ajax({
@@ -193,7 +172,7 @@
                 {
                     $('[name="adj_code"]').val(data.kode);
                     $('[name="adj_id"]').val(data.id);
-
+                    $('#genbtn').attr('disabled',true);
                 },
                 error : function (jqXHR, textStatus, errorThrown)
                 {
@@ -201,7 +180,6 @@
                 }
             })
         }
-
         function save_adj()
         {
             validasi();
@@ -230,7 +208,6 @@
                 alert('Ada input yang salah');
             }
         }
-
         function selisih()
         {
             var old = $('[name="gd_stock"]').val();
@@ -253,7 +230,6 @@
                 $('[name="adj_plus"]').val(dif);
             }
         }
-
         function validasi()
         {
             var curr = $('[name="adj_curr"]').val();
@@ -279,7 +255,6 @@
                 $('[name="adj_tgl"]').parent().parent().parent().addClass('has-error');
             }
         }
-
         function barang(id)
         {
             table = $('#dtb_usage').DataTable({
@@ -301,31 +276,6 @@
                 ],
             });
         }
-
-        function srch_usg()
-        {
-            $('#modal_usg').modal('show');
-            $('.modal-title').text('Cari Approval');
-            table = $('#dtb_usg').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_usg')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
-                },
-                ],
-            });
-        }
-
         function srch_brg()
         {
             $('#modal_goods').modal('show');
@@ -349,52 +299,6 @@
                 ],
             });
         }
-
-        function pick_usage(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_usage/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="usg_id"]').val(data.USG_ID);
-                    $('[name="usg_code"]').val(data.USG_CODE);
-                    $('[name="rtusg_info"]').val(data.USG_INFO);
-                    if(data.APPR_ID != null)
-                    {
-                        var appr_id = data.APPR_ID;
-                        pick_appr(appr_id);
-                    }
-                    $('#modal_usg').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        function pick_appr(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="appr_code"]').val(data.APPR_CODE);
-                    $('[name="loc_name"]').val(data.LOC_NAME);
-                    $('[name="loc_address"]').val(data.LOC_ADDRESS);                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
         function pick_brg(id)
         {
             $.ajax({
@@ -407,9 +311,9 @@
                     $('[name="gd_name"]').val(data.GD_NAME);
                     $('[name="gd_info"]').val(data.GD_INFO);
                     $('[name="gd_stock"]').val(data.GD_STOCK);
-                    $('[name="gd_unit1"]').val(data.GD_UNIT);
-                    $('[name="gd_unit2"]').val(data.GD_UNIT);
-                    $('[name="gd_unit3"]').val(data.GD_UNIT);
+                    $('[name="gd_unit1"]').val(data.GD_MEASURE);
+                    $('[name="gd_unit2"]').val(data.GD_MEASURE);
+                    $('[name="gd_unit3"]').val(data.GD_MEASURE);
                     $('#modal_goods').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -418,7 +322,6 @@
                 }
             });
         }
-
         function bersih()
         {
             $('[name="gd_id"]').val('');

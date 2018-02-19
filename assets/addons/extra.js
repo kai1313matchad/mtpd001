@@ -81,3 +81,10 @@ function money_rev(inp)
 };
 
 $('.curr-num').number(true);
+
+function resizetarea(id) 
+{
+    var textarea = $('#'+id)[0];
+    textarea.style.height = '0px';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+}

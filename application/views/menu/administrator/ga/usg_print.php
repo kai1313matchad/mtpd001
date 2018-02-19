@@ -87,11 +87,11 @@
         }
         .table th
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
         .table td
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
