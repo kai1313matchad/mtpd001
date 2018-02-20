@@ -165,9 +165,9 @@
                                     <div class="col-sm-2">
                                         <input class="form-control" type="text" name="pi_width" placeholder="lebar">
                                     </div>
-                                    <div class="col-sm-2">
+                                    <!-- <div class="col-sm-2">
                                         <input class="form-control" type="text" name="pi_height" placeholder="tinggi">
-                                    </div>
+                                    </div> -->
                                     <label class="col-sm-1 control-label">Meter</label>
                                 </div>
                                 <div class="form-group">

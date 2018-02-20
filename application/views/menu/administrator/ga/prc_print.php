@@ -53,7 +53,7 @@
         .row-content
         {
             margin-top: 10px;
-            min-height: 350px;
+            min-height: 250px;
         }
         .table th
         {
@@ -66,17 +66,17 @@
         .head-font
         {
             font-family:"times new roman";
-            font-size: 18px;
+            font-size: 14px;
         }
         .content-font
         {
             font-family: "Arial";
-            font-size: 12px;
+            font-size: 10px;
         }
         .foot-font
         {
             font-family:"times new roman";
-            font-size: 16px;
+            font-size: 12px;
         }
         .tarea
         {
@@ -384,6 +384,7 @@
                             $('<th class="text-right chgnum">'+data[0]["PRCGA_GTOTAL"]+'</th>')
                             ).appendTo('#tb_content');
                     $('td.chgnum').number(true);
+                    $('th.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -79,7 +79,7 @@
         .row-tb-cont
         {
             margin-top: 10px;
-            min-height: 1100px;
+            min-height: 600px;
         }
         .lb-margin
         {

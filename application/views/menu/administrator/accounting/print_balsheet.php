@@ -92,7 +92,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_content"></tbody>
+                    <tbody id="tb_content2"></tbody>
                     <tfoot>
                         <tr>
                             <th colspan="2" class="text-right">Saldo</th>
@@ -120,7 +120,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_content2"></tbody>
+                    <tbody id="tb_content"></tbody>
                     <tfoot>
                         <tr>
                             <th colspan="2" class="text-right">Saldo</th>
@@ -144,7 +144,6 @@
                     pick_branch($('[name="branch"]').val());
                 }
         });
-
         function tes()
         {
             $.ajax({

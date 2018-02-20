@@ -58,7 +58,7 @@
         .con-border
         {
             border: solid 2px black;
-            min-height: 560px;
+            min-height: 360px;
         }
         .row-border
         {
@@ -79,7 +79,7 @@
         .row-tb-cont
         {
             margin-top: 10px;
-            min-height: 1100px;
+            min-height: 600px;
         }
         .lb-margin
         {

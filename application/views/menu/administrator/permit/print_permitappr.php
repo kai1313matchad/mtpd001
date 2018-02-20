@@ -26,10 +26,12 @@
         body 
         {
             background-color: white;
+            font-size: 12px;
+            font-family: 'times new roman';
         }
         .bg-table
         {
-            min-height: 800px;
+            min-height: 400px;
         }
         .bt-border
         {
@@ -49,17 +51,27 @@
         {
             min-height: 100px;
         }
+        .table th
+        {
+            border: solid 1px black !important;
+        }
+        .table td
+        {
+            border: solid 1px black !important;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <input type="hidden" name="pr-pi-id" value="<?php echo $id; ?>">
         <div class="row">
             <div class="col-sm-4 col-xs-4">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
-            <div class="col-sm-4 col-xs-4">
-                <h2 class="text-center">FORM PENGAJUAN ANGGARAN REKLAME</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <h3 class="text-center">FORM PENGAJUAN ANGGARAN REKLAME</h3>
                 <h4 class="text-center" name="pr-pi-period">PERIODE TAHUN 2017</h4>
                 <h4 class="text-center" name="pr-pi-date">TANGGAL 31 Dec 2017</h4>
                 <h5 class="text-center" name="pr-pi-sts">STATUS STANDARD</h5>
