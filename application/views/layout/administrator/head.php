@@ -11,7 +11,7 @@
     <meta name="Author" content="Kaisha Satrio">
     <title><?php echo $title;?></title>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">   
+    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.css')?>" rel="stylesheet">
     <!-- sbadmin -->

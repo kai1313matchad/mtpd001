@@ -54,6 +54,11 @@
         {
             font-size: 16px;
         }
+        .font-foot
+        {
+            font-size: 15px;
+            color: blue;
+        }
         .font-red
         {
             color: red;
@@ -104,17 +109,80 @@
         {
             text-align: center;
         }
-        table
-        {
-            border: solid 3px black;
-        }
         .table th
         {
             border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
         .table td
         {
             border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        @media print
+        {
+            .logo
+            {
+                width: 60%;
+            }
+            .happroval 
+            {
+                text-align: right;
+                font-weight: 600;
+            }
+            .row-ins
+            {
+                margin-left: 5px;
+            }
+            .row-ins-tb
+            {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            .font-pr
+            {
+               font-size: 12px; 
+            }
+            .font-nd
+            {
+                font-size: 11px;
+            }
+            .font-3rd
+            {
+                font-size: 10px;
+                font-weight: bold;
+                font-family: 'arial black'
+            }
+            .font-txt
+            {
+                font-size: 11px;
+            }
+            .font-foot
+            {
+                font-size: 10px;
+                color: blue !important;
+            }
+            .font-red
+            {
+                color: red !important;
+            }
+            .col-height
+            {
+                min-height: 70px;
+            }
+            .col-height-cost
+            {
+                min-height: 600px;
+            }
+            .div-height
+            {
+                height: 60px;
+            }
         }
     </style>
 </head>
@@ -123,12 +191,12 @@
         <input type="hidden" name="appr_id" value="<?php echo $id; ?>">
         <div class="row">
             <div class="col-sm-6 col-xs-6">
-                <img src="https://www.matchadonline.com/logo_n_watermark/1506304293840_LOGOeCommerce.png" class="img-responsive">
+                <img src="https://www.matchadonline.com/logo_n_watermark/1506304293840_LOGOeCommerce.png" class="img-responsive logo">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h1 class="happroval">A P P R O V A L</h1>
             </div>
-        </div><br>
+        </div>
     </div>
     <div class="container border-prime">
         <div class="row">
@@ -223,10 +291,10 @@
                 </div>
             </div>
             <div class="row row-ins">
-                <div class="col-sm-1 col-xs-1">
+                <div class="col-sm-2 col-xs-2">
                     <label class="font-nd">Disc 1</label>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-1 col-xs-1">
                     <span class="font-txt" name="print_apprdiscperc1"></span>
                 </div>
                 <div class="col-sm-2 col-xs-2">
@@ -235,10 +303,10 @@
                 </div>
             </div>
             <div class="row row-ins">
-                <div class="col-sm-1 col-xs-1">
+                <div class="col-sm-2 col-xs-2">
                     <label class="font-nd">Disc 2</label>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-1 col-xs-1">
                     <span class="font-txt" name="print_apprdiscperc2"></span>
                 </div>
                 <div class="col-sm-2 col-xs-2">
@@ -256,10 +324,10 @@
                 </div>
             </div>
             <div class="row row-ins">
-                <div class="col-sm-1 col-xs-1">
+                <div class="col-sm-2 col-xs-2">
                     <label class="font-nd">PPN</label>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-1 col-xs-1">
                     <span class="font-txt" name="print_apprppnperc"></span>
                 </div>
                 <div class="col-sm-2 col-xs-2">
@@ -286,10 +354,10 @@
                 </div>
             </div>
             <div class="row row-ins">
-                <div class="col-sm-1 col-xs-1">
+                <div class="col-sm-2 col-xs-2">
                     <label class="font-nd">PPH</label>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-1 col-xs-1">
                     <span class="font-txt" name="print_apprpphperc"></span>
                 </div>
                 <div class="col-sm-2 col-xs-2">
@@ -348,12 +416,12 @@
         </div>
         <div class="row top-row">
             <div class="col-sm-2 col-xs-2 text-center">
-                <label class="font-3rd">Director</label>
-            </div>
-            <div class="col-sm-3 col-xs-3 left-bd text-center">
-                <label class="font-3rd">Account SPV/Manager</label>
+                <label class="font-3rd">CEO</label>
             </div>
             <div class="col-sm-2 col-xs-2 left-bd text-center">
+                <label class="font-3rd">COO</label>
+            </div>
+            <div class="col-sm-3 col-xs-3 left-bd text-center">
                 <label class="font-3rd">Corp. Secretary</label>
             </div>
             <div class="col-sm-2 col-xs-2 left-bd text-center">
@@ -367,10 +435,10 @@
             <div class="col-sm-2 col-xs-2 div-height text-center">
                 
             </div>
-            <div class="col-sm-3 col-xs-3 div-height div-bd text-center">
+            <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
                 
             </div>
-            <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
+            <div class="col-sm-3 col-xs-3 div-height div-bd text-center">
                 
             </div>
             <div class="col-sm-2 col-xs-2 div-height div-bd text-center">
@@ -382,25 +450,18 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <address class="font-foot">
+                    Head Office : Jl. Lesti No.42 Surabaya 60241 - Telp.(031)5678 346(Hunting), Fax. (031)568 0646 - E-Mail : marketing@match-advertising.com<br>
+                    Branch Office : Jl. Balikpapan Raya No.19A, Jakarta 10160 - Telp.(021)351 2775(Hunting), Fax. (021)351 2776
+                </address>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -499,7 +560,7 @@
                     {
                         var $tr = $('<tr>').append(
                             $('<td class="text-center font-txt">'+(i+1)+'</td>'),
-                            $('<td class="text-left font-txt">'+data[i]["CSTDT_CODE"]+'</td>'),
+                            $('<td class="text-left text-uppercase font-txt">'+data[i]["CSTDT_CODE"]+'</td>'),
                             $('<td class="text-right font-txt">'+money_conv(data[i]["CSTDT_AMOUNT"])+'</td>')
                             ).appendTo('#tb_content');
                     }                   
