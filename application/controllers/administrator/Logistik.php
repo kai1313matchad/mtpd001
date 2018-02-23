@@ -89,6 +89,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report_stock()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/report_stock';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function gen_po_lgt()
 		{
 			$gen = $this->gen->gen_numpolgt();
