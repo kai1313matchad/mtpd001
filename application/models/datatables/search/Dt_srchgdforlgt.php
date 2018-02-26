@@ -1,22 +1,23 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_podet extends CI_Model 
+	class Dt_srchgdforlgt extends CI_Model 
 	{
-
-		var $table = 'po_details';
-		var $column_order = array(null,'gd_name','gd_price','podet_qtyunit','podet_sub');
-		var $column_search = array('gd_name','gd_price','podet_qtyunit','podet_sub');
-		var $order = array('podet_id' => 'desc');
+		var $table = 'master_goods a';
+		var $column_order = array(null,'gd_name','gd_unit','gd_measure','gd_info','gd_price');
+		var $column_search = array('gd_name','gd_unit','gd_measure','gd_info','gd_price');
+		var $order = array('gd_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query($id)
+		private function _get_datatables_query($id,$brc)
 		{		
 			$this->db->from($this->table);
-			$this->db->join('master_goods', 'master_goods.gd_id = po_details.gd_id');
-			$this->db->join('trx_po', 'trx_po.po_id = po_details.po_id');
-			$this->db->where('po_details.po_id',$id);
+			$this->db->join('master_supplier b', 'b.supp_id = a.supp_id');
+			$this->db->join('master_branch c', 'c.branch_id = a.branch_id');
+			$this->db->where('a.supp_id',$id);
+			$this->db->where('a.branch_id',$brc);
+			$this->db->where('gd_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -47,17 +48,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables($id)
+		public function get_datatables($id,$brc)
 		{
-			$this->_get_datatables_query($id);
+			$this->_get_datatables_query($id,$brc);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered($id)
+		public function count_filtered($id,$brc)
 		{
-			$this->_get_datatables_query($id);
+			$this->_get_datatables_query($id,$brc);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
@@ -65,6 +66,6 @@
 		{
 			$this->db->from($this->table);
 			return $this->db->count_all_results();
-		}		
+		}
 	}
 ?>

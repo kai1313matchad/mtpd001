@@ -43,6 +43,7 @@
                                             <input class="form-control" type="text" name="ret_code" value="" readonly>
                                             <input type="hidden" name="ret_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -52,7 +53,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="po_tgl" type='text' class="form-control" name="retprc_tgl" placeholder="Tanggal" />
+                                                <input id="po_tgl" type='text' class="form-control text-center" name="retprc_tgl" value="<?= date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +164,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Jumlah Beli</label>
+                                        <label class="col-sm-3 control-label">Jumlah Retur</label>
                                         <div class="col-sm-4">
                                             <input onchange="hitung()" class="form-control" type="text" name="ret_qty">
                                             <span class="help-block"></span>
@@ -223,7 +224,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="po_term">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Hari</span>
+                                                <input class="form-control" type="text" name="po_term">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -474,7 +478,7 @@
             })
         }
         function saveretprc()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_simpanretprc')?>",
                 type: "POST",
@@ -493,7 +497,6 @@
                 }
             });
         }
-
         function hitung()
         {
             prc = $('[name="gd_price"]').val();
@@ -501,7 +504,6 @@
             sub = qty * prc;
             $('[name="ret_sub"]').val(sub);            
         }
-
         function gtotal()
         {
             var total = 0;
@@ -516,7 +518,6 @@
             total3 = total2 + (cost*1);
             $('[name=prc_gtotal]').val(total3);
         }
-
         function disc()
         {
             var disc = $('[name=disc_perc]').val();
@@ -524,7 +525,6 @@
             var sum = disc/100 * subt;
             $('[name=prc_disc]').val(sum);
         }
-
         function ppn()
         {
             var disc = $('[name=ppn_perc]').val();
@@ -532,9 +532,8 @@
             var sum = disc/100 * subt;
             $('[name=prc_ppn]').val(sum);
         }
-
         function sub_total(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_subretbl/')?>" + id,
                 type: "GET",
@@ -549,9 +548,8 @@
                 }
             });
         }
-
         function brg_prc(id)
-        {            
+        {
             table = $('#data_prc').DataTable({
                 "info": false,
                 "destroy": true,
@@ -571,7 +569,6 @@
                 ],
             });
         }
-
         function barang(id)
         {
             table = $('#dtb_barang').DataTable({
@@ -593,9 +590,8 @@
                 ],
             });
         }
-
         function add_barang()
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_add_brgretprc')?>",
                 type: "POST",
@@ -615,8 +611,8 @@
                     {
                         for (var i = 0; i < data.inputerror.length; i++) 
                         {
-                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
                         }
                     }                 
                 },
@@ -626,14 +622,12 @@
                 }
             });
         }
-
         function del_brg(id)
         {
             if(confirm('Are you sure delete this data?'))
             {
-                // ajax delete data to database
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgretprc')?>/"+id,
+                    url : "<?php echo site_url('administrator/Logistik/ajax_del_brgretprc/')?>"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)
@@ -650,39 +644,33 @@
                 });
             }
         }
-
         function srch_prc()
-        {            
+        {
             $('#modal_prc').modal('show');
-            $('.modal-title').text('Cari Order Pembelian'); // Set title to Bootstrap modal title      
-            //datatables        
+            $('.modal-title').text('Cari Order Pembelian');
             table = $('#dtb_prc').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_prc')?>",
                     "type": "POST",                
                 },
-                //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
-
         function pick_prc(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prc2/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prc2/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -704,63 +692,10 @@
                 }
             });
         }
-
-        function srch_brg()
-        {
-            suppid = $('[name="supp_id"]').val();
-            $('#modal_barang').modal('show');
-            $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title      
-            //datatables        
-            table = $('#dtb_brg').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brg')?>/"+suppid,
-                    "type": "POST",                
-                },
-                //Set column definition initialisation properties.
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
-                },
-                ],
-            });
-        }
-
-        function pick_brg(id)
-        {
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="gd_id"]').val(data.GD_ID);
-                    $('[name="gd_name"]').val(data.GD_NAME);
-                    $('[name="gd_unit1"]').val(' / ' +data.GD_MEASURE+' '+data.GD_UNIT);
-                    $('[name="gd_price"]').val(data.GD_PRICE);
-                    prc = $('[name="gd_price"]').val();
-                    $('[name="gd_unit2"]').val(data.GD_UNIT);                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
         function pick_supp(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -776,12 +711,10 @@
                 }
             });
         }
-
         function pick_appr(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -795,12 +728,10 @@
                 }
             });
         }
-
         function pick_po(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_po/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_po/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -810,7 +741,7 @@
                     $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     pick_appr(data.APPR_ID);                    
-                    pick_supp($('[name="supp_id"]').val());
+                    pick_supp(data.SUPP_ID);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -818,39 +749,33 @@
                 }
             });
         }
-
         function srch_curr()
         {
             $('#modal_curr').modal('show');
-            $('.modal-title').text('Cari Rate Mata Uang'); // Set title to Bootstrap modal title        
-            //datatables        
+            $('.modal-title').text('Cari Rate Mata Uang');
             table = $('#dtb_curr').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                // Load data for the table's content from an Ajax source
+                "processing": true,
+                "serverSide": true,
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Logistik/ajax_srch_curr')?>",
                     "type": "POST",                
                 },
-                //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [ 0 ],
+                    "orderable": false,
                 },
                 ],
             });
         }
-
         function pick_curr(id)
         {
-            //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_curr/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_curr/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -858,7 +783,7 @@
                     $('[name="curr_id"]').val(data.CURR_ID);                    
                     $('[name="curr_name"]').val(data.CURR_NAME);
                     $('[name="curr_rate"]').val(data.CURR_RATE);
-                    $('#modal_curr').modal('hide'); // show bootstrap modal when complete loaded
+                    $('#modal_curr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -866,46 +791,19 @@
                 }
             });
         }
-
-        function pick_prcdet(id)
-        {            
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet/')?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="gd_id"]').val(data[0]["GD_ID"]);
-                    $('[name="gd_name"]').val(data[0]["GD_NAME"]);
-                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_MEASURE"]+' '+data[0]["GD_UNIT"]);
-                    $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
-                    $('[name="gd_unit2"]').val(data[0]["GD_UNIT"]);
-                    $('[name="ret_qty"]').val(data[0]["PRCDET_QTY"]);
-                    $('[name="ret_qty_old"]').val(data[0]["PRCDET_QTY"]);
-                    hitung();                    
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
         function pick_retprc(id)
-        {            
-            //Ajax Load data from ajax
+        {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet2/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet2/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="gd_id"]').val(data[0]["GD_ID"]);
                     $('[name="gd_name"]').val(data[0]["GD_NAME"]);
-                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_MEASURE"]+' '+data[0]["GD_UNIT"]);
+                    $('[name="gd_unit1"]').val(' / '+data[0]["GD_UNIT"]+' '+data[0]["GD_MEASURE"]);
                     $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
-                    $('[name="gd_unit2"]').val(data[0]["GD_UNIT"]);
+                    $('[name="gd_unit2"]').val(data[0]["GD_MEASURE"]);
                     $('[name="ret_qty"]').val(data[0]["PRCDET_QTY"]);
                     $('[name="ret_qty_old"]').val(data[0]["PRCDET_QTY"]);
                     hitung();                    
@@ -916,7 +814,6 @@
                 }
             });
         }
-
         function bersih()
         {
             $('[name="gd_id"]').val('');
@@ -928,6 +825,29 @@
             $('[name="ret_qty_old"]').val('');
             $('[name="ret_sub"]').val('');
         }
+        // function pick_prcdet(id)
+        // {
+        //     $.ajax({
+        //         url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet/')?>" + id,
+        //         type: "GET",
+        //         dataType: "JSON",
+        //         success: function(data)
+        //         {   
+        //             $('[name="gd_id"]').val(data[0]["GD_ID"]);
+        //             $('[name="gd_name"]').val(data[0]["GD_NAME"]);
+        //             $('[name="gd_unit1"]').val(' / '+data[0]["GD_UNIT"]+' '+data[0]["GD_MEASURE"]);
+        //             $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
+        //             $('[name="gd_unit2"]').val(data[0]["GD_MEASURE"]);
+        //             $('[name="ret_qty"]').val(data[0]["PRCDET_QTY"]);
+        //             $('[name="ret_qty_old"]').val(data[0]["PRCDET_QTY"]);
+        //             hitung();                    
+        //         },
+        //         error: function (jqXHR, textStatus, errorThrown)
+        //         {
+        //             alert('Error get data from ajax');
+        //         }
+        //     });
+        // }
     </script>
 </body>
 </html>

@@ -211,7 +211,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Cabang</label>
                                 <div class="col-sm-9">
-                                    <select id="vbranch" name="vbranch" class="form-control" required readonly>
+                                    <select id="vbranch" name="vbranch" class="form-control" disabled>
                                         <option value="">Pilih</option>
                                     </select>
                                     <span class="help-block"></span>
@@ -222,7 +222,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Supplier</label>
                                 <div class="col-sm-9">
-                                    <select id="vsupp" name="vsupp" class="form-control" required readonly>
+                                    <select id="vsupp" name="vsupp" class="form-control" required disabled>
                                         <option value="">Pilih</option>
                                     </select>
                                     <span class="help-block"></span>
@@ -465,6 +465,7 @@
                     // var supp = data.SUPP_ID;
                     // document.querySelector('#vsupp [value="' + supp + '"]').selected = true;
                     $('select#vsupp').val(data.SUPP_ID);
+                    $('select#vbranch').val(data.BRANCH_ID);
                     // $('#vsupp').selectpicker('refresh');
                     $('[name="vnama"]').val(data.GD_NAME);
                     $('[name="vunit"]').val(data.GD_UNIT);
@@ -506,17 +507,20 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
-
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>/" + id,
+                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="id"]').val(data.GD_ID);
                     $('[name="code"]').val(data.GD_CODE);
-                    var supp = data.SUPP_ID;
-                    document.querySelector('#supp [value="' + supp + '"]').selected = true;
+                    // var supp = data.SUPP_ID;
+                    // document.querySelector('#supp [value="' + supp + '"]').selected = true;
+                    $('select#supp').val(data.SUPP_ID);
+                    $('select#branch').val(data.BRANCH_ID);
+                    $('#supp').selectpicker('refresh');
+                    $('#branch').selectpicker('refresh');
                     $('[name="nama"]').val(data.GD_NAME);
                     $('[name="unit"]').val(data.GD_UNIT);
                     $('[name="ukuran"]').val(data.GD_MEASURE);

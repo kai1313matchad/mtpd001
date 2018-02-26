@@ -37,16 +37,17 @@
                                             <input class="form-control" type="text" name="rtusg_code" value="" readonly>
                                             <input type="hidden" name="rtusg_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
                                         <div class="col-sm-8">
-                                            <div class='input-group date' id='dtp1'>     
+                                            <div class='input-group date' id='dtp1'>
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input type='text' class="form-control" name="retusg_tgl" placeholder="Tanggal" />
+                                                <input type='text' class="form-control text-center" name="retusg_tgl" value="<?= date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>

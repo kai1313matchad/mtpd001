@@ -42,7 +42,8 @@
                                         <div class="col-sm-7">
                                              <input class="form-control" type="text" name="prc_code" value="" readonly>
                                             <input type="hidden" name="prc_id" value="0">
-                                            <input type="hidden" name="user_id" value="1">
+                                            <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>                                        
                                     </div>
                                     <div class="form-group">
@@ -52,7 +53,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="po_tgl" type='text' class="form-control" name="prc_tgl" placeholder="Tanggal" />
+                                                <input id="po_tgl" type='text' class="form-control text-center" name="prc_tgl" value="<?= date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -101,13 +102,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Alamat</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="supp_address" readonly>
+                                            <textarea name="supp_address" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Kota</label>
+                                        <label class="col-sm-3 control-label">Info</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="supp_city" readonly>
+                                            <textarea name="supp_info" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
                                         </div>
                                     </div>
                                     <br><br>
@@ -229,7 +230,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="po_term">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Hari</span>
+                                                <input class="form-control curr-num" type="text" name="po_term">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -446,29 +450,20 @@
             id=$('[name="prc_id"]').val();            
             barang(id);
             prc = 0; qty = 0; sub = 0;
-
             $('[name=po_qty]').on('input', function() {
                 hitung();
                 gtotal();
             });
-
             $('[name=disc_perc]').on('input', function() {
                 disc();
                 gtotal();
             });
-
             $('[name=ppn_perc]').on('input', function() {
                 ppn();
                 gtotal();
             });
-
             $('[name=prc_cost]').on('input', function() {
                 gtotal();
-            });
-
-            $("input").change(function(){
-                $(this).parent().parent().removeClass('has-error');
-                $(this).next().empty();
             });
         });
         function print_prc()
@@ -772,8 +767,8 @@
                 {   
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="supp_name"]').val(data.SUPP_NAME);
-                    $('[name="supp_address"]').val(data.SUPP_ADDRESS);
-                    $('[name="supp_city"]').val(data.SUPP_CITY);                    
+                    $('[name="supp_address"]').val(data.SUPP_ADDRESS+', '+data.SUPP_CITY);
+                    $('[name="supp_info"]').val(data.SUPP_DUE);
                     $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
