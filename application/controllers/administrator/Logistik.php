@@ -532,6 +532,18 @@
 			echo json_encode($data);
 		}
 
+		public function print_rptst()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['branch'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['rpt_type'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_rptstock',$data);
+		}
+
 		//Ajax Search
 		public function ajax_srch_po()
 		{

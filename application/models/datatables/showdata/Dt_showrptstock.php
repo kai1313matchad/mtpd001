@@ -23,6 +23,7 @@
 			$this->db->from($this->table);
 			$this->db->join('master_branch b','b.branch_id = a.branch_id');
 			$this->db->where('a.gd_dtsts','1');
+			$this->db->where('a.gd_typestock','0');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
