@@ -283,7 +283,7 @@
 				$row[] = $dat->COA_ACC;
 				$row[] = $dat->CSHINDET_REFF;				
 				$row[] = $dat->CSHINDET_INFO;
-				$row[] = $dat->CSHDETIN_AMOUNT;
+				$row[] = number_format($dat->CSHDETIN_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_cshindet('."'".$dat->CSHINDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -309,7 +309,7 @@
 				$row[] = $dat->COA_ACC;
 				$row[] = $dat->CSHODET_REFF;				
 				$row[] = $dat->CSHODET_INFO;
-				$row[] = $dat->CSHODET_AMOUNT;
+				$row[] = number_format($dat->CSHODET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_cshodet('."'".$dat->CSHODET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -335,7 +335,7 @@
 				$row[] = $dat->BNKTRX_TYPE;
 				$row[] = $dat->BNKTRX_NUM;
 				$row[] = $dat->BNKTRX_DATE;
-				$row[] = $dat->BNKTRX_AMOUNT;
+				$row[] = number_format($dat->BNKTRX_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankintrxdet('."'".$dat->BNKTRX_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -363,7 +363,7 @@
 				$row[] = $dat->BNKDET_NUM;
 				$row[] = $dat->BNKDET_REFF;
 				$row[] = $dat->BNKDET_INFO;
-				$row[] = $dat->BNKDET_AMOUNT;
+				$row[] = number_format($dat->BNKDET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankindet('."'".$dat->BNKDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -389,7 +389,7 @@
 				$row[] = $dat->BNKTRXO_TYPE;
 				$row[] = $dat->BNKTRXO_NUM;
 				$row[] = $dat->BNKTRXO_DATE;
-				$row[] = $dat->BNKTRXO_AMOUNT;
+				$row[] = number_format($dat->BNKTRXO_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankouttrxdet('."'".$dat->BNKTRXO_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -417,7 +417,7 @@
 				$row[] = $dat->BNKODET_NUM;
 				$row[] = $dat->BNKODET_REFF;
 				$row[] = $dat->BNKODET_INFO;
-				$row[] = $dat->BNKODET_AMOUNT;
+				$row[] = number_format($dat->BNKODET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bankoutdet('."'".$dat->BNKODET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -442,7 +442,7 @@
 				$row[] = $no;
 				$row[] = $dat->GRINDET_CODE;
 				$row[] = $dat->GRINDET_DATE;
-				$row[] = $dat->GRINDET_AMOUNT;
+				$row[] = number_format($dat->GRINDET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_grindet('."'".$dat->GRINDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -467,7 +467,7 @@
 				$row[] = $no;
 				$row[] = $dat->GROUTDET_CODE;
 				$row[] = $dat->GROUTDET_DATE;
-				$row[] = $dat->GROUTDET_AMOUNT;
+				$row[] = number_format($dat->GROUTDET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_groutdet('."'".$dat->GROUTDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -492,7 +492,7 @@
 				$row[] = $dat->APPR_CODE;
 				$row[] = $dat->TINVDET_INFO;
 				$row[] = $dat->LOC_ADDRESS;
-				$row[] = $dat->TINVDET_SUM;
+				$row[] = number_format($dat->TINVDET_SUM);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_taxdet('."'".$dat->TINVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -518,7 +518,7 @@
 				$row[] = $dat->LOC_NAME;
 				$row[] = $dat->APPR_PO;
 				$row[] = $dat->INVDET_TERM;
-				$row[] = $dat->INVDET_AMOUNT;
+				$row[] = number_format($dat->INVDET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_invdet('."'".$dat->INVDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -544,8 +544,8 @@
 				$row[] = $dat->COA_ACC;
 				$row[] = $dat->COA_ACCNAME;
 				$row[] = $dat->JOU_INFO;
-				$row[] = $dat->JOUDET_DEBIT;
-				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = number_format($dat->JOUDET_DEBIT);
+				$row[] = number_format($dat->JOUDET_CREDIT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_joudet('."'".$dat->JOUDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -677,7 +677,7 @@
 				$row[] = $dat->COA_ACC;				
 				$row[] = $dat->BUDDET_INFO;
 				$row[] = $dat->BUDDET_SUM;
-				$row[] = $dat->BUDDET_AMOUNT;
+				$row[] = number_format($dat->BUDDET_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_budgetdet('."'".$dat->BUDDET_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -702,7 +702,7 @@
 				$row[] = $no;
 				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;				
 				$row[] = $dat->PPAY_INFO;
-				$row[] = $dat->PPAY_AMOUNT;				
+				$row[] = number_format($dat->PPAY_AMOUNT);				
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_picostdet('."'".$dat->PPAY_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
