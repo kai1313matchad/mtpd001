@@ -5,6 +5,7 @@
 		public function __construct()
 		{
 			parent::__construct();
+			$this->load->model('CRUD/M_logistik','logistik');
 			$this->load->model('datatables/Dt_srchgd','srch_gd');
 			$this->load->model('datatables/Dt_srchgdusg','srch_gdusg');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -542,6 +543,16 @@
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
 			$this->load->view('menu/administrator/logistik/print_rptstock',$data);
+		}
+
+		public function gen_rptstock()
+		{
+			$data['a'] = $this->logistik->get_allgd();
+			$data['b'] = $this->logistik->get_prcgd();
+			$data['c'] = $this->logistik->get_retprcgd();
+			$data['d'] = $this->logistik->get_usggd();
+			$data['e'] = $this->logistik->get_retusggd();
+			echo json_encode($data);
 		}
 
 		//Ajax Search

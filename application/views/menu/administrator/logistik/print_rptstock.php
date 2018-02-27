@@ -76,36 +76,33 @@
         </div>
         <div id="tp1" class="row row-start">
             <div class="col-sm-12 col-xs-12 table-responsive">
-                <table id="dtb_rptusg_t1" class="table table-bordered" cellspacing="0" width="100%">
+                <table id="dtb_rptstock" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th class="text-center">
-                                No Pakai
+                                Nama Barang
                             </th>
                             <th class="text-center">
-                                Tanggal
+                                Saldo Awal
                             </th>                            
                             <th class="text-center">
-                                Approval
+                                Pembelian
                             </th>
                             <th class="text-center">
-                                Lokasi
+                                Retur Pembelian
                             </th>
                             <th class="text-center">
-                                Barang
+                                Pemakaian
                             </th>                            
                             <th class="text-center">
-                                Jumlah
+                                Retur Pemakaian
                             </th>
                             <th class="text-center">
-                                Harga
-                            </th>
-                            <th class="text-center">
-                                Total
+                                Saldo Akhir
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_content_tp1"></tbody>
+                    <tbody id="tb_content"></tbody>
                 </table>
             </div>
         </div>
@@ -135,7 +132,7 @@
         function gen_tp1(v)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/gen_rptusg_t1')?>",
+                url : "<?php echo site_url('administrator/Logistik/gen_rptstock')?>",
                 type: "POST",
                 data: $('#form_rptpo').serialize(),
                 dataType: "JSON",
@@ -143,18 +140,41 @@
                 {
                     for (var i = 0; i < data['a'].length; i++)
                     {
-                        var appr = (data['a'][i]["APPR_CODE"] != null) ? data['a'][i]["APPR_CODE"] : '-';
-                        var sub = parseInt(data['a'][i]["USGDET_QTY"])*parseInt(data['a'][i]["GD_PRICE"]);
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+data['a'][i]["USG_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["USG_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
-                            $('<td class="text-center">'+appr+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["GD_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["USGDET_QTY"]+' '+data['a'][i]["GD_MEASURE"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["GD_PRICE"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["USGDET_SUB"]+'</td>')
-                            ).appendTo('#tb_content_tp1');
+                            $('<td class="text-center chgnum" name="sa'+data['a'][i]["GD_ID"]+'">0</td>'),
+                            $('<td class="text-center chgnum" name="prc'+data['a'][i]["GD_ID"]+'">0</td>'),
+                            $('<td class="text-center chgnum" name="rprc'+data['a'][i]["GD_ID"]+'">0</td>'),
+                            $('<td class="text-center chgnum" name="usg'+data['a'][i]["GD_ID"]+'">0</td>'),
+                            $('<td class="text-center chgnum" name="rusg'+data['a'][i]["GD_ID"]+'">0</td>'),
+                            $('<td class="text-center chgnum" name="saldo'+data['a'][i]["GD_ID"]+'">'+data['a'][i]["GD_STOCK"]+'</td>'),
+                            ).appendTo('#tb_content');
+                    }
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        $('[name="prc'+data['b'][i]["gd_id"]+'"]').text(data['b'][i]["sub"]);
+                    }
+                    for (var i = 0; i < data['c'].length; i++)
+                    {
+                        $('[name="rprc'+data['c'][i]["gd_id"]+'"]').text(data['c'][i]["sub"]);
+                    }
+                    for (var i = 0; i < data['d'].length; i++)
+                    {
+                        $('[name="usg'+data['d'][i]["gd_id"]+'"]').text(data['d'][i]["sub"]);
+                    }
+                    for (var i = 0; i < data['e'].length; i++)
+                    {
+                        $('[name="rusg'+data['e'][i]["gd_id"]+'"]').text(data['e'][i]["sub"]);
+                    }
+                    for (var i = 0; i < data['a'].length; i++)
+                    {
+                        var snd = Math.abs($('[name="saldo'+data['a'][i]["GD_ID"]+'"]').text());
+                        var prc = Math.abs($('[name="prc'+data['a'][i]["GD_ID"]+'"]').text());
+                        var rprc = Math.abs($('[name="rprc'+data['a'][i]["GD_ID"]+'"]').text());
+                        var usg = Math.abs($('[name="usg'+data['a'][i]["GD_ID"]+'"]').text());
+                        var rusg = Math.abs($('[name="rusg'+data['a'][i]["GD_ID"]+'"]').text());
+                        var swl = snd-prc+rprc+usg-rusg;
+                        $('[name="sa'+data['a'][i]["GD_ID"]+'"]').text(swl);
                     }
                     dt_tp1(v);
                     $('td.chgnum').number(true);
@@ -173,29 +193,11 @@
                 bLengthChange: false,
                 paging: false,
                 ordering: false,
-                // responsive: true,
                 columnDefs:
                 [
                     {visible: false, targets: v},                    
                     {orderable: false, targets: '_all'}
                 ],
-                // order: [[0, 'asc']],
-                rowGroup:
-                {
-                    endRender: function(rows, group)
-                    {
-                        var sum = rows.data().pluck(7)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);                        
-                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        return $('<tr/>')                        
-                        .append( '<td colspan="6" class="text-right">Sub Total</td>' )
-                        .append( '<td class="text-right">'+sum+'</td>');
-                    },
-                    dataSrc: v
-                },
             });
         }
         function pick_branch(id)
