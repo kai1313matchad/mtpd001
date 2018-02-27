@@ -37,6 +37,7 @@
 			$this->load->model('datatables/showdata/Dt_showrptpoga','rpt_poga');
 			$this->load->model('datatables/showdata/Dt_showrptprcga','rpt_prcga');
 			$this->load->model('datatables/showdata/Dt_showrptusgga','rpt_usgga');
+			$this->load->model('datatables/showdata/Dt_showrptstock','rpt_stock');
 		}
 
 		public function index()
@@ -871,6 +872,29 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_usgga->count_all(),
 							"recordsFiltered" => $this->rpt_usgga->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Stock Logistik
+		public function showrpt_stock()
+		{
+			$list = $this->rpt_stock->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_STOCK.' '.$dat->GD_MEASURE;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_stock->count_all(),
+							"recordsFiltered" => $this->rpt_stock->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
