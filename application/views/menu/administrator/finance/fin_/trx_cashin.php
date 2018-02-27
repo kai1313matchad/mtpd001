@@ -55,7 +55,7 @@
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" name="kas_nomor">
                                         </div>
-                                        <input type="hidden" value='4' class="form-control" name="kas_id">
+                                        <input type="hidden" value='0' class="form-control" name="kas_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
