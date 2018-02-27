@@ -124,8 +124,17 @@
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info" onclick="srch_anggaran()"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                         </div>
+                                        <input class="form-control" type="hidden" name="anggaran_id">
                                     </div>
-                                    <input class="form-control" type="hidden" name="anggaran_id">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">No.Faktur Pajak</label>
+                                        <div class="col-sm-1">
+                                            <input class="form-control" type="text" name="head_taxnumber">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="taxnumber">
+                                        </div>
+                                    </div>
                                 </div>      
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">
@@ -155,6 +164,10 @@
                                              <div class="col-sm-4">
                                                   <input class="form-control" type="text" name="no_beli">
                                              </div>
+                                             <div class="col-sm-1">
+                                                  <button type="button" class="btn btn-info" onclick="srch_prc()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                             </div>
+                                             <input class="form-control" type="hidden" name="id_beli">
                                         </div>
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Keterangan</label>
@@ -443,6 +456,40 @@
     </div>
     <!-- modal Anggaran selesai -->
 
+    <!-- Modal Pembelian Search -->
+    <div class="modal fade" id="modal_pembelian" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_pembelian" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomor Beli</th>
+                                        <th>Nomor PO</th>
+                                        <th>Nomor Invoice</th>
+                                        <th>Tanggal</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Pembelian selesai -->
+
     <!-- jQuery -->
     <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
     <!-- Bootstrap Core JavaScript -->
@@ -552,10 +599,10 @@ $(document).ready(function() {
                     // $('[name="kas_acc"]').val(data.COA_ACC);               
                     // $('[name="acc_id"]').val(data.COA_ID);     
                     if (sts=='1'){
-                       $('[name="kas_acc"]').val(data.COA_ACC);
+                       $('[name="kas_acc"]').val(data.COA_ACC +" - "+ data.COA_ACCNAME);
                        $('[name="acc_id"]').val(data.COA_ID);
                     } else {
-                       $('[name="acc_detail"]').val(data.COA_ACC);
+                       $('[name="acc_detail"]').val(data.COA_ACC +" - "+ data.COA_ACCNAME);
                        $('[name="acc_id_detail"]').val(data.COA_ID);
                     }  
                     $('#modal_account').modal('hide');
@@ -733,6 +780,64 @@ $(document).ready(function() {
                     $('[name="anggaran_id"]').val(data.BUD_ID);
                     $('[name="kas_anggaran"]').val(data.BUD_CODE);                  
                     $('#modal_anggaran').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function srch_prc()
+        {            
+            $('#modal_pembelian').modal('show');
+            $('.modal-title').text('Cari Pembelian'); // Set title to Bootstrap modal title      
+            //datatables        
+            table = $('#dtb_pembelian').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "order": [], //Initial no order.
+                // Load data for the table's content from an Ajax source
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_prc')?>",
+                    "type": "POST",                
+                },
+                //Set column definition initialisation properties.
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
+                },
+                ],
+            });
+        }
+
+        function pick_prc(id)
+        {
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_prc/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="po_id"]').val(data.PO_ID);
+                    $('[name="no_beli"]').val(data.PRC_CODE);
+                    // $('[name="no_prc"]').text(data.PRC_CODE);
+                    // $('[name="prc_info"]').text(data.PRC_INFO);
+                    $('[name="id_beli"]').val(data.PRC_ID);
+                    // $('[name="supp_id"]').val(data.SUPP_ID);
+                    // $('[name="appr_id"]').val(data.APPR_ID);                    
+                    // pick_supp($('[name="supp_id"]').val());
+                    // pick_prcdet($('[name="prc_id"]').val());
+                    // if(data.APPR_ID != null)
+                    // {
+                    //     pick_appr($('[name="appr_id"]').val());
+                    // }                    
+                    $('#modal_pembelian').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -156,6 +156,7 @@
                     'BUD_CODE' => $this->input->post('budget_nomor'),
                     'BUD_APPR' => $this->input->post('appr_id'),
                     'BUD_LOC' => $this->input->post('loc_id'),
+                    'BUD_PROJECT' => $this->input->post('budget_type'),
                     'BUD_ADDRESS' => $this->input->post('budget_lokasi_ket'),
 	                'BUD_DATE' => $tgl,
 	                'BUD_INFO' => $this->input->post('budget_keterangan')            

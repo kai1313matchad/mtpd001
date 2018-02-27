@@ -217,10 +217,14 @@
                                              </div>
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Jual</label>
+                                             <label class="col-sm-3 control-label">No Reff</label>
                                              <div class="col-sm-4">
                                                   <input class="form-control" type="text" name="no_jual">
                                              </div>
+                                             <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-info" onclick="srch_inv()"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                             </div>
+                                             <input class="form-control" type="hidden" name="invoice_id">
                                         </div>
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Keterangan</label>
@@ -458,6 +462,47 @@
         </div>
     </div>
     <!-- modal customer selesai -->
+
+    <!-- Modal Invoice -->
+    <div class="modal fade" id="modal_inv" name="modal_inv" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="formku" action="<?php echo base_url('Finance/f_pjk') ; ?>" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Cari Invoice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <input type="text" class="form-control" name="dept"> -->
+                        <div class="row">
+                            <!-- <input type="text" name="id_meeting" >
+                            <input type="text" name="title" >
+                            <input type="text" name="tgl" >
+                            <input type="text" name="jam" > -->
+                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                <div class="maxh">
+                                <table id="dtb_inv" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nomor Invoice</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama Customer</th>
+                                            <th>Keterangan</th>
+                                            <th>Pilih</th>
+                                        </tr>
+                                    </thead>
+                                            
+                                </table>
+                            </div>
+                            </div>
+                        </div>                  
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- modal invoice selesai -->
     
     <!-- jQuery -->
     <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
@@ -657,7 +702,7 @@ $(document).ready(function() {
                        $('[name="bank_acc_info"]').val(data.COA_ACCNAME);
                        $('[name="acc_id"]').val(data.COA_ID);
                     } else {
-                       $('[name="acc_detail"]').val(data.COA_ACC);
+                       $('[name="acc_detail"]').val(data.COA_ACC +" - "+ data.COA_ACCNAME);
                        $('[name="acc_id_detail"]').val(data.COA_ID);
                     } 
                     $('#modal_account').modal('hide');
@@ -750,6 +795,49 @@ $(document).ready(function() {
                     $('[name="bank_nama_customer"]').val(data.CUST_NAME);
                     $('[name="bank_customer_id"]').val(data.CUST_ID);
                     $('#modal_cust').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+      function srch_inv()
+        {
+            $('#modal_inv').modal('show');
+            $('.modal-title').text('Cari Invoice');            
+            table = $('#dtb_inv').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_inv')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function pick_inv(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_inv/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="no_jual"]').val(data.INV_CODE);
+                    $('[name="invoice_id"]').val(data.INV_ID);
+                    $('#modal_inv').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

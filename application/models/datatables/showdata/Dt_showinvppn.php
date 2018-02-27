@@ -12,7 +12,7 @@
 		}
 		private function _get_datatables_query($id)
 		{
-			$this->db->select('b.*,c.*,sum(a.invdet_amount) as tot,sum(a.invdet_sub) as dpp,sum(a.invdet_ppnam) as ppn');
+			$this->db->select('b.*,c.*,sum(a.invdet_amount) as tot,sum(a.invdet_sub) as dpp,sum(a.invdet_ppnam) as ppn,sum(a.invdet_ppham) as pph');
 			$this->db->from($this->table);
 			$this->db->join('trx_invoice b','b.inv_id=a.inv_id');
 			$this->db->join('master_customer c','c.cust_id=b.cust_id');

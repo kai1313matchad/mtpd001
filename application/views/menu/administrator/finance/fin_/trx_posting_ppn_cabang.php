@@ -404,6 +404,7 @@
                 termbrcnom($('#inv_termbrc option:selected').val());
             });
             show_inv_ppn($('[name="inv_branchid"]').val());
+            show_dpp_ppn_pph_total($('[name="inv_branchid"]').val());
         })
 
         function check_()
@@ -655,7 +656,7 @@
                     if ($("#pilih").is(":checked")) {
                         alert('Checked');
                     } else {alert('UnChecked');}
-                    alert(id);
+                    
                     // $('[name="inv_typeid"]').val(data.INC_ID);
                     // $('[name="inv_typename"]').val(data.INC_CODE+' - '+data.INC_NAME);
                     // $('[name="inv_incacc"]').val(data.INC_ACCINCNAME);
@@ -663,6 +664,26 @@
                     // $('#modal_invtype').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function show_dpp_ppn_pph_total(id)
+        {
+             $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_dpp_ppn_pph_total/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {  
+                    $('[name="inv_subappr"]').val(data.dpp);
+                    $('[name="inv_ppnappr"]').val(data.ppn);
+                    $('[name="inv_pphappr"]').val(data.pph);
+                    $('[name="inv_gtotappr"]').val(data.total);
+                },
+                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
                 }
@@ -681,6 +702,7 @@
                     $('[name="inv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                     show_inv_ppn(data.BRANCH_ID);
+                    show_dpp_ppn_pph_total(data.BRANCH_ID);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

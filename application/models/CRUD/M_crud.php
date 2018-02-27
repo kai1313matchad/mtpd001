@@ -591,5 +591,18 @@
 			$que=$this->db->get('master_bank');
 			return $que->result();
 		}
+
+		public function sub_dpp_ppn_pph_total($id)
+		{					
+			$this->db->select_sum('inv_details.invdet_amount', 'total');
+			$this->db->select_sum('inv_details.invdet_sub','dpp');
+			$this->db->select_sum('inv_details.invdet_ppnam','ppn');
+			$this->db->select_sum('inv_details.invdet_ppham','pph');
+			$this->db->join('trx_invoice','trx_invoice.INV_ID = inv_details.INV_ID');
+			$this->db->where('trx_invoice.BRANCH_ID',$id);
+			$this->db->group_by('trx_invoice.BRANCH_ID');
+			$query = $this->db->get('inv_details');
+	        return $query->row();
+		}
 	}
 ?>

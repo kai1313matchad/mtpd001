@@ -16,6 +16,7 @@
 		    $this->load->model('datatables/search/Dt_srchapprinv','srch_apprinv');
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
+		    $this->load->model('datatables/Dt_srchprc','srch_prc');
 		    $this->load->model('datatables/search/Dt_srchbudget','srch_ra');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
 		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
@@ -24,6 +25,7 @@
             $this->load->model('datatables/search/Dt_srchgiroout','srch_gk');
             $this->load->model('datatables/search/Dt_srchgirooutrec','srch_gkrec');
             $this->load->model('datatables/search/Dt_srchinv','s_inv');
+            $this->load->model('datatables/showdata/Dt_showinvppn','showinvppn');
 		}
 
 		public function index()
@@ -584,23 +586,42 @@
 			$this->load->view('menu/administrator/finance/fin_/bgiro_belum_cair_print',$data);
 		}
 
-        public function print_giro_sdh_cr()
+        public function print_giro_masuk_sdh_cr()
 		{
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
-			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_sudah_cair';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_masuk_sudah_cair';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
-		public function pageprint_giro_sdh_cr($id)
+		public function print_giro_keluar_sdh_cr()
+		{
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/Finance/fin_/lgt_print_bgiro_keluar_sudah_cair';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function pageprint_giro_masuk_sdh_cr($id)
 		{
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
-			$this->load->view('menu/administrator/finance/fin_/bgiro_sudah_cair_print',$data);
+			$this->load->view('menu/administrator/finance/fin_/bgiro_masuk_sudah_cair_print',$data);
+		}
+
+		public function pageprint_giro_keluar_sdh_cr($id)
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/fin_/bgiro_keluar_sudah_cair_print',$data);
 		}
 
 		public function print_giro_in()
@@ -1198,6 +1219,8 @@
                     'DEPT_ID' => $this->input->post('dept_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
+	                'CSHO_TAXHEADCODE' => $this->input->post('head_taxnumber'),
+	                'CSHO_TAXCODE' => $this->input->post('taxnumber'),
 	                'CSHO_STS' => '1',
 	                'CSHO_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
@@ -1362,6 +1385,8 @@
                     'COA_ID' => $this->input->post('acc_id'),
                     'BNKO_SUPP' => $this->input->post('supp_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
+	                'BNKO_TAXHEADCODE' => $this->input->post('head_taxnumber'),
+	                'BNKO_TAXCODE' => $this->input->post('taxnumber'),
 	                'BNKO_STS' => '1',
 	                'BNKO_DATE' => $this->input->post('bank_tgl'),
 	                'BNKO_INFO' => $this->input->post('bank_info')               
@@ -1413,7 +1438,7 @@
                     'COA_ID' => $this->input->post('acc_id_detail'),
                     'BNKODET_NUM' => $this->input->post('bank_no_giro2'),
                     'BNKODET_TYPE' => $this->input->post('bank_type2'),
-                    'BNKODET_REFF' => $this->input->post('no_jual'),
+                    'BNKODET_REFF' => $this->input->post('no_beli'),
                     'BNKODET_INFO' => $this->input->post('ket_detail'),
                     'BNKODET_AMOUNT' => $this->input->post('nominal2')
                 );
@@ -2687,5 +2712,42 @@
 	            exit();
 	        }
 	    }
+
+	    public function ajax_pick_sum_dpp_ppn_pph_total($id)
+		{
+			$data = $this->crud->sub_dpp_ppn_pph_total($id);
+        	echo json_encode($data);
+        }
+	  
+	    public function ajax_srch_prc()
+		{
+			$list = $this->srch_prc->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRC_CODE;
+				$row[] = $dat->PO_CODE;
+				$row[] = $dat->PRC_INVOICE;				
+				$row[] = $dat->PRC_DATE;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prc('."'".$dat->PRC_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_prc->count_all(),
+							"recordsFiltered" => $this->srch_prc->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_pick_prc($id)
+		{
+			$data = $this->crud->get_by_id2('trx_procurement','trx_po',array('prc_id' => $id),'trx_po.po_id = trx_procurement.po_id');
+        	echo json_encode($data);
+		}
 	}
 ?>

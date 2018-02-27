@@ -290,8 +290,13 @@
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </a>
-                                <a href="<?php echo base_url('administrator/Finance/print_giro_sdh_cr')?>">
-                                    <span class="pull-left">Cetak Laporan Giro Sudah Cair</span>
+                                <a href="<?php echo base_url('administrator/Finance/print_giro_masuk_sdh_cr')?>">
+                                    <span class="pull-left">Cetak Laporan Giro Masuk Sudah Cair</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
+                                <a href="<?php echo base_url('administrator/Finance/print_giro_keluar_sdh_cr')?>">
+                                    <span class="pull-left">Cetak Laporan Giro Keluar Sudah Cair</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </a>

@@ -97,6 +97,15 @@
                                             <input class="form-control" type="text" name="budget_keterangan">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                             <label class="col-sm-3 control-label">Jenis Anggaran</label>
+                                             <div class="col-sm-2">
+                                                  <select class="form-control" type="text" name="budget_type">
+                                                          <option value="Proyek">Proyek</option>
+                                                          <option value="Non Proyek">Non Proyek</option>
+                                                  </select>
+                                             </div>
+                                        </div>
                                 </div>      
                                 <div class="tab-pane fade" id="2">
                                     <div class="form-group">

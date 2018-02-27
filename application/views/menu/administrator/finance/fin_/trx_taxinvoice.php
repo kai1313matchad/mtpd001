@@ -186,25 +186,6 @@
                                                 </thead>                        
                                          </table>
                                     </div>
-                                     <!-- <div class="form-group">
-                                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_name" readonly>
-                                                <input type="hidden" name="curr_id" value="">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_rate" readonly>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="total">
-                                            </div>
-                                            <div class="col-sm-4">
-                                                  <input type="hidden" class="form-control" type="text" name="curr_id">
-                                            </div>
-                                    </div>  -->
                                     <div id="mySave" class="row">
                                     <div class="form-group">
                                         <!-- <button type="button" class="btn btn-success" onclick="save_tax()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button> -->
@@ -224,45 +205,41 @@
         <!-- /#page-wrapper -->
     </div>
 
-     <!-- Modal Invoice -->
+    <!-- Modal Invoice -->
     <div class="modal fade" id="modal_inv" name="modal_inv" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <form id="formku" action="<?php echo base_url('Finance/f_pjk') ; ?>" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Cari Invoice</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
-                    <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
-                        <div class="col-sm-12 col-xs-12 table-responsive">
-                            <div class="maxh">
-                            <table id="dtb_inv" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nomor Invoice</th>
-                                        <th>Tanggal</th>
-                                        <th>Nama Customer</th>
-                                        <th>Keterangan</th>
-                                        <th>Pilih</th>
-                                    </tr>
-                                </thead>
-                                        
-                            </table>
-                        </div>
-                        </div>
-                    </div>                  
-                </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Cari Invoice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <input type="text" class="form-control" name="dept"> -->
+                        <div class="row">
+                            <!-- <input type="text" name="id_meeting" >
+                            <input type="text" name="title" >
+                            <input type="text" name="tgl" >
+                            <input type="text" name="jam" > -->
+                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                <div class="maxh">
+                                <table id="dtb_inv" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nomor Invoice</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama Customer</th>
+                                            <th>Keterangan</th>
+                                            <th>Pilih</th>
+                                        </tr>
+                                    </thead>
+                                            
+                                </table>
+                            </div>
+                            </div>
+                        </div>                  
+                    </div>
                 </form>
             </div>
         </div>

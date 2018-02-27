@@ -769,7 +769,15 @@
 			$list = $this->showinvppn->get_datatables($id);
 			$data = array();
 			$no = $_POST['start'];
+			// $total = 0;
+			// $ppn = 0;
+			// $pph = 0;
+			// $dpp = 0;
 			foreach ($list as $dat) {
+				// $total = $total + $dat->tot;
+				// $dpp = $dpp + $dat->dpp;
+				// $ppn = $ppn + $dat->ppn;
+				// $pph = $pph + $dat->pph;
 				$no++;
 				$row = array();
 				$row[] = $no;
@@ -781,6 +789,7 @@
 				$row[] = '<input type="checkbox" id="pilih" name="pilih" onclick="pick_inv_ppn('."'".$dat->INV_ID."'".')">';
 				$data[] = $row;
 			}
+			// $('[name="inv_subappr"]').val($total);
 			$output = array(
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showinvppn->count_all(),

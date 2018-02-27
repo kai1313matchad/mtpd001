@@ -389,6 +389,7 @@ $(document).ready(function() {
             success: function(data)
             {   
                 $('[name="nomor_giro"]').val(data.BNKTRX_NUM);
+                $('[name="nominal"]').val(data.BNKTRX_AMOUNT);
                 $('[name="gir_id"]').val(data.GIR_ID);
                 $('#modal_giro').modal('hide');                 
             },
