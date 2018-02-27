@@ -36,7 +36,7 @@
                                 <th class="text-center">
                                     Harga
                                 </th>
-                                <th class="text-center">
+                                <th class="col-xs-2 text-center">
                                     Actions
                                 </th>
                             </tr>                            
@@ -70,6 +70,17 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Cabang</label>
+                                <div class="col-sm-9">
+                                    <select id="branch" name="branch" class="form-control text-center" data-live-search="true" required>
+                                        <option value="">Pilih</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Supplier</label>
                                 <div class="col-sm-9">
                                     <select id="supp" name="supp" class="form-control text-center" data-live-search="true" required>
@@ -91,7 +102,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Satuan</label>
-                                <div class="col-lg-9">
+                                <div class="col-sm-9">
                                     <input class="form-control" type="text" name="unit">
                                     <span class="help-block"></span>
                                 </div>
@@ -198,9 +209,20 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Cabang</label>
+                                <div class="col-sm-9">
+                                    <select id="vbranch" name="vbranch" class="form-control" disabled>
+                                        <option value="">Pilih</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Supplier</label>
                                 <div class="col-sm-9">
-                                    <select id="vsupp" name="vsupp" class="form-control" required readonly>
+                                    <select id="vsupp" name="vsupp" class="form-control" required disabled>
                                         <option value="">Pilih</option>
                                     </select>
                                     <span class="help-block"></span>
@@ -219,7 +241,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Satuan</label>
-                                <div class="col-lg-9">
+                                <div class="col-sm-9">
                                     <input class="form-control" type="text" name="vunit" readonly>
                                     <span class="help-block"></span>
                                 </div>
@@ -303,6 +325,8 @@
             dt_goods();
             dropsupp();
             dropsupp2();
+            dropbranch();
+            dropbranch2();
         });
         function dt_goods()
         {
@@ -378,6 +402,56 @@
                 }
             });
         }
+        function dropbranch()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Dropdown/drop_branch')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById('branch');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["BRANCH_ID"]
+                        option.text = data[i]["BRANCH_NAME"];
+                        select.add(option);
+                    }
+                    $('#branch').selectpicker({});
+                    $('#branch').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function dropbranch2()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Dropdown/drop_branch')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById('vbranch');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["BRANCH_ID"]
+                        option.text = data[i]["BRANCH_NAME"];
+                        select.add(option);
+                    }
+                    $('#branch').selectpicker({});
+                    $('#branch').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
         function lihat_gd(id)
         {
             $.ajax({
@@ -388,8 +462,11 @@
                 {   
                     $('[name="id"]').val(data.GD_ID);
                     $('[name="vcode"]').val(data.GD_CODE);
-                    var supp = data.SUPP_ID;
-                    document.querySelector('#vsupp [value="' + supp + '"]').selected = true;
+                    // var supp = data.SUPP_ID;
+                    // document.querySelector('#vsupp [value="' + supp + '"]').selected = true;
+                    $('select#vsupp').val(data.SUPP_ID);
+                    $('select#vbranch').val(data.BRANCH_ID);
+                    // $('#vsupp').selectpicker('refresh');
                     $('[name="vnama"]').val(data.GD_NAME);
                     $('[name="vunit"]').val(data.GD_UNIT);
                     $('[name="vukuran"]').val(data.GD_MEASURE);
@@ -430,17 +507,20 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
-
             $.ajax({
-                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>/" + id,
+                url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="id"]').val(data.GD_ID);
                     $('[name="code"]').val(data.GD_CODE);
-                    var supp = data.SUPP_ID;
-                    document.querySelector('#supp [value="' + supp + '"]').selected = true;
+                    // var supp = data.SUPP_ID;
+                    // document.querySelector('#supp [value="' + supp + '"]').selected = true;
+                    $('select#supp').val(data.SUPP_ID);
+                    $('select#branch').val(data.BRANCH_ID);
+                    $('#supp').selectpicker('refresh');
+                    $('#branch').selectpicker('refresh');
                     $('[name="nama"]').val(data.GD_NAME);
                     $('[name="unit"]').val(data.GD_UNIT);
                     $('[name="ukuran"]').val(data.GD_MEASURE);

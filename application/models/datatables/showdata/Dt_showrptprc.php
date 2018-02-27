@@ -2,7 +2,6 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showrptprc extends CI_Model 
 	{
-
 		var $table = 'trx_procurement a';
 		var $column_order = array(null,'prc_code','prc_date','appr_code','supp_name');
 		var $column_search = array('prc_code','prc_date','appr_code','supp_name');

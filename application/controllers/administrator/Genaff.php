@@ -41,7 +41,7 @@
 	    	$data['title']='Match Terpadu - Laporan PO GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
-			$data['isi']='menu/administrator/ga/lap_po';
+			$data['isi']='menu/administrator/ga/report_po';
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
@@ -50,16 +50,16 @@
 	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
-			$data['isi']='menu/administrator/ga/lap_pembelian';
+			$data['isi']='menu/administrator/ga/report_prc';
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
-	    public function lap_retpembelian()
+	    public function lap_pemakaian()
 	    {
 	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
-			$data['isi']='menu/administrator/ga/lap_retpembelian';
+			$data['isi']='menu/administrator/ga/report_usg';
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
@@ -481,7 +481,8 @@
 		public function ajax_simpan_adj()
 		{
 			$data = array(	                
-	                'gd_id' => $this->input->post('gd_id'),              
+	                'gd_id' => $this->input->post('gd_id'),
+	                'user_id' => $this->input->post('user_id'),
 	                'adjga_date' => $this->input->post('adj_tgl'),
 	                'adjga_dtsts' => '1',
 	                'adjga_info' => $this->input->post('adj_info'),
@@ -699,11 +700,15 @@
 		public function ajax_add_brgusg()
 	    {
 	      	$this->_validate_usg();
+	      	$price = $this->input->post('gd_price');
+	      	$usg = $this->input->post('gd_usg');
+	      	$sub = $price * $usg;
 	      	$table = 'usg_ga_details';
 	        $data = array(
 	                'usgga_id' => $this->input->post('usg_id'),
 	                'gd_id' => $this->input->post('gd_id'),
-	                'usggadet_qty' => $this->input->post('gd_usg')	                
+	                'usggadet_qty' => $this->input->post('gd_usg'),
+	                'usggadet_sub' => $sub
 	            );
 	        $insert = $this->crud->save($table,$data);
 	        $getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
@@ -1007,9 +1012,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->PRCGADET_QTY;
-				$row[] = $dat->PRCGADET_SUB;
+				$row[] = 'Rp '.number_format($dat->PRCGADET_SUB);
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->PRCGADET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
 				$data[] = $row;
 			}
@@ -1125,5 +1130,202 @@
 	            exit();
 	        }
 	    }
+
+	    //Laporan
+		public function print_rptpo()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['branch'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['rpt_type'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$this->load->view('menu/administrator/ga/print_rptpo',$data);
+		}
+
+		public function gen_rptpo_t1($order)
+		{
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.poga_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.poga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('poga_details a');
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');			
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = b.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_goods f','f.gd_id = a.gd_id');
+			$this->db->order_by($order);
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_rptprc()
+		{
+			$data['supp'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpt_type'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$this->load->view('menu/administrator/ga/print_rptprc',$data);
+		}
+
+		public function gen_rptprc_t1()
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('c.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('e.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('prcga_details a');
+			$this->db->join('trx_prc_ga b','b.prcga_id = a.prcga_id');
+			$this->db->join('trx_po_ga c','c.poga_id = b.poga_id');
+			$this->db->join('master_supplier d','d.supp_id = c.supp_id');
+			$this->db->join('master_user e','e.user_id = b.user_id');
+			$this->db->join('master_branch f','f.branch_id = e.branch_id');
+			$this->db->join('master_goods g','g.gd_id = a.gd_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$que = $this->db->get();
+			$data['b'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2()
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');			
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptprc_t2b($v)
+		{
+			if ($this->input->post('suppid')) 
+			{
+				$this->db->like('b.supp_id', $this->input->post('suppid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('d.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.prcga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.prcga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->select($v.', sum(a.prcga_sub) as sub, sum(a.prcga_disc) disc, sum(a.prcga_ppn) as ppn, sum(a.prcga_cost) cost, sum(a.prcga_gtotal) as gt');
+			$this->db->from('trx_prc_ga a');			
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');
+			$this->db->join('master_supplier c','c.supp_id = b.supp_id');
+			$this->db->join('master_user d','d.user_id = a.user_id');
+			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->group_by($v);		
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_rptusg()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['branch'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['rpt_type'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard GA';
+			$data['menu']='ga';
+			$data['menulist']='report_ga';
+			$this->load->view('menu/administrator/ga/print_rptusg',$data);
+		}
+
+		public function gen_rptusg_t1()
+		{
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('c.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.usgga_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.usgga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->from('usg_ga_details a');
+			$this->db->join('trx_usage_ga b','b.usgga_id = a.usgga_id');
+			$this->db->join('master_user c','c.user_id = b.user_id');
+			$this->db->join('master_branch d','d.branch_id = c.branch_id');
+			$this->db->join('master_goods e','e.gd_id = a.gd_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptusg_t2()
+		{
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('c.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.usgga_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.usgga_date <=', $this->input->post('date_end'));  
+			}
+			$this->db->select('b.usgga_code, b.usgga_date, b.usgga_info, sum(a.usggadet_sub) as sub');
+			$this->db->from('usg_ga_details a');
+			$this->db->join('trx_usage_ga b','b.usgga_id = a.usgga_id');
+			$this->db->join('master_user c','c.user_id = b.user_id');
+			$this->db->join('master_branch d','d.branch_id = c.branch_id');
+			$this->db->join('master_goods e','e.gd_id = a.gd_id');
+			$this->db->group_by('a.usgga_id');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
 	}
 ?>

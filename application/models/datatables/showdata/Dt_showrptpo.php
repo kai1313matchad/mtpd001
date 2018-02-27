@@ -2,7 +2,6 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showrptpo extends CI_Model 
 	{
-
 		var $table = 'trx_po a';
 		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
 		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');

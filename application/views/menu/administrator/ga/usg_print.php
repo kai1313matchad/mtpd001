@@ -58,7 +58,7 @@
         .con-border
         {
             border: solid 2px black;
-            min-height: 560px;
+            min-height: 360px;
         }
         .row-border
         {
@@ -79,7 +79,7 @@
         .row-tb-cont
         {
             margin-top: 10px;
-            min-height: 1100px;
+            min-height: 600px;
         }
         .lb-margin
         {
@@ -87,11 +87,11 @@
         }
         .table th
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
         .table td
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

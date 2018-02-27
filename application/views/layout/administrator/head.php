@@ -11,7 +11,7 @@
     <meta name="Author" content="Kaisha Satrio">
     <title><?php echo $title;?></title>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">   
+    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.css')?>" rel="stylesheet">
     <!-- sbadmin -->
@@ -24,11 +24,11 @@
     <link href="<?php echo base_url('assets/addons/basic.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/dropzone.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/bootstrap-select/css/bootstrap-select.min.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"> -->
     
     <!-- Custom Fonts -->
-    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet">  
-
+    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Khula|Muli|Play|Signika" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

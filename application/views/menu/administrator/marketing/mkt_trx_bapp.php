@@ -7,12 +7,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-md-2 col-xs-4">
                         <a href="javascript:void(0)" onclick="print_bapp()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-print"> CetakForm</span>
                         </a>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-md-2 col-xs-4">
                         <a href="javascript:void(0)" onclick="print_bappimg()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-print"> CetakGambar</span>
                         </a>
@@ -39,7 +39,10 @@
 	                                <div class="form-group">                      
 	                                    <label class="col-sm-3 control-label">Nomor BAPP</label>
                                         <div class="col-sm-1">
-                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_bapp()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a id="genbtn" href="javascript:void(0)" onclick="gen_bapp()" class="btn btn-block btn-info">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                                <!-- <i class="fa fa-plus fa-fw"></i> -->
+                                            </a>
                                         </div>
 	                                    <div class="col-sm-7">
                                             <input class="form-control" type="text" name="bapp_code" value="" readonly>

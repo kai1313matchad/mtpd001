@@ -186,9 +186,9 @@
 		public function save_permitappr()
 		{
 			$appr = null;
-			if($this->input->post('appr_id') != null)
+			if($this->input->post('pi_apprid') != null)
 			{
-				$appr = $this->input->post('appr_id');
+				$appr = $this->input->post('pi_apprid');
 			}
 			$this->_validate_pi();
 			$data = array(

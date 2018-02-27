@@ -34,6 +34,9 @@
 			$this->load->model('datatables/showdata/Dt_showrptprc','rpt_prc');
 			$this->load->model('datatables/showdata/Dt_showrptusg','rpt_usg');
 			$this->load->model('datatables/showdata/Dt_showinvppn','showinvppn');
+			$this->load->model('datatables/showdata/Dt_showrptpoga','rpt_poga');
+			$this->load->model('datatables/showdata/Dt_showrptprcga','rpt_prcga');
+			$this->load->model('datatables/showdata/Dt_showrptusgga','rpt_usgga');
 		}
 
 		public function index()
@@ -238,7 +241,7 @@
 							"recordsTotal" => $this->rpt_prc->count_all(),
 							"recordsFiltered" => $this->rpt_prc->count_filtered(),
 							"data" => $data,
-					);			
+					);
 			echo json_encode($output);
 		}
 
@@ -794,6 +797,80 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showinvppn->count_all(),
 							"recordsFiltered" => $this->showinvppn->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan PO GA
+		public function showrpt_poga()
+		{
+			$list = $this->rpt_poga->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->POGA_CODE;
+				$row[] = date_format(date_create($dat->POGA_DATE),"d-M-Y");
+				$row[] = $dat->POGA_ORDNUM;
+				$row[] = $dat->SUPP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_poga->count_all(),
+							"recordsFiltered" => $this->rpt_poga->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Pembelian GA
+		public function showrpt_prcga()
+		{
+			$list = $this->rpt_prcga->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRCGA_CODE;
+				$row[] = date_format(date_create($dat->PRCGA_DATE),"d-M-Y");
+				$row[] = $dat->PRCGA_INV;
+				$row[] = $dat->SUPP_NAME;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_prcga->count_all(),
+							"recordsFiltered" => $this->rpt_prcga->count_filtered(),
+							"data" => $data,
+					);
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Pemakaian GA
+		public function showrpt_usgga()
+		{
+			$list = $this->rpt_usgga->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->USGGA_CODE;
+				$row[] = date_format(date_create($dat->USGGA_DATE),"d-M-Y");
+				$row[] = $dat->USGGA_INFO;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_usgga->count_all(),
+							"recordsFiltered" => $this->rpt_usgga->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

@@ -29,7 +29,7 @@
         {
             background-color: white;
             font-family: 'times new roman';
-            font-size: 12px;
+            font-size: 14px;
         }
         .bg-table
         {
@@ -57,51 +57,51 @@
 </head>
 <body>
     <div class="container-fluid">
-        <form id="form_ldg">
-            <input type="hidden" name="coaid" value="<?php echo $coaid; ?>">
+        <form id="form_rptpo">
+            <input type="hidden" name="branch" value="<?php echo $branch; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
-            <input type="hidden" name="branch" value="<?php echo $branch; ?>">
+            <input type="hidden" name="rpt_type" value="<?php echo $rpt_type; ?>">
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
                 <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN BUKU BESAR</u></h2>
-                <h3 class="text-center" name="rptldg_branch"></h3>
-                <h4 class="text-center" name="rptldg_period"></h4>
+                <h2 class="text-center"><u><span name="rptpo_type"></span> </u></h2>
+                <h3 class="text-center" name="rptpo_branch"></h3>
+                <h4 class="text-center" name="rptpo_period"></h4>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-xs-12 table-responsive">
-                <table id="dtb_rptldg" class="table table-bordered" cellspacing="0" width="100%">
+                <table id="dtb_rptpo_t1" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th class="text-center">
+                                No PO
+                            </th>
                             <th class="text-center">
                                 Tanggal
                             </th>
                             <th class="text-center">
-                                Rekening
+                                Supplier
                             </th>
-                            <th class="col-xs-2 text-center">
-                                No Jurnal
+                            <th class="text-center">
+                                Barang
                             </th>                            
                             <th class="text-center">
-                                No Bukti
+                                Jumlah
                             </th>
                             <th class="text-center">
-                                Keterangan
+                                Harga
                             </th>
-                            <th class="col-xs-2 text-center">
-                                Debet
-                            </th>
-                            <th class="col-xs-2 text-center">
-                                Kredit
+                            <th class="text-center">
+                                Total
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tb_content"></tbody>
+                    <tbody id="tb_content_tp1"></tbody>
                 </table>
             </div>
         </div>
@@ -111,100 +111,100 @@
     <script>
         $(document).ready(function()
         {
-            pick_ledger();
-            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).format('DD-MMM-YYYY'));
-            var brc = $('[name="branch"]').val();
-            if(brc != '')
+            check_();
+            $('[name="rptpo_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            if($('[name="branch"]').val() != '')
             {
                 pick_branch($('[name="branch"]').val());
             }
-            else
-            {
-                $('[name="rptldg_branch"]').text('');
-            }
         });
-        function pick_ledger()
+        function check_()
+        {
+            var tp = $('[name="rpt_type"]').val();            
+            if(tp == '1')
+            {
+                $('[name="rptpo_type"]').text('LAPORAN ORDER PEMBELIAN PER NOMOR');
+                gen_tp1(0,'poga_code');
+            }
+            if(tp == '2')
+            {
+                $('[name="rptpo_type"]').text('LAPORAN ORDER PEMBELIAN PER SUPPLIER');
+                gen_tp1(2,'supp_name');
+            }
+        }
+        function gen_tp1(v,order)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Accounting/gen_rptledger')?>",
+                url : "<?php echo site_url('administrator/Genaff/gen_rptpo_t1/')?>"+order,
                 type: "POST",
-                data: $('#form_ldg').serialize(),
+                data: $('#form_rptpo').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
-                    for (var i = 0; i < data.length; i++)
+                    for (var i = 0; i < data['a'].length; i++)
                     {
-                        var $tr = $('<tr>').append(
-                            $('<td class="text-center">'+data[i]["JOU_DATE"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_CODE"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_REFF"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_INFO"]+'</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_DEBIT"])+'</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_CREDIT"])+'</td>')
-                            ).appendTo('#tb_content');
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['a'][i]["POGA_CODE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["POGA_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["SUPP_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["GD_NAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["PGDET_QTYUNIT"]+' '+data['a'][i]["GD_MEASURE"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["GD_PRICE"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["PGDET_SUB"]+'</td>'),
+                            ).appendTo('#tb_content_tp1');
                     }
-                    dt_journal();
+                    dt_tp1(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error get data from ajax');
+                    alert(errorThrown);
                 }
             });
         }
-        function dt_journal()
+        function dt_tp1(v)
         {
-            $('#dtb_rptldg').DataTable({
+            $('#dtb_rptpo_t1').DataTable({
                 info: false,
-                searching: false,                
+                searching: false,
                 bLengthChange: false,
                 paging: false,
+                // ordering: false,
                 // responsive: true,
                 columnDefs:
-                [                    
-                    {visible: false, targets: 1},
-                    {orderable: false, targets: '_all'}
+                [
+                    {visible: false, targets: v},                    
+                    // {orderable: false, targets: '_all'}
                 ],
-                order: [[1, 'asc']],
+                // order: [[v, 'asc']],
+                ordering: false,
                 rowGroup:
                 {
                     endRender: function(rows, group)
                     {
-                        var sum = rows.data().pluck(5)
+                        var sum = rows.data().pluck(6)
                         .reduce(function(a,b)
                         {
                             return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-                        
-                        var sum2 = rows.data().pluck(6)
-                        .reduce(function(a,b)
-                        {
-                            return a+b.replace(/[^\d]/g, '')*1;
-                        }, 0);
-
-                        var sum3 = (sum-sum2)*1;
-                        sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(sum3))+')';
+                        }, 0);                        
                         sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
-
                         return $('<tr/>')                        
-                        .append( '<td colspan="4"></td>' )
-                        .append( '<td class="text-right">'+sum+'<br>Saldo</td>')
-                        .append( '<td class="text-right">'+sum2+'<br>'+sum3+'</td>' );
+                        .append( '<td colspan="5" class="text-right">Sub Total</td>' )
+                        .append( '<td class="text-right">'+sum+'</td>');
                     },
-                    dataSrc: 1
+                    dataSrc: v
                 },
             });
         }
         function pick_branch(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {
-                    $('[name="rptldg_branch"]').text(data.BRANCH_NAME);
+                {   
+                    $('[name="rptpo_branch"]').text(data.BRANCH_NAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

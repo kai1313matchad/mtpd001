@@ -48,10 +48,9 @@
                                 <div class="form-group">
                                     <input class="form-control" placeholder="password" name="password" type="password" value="">
                                 </div>
-                                <a href="javascript:void(0)" onclick="loginsys()" class="btn btn-block btn-success btn-default">
-                                    <!-- <span class="glyphicon glyphicon-print"></span> -->
+                                <button onclick="loginsys()" class="btn btn-block btn-success btn-default">
                                     LOGIN
-                                </a>
+                                </button>
                             </fieldset>
                         </form>
                     </div>
@@ -81,27 +80,31 @@
     <script>
         function loginsys()
         {
-            $.ajax({
-                url : "<?php echo site_url('Dashboard/loginauth')?>",
-                type: "POST",
-                data: $('#form-login').serialize(),
-                dataType: "JSON",
-                success: function(data)
-                {
-                    if(data.status)
+            $('#form-login').submit(function(e)
+            {
+                e.preventDefault();
+                $.ajax({
+                    url : "<?php echo site_url('Dashboard/loginauth')?>",
+                    type: "POST",
+                    data: $('#form-login').serialize(),
+                    dataType: "JSON",
+                    success: function(data)
                     {
-                        var url = "<?php echo site_url('administrator/Dashboard')?>";
-                        window.location = url;
+                        if(data.status)
+                        {
+                            var url = "<?php echo site_url('administrator/Dashboard')?>";
+                            window.location = url;
+                        }
+                        else
+                        {                        
+                            location.reload(false);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error adding / update data');
                     }
-                    else
-                    {                        
-                        location.reload(false);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error adding / update data');
-                }
+                });
             });
         }
     </script>

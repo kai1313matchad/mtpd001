@@ -31,12 +31,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor Pakai</label>
                                         <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a href="javascript:void(0)" id="genbtn" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="usg_code" value="" readonly>
                                             <input type="hidden" name="usg_id" value="0">
-                                            <input type="hidden" name="user_id" value="1">
+                                            <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -46,7 +47,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input type='text' class="form-control" name="usg_tgl" placeholder="Tanggal" />
+                                                <input type='text' class="form-control text-center" name="usg_tgl" value="<?= date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -222,11 +223,10 @@
                                         <th>No</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Satuan</th>
                                         <th>Ukuran</th>
                                         <th>Stock</th>
-                                        <th>Pilih</th>
                                         <th>Info</th>
+                                        <th>Pilih</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -297,6 +297,7 @@
                 {
                     $('[name="usg_code"]').val(data.kode);
                     $('[name="usg_id"]').val(data.id);
+                    $('#genbtn').attr('disabled',true);
                 },
                 error : function (jqXHR, textStatus, errorThrown)
                 {
@@ -430,7 +431,6 @@
                 ],
             });
         }
-
         function srch_appr()
         {
             $('#modal_appr').modal('show');
@@ -454,9 +454,9 @@
                 ],
             });
         }
-
         function srch_brg()
         {
+            brcid = $('[name="user_branch"]').val();
             $('#modal_goods').modal('show');
             $('.modal-title').text('Cari Barang');            
             table = $('#dtb_good').DataTable({
@@ -467,7 +467,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brgusg')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_gdbybrc/')?>"+brcid,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -478,7 +478,6 @@
                 ],
             });
         }
-
         function srch_loc()
         {
             $('#modal_loc').modal('show');
@@ -502,7 +501,6 @@
                 ],
             });
         }
-
         function pick_appr(id)
         {
             $.ajax({
@@ -524,7 +522,6 @@
                 }
             });
         }
-
         function pick_brg(id)
         {
             $.ajax({
@@ -548,7 +545,6 @@
                 }
             });
         }
-
         function pick_loc(id)
         {
             $.ajax({
@@ -568,7 +564,6 @@
                 }
             });
         }
-
         function bersih()
         {
             $('[name="gd_id"]').val('');

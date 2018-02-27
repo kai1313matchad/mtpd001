@@ -22,79 +22,12 @@
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
-    <style type="text/css">
-        body {
-          /*background: rgb(204,204,204);*/
-          background: white;
-          font-size: 13px;
-        }        
-        page {          
-          background: white;
-          display: block;
-          margin: 0 auto;
-          margin-bottom: 0.5cm;
-          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-        }
-        page[size="A4"] {  
-          width: 21cm;
-          height: 14.85cm; 
-        }
-        page[size="A4"][layout="portrait"] {
-          width: 29.7cm;
-          height: 21cm;  
-        }
-        /*@media print {
-          body, page {
-            margin: 0;
-            box-shadow: 0;
-          }
-        }*/
-    </style>
-    <!-- <style>
-        .print-body
-        {
-            min-height: 560px;
-        }
-        .con-border
-        {
-            border: solid 2px black;
-            min-height: 560px;
-        }
-        .row-border
-        {
-            border-bottom: solid 2px black;
-        }
-        .row-table
-        {
-            min-height: 300px;
-        }
-        .con-prime
-        {
-            border: solid 2px black;
-        }
-        .row-bd-bottom
-        {
-            border-bottom: solid 2px black;
-        }
-        .row-tb-cont
-        {
-            margin-top: 10px;
-            min-height: 1100px;
-        }
-        .lb-margin
-        {
-            margin-left: 10px;
-        }
-        .table th
-        {
-            border: solid 2px black !important;
-        }
-        .table td
-        {
-            border: solid 2px black !important;
-        }
-    </style> -->
     <style>
+        body
+        {
+            background: white;
+            font-size: 13px;
+        }
         .print-body
         {
             min-height: 560px;
@@ -115,6 +48,7 @@
         .con-prime
         {
             border: solid 2px black;
+            min-height: 560px;
         }
         .row-bd-bottom
         {
@@ -123,7 +57,7 @@
         .row-tb-cont
         {
             margin-top: 10px;
-            min-height: 200px;
+            min-height: 400px;
         }
         .lb-margin
         {
@@ -131,12 +65,54 @@
         }
         .table th
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
         .table td
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
             font-size: 12px;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .form-group
+        {
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        @media print
+        {
+            body
+            {
+                font-size: 11px;
+            }
+            h3
+            {
+                font-size: 13px;
+            }
+            .logo
+            {
+                width: 60%;
+                height: auto;
+            }
+            .table td
+            {
+                font-size: 10px;
+            }
+            .con-prime
+            {
+                min-height: 410px;
+            }
+            .row-tb-cont
+            {
+                margin-top: 10px;
+                min-height: 250px;
+            }
         }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -147,89 +123,9 @@
     <![endif]-->
 </head>
 <body>
-    <!-- <page size="A4">
-        <div id="ygdiprint" class="print-body">
-            <input type="hidden" name="idusg" value="<?php echo $id;?>">
-            <div class="container-fluid con-border">
-                <div class="row row-border">
-                    <div class="col-xs-offset-3 col-xs-6 text-center">
-                        <h4>FORM PENGAJUAN PERMINTAAN BARANG WORKSHOP MATCHAD</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-xs-2 control-label">NOMOR</label>
-                    <div class="col-xs-10">
-                        <span name="pr-usg-code">PK/1801/000001</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-xs-2 control-label">NAMA</label>
-                    <div class="col-xs-10">
-                        <span name="pr-usg-info"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-xs-2 control-label">TANGGAL</label>
-                    <div class="col-xs-10">
-                        <span name="pr-usg-date"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-xs-2 control-label">PROYEK</label>
-                    <div class="col-xs-10">
-                        <span name="pr-usg-prj"></span>
-                    </div>
-                </div>
-                <div class="row row-table">
-                    <div class="col-sm-12 col-xs-12 table-responsive">
-                        <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Kode Barang</th>
-                                    <th class="text-center">Nama Barang</th>
-                                    <th class="text-center">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb_content"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12 table-responsive">
-                        <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">PEMOHON</th>
-                                    <th class="text-center">KEPALA WORKSHOP</th>
-                                    <th class="text-center">PLT WORKSHOP</th>
-                                    <th class="text-center">PURCHASING</th>
-                                    <th class="text-center">PRODUKSI</th>
-                                    <th class="text-center">FINANCE</th>
-                                    <th class="text-center">GENERAL MANAGER</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                    <th><br><br></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page> -->
     <div class="container">
         <div class="col-xs-6">
-            <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+            <img class="logo" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
         </div> 
     </div>
     <div class="container con-prime">
@@ -294,13 +190,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th><br></th>
-                            <th><br></th>
-                            <th><br></th>
-                            <th><br></th>
-                            <th><br></th>
-                            <th><br></th>
-                            <th><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
+                            <th><br><br></th>
                         </tr>
                     </tbody>
                 </table>

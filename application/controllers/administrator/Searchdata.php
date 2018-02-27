@@ -15,6 +15,8 @@
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
 			$this->load->model('datatables/search/Dt_srchinv','s_inv');
 			$this->load->model('datatables/search/Dt_srchappr','s_appr');
+			$this->load->model('datatables/search/Dt_srchgdforlgt','s_gdforlgt');
+			$this->load->model('datatables/search/Dt_srchgdbybrc','s_gdbybrc');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
@@ -305,6 +307,12 @@
 			echo json_encode($data);
 		}
 
+		public function pick_inv($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Jenis Invoice
 		public function srch_invtype()
 		{
@@ -583,6 +591,60 @@
 		{
 			$data = $this->crud->get_by_id('trx_permitappr',array('pappr_id' => $id));
 			echo json_encode($data);
+		}
+
+		//Search Barang Untuk Logistik
+		public function srch_gdforlgt($suppid,$brcid)
+		{
+			$list = $this->s_gdforlgt->get_datatables($suppid,$brcid);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_UNIT;
+				$row[] = $dat->GD_MEASURE;
+				$row[] = $dat->GD_INFO;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_brg('."'".$dat->GD_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_gdforlgt->count_all(),
+							"recordsFiltered" => $this->s_gdforlgt->count_filtered($suppid,$brcid),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Barang Berdasarkan Cabang
+		public function srch_gdbybrc($brcid)
+		{
+			$list = $this->s_gdbybrc->get_datatables($brcid);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_CODE;
+				$row[] = $dat->GD_NAME;
+				$row[] = 'Per '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
+				$row[] = $dat->GD_STOCK;
+				$row[] = $dat->GD_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_brg('."'".$dat->GD_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_gdbybrc->count_all(),
+							"recordsFiltered" => $this->s_gdbybrc->count_filtered($brcid),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 	}
 ?>

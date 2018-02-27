@@ -89,6 +89,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function report_stock()
+		{
+			$data['title']='Match Terpadu';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$data['isi']='menu/administrator/logistik/report_stock';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function gen_po_lgt()
 		{
 			$gen = $this->gen->gen_numpolgt();
@@ -1063,8 +1072,8 @@
 	        $insert = $this->crud->save($table,$data);
 	        if($this->input->post('gd_typestock') == '0')
 	        {
-	        	$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
-		        $stock = $getinv->GD_STOCK;
+	        	$getid = $this->crud->get_by_id('master_goods',array('gd_id' => $this->input->post('gd_id')));
+		        $stock = $getid->GD_STOCK;
 		        $add = $this->input->post('po_qty');
 		        $up = $stock + $add; 
 		        $data_up = array (
@@ -1082,8 +1091,8 @@
 	    	$substract =  $getprc->PRCDET_QTY;
 	    	if($this->input->post('gd_typestock') == '0')
 	    	{
-	    		$getinv = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
-		    	$stock = $getinv->GD_STOCK;
+	    		$getid = $this->crud->get_by_id('master_goods',array('gd_id' => $gdid));
+		    	$stock = $getid->GD_STOCK;
 		        $up = $stock - $substract;
 		        $data_up = array (
 		        		'gd_stock' => $up

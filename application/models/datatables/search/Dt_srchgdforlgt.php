@@ -1,21 +1,23 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchpo_ga extends CI_Model 
+	class Dt_srchgdforlgt extends CI_Model 
 	{
-
-		var $table = 'trx_po_ga a';
-		var $column_order = array(null,'poga_code','supp_name' ,'po_ordnum','poga_date');
-		var $column_search = array('poga_code', 'poga_ordnum','poga_date');
-		var $order = array('poga_id' => 'desc');
+		var $table = 'master_goods a';
+		var $column_order = array(null,'gd_name','gd_unit','gd_measure','gd_info','gd_price');
+		var $column_search = array('gd_name','gd_unit','gd_measure','gd_info','gd_price');
+		var $order = array('gd_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id,$brc)
 		{		
 			$this->db->from($this->table);
-			$this->db->join('master_supplier b','b.supp_id = a.supp_id');
-			$this->db->where('a.poga_id NOT IN (select c.poga_id from trx_prc_ga c join trx_po_ga d on d.poga_id = c.poga_id)');
+			$this->db->join('master_supplier b', 'b.supp_id = a.supp_id');
+			$this->db->join('master_branch c', 'c.branch_id = a.branch_id');
+			$this->db->where('a.supp_id',$id);
+			$this->db->where('a.branch_id',$brc);
+			$this->db->where('gd_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -46,17 +48,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id,$brc)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id,$brc);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id,$brc)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id,$brc);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}

@@ -27,7 +27,8 @@
         {
           /*background: rgb(204,204,204);*/
           background: white;
-          /*font-size: 15px;*/
+          /*font-size: 14px;
+          font-family: 'times new roman';*/
         }        
         page 
         {
@@ -47,43 +48,53 @@
           width: 29.7cm;
           height: 21cm;  
         }
-        @media print 
+        /*@media print 
         {
           body, page 
           {
             margin: 0;
             box-shadow: 0;
           }
-        }
+        }*/
     </style>
     <style>
         .row-content
         {
             margin-top: 10px;
-            min-height: 350px;
+            min-height: 250px;
         }
         .table th
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
         .table td
         {
-            border: solid 2px black !important;
+            border: solid 1px black !important;
         }
         .head-font
         {
             font-family:"times new roman";
-            font-size: 18px;
+            font-size: 14px;
         }
         .content-font
         {
             font-family: "Arial";
-            font-size: 15px;
+            font-size: 10px;
         }
         .foot-font
         {
             font-family:"times new roman";
-            font-size: 16px;
+            font-size: 12px;
+        }
+        .tarea
+        {
+            border: none;
+            overflow: auto;
+            outline: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            resize: none;
         }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -94,103 +105,6 @@
     <![endif]-->
 </head>
 <body>
-    <!-- <page size="A4">
-        <div id="ygdiprint">
-            <input type="hidden" name="idpo" value="<?php echo $id;?>">
-            <div class="container-fluid">
-                <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
-                <div class="text-center">
-                    <h5><strong><u>SURAT ORDER</u></strong></h5>
-                    <h5>No.<span name="no_po"></span></h5>
-                </div>            
-                <div class="row">
-                    <div class="col-xs-5">
-                        <address>
-                            <strong>Dari:</strong><br>
-                            Match Advertising<br>
-                            JL. Lesti No.42, Surabaya 60241<br>
-                            Telp. (031) 567 8346 (Hunting)<br>
-                            Fax. (031) 568 0646<br>
-                            Email : info@match-advertising.com<br>
-                            Website :
-                            www.match-advertising.com www.matchadonline.com
-                        </address>
-                    </div>
-                    <div class="col-xs-3">
-                        <address>
-                            <strong>Kepada Yth:</strong><br>
-                            <span name="inv_suppname"></span><br>
-                            <span name="inv_suppaddr"></span>&nbsp;<span name="inv_suppcity"></span><br>
-                            <span name="inv_suppphone"></span><br>
-                            <span name="inv_suppinfo"></span>
-                        </address>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table id="tb_po" class="table table-condensed">
-                                        <thead style="font-size: 9px">
-                                            <tr>
-                                                <th class="col-sm-1 col-xs-1" >No</th>
-                                                <th class="col-sm-7 col-xs-7 text-center">Order</th>
-                                                <th class="col-sm-2 col-xs-2 text-center">Quantity</th>
-                                                <th class="col-sm-2 col-xs-2 text-center">Harga</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tb_content" style="font-size: 9px">
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-3 text-center">
-                                        Pemesan
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        Mengetahui
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        Penerima
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        Surabaya, <?php echo date('d-M-Y')?>
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="row">
-                                    <div class="col-xs-3 text-center">
-                                        (.................)
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        (.................)
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        (.................)
-                                    </div>
-                                    <div class="col-xs-3 text-center">
-                                        
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6 text-left">
-                                        <strong>Surat Order Asli HARUS dilampirkan saat penagihan</strong>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 text-center">
-                                        CC : Lembar 1: Supplier; Lembar 2: Accounting; Lembar 3: Direksi; Lembar 4: Purchasing
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>        
-            </div>
-        </div>
-        <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page> -->
     <div class="container">
         <input type="hidden" name="idpo" value="<?php echo $id;?>">
         <div class="row">
@@ -377,10 +291,11 @@
                             $('<th class="text-right chgnum">'+data[0]["POGA_GTOTAL"]+'</th>')
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
-                            $('<td colspan="4" class="text-left">Ket : '+data[0]["POGA_INFO"]+'</td>')
+                            $('<td colspan="4" class="text-left"><strong>Ket</strong> :<textarea class="tarea form-control" id="teks">'+data[0]["POGA_INFO"]+'</textarea></td>')
                             ).appendTo('#tb_content');
                     $('td.chgnum').number(true);
                     $('th.chgnum').number(true);
+                    resizetarea('teks');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

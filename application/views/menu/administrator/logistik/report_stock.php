@@ -3,29 +3,19 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Laporan Pemakaian</h1>
+                        <h1 class="page-header">Laporan Stock Barang</h1>
                     </div>
                 </div>
                 <div class="row">
-                    <form class="form-horizontal" id="form_rptusg" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="form_rptstock" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Cabang</label>
+                            <label class="col-sm-3 control-label">Nama Barang</label>
                             <div class="col-sm-1">
-                                <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
+                                <a href="javascript:void(0)" onclick="srch_gd()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                             <div class="col-sm-7">
-                                <input class="form-control" type="text" name="usg_branch" readonly>
-                                <input type="hidden" name="usg_branchid">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Approval</label>
-                            <div class="col-sm-1">
-                                <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                            </div>
-                            <div class="col-sm-7">
-                                <input class="form-control" type="text" name="usg_appr" readonly>
-                                <input type="hidden" name="usg_apprid">
+                                <input class="form-control" type="text" name="st_goods" readonly>
+                                <input type="hidden" name="st_goodsid">
                             </div>
                         </div>
                         <div class="form-group">
@@ -35,7 +25,7 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="usg_datestart" type='text' class="form-control input-group-addon" name="usg_datestart" value="" />
+                                    <input id="po_datestart" type='text' class="form-control input-group-addon" name="st_datestart" value="" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -43,30 +33,28 @@
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                    <input id="usg_dateend" type='text' class="form-control input-group-addon" name="usg_dateend" value="" />
+                                    <input id="po_dateend" type='text' class="form-control input-group-addon" name="st_dateend" value="" />
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Laporan</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="rptusg_type" name="rptusg_type">
+                                <select class="form-control" id="rptpo_type" name="rptpo_type">
                                     <option value="">Pilih</option>
-                                    <option value="1">Per Nomor Detail</option>
-                                    <option value="2">Per Nomor Summary</option>
-                                    <option value="3">Per Proyek Detail</option>
-                                    <option value="4">Per Proyek Summary</option>
+                                    <option value="1">Per Nomor</option>
+                                    <option value="2">Per Proyek</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-2">
-                                <a href="javascript:void(0)" onclick="filter_usg()" class="btn btn-block btn-primary">
+                                <a href="javascript:void(0)" onclick="filter_st()" class="btn btn-block btn-primary">
                                     <span class="glyphicon glyphicon-filter"> Tampilkan</span>
                                 </a>
                             </div>
                             <div class="col-sm-2">
-                                <a href="javascript:void(0)" onclick="print_usg()" class="btn btn-block btn-info">
+                                <a href="javascript:void(0)" onclick="print_st()" class="btn btn-block btn-info">
                                     <span class="glyphicon glyphicon-print"> Cetak</span>
                                 </a>
                             </div>
@@ -75,14 +63,14 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 table-responsive">
-                        <table id="dtb_usg" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <table id="dtb_stock" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th class="text-center">
                                         No
                                     </th>
                                     <th class="text-center">
-                                        No Pakai
+                                        No PO
                                     </th>
                                     <th class="text-center">
                                         Tanggal
@@ -91,7 +79,7 @@
                                         Approval
                                     </th>
                                     <th class="text-center">
-                                        Lokasi
+                                        Supplier
                                     </th>
                                 </tr>
                             </thead>
@@ -165,6 +153,68 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_loc" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_loc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_pattyp" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_pattyp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -189,36 +239,36 @@
     <script>
         $(document).ready(function()
         {
-            dt_usg();            
+            dt_po();            
         });
 
-        function filter_usg()
+        function filter_po()
         {
-            $('#dtb_usg').DataTable().ajax.reload(null,false);
+            $('#dtb_po').DataTable().ajax.reload(null,false);
         }
 
-        function print_usg()
+        function print_po()
         {
-            if($('[name="rptusg_type"]').val() == '')
+            if($('[name="rptpo_type"]').val() == '')
             {
                 alert('Pilih Jenis Laporan');
             }
             else
-            {                
-                var seg1 = $('[name="usg_apprid"]').val()?$('[name="usg_apprid"]').val():'null';
-                var seg2 = $('[name="usg_datestart"]').val()?$('[name="usg_datestart"]').val():'null';
-                var seg3 = $('[name="usg_dateend"]').val()?$('[name="usg_dateend"]').val():'null';
-                var seg4 = $('[name="usg_branchid"]').val()?$('[name="usg_branchid"]').val():'null';
-                var seg5 = $('[name="rptusg_type"]').val()?$('[name="rptusg_type"]').val():'null';
-                window.open ( "<?php echo site_url('administrator/Logistik/print_rptusg/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+            {
+                var seg1 = $('[name="po_apprid"]').val()?$('[name="po_apprid"]').val():'null';
+                var seg2 = $('[name="po_datestart"]').val()?$('[name="po_datestart"]').val():'null';
+                var seg3 = $('[name="po_dateend"]').val()?$('[name="po_dateend"]').val():'null';
+                var seg4 = $('[name="po_branchid"]').val()?$('[name="po_branchid"]').val():'null';
+                var seg5 = $('[name="rptpo_type"]').val()?$('[name="rptpo_type"]').val():'null';
+                window.open ( "<?php echo site_url('administrator/Logistik/print_rptpo/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
             }
         }
     </script>
     <!-- Showdata -->
     <script>
-        function dt_usg()
+        function dt_po()
         {            
-            table = $('#dtb_usg').DataTable({
+            table = $('#dtb_po').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -226,14 +276,13 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showrpt_usg')?>",
+                    "url": "<?php echo site_url('administrator/Showdata/showrpt_po')?>",
                     "type": "POST",
                     "data": function(data){
-                        data.suppid = $('[name="usg_suppid"]').val();
-                        data.apprid = $('[name="usg_apprid"]').val();
-                        data.date_start = $('[name="usg_datestart"]').val();
-                        data.date_end = $('[name="usg_dateend"]').val();
-                        data.branch = $('[name="usg_branchid"]').val();
+                        data.apprid = $('[name="po_apprid"]').val();
+                        data.date_start = $('[name="po_datestart"]').val();
+                        data.date_end = $('[name="po_dateend"]').val();
+                        data.branch = $('[name="po_branchid"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -242,6 +291,41 @@
                     "orderable": false,
                 },
                 ],
+            });
+        }
+    </script>
+    <!-- Dropdown -->
+    <script>
+        function drop_coa()
+        {
+            $.ajax({
+            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {
+                    $('#ldg_coaid').empty();
+                    var select = document.getElementById('balsh_coaid');
+                    var option;
+                    option = document.createElement('option');
+                        option.value = ''
+                        option.text = 'Pilih';
+                        select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["COA_ID"]
+                        option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
+                        select.add(option);
+                    }
+                    $('#balsh_coaid').selectpicker({
+                        dropupAuto: false
+                    });
+                    $('#balsh_coaid').selectpicker('refresh');                    
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
     </script>
@@ -260,6 +344,52 @@
                 "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Searchdata/srch_branch')?>",
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function srch_loc()
+        {
+            $('#modal_loc').modal('show');
+            $('.modal-title').text('Cari Lokasi');          
+            table = $('#dtb_loc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_loc')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function srch_pattype()
+        {
+            $('#modal_pattyp').modal('show');
+            $('.modal-title').text('Cari Jenis Ijin');            
+            table = $('#dtb_pattyp').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_permittype')?>",
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -304,9 +434,45 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="usg_branchid"]').val(data.BRANCH_ID);
-                    $('[name="usg_branch"]').val(data.BRANCH_NAME);
+                    $('[name="po_branchid"]').val(data.BRANCH_ID);
+                    $('[name="po_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="po_locid"]').val(data.LOC_ID);
+                    $('[name="po_loc"]').val(data.LOC_NAME);                    
+                    $('#modal_loc').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_permittype(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_permittype/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="po_pattypeid"]').val(data.PRMTTYP_ID);
+                    $('[name="po_pattype"]').val(data.PRMTTYP_NAME);
+                    $('#modal_pattyp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -322,8 +488,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="usg_apprid"]').val(data.APPR_ID);
-                    $('[name="usg_appr"]').val(data.APPR_CODE);                  
+                    $('[name="po_apprid"]').val(data.APPR_ID);
+                    $('[name="po_appr"]').val(data.APPR_CODE);                  
                     $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -2,7 +2,6 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showrptusg extends CI_Model 
 	{
-
 		var $table = 'trx_usage a';
 		var $column_order = array(null,'usg_code','usg_date','appr_code','loc_name');
 		var $column_search = array('usg_code','usg_date','appr_code','loc_name');

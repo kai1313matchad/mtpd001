@@ -2389,6 +2389,7 @@
 	        $table = $this->input->post('tb');
 	        $data = array(
 	                'gd_code' => $this->input->post('code'),
+	                'branch_id' => $this->input->post('branch'),
 	                'supp_id' => $this->input->post('supp'),
 	                'gd_name' => $this->input->post('nama'),
 	                'gd_unit' => $this->input->post('unit'),	                
@@ -2411,6 +2412,7 @@
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'gd_code' => $this->input->post('code'),
+	                'branch_id' => $this->input->post('branch'),
 	                'supp_id' => $this->input->post('supp'),
 	                'gd_name' => $this->input->post('nama'),
 	                'gd_unit' => $this->input->post('unit'),	                

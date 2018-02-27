@@ -1,21 +1,28 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchpo_ga extends CI_Model 
+	class Dt_showrptusgga extends CI_Model 
 	{
-
-		var $table = 'trx_po_ga a';
-		var $column_order = array(null,'poga_code','supp_name' ,'po_ordnum','poga_date');
-		var $column_search = array('poga_code', 'poga_ordnum','poga_date');
-		var $order = array('poga_id' => 'desc');
+		var $table = 'trx_usage_ga a';
+		var $column_order = array(null,'usgga_code','usgga_date','usgga_info');
+		var $column_search = array('usgga_code','usgga_date','usgga_info');
+		var $order = array('usgga_date' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{		
+		{
+			if ($this->input->post('branch')) 
+			{
+				$this->db->like('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('a.usgga_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.usgga_date <=', $this->input->post('date_end'));  
+			}
 			$this->db->from($this->table);
-			$this->db->join('master_supplier b','b.supp_id = a.supp_id');
-			$this->db->where('a.poga_id NOT IN (select c.poga_id from trx_prc_ga c join trx_po_ga d on d.poga_id = c.poga_id)');
+			$this->db->join('master_user b','b.user_id = a.user_id');
+			$this->db->join('master_branch c','c.branch_id = b.branch_id');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -46,6 +53,7 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
+
 		public function get_datatables()
 		{
 			$this->_get_datatables_query();

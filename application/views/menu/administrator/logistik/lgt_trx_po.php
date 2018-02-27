@@ -37,12 +37,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nomor PO</label>
                                         <div class="col-sm-1">
-                                            <a href="javascript:void(0)" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a href="javascript:void(0)" id="genbtn" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="po_code" value="" readonly>
                                             <input type="hidden" name="po_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -52,7 +53,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="po_tgl" type='text' class="form-control" name="po_tgl" placeholder="Tanggal" />
+                                                <input id="po_tgl" type='text' class="form-control text-center" name="po_tgl" value="<?= date('Y-m-d')?>" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +197,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="po_term">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Hari</span>
+                                                <input class="form-control curr-num" type="text" name="po_term">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -418,13 +422,11 @@
                 hitung();
             });
         });
-
         function print_po()
         {
             var ids = $('[name=po_id]').val();
             window.open ( "<?php echo site_url('administrator/Logistik/pageprint_po/')?>"+ids,'_blank');
         }
-
         function tambah()
         {
             $.ajax({
@@ -435,6 +437,7 @@
                 {
                     $('[name="po_code"]').val(data.kode);
                     $('[name="po_id"]').val(data.id);
+                    $('#genbtn').attr('disabled',true);
                 },
                 error : function (jqXHR, textStatus, errorThrown)
                 {
@@ -442,7 +445,6 @@
                 }
             })
         }
-
         function savepo()
         {
             $.ajax({
@@ -463,7 +465,6 @@
                 }
             });
         }
-
         function hitung()
         {
             prc = $('[name="gd_price"]').val();
@@ -471,11 +472,10 @@
             sub = qty * prc;
             $('[name="po_sub"]').val(sub);            
         }
-
         function sub_total(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_sub/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -488,7 +488,6 @@
                 }
             });
         }
-
         function barang(id)
         {
             table = $('#dtb_barang').DataTable({
@@ -510,7 +509,6 @@
                 ],
             });
         }
-
         function add_barang()
         {
             $.ajax({
@@ -534,7 +532,6 @@
                 }
             });
         }
-
         function del_brg(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -632,6 +629,7 @@
         function srch_brg()
         {
             suppid = $('[name="supp_id"]').val();
+            brcid = $('[name="user_branch"]').val();
             $('#modal_barang').modal('show');
             $('.modal-title').text('Cari Barang');            
             table = $('#dtb_brg').DataTable({
@@ -642,7 +640,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_brg')?>/"+suppid,
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_gdforlgt/')?>"+suppid+'/'+brcid,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -704,7 +702,7 @@
         function pick_supp(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>/" + id,
+                url : "<?php echo site_url('administrator/Logistik/ajax_pick_supp/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)

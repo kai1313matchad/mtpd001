@@ -2,7 +2,6 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_srchinv extends CI_Model 
 	{
-
 		var $table = 'trx_invoice a';
 		var $column_order = array(null,'inv_code','inv_date','cust_name','inv_info');
 		var $column_search = array('inv_code','inv_date','cust_name','inv_info');

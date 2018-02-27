@@ -23,8 +23,8 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
     <style type="text/css">
-        body {
-          /*background: rgb(204,204,204);*/
+        body 
+        {          
           background-color: white;
           font-size: 12px;
         }        
@@ -43,10 +43,11 @@
           width: 29.7cm;
           height: 21cm;  
         }
-        @media print {
-          body, page {
-            margin: 0;
-            box-shadow: 0;
+        @media print 
+        {
+          .panel-default
+          {
+            border: none;
           }
         }
         /*.img-size*/

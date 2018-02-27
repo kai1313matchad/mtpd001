@@ -5,9 +5,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Laporan PO</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
-
                 <div class="row">
                     <div class="col-sm-2 col-sm-offset-1"> 
                         <h4>Nama Supplier :</h4>

@@ -19,16 +19,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Approval</label>
-                            <div class="col-sm-1">
-                                <a href="javascript:void(0)" onclick="srch_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                            </div>
-                            <div class="col-sm-7">
-                                <input class="form-control" type="text" name="usg_appr" readonly>
-                                <input type="hidden" name="usg_apprid">
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-sm-3 control-label">Periode</label>
                             <div class="col-sm-4">
                                 <div class='input-group date dtp' id='dtp1'>
@@ -54,8 +44,6 @@
                                     <option value="">Pilih</option>
                                     <option value="1">Per Nomor Detail</option>
                                     <option value="2">Per Nomor Summary</option>
-                                    <option value="3">Per Proyek Detail</option>
-                                    <option value="4">Per Proyek Summary</option>
                                 </select>
                             </div>
                         </div>
@@ -88,17 +76,14 @@
                                         Tanggal
                                     </th>
                                     <th class="text-center">
-                                        Approval
-                                    </th>
-                                    <th class="text-center">
-                                        Lokasi
+                                        Info
                                     </th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
-                </div>                
-            </div>            
+                </div>
+            </div>
         </div>
     </div>
     <!-- /#wrapper -->
@@ -166,37 +151,16 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
             dt_usg();            
         });
-
         function filter_usg()
         {
             $('#dtb_usg').DataTable().ajax.reload(null,false);
         }
-
         function print_usg()
         {
             if($('[name="rptusg_type"]').val() == '')
@@ -204,13 +168,12 @@
                 alert('Pilih Jenis Laporan');
             }
             else
-            {                
-                var seg1 = $('[name="usg_apprid"]').val()?$('[name="usg_apprid"]').val():'null';
-                var seg2 = $('[name="usg_datestart"]').val()?$('[name="usg_datestart"]').val():'null';
-                var seg3 = $('[name="usg_dateend"]').val()?$('[name="usg_dateend"]').val():'null';
-                var seg4 = $('[name="usg_branchid"]').val()?$('[name="usg_branchid"]').val():'null';
-                var seg5 = $('[name="rptusg_type"]').val()?$('[name="rptusg_type"]').val():'null';
-                window.open ( "<?php echo site_url('administrator/Logistik/print_rptusg/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+            {
+                var seg1 = $('[name="usg_datestart"]').val()?$('[name="usg_datestart"]').val():'null';
+                var seg2 = $('[name="usg_dateend"]').val()?$('[name="usg_dateend"]').val():'null';
+                var seg3 = $('[name="usg_branchid"]').val()?$('[name="usg_branchid"]').val():'null';
+                var seg4 = $('[name="rptusg_type"]').val()?$('[name="rptusg_type"]').val():'null';
+                window.open ( "<?php echo site_url('administrator/Genaff/print_rptusg/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
             }
         }
     </script>
@@ -226,11 +189,10 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showrpt_usg')?>",
+                    "url": "<?php echo site_url('administrator/Showdata/showrpt_usgga')?>",
                     "type": "POST",
-                    "data": function(data){
-                        data.suppid = $('[name="usg_suppid"]').val();
-                        data.apprid = $('[name="usg_apprid"]').val();
+                    "data": function(data)
+                    {
                         data.date_start = $('[name="usg_datestart"]').val();
                         data.date_end = $('[name="usg_dateend"]').val();
                         data.branch = $('[name="usg_branchid"]').val();
@@ -240,6 +202,9 @@
                 { 
                     "targets": [ 0 ],
                     "orderable": false,
+                },
+                {
+                    "targets": ['_all'], "className": "text-center"
                 },
                 ],
             });
@@ -270,29 +235,6 @@
                 ],
             });
         }
-        function srch_appr()
-        {
-            $('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval');            
-            table = $('#dtb_appr').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],                
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_appr')?>",
-                    "type": "POST",                
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
     </script>
     <!-- Pick -->
     <script>
@@ -307,24 +249,6 @@
                     $('[name="usg_branchid"]').val(data.BRANCH_ID);
                     $('[name="usg_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-        function pick_apprgb(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="usg_apprid"]').val(data.APPR_ID);
-                    $('[name="usg_appr"]').val(data.APPR_CODE);                  
-                    $('#modal_appr').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

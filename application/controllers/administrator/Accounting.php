@@ -47,6 +47,15 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function journal_pay()
+		{
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='journal_pay';
+			$data['isi']='menu/administrator/accounting/pay_journal';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function ledger_acc()
 		{
 			$data['title']='Match Terpadu - Dashboard Accounting';
@@ -145,6 +154,7 @@
 				$this->db->where('b.branch_id',$this->input->post('branch'));
 			}
 			$this->db->where('b.jou_sts','1');
+			$this->db->order_by('b.jou_code');
 			$que = $this->db->get();
 			$data = $que->result();
 			echo json_encode($data);
@@ -435,7 +445,7 @@
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
 			$this->db->join('parent_chart e','e.par_id = c.par_id');
 			$this->db->join('parent_type f','f.partp_id = e.partp_id');
-			$this->db->where('f.partp_sts = 3 or f.partp_sts = 4 or f.partp_sts = 5');
+			$this->db->where('(f.partp_sts = 3 or f.partp_sts = 4 or f.partp_sts = 5)');
 			$this->db->group_by('a.coa_id');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
@@ -461,7 +471,7 @@
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
 			$this->db->join('parent_chart e','e.par_id = c.par_id');
 			$this->db->join('parent_type f','f.partp_id = e.partp_id');
-			$this->db->where('f.partp_sts = 1 or f.partp_sts = 2');
+			$this->db->where('(f.partp_sts = 1 or f.partp_sts = 2)');
 			$this->db->group_by('a.coa_id');
 			$que2 = $this->db->get();
 			$data['b'] = $que2->result();			
@@ -514,6 +524,28 @@
 			$que2 = $this->db->get();
 			$data['b'] = $que2->result();
 			echo json_encode($data);
+		}
+
+		public function tes2()
+		{
+			if ($this->input->post('coaid')) 
+			{
+				$this->db->where('a.coa_id', $this->input->post('coaid') );
+			}
+			if ($this->input->post('branch')) 
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('c.*,sum(a.joudet_debit) as debit, sum(a.joudet_credit) as credit');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->group_by('a.coa_id');
 		}
 
 		public function tes_kasmasuk()
@@ -588,6 +620,36 @@
 			echo json_encode(array("status" => TRUE));
 		}
 
+		public function add_joupaydet()
+		{
+			$this->_validate_joupaydet();
+			$data = array(
+					'branch_id'=>$this->input->post('jou_branchid'),
+					'user_id'=>$this->input->post('user_id'),
+					'jou_code'=>$this->input->post('jou_code'),
+					'jou_reff'=>$this->input->post('jou_reff'),
+					'jou_date'=>$this->input->post('jou_date'),
+					'jou_info'=>$this->input->post('jou_info'),
+					'jou_sts'=>'1'
+					);
+			$update = $this->crud->update('account_journal',$data,array('jou_id'=>$this->input->post('jou_id')));
+			$datadet = array(
+					'jou_id'=>$this->input->post('jou_id'),
+					'coa_id'=>$this->input->post('jou_accdet'),
+					'joudet_debit'=>$this->input->post('jou_accdebetsum'),
+					'joudet_credit'=>$this->input->post('jou_acccreditsum'),
+					);
+			$insertdet = $this->crud->save('jou_details',$datadet);
+			$piutangdet = array(
+					'jou_id'=>$this->input->post('jou_id'),
+					'coa_id'=>$this->input->post('jou_invaccrcvid'),
+					'joudet_debit'=>$this->input->post('jou_acccreditsum'),
+					'joudet_credit'=>$this->input->post('jou_accdebetsum'),
+					);
+			$inspiutangdet = $this->crud->save('jou_details',$piutangdet);
+			echo json_encode(array("status" => TRUE));
+		}
+
 		public function delete_joudet($id)
 		{
 			$this->crud->delete_by_id('jou_details',array('joudet_id' => $id));
@@ -642,6 +704,73 @@
 	            echo json_encode($data);
 	            exit();
 	        }
+		}
+
+		public function _validate_joupaydet()
+		{
+			$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('jou_code') == '')
+	        {
+	            $data['inputerror'][] = 'jou_code';
+	            $data['error_string'][] = 'Nomor Jurnal Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_branch') == '')
+	        {
+	            $data['inputerror'][] = 'jou_branch';
+	            $data['error_string'][] = 'Cabang Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_invaccrcv') == '')
+	        {
+	            $data['inputerror'][] = 'jou_invaccrcv';
+	            $data['error_string'][] = 'Nomor Piutang Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_info') == '')
+	        {
+	            $data['inputerror'][] = 'jou_info';
+	            $data['error_string'][] = 'Keterangan Jurnal Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_accdet') == '')
+	        {
+	            $data['inputerror'][] = 'jou_accdet';
+	            $data['error_string'][] = 'Nomor Rekening Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_accdebetsum') == '')
+	        {
+	            $data['inputerror'][] = 'jou_accdebetsum';
+	            $data['error_string'][] = 'Debet Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jou_acccreditsum') == '')
+	        {
+	            $data['inputerror'][] = 'jou_acccreditsum';
+	            $data['error_string'][] = 'Kredit Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+		}
+
+		public function sub_inv($id)
+		{
+			$this->db->select('sum(a.invdet_amount) as sub');
+			$this->db->from('inv_details a');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->where('a.inv_id',$id);
+			$que = $this->db->get();
+			$data = $que->row();
+			echo json_encode($data);
 		}
 	}
 ?>

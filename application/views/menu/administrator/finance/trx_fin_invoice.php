@@ -327,11 +327,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="test()" class="btn btn-block btn-primary btn-default">Simpan</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </form>
