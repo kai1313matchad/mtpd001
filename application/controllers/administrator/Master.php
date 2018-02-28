@@ -394,7 +394,8 @@
 
 		public function ajax_edit_cust($id)
 	    {	    
-	    	$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+	    	// $data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+	    	$data = $this->crud->get_by_id2b('master_customer a','chart_of_account b',array('a.cust_id'=>$id),'b.coa_id = a.coa_id','left');
         	echo json_encode($data);
 	    }
 
@@ -404,6 +405,7 @@
 	        $table = $this->input->post('tb');
 	        $data = array(
 	                'cust_code' => $this->input->post('code'),
+	                'coa_id' => $this->input->post('accpiutang'),
 	                'cust_name' => $this->input->post('nama'),
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
@@ -411,7 +413,7 @@
 	                'cust_prov' => $this->input->post('prov'),
 	                'cust_phone' => $this->input->post('notlp'),
 	                'cust_fax' => $this->input->post('fax'),
-	                'cust_acc' => $this->input->post('accpiutang'),
+	                // 'cust_acc' => $this->input->post('accpiutang'),
 	                'cust_npwpname' => $this->input->post('namanpwp'),
 	                'cust_npwpacc' => $this->input->post('nonpwp'),
 	                'cust_npwpadd' => $this->input->post('almtnpwp'),
@@ -428,6 +430,7 @@
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'cust_code' => $this->input->post('code'),
+	                'coa_id' => $this->input->post('accpiutang'),
 	                'cust_name' => $this->input->post('nama'),
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
@@ -435,7 +438,7 @@
 	                'cust_prov' => $this->input->post('prov'),
 	                'cust_phone' => $this->input->post('notlp'),
 	                'cust_fax' => $this->input->post('fax'),
-	                'cust_acc' => $this->input->post('accpiutang'),
+	                // 'cust_acc' => $this->input->post('accpiutang'),
 	                'cust_npwpname' => $this->input->post('namanpwp'),
 	                'cust_npwpacc' => $this->input->post('nonpwp'),
 	                'cust_npwpadd' => $this->input->post('almtnpwp'),
@@ -2198,7 +2201,8 @@
 
 		public function ajax_edit_sup($id)
 	    {	    
-	    	$data = $this->crud->get_by_id('master_supplier',array('supp_id' => $id));
+	    	// $data = $this->crud->get_by_id('master_supplier',array('supp_id' => $id));
+	    	$data = $this->crud->get_by_id2b('master_supplier a','chart_of_account b',array('a.supp_id'=>$id),'b.coa_id = a.coa_id','left');
         	echo json_encode($data);
 	    }
 
@@ -2208,6 +2212,7 @@
 	        $table = $this->input->post('tb');
 	        $data = array(
 	                'supp_code' => $this->input->post('code'),
+	                'coa_id' => $this->input->post('acc'),
 	                'supp_name' => $this->input->post('nama'),
 	                'supp_address' => $this->input->post('alamat'),	                
 	                'supp_city' => $this->input->post('kota'),
@@ -2216,7 +2221,9 @@
 	                'supp_fax' => $this->input->post('fax'),
 	                'supp_due' => $this->input->post('jtempo'),
 	                'supp_otherctc' => $this->input->post('other'),
-	                'supp_acc' => $this->input->post('acc'),
+	                'supp_npwpname' => $this->input->post('npwpname'),
+	                'supp_npwpcode' => $this->input->post('npwpacc'),
+	                // 'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')
 	            );
 	        $insert = $this->crud->save($table,$data);
@@ -2229,6 +2236,7 @@
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'supp_code' => $this->input->post('code'),
+	                'coa_id' => $this->input->post('acc'),
 	                'supp_name' => $this->input->post('nama'),
 	                'supp_address' => $this->input->post('alamat'),	                
 	                'supp_city' => $this->input->post('kota'),
@@ -2237,7 +2245,9 @@
 	                'supp_fax' => $this->input->post('fax'),
 	                'supp_due' => $this->input->post('jtempo'),
 	                'supp_otherctc' => $this->input->post('other'),
-	                'supp_acc' => $this->input->post('acc'),
+	                'supp_npwpname' => $this->input->post('npwpname'),
+	                'supp_npwpcode' => $this->input->post('npwpacc'),
+	                // 'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')
 	            );
 	    	$update = $this->crud->update($table,$data,array('supp_id' => $this->input->post('id')));

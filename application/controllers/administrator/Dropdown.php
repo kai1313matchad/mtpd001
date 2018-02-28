@@ -14,5 +14,12 @@
 			$data = $this->dropdown->getdrop_branch();
 			echo json_encode($data);
 		}
+
+		//Dropdown COA global
+		public function drop_coa()
+		{
+			$data = $this->dropdown->getdrop_coa();
+			echo json_encode($data);
+		}
 	}
 ?>
