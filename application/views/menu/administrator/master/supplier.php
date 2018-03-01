@@ -11,7 +11,7 @@
                         <button class="btn btn-success" onclick="add_supp()"><i class="glyphicon glyphicon-plus"></i> Tambah Supplier</button>
                     </div>
                 </div><br>
-                <div class="col-sm-12 col-xs-12 table-responsive">                    
+                <div class="col-sm-12 col-xs-12 table-responsive">
                     <table id="dtb_supp" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -139,9 +139,27 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Alamat NPWP</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="npwpadd">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Nomor NPWP</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="npwpacc">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nomor NPPKP</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="nppkpacc">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -282,6 +300,15 @@
                         </div>
                         <div class="row">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">NPPKP</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="vnppkp" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-9">
                                     <textarea name="vother" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
@@ -384,6 +411,7 @@
                     $('[name="vfax"]').val(data.SUPP_FAX);
                     $('[name="vjtempo"]').val(data.SUPP_DUE);
                     $('[name="vnpwp"]').val(data.SUPP_NPWPNAME+' - '+data.SUPP_NPWPCODE);
+                    $('[name="vnppkp"]').val(data.SUPP_NPPKPCODE);
                     $('[name="vother"]').val(data.SUPP_OTHERCTC);
                     $('[name="vacc"]').val(data.COA_ACCNAME);
                     $('#modal_view').modal('show');
@@ -434,7 +462,9 @@
                     $('[name="fax"]').val(data.SUPP_FAX);
                     $('[name="jtempo"]').val(data.SUPP_DUE);
                     $('[name="npwpname"]').val(data.SUPP_NPWPNAME);
+                    $('[name="npwpadd"]').val(data.SUPP_NPWPADD);
                     $('[name="npwpacc"]').val(data.SUPP_NPWPCODE);
+                    $('[name="nppkpacc"]').val(data.SUPP_NPPKPCODE);
                     $('[name="other"]').val(data.SUPP_OTHERCTC);
                     // $('[name="acc"]').val(data.SUPP_ACC);
                     $('select#acc').val(data.COA_ID);

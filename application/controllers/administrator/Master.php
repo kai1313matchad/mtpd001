@@ -25,11 +25,6 @@
 			$this->load->model('CRUD/M_crud','crud');
 		}
 
-		public function index()
-		{
-			
-		}
-
 		//Menu Master Person
 		public function person()
 		{
@@ -523,12 +518,12 @@
 	            $data['error_string'][] = 'Alamat Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('accpiutang') == '')
-	        {
-	            $data['inputerror'][] = 'accpiutang';
-	            $data['error_string'][] = 'Acc. Piutang Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('accpiutang') == '')
+	        // {
+	        //     $data['inputerror'][] = 'accpiutang';
+	        //     $data['error_string'][] = 'Acc. Piutang Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        if($this->input->post('namanpwp') == '')
 	        {
 	            $data['inputerror'][] = 'namanpwp';
@@ -2223,6 +2218,8 @@
 	                'supp_otherctc' => $this->input->post('other'),
 	                'supp_npwpname' => $this->input->post('npwpname'),
 	                'supp_npwpcode' => $this->input->post('npwpacc'),
+	                'supp_npwpadd' => $this->input->post('npwpadd'),
+	                'supp_nppkpcode' => $this->input->post('nppkpacc'),
 	                // 'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')
 	            );
@@ -2247,6 +2244,8 @@
 	                'supp_otherctc' => $this->input->post('other'),
 	                'supp_npwpname' => $this->input->post('npwpname'),
 	                'supp_npwpcode' => $this->input->post('npwpacc'),
+	                'supp_npwpadd' => $this->input->post('npwpadd'),
+	                'supp_nppkpcode' => $this->input->post('nppkpacc'),
 	                // 'supp_acc' => $this->input->post('acc'),
 	                'supp_dtsts' => $this->input->post('sts')
 	            );
@@ -2322,12 +2321,12 @@
 	            $data['error_string'][] = 'Fax Supplier Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('acc') == '')
-	        {
-	            $data['inputerror'][] = 'acc';
-	            $data['error_string'][] = 'Rek. Akuntansi Supplier Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('acc') == '')
+	        // {
+	        //     $data['inputerror'][] = 'acc';
+	        //     $data['error_string'][] = 'Rek. Akuntansi Supplier Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        if($data['status'] === FALSE)
 	        {
 	            echo json_encode($data);
