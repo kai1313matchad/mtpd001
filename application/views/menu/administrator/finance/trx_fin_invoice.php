@@ -95,6 +95,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">Info Client</label>
+                                        <div class="col-sm-8">
+                                            <textarea name="inv_custinfo" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Termin</label>
                                         <div class="col-sm-8">
                                             <input class="form-control" type="text" name="inv_terms">
@@ -115,6 +121,15 @@
                                             <input class="form-control" type="text" name="inv_curr" readonly>
                                             <input type="hidden" name="inv_currid" value="0">
                                             <input type="hidden" name="inv_currrate" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Faktur Pajak</label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="text" name="inv_taxhead">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" name="inv_taxcode">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -779,6 +794,7 @@
                 {   
                     $('[name="inv_custid"]').val(data.CUST_ID);
                     $('[name="inv_cust"]').val(data.CUST_NAME);
+                    $('[name="inv_custinfo"]').val('NPWP : '+data.CUST_NPWPACC+'\n'+'NPPKP : '+data.CUST_NPKP);
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

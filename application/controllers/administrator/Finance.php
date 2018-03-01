@@ -2660,6 +2660,11 @@
 						);
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 	    	}
+	    	//Simpan Faktur Pajak
+	    	if($this->input->post())
+	    	{
+
+	    	}
 	    	echo json_encode(array('status'=>TRUE));
 	    }
 
