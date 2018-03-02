@@ -2661,9 +2661,26 @@
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 	    	}
 	    	//Simpan Faktur Pajak
-	    	if($this->input->post())
+	    	if($this->input->post('inv_taxhead') || $this->input->post('inv_taxcode'))
 	    	{
+	    		$que2 = $this->db->get_where('trx_tax_invoice',array('inv_id'=>$this->input->post('inv_id')));
+	    		if($que2->num_rows() > 0)
+	    		{
 
+	    		}
+	    		else
+	    		{
+	    			$datasv = array(
+	    					'user_id'=>$this->input->post('user_id'),
+	    					'cust_id'=>$this->input->post('inv_custid'),
+	    					'inv_id'=>$this->input->post('inv_id'),
+	    					'tinv_date'=>$this->input->post('inv_date'),
+	    					'tinv_taxheadcode'=>$this->input->post('inv_taxhead'),
+	    					'tinv_taxcode'=>$this->input->post('inv_taxcode'),
+	    					'tinv_sts'=>'1',
+	    					'tinv_info'=>$this->input->post('inv_info'),
+	    					);
+	    		}
 	    	}
 	    	echo json_encode(array('status'=>TRUE));
 	    }

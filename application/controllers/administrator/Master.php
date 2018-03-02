@@ -397,10 +397,11 @@
 		public function ajax_add_cust()
 	    {
 	        $this->_validate_cust();
+	        $coa = ($this->input->post('accpiutang') != '') ? $this->input->post('accpiutang'):null;
 	        $table = $this->input->post('tb');
 	        $data = array(
 	                'cust_code' => $this->input->post('code'),
-	                'coa_id' => $this->input->post('accpiutang'),
+	                'coa_id' => $coa,
 	                'cust_name' => $this->input->post('nama'),
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
@@ -422,10 +423,11 @@
 	    public function ajax_update_cust()
 	    {
 	    	$this->_validate_cust();
+	    	$coa = ($this->input->post('accpiutang') != '') ? $this->input->post('accpiutang'):null;
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'cust_code' => $this->input->post('code'),
-	                'coa_id' => $this->input->post('accpiutang'),
+	                'coa_id' => $coa,
 	                'cust_name' => $this->input->post('nama'),
 	                'cust_address' => $this->input->post('alamat'),
 	                'cust_city' => $this->input->post('kota'),
@@ -2204,10 +2206,11 @@
 		public function ajax_add_sup()
 	    {
 	        $this->_validate_sup();
+	        $coa = ($this->input->post('acc') != '') ? $this->input->post('acc'):null;
 	        $table = $this->input->post('tb');
 	        $data = array(
 	                'supp_code' => $this->input->post('code'),
-	                'coa_id' => $this->input->post('acc'),
+	                'coa_id' => $coa,
 	                'supp_name' => $this->input->post('nama'),
 	                'supp_address' => $this->input->post('alamat'),	                
 	                'supp_city' => $this->input->post('kota'),
@@ -2230,10 +2233,11 @@
 	    public function ajax_update_sup()
 	    {
 	    	$this->_validate_sup();
+	    	$coa = ($this->input->post('acc') != '') ? $this->input->post('acc'):null;
 	    	$table = $this->input->post('tb');
 	    	$data = array(
 	                'supp_code' => $this->input->post('code'),
-	                'coa_id' => $this->input->post('acc'),
+	                'coa_id' => $coa,
 	                'supp_name' => $this->input->post('nama'),
 	                'supp_address' => $this->input->post('alamat'),	                
 	                'supp_city' => $this->input->post('kota'),
