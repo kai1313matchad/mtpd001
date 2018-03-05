@@ -7,44 +7,97 @@
                     </div>                    
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
-                        <button class="btn btn-success" onclick="add_cust()"><i class="glyphicon glyphicon-plus"></i> Tambah Customer</button>
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">
+                                    <h4>Customer Eksternal</h4>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#2" data-toggle="tab">
+                                    <h4>Customer Internal</h4>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div><br>
-                <div class="col-sm-12 col-xs-12 table-responsive">                    
-                    <table id="dtb_cust" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">
-                                No
-                                </th>
-                                <th class="text-center">
-                                    Kode
-                                </th>
-                                <th class="text-center">
-                                    Nama
-                                </th>
-                                <th class="text-center col-md-3">
-                                    Alamat
-                                </th>
-                                <th class="text-center">
-                                    Kota
-                                </th>
-                                <th class="text-center">
-                                    No.Tlp
-                                </th>
-                                <th class="text-center">
-                                    NPWP
-                                </th>
-                                <th class="text-center">
-                                    NPKP
-                                </th>
-                                <th class="text-center col-md-2"">
-                                    Actions
-                                </th>
-                            </tr>                            
-                        </thead>                        
-                    </table>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="1">
+                        <div class="row"><br>
+                            <div class="col-lg-2">
+                                <button class="btn btn-success" onclick="add_cust()"><i class="glyphicon glyphicon-plus"></i> Tambah Customer</button>
+                            </div>
+                        </div><br>
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_cust" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            No
+                                        </th>
+                                        <th class="text-center">
+                                            Kode
+                                        </th>
+                                        <th class="text-center">
+                                            Nama
+                                        </th>
+                                        <th class="text-center col-md-3">
+                                            Alamat
+                                        </th>
+                                        <th class="text-center">
+                                            Kota
+                                        </th>
+                                        <th class="text-center">
+                                            No.Tlp
+                                        </th>
+                                        <th class="text-center">
+                                            NPWP
+                                        </th>
+                                        <th class="text-center">
+                                            NPKP
+                                        </th>
+                                        <th class="text-center col-md-2"">
+                                            Actions
+                                        </th>
+                                    </tr>                            
+                                </thead>                        
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="2">
+                        <div class="row"><br>
+                            <div class="col-lg-2">
+                                <button class="btn btn-success" onclick="add_custin()"><i class="glyphicon glyphicon-plus"></i> Tambah Customer</button>
+                            </div>
+                        </div><br>
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_custin" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            No
+                                        </th>
+                                        <th class="text-center">
+                                            Kode
+                                        </th>
+                                        <th class="text-center">
+                                            Nama
+                                        </th>
+                                        <th class="text-center col-md-3">
+                                            Alamat
+                                        </th>
+                                        <th class="text-center">
+                                            No.Tlp
+                                        </th>
+                                        <th class="text-center col-md-2"">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.row -->
             </div>
@@ -64,8 +117,8 @@
                     <form action="#" id="form">
                         <div class="row form-group">
                             <div class="col-sm-12 text-center">
-                                <h2>Data Customer</h2>                            
-                            </div>                        
+                                <h2>Data Customer</h2>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group">                                
@@ -208,6 +261,51 @@
             </div>
         </div>    
     </div>
+    <div class="modal fade" id="modal_form2" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form_int">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Kode</label>
+                                <div class="col-sm-8 col-xs-8">
+                                    <input class="form-control" type="text" name="code_in" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                                <div class="col-sm-2 col-xs-2">
+                                    <button name="genin" type="button" onclick="gen_custin()" class="btn btn-block btn-sm btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-xs-2 control-label">Karyawan</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <select id="empl" name="empl" class="form-control text-center" data-live-search="true" required>
+                                        <option value="">Pilih</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id_in" value="">
+                        <input type="hidden" name="tb_in" value="">
+                        <input type="hidden" name="sts_in" value="">
+                        <input type="hidden" name="check_in" value="">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSave" onclick="save_in()" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /Modal CRUD -->
     <!-- Modal View -->
     <div class="modal fade" id="modal_view" role="dialog">
@@ -329,13 +427,13 @@
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
         $(document).ready(function() 
-        {        
+        {
             dt_cust();
             dropcoa();
         });
         function dt_cust()
         {
-            table = $('table').DataTable({ 
+            table = $('#dtb_cust').DataTable({ 
                 "info": false,
                 "responsive": true,
                 "responsive": true,
@@ -399,6 +497,22 @@
             $('[name="gen"]').prop('disabled',false);
             $('#accpiutang').selectpicker('refresh');
             gen_cust();
+            // $('[name="code"]').prop('readonly',false);
+        }
+        function add_custin()
+        {
+            save_method = 'add';
+            $('#form_int')[0].reset();
+            $('.form-group').removeClass('has-error');
+            $('.help-block').empty();
+            $('#modal_form2').modal('show');
+            $('.modal-title').text('Tambah Customer Internal');
+            $('[name="tb_in"]').val("master_cust_intern");
+            $('[name="sts_in"]').val("1");
+            $('[name="check_in"]').val("0");
+            $('[name="genin"]').prop('disabled',false);
+            $('#accpiutang').selectpicker('refresh');
+            gen_custin();
             // $('[name="code"]').prop('readonly',false);
         }
         function edit_cust(id)
