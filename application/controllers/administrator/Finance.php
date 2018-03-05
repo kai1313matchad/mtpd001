@@ -43,6 +43,12 @@
 			echo json_encode($data);
 		}
 
+		public function get_printbankinv()
+		{
+			$data = $this->db->get('other_settings')->row();
+			echo json_encode($data);
+		}
+
 		public function gen_invo()
 		{
 			$gen = $this->gen->gen_numinvo();
@@ -2666,7 +2672,7 @@
 	    		$que2 = $this->db->get_where('trx_tax_invoice',array('inv_id'=>$this->input->post('inv_id')));
 	    		if($que2->num_rows() > 0)
 	    		{
-	    			$invid = $que->row()->TINV_ID;
+	    			$invid = $que2->row()->TINV_ID;
 	    			$datasv = array(
 	    					'user_id'=>$this->input->post('user_id'),
 	    					'cust_id'=>$this->input->post('inv_custid'),
@@ -2677,7 +2683,7 @@
 	    					'tinv_sts'=>'1',
 	    					'tinv_info'=>$this->input->post('inv_info'),
 	    					);
-	    			$update = $this->crud->update('trx_tax_invoice',$data,array('tinv_id'=>$invid));
+	    			$update = $this->crud->update('trx_tax_invoice',$datasv,array('tinv_id'=>$invid));
 	    		}
 	    		else
 	    		{
@@ -2691,7 +2697,7 @@
 	    					'tinv_sts'=>'1',
 	    					'tinv_info'=>$this->input->post('inv_info'),
 	    					);
-	    			$savetaxinv = $this->crud->save('trx_tax_invoice',$data);
+	    			$savetaxinv = $this->crud->save('trx_tax_invoice',$datasv);
 	    		}
 	    	}
 	    	echo json_encode(array('status'=>TRUE));

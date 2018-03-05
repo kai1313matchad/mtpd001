@@ -1225,7 +1225,7 @@
         function test()
         {
             var n = $('[name="inv_typechk"]:checked').val();
-            alert(n);
+            // alert(n);
             // var id = $('[name="inv_id"]').val();
             // var dt = '2018-12-20';
             // var chg = moment(dt).format('DD/MM/YYYY');
