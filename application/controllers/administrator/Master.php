@@ -1091,7 +1091,8 @@
 			$data = array (
 					'par_acc' => $this->input->post('par_acc'),
 					'par_accname' => $this->input->post('par_name'),
-					'par_type' => $this->input->post('par_type'),
+					// 'par_type' => $this->input->post('par_type'),
+					'partp_id' => $this->input->post('par_type'),
 					'par_info' => $this->input->post('par_info'),
 					'par_dtsts' => '1'
 				);
@@ -1153,7 +1154,8 @@
 	    	$data = array(
 	                'par_acc' => $this->input->post('par_acc'),
 					'par_accname' => $this->input->post('par_name'),
-					'par_type' => $this->input->post('par_type'),
+					// 'par_type' => $this->input->post('par_type'),
+					'partp_id' => $this->input->post('par_type'),
 					'par_info' => $this->input->post('par_info')
 	            );
 	    	$update = $this->crud->update($table,$data,array('par_id' => $this->input->post('par_id')));

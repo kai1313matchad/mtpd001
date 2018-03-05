@@ -435,6 +435,7 @@
             $('[name="sts"]').val("1");
             $('[name="check"]').val("0");
             $('[name="gen"]').prop('disabled',false);
+            $('#acc').selectpicker('refresh');
             gen_supp();
             // $('[name="code"]').prop('readonly',false);
         }
@@ -446,6 +447,7 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
+            $('#acc').selectpicker('refresh');
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/ajax_edit_sup/')?>" + id,
                 type: "GET",
@@ -467,8 +469,8 @@
                     $('[name="nppkpacc"]').val(data.SUPP_NPPKPCODE);
                     $('[name="other"]').val(data.SUPP_OTHERCTC);
                     // $('[name="acc"]').val(data.SUPP_ACC);
-                    $('select#acc').val(data.COA_ID);
-                    $('#acc').selectpicker('refresh');
+                    // $('select#acc').val(data.COA_ID);
+                    $('#acc').selectpicker('val',data.COA_ID);
                     $('[name="sts"]').val(data.SUPP_DTSTS);
                     $('[name="check"]').val("1");
                     $('[name="tb"]').val("master_supplier");

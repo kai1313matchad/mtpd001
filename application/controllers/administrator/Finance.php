@@ -2666,7 +2666,18 @@
 	    		$que2 = $this->db->get_where('trx_tax_invoice',array('inv_id'=>$this->input->post('inv_id')));
 	    		if($que2->num_rows() > 0)
 	    		{
-
+	    			$invid = $que->row()->TINV_ID;
+	    			$datasv = array(
+	    					'user_id'=>$this->input->post('user_id'),
+	    					'cust_id'=>$this->input->post('inv_custid'),
+	    					'inv_id'=>$this->input->post('inv_id'),
+	    					'tinv_date'=>$this->input->post('inv_date'),
+	    					'tinv_taxheadcode'=>$this->input->post('inv_taxhead'),
+	    					'tinv_taxcode'=>$this->input->post('inv_taxcode'),
+	    					'tinv_sts'=>'1',
+	    					'tinv_info'=>$this->input->post('inv_info'),
+	    					);
+	    			$update = $this->crud->update('trx_tax_invoice',$data,array('tinv_id'=>$invid));
 	    		}
 	    		else
 	    		{
@@ -2680,6 +2691,7 @@
 	    					'tinv_sts'=>'1',
 	    					'tinv_info'=>$this->input->post('inv_info'),
 	    					);
+	    			$savetaxinv = $this->crud->save('trx_tax_invoice',$data);
 	    		}
 	    	}
 	    	echo json_encode(array('status'=>TRUE));

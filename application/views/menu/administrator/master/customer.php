@@ -397,6 +397,7 @@
             $('[name="sts"]').val("1");
             $('[name="check"]').val("0");
             $('[name="gen"]').prop('disabled',false);
+            $('#accpiutang').selectpicker('refresh');
             gen_cust();
             // $('[name="code"]').prop('readonly',false);
         }
@@ -408,6 +409,7 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
+            $('#accpiutang').selectpicker('refresh');
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/ajax_edit_cust/')?>" + id,
                 type: "GET",
@@ -423,8 +425,9 @@
                     $('[name="prov"]').val(data.CUST_PROV);
                     $('[name="notlp"]').val(data.CUST_PHONE);
                     $('[name="fax"]').val(data.CUST_FAX);
-                    $('select#accpiutang').val(data.COA_ID);
-                    $('#accpiutang').selectpicker('refresh');
+                    $('#accpiutang').selectpicker('val', data.COA_ID);
+                    // $('select#accpiutang').val(data.COA_ID);
+                    // $('#accpiutang').selectpicker('refresh');
                     // $('[name="accpiutang"]').val(data.CUST_ACC);
                     $('[name="namanpwp"]').val(data.CUST_NPWPNAME);
                     $('[name="nonpwp"]').val(data.CUST_NPWPACC);
