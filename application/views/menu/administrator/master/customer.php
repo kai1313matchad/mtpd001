@@ -286,9 +286,18 @@
                             <div class="form-group">
                                 <label class="col-sm-2 col-xs-2 control-label">Karyawan</label>
                                 <div class="col-sm-10 col-xs-10">
-                                    <select id="empl" name="empl" class="form-control text-center" data-live-search="true" required>
+                                    <select id="empl" name="empl" class="form-control text-center" data-live-search="true" data-dropup-auto="false" required>
                                         <option value="">Pilih</option>
                                     </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-xs-2 control-label">Informasi</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <textarea name="custininfo" class="form-control" rows="2" style="resize:vertical;"></textarea>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -421,6 +430,50 @@
             </div>
         </div>    
     </div>
+    <div class="modal fade" id="modal_view2" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form_int">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Kode</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <input class="form-control" type="text" name="vcode_in" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-xs-2 control-label">Karyawan</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <input type="text" class="form-control" name="vempl" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-xs-2 control-label">Informasi</label>
+                                <div class="col-sm-10 col-xs-10">
+                                    <textarea name="vcustininfo" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
@@ -429,7 +482,9 @@
         $(document).ready(function() 
         {
             dt_cust();
+            dt_custin();
             dropcoa();
+            dropperson();
         });
         function dt_cust()
         {
@@ -448,6 +503,30 @@
                 { 
                     "targets": [ 0 ], 
                     "orderable": false, 
+                },
+                ],
+            });
+        }
+        function dt_custin()
+        {
+            table = $('#dtb_custin').DataTable({ 
+                "info": false,
+                "responsive": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/showmaster_custintern')?>",
+                    "type": "POST",                
+                },            
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ], 
+                    "orderable": false, 
+                },
+                {
+                    "targets":['_all'],"className":"text-center"
                 },
                 ],
             });
@@ -475,6 +554,26 @@
                     $('[name="valmtnpwp"]').val(data.CUST_NPWPADD);
                     $('[name="vnpkp"]').val(data.CUST_NPKP);
                     $('#modal_view').modal('show');
+                    $('.modal-title').text('Edit Customer');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function lihat_custin(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_custin/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="vcode_in"]').val(data.CSTIN_CODE);
+                    $('[name="vempl"]').val(data.PERSON_NAME+' '+data.PERSON_ADDRESS);
+                    $('[name="vcustininfo"]').val(data.CSTIN_INFO);
+                    $('#modal_view2').modal('show');
                     $('.modal-title').text('Edit Customer');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -511,7 +610,7 @@
             $('[name="sts_in"]').val("1");
             $('[name="check_in"]').val("0");
             $('[name="genin"]').prop('disabled',false);
-            $('#accpiutang').selectpicker('refresh');
+            $('#empl').selectpicker('refresh');
             gen_custin();
             // $('[name="code"]').prop('readonly',false);
         }
@@ -559,9 +658,42 @@
                 }
             });
         }
+        function edit_custin(id)
+        {
+            save_method = 'update';
+            $('#form_int')[0].reset();
+            $('.formgroup').removeClass('has-error');
+            $('.help-block').empty();
+            $('[name="code_in"]').prop('readonly',true);
+            $('[name="genin"]').prop('disabled',true);
+            $('#empl').selectpicker('refresh');
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/ajax_edit_custin/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="id_in"]').val(data.CSTIN_ID);
+                    $('[name="code_in"]').val(data.CSTIN_CODE);
+                    $('#empl').selectpicker('val', data.PERSON_ID);
+                    $('[name="custininfo"]').val(data.CSTIN_INFO);
+                    $('[name="sts_in"]').val(data.CSTIN_DTSTS);
+                    $('[name="check"]').val("1");
+                    $('[name="tb_in"]').val("master_cust_intern");
+                    $('#modal_form2').modal('show');
+                    $('.modal-title').text('Edit Customer Internal');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
         function reload_table()
         {
-            table.ajax.reload(null,false);
+            // table.ajax.reload(null,false);
+            $('#dtb_cust').DataTable().ajax.reload(null,false);
+            $('#dtb_custin').DataTable().ajax.reload(null,false);
         }
         function save()
         {
@@ -604,6 +736,47 @@
                 }
             });
         }
+        function save_in()
+        {
+            $('#btnSave').text('saving...');
+            $('#btnSave').attr('disabled',true);
+            var url;        
+            if(save_method == 'add') {
+                url = "<?php echo site_url('administrator/Master/ajax_add_custin')?>";
+            } else {
+                url = "<?php echo site_url('administrator/Master/ajax_update_custin')?>";
+            }
+            $.ajax({
+                url : url,
+                type: "POST",
+                data: $('#form_int').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form2').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
         function delete_cust(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -615,6 +788,26 @@
                     success: function(data)
                     {
                         $('#modal_form').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error deleting data');
+                    }
+                });
+            }
+        }
+        function delete_custin(id)
+        {
+            if(confirm('Are you sure delete this data?'))
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Master/ajax_delete_custin')?>/"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        $('#modal_form2').modal('hide');
                         reload_table();
                     },
                     error: function (jqXHR, textStatus, errorThrown)
@@ -640,6 +833,22 @@
                 }
             });
         }
+        function gen_custin()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Master/gen_custin')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {                    
+                    $('[name="code_in"]').val(data.kode);                
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Generate Number');
+                }
+            });
+        }
         function dropcoa()
         {
             $.ajax({
@@ -658,6 +867,31 @@
                     }
                     $('#accpiutang').selectpicker({});
                     $('#accpiutang').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function dropperson()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Dropdown/drop_person')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById('empl');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["PERSON_ID"]
+                        option.text = data[i]["PERSON_NAME"]+' '+data[i]["PERSON_ADDRESS"];
+                        select.add(option);
+                    }
+                    $('#empl').selectpicker({});
+                    $('#empl').selectpicker('refresh');
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {

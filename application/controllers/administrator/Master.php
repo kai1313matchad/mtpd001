@@ -342,7 +342,7 @@
 		}
 
 		public function gen_cust()
-		{			
+		{
 			$res = $this->crud->gen_numb('cust_code','master_customer','CST');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
@@ -388,7 +388,7 @@
 		}
 
 		public function ajax_edit_cust($id)
-	    {	    
+	    {
 	    	// $data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
 	    	$data = $this->crud->get_by_id2b('master_customer a','chart_of_account b',array('a.cust_id'=>$id),'b.coa_id = a.coa_id','left');
         	echo json_encode($data);
@@ -447,7 +447,7 @@
 	    }
 
 	    public function ajax_delete_cust($id)
-	    {	    
+	    {
 	    	$data = array(
 	                'cust_dtsts' => '0'
 	            );
@@ -548,6 +548,100 @@
 	        {
 	            $data['inputerror'][] = 'npkp';
 	            $data['error_string'][] = 'NPKP Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($data['status'] === FALSE)
+	        {
+	            echo json_encode($data);
+	            exit();
+	        }
+	    }
+
+	    //Menu Master Customer Internal
+		public function gen_custin()
+		{
+			$res = $this->crud->gen_numb('cstin_code','master_cust_intern','CSTI');
+			$data['kode'] = $res;
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function ajax_edit_custin($id)
+	    {
+	    	$data = $this->crud->get_by_id2('master_cust_intern a','master_person b',array('a.cstin_id'=>$id),'b.person_id = a.person_id');
+        	echo json_encode($data);
+	    }
+
+		public function ajax_add_custin()
+	    {
+	        $this->_validate_custin();
+	        $table = $this->input->post('tb_in');
+	        $data = array(
+	                'cstin_code' => $this->input->post('code_in'),
+	                'person_id' => $this->input->post('empl'),
+	                'cstin_info' => $this->input->post('custininfo'),
+	                'cstin_dtsts' => $this->input->post('sts_in')
+	            );
+	        $insert = $this->crud->save($table,$data);
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_update_custin()
+	    {
+	    	$this->_validate_custin();
+	    	$table = $this->input->post('tb_in');
+	    	$data = array(
+	                'cstin_code' => $this->input->post('code_in'),
+	                'person_id' => $this->input->post('empl'),
+	                'cstin_info' => $this->input->post('custininfo'),
+	                'cstin_dtsts' => $this->input->post('sts_in')
+	            );
+	    	$update = $this->crud->update($table,$data,array('cstin_id' => $this->input->post('id_in')));
+	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function ajax_delete_custin($id)
+	    {
+	    	$data = array(
+	                'cstin_dtsts' => '0'
+	            );
+	    	$update = $this->crud->update('master_cust_intern',$data,array('cstin_id' => $id));
+        	echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function _validate_custin()
+	    {
+	    	$data = array();
+	        $data['error_string'] = array();
+	        $data['inputerror'] = array();
+	        $data['status'] = TRUE;
+	 
+	        if($this->input->post('code_in') == '')
+	        {
+	            $data['inputerror'][] = 'code_in';
+	            $data['error_string'][] = 'Kode Customer Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('check') == '0')
+	        {
+	        	$this->form_validation->set_rules('code', 'Kode', 'is_unique[master_cust_intern.CSTIN_CODE]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'code_in';
+		            $data['error_string'][] = 'Kode Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
+	        }
+	        if($this->input->post('empl') == '')
+	        {
+	            $data['inputerror'][] = 'empl';
+	            $data['error_string'][] = 'Karyawan Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('custininfo') == '')
+	        {
+	            $data['inputerror'][] = 'custininfo';
+	            $data['error_string'][] = 'Info Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)

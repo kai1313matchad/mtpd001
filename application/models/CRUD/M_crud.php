@@ -575,7 +575,8 @@
 			{
 				$max = $suf.'-00000';
 			}
-			$num = (int) substr($max,4,5);
+			// $num = (int) substr($max,4,5);
+			$num = (int) substr($max,-5);
 			$num++;
 			$kode = $suf.'-';
 			$res = $kode . sprintf('%05s',$num);

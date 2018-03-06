@@ -21,5 +21,12 @@
 			$data = $this->dropdown->getdrop_coa();
 			echo json_encode($data);
 		}
+
+		//Dropdown person global
+		public function drop_person()
+		{
+			$data = $this->dropdown->getdrop_person();
+			echo json_encode($data);
+		}
 	}
 ?>

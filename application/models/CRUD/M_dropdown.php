@@ -16,5 +16,12 @@
 			$que = $this->db->get('chart_of_account');
 			return $que->result();
 		}
+
+		public function getdrop_person()
+		{
+			$this->db->where('person_dtsts','1');
+			$que = $this->db->get('master_person');
+			return $que->result();
+		}
 	}
 ?>
