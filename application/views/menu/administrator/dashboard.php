@@ -79,8 +79,6 @@
                                             if($this->session->userdata('user_level') == '3'){echo '<i class="fa fa-user fa-lg"></i> Regular';}
                                         ?>
                                     </div>
-                                    <!-- <i class="fa fa-user-secret fa-lg"></i><br> -->
-                                    <!-- <i class="fa fa-user-circle fa-lg"></i><br> -->
                                 </div>
                             </div>
                         </form>

@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2 level-chk">
+                        <a href="javascript:void(0)" onclick="open_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                 		<ul class="nav nav-tabs">
@@ -945,12 +955,7 @@
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
-            costapp(id);
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-				$($.fn.dataTable.tables(true)).DataTable()
-			    	.columns.adjust()
-			        .responsive.recalc();
-			 });
+            costapp(id);            
     	});
     	function print_appr()
         {
