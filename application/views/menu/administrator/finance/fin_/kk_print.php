@@ -66,6 +66,7 @@
             <div class="text-center">
                         <h3><strong><u>BUKTI KAS KELUAR</u></strong></h3>
                         <h3 style="margin-top:-10px">No.<span name="no_kk"></span></h3>
+                        <span name="acc_header"></span>
                     </div>
                     <hr>
                     <div class="row">
@@ -115,7 +116,7 @@
                                         <table id="tb_km" class="table table-condensed">
                                             <thead>
                                                 <tr>
-                                                    <th class="col-sm-1 col-xs-1">Perkiraan</th>
+                                                    <th class="col-sm-2 col-xs-2">Perkiraan</th>
                                                     <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
                                                     <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
                                                     <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
@@ -241,6 +242,7 @@
                 success: function(data)
                 {   
                     $('[name="kk_id"]').val(data.CSHO_ID);
+                    search_acc(data.COA_ID);
                     $('[name="kk_code"]').val(data.CSHO_CODE);
                     $('[name="no_kk"]').text(data.CSHO_CODE);
                     $('[name="kas_tgl"]').text(data.CSHO_DATE);
@@ -350,7 +352,7 @@
                     // var terbi = pick_terbilang_total_km(total);
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
-                            $('<td>').text(data[i]["COA_ACC"]),
+                            $('<td>').text(data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"]),
                             $('<td>').text(data[i]["CSHODET_INFO"]),
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSHODET_AMOUNT"],".",",",2))
                             // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
@@ -371,6 +373,23 @@
                             $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
                             $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function search_acc(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                       $('[name="acc_header"]').text(data.COA_ACC +" - "+ data.COA_ACCNAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

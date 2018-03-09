@@ -101,6 +101,12 @@
                                         <input class="form-control" type="hidden" name="supp_id">
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">NPWP Supplier</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="kas_sup_npwp" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="kas_keterangan">
@@ -230,6 +236,10 @@
                                     <div id="mySave" class="row">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-success" onclick="save_cash_out()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
+                                                <i class="glyphicon glyphicon-print"></i>
+                                                Cetak
+                                        </button>
                                     </div>
                                     </div>
                                 </div>
@@ -566,6 +576,7 @@ $(document).ready(function() {
      function srch_acc(t)
         {
             sts=t;
+            acc=1;
             $('#modal_account').modal('show');
             $('.modal-title').text('Cari Account');            
             table = $('#dtb_acc').DataTable({
@@ -576,7 +587,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc/')?>" + acc,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -966,6 +977,12 @@ $(document).ready(function() {
                     alert('Error get data from ajax');
                 }
             });
+        }
+
+    function printPre()
+        {
+            var ids = $('[name=kas_id]').val();
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_kk/')?>"+ids,'_blank');
         }
 
     function save_cash_out()
