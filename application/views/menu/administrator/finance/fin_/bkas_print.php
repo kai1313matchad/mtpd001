@@ -111,7 +111,8 @@
                                                     <th class="col-sm-2 col-xs-2 text-center">No. Acc</th>
                                                     <th class="col-sm-3 col-xs-3 text-center">Keterangan</th> 
                                                     <th class="col-sm-3 col-xs-3 text-center">Debet</th> 
-                                                    <th class="col-sm-3 col-xs-3 text-center">Kredit</th> 
+                                                    <th class="col-sm-3 col-xs-3 text-center">Kredit</th>
+                                                    <th class="col-sm-3 col-xs-3 text-center">Sub Total</th> 
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -212,17 +213,17 @@
                         var jenis = data[i]["CSH_CODE"];
                         if (account != data[i]["COA_ACC"]){
                             if ((cabang != "") && (account != "")) {
-                            var $st = $('<tr>').append(
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2))
-                                      ).appendTo('#tb_content');
-                            var $tot = $('<tr>').append(
-                                        $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                                      ).appendTo('#tb_content');
+                            // var $st = $('<tr>').append(
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                            //             $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2))
+                            //           ).appendTo('#tb_content');
+                            // var $tot = $('<tr>').append(
+                            //             $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                            //           ).appendTo('#tb_content');
                             }
                             if (cabang != data[i]["BRANCH_NAME"]) {
                                var $tr = $('<tr>').append(
@@ -237,6 +238,19 @@
                                       $('<td>').text(data[i]["COA_ACC"]+ '\xa0' + data[i]["COA_ACCNAME"])
                                       ).appendTo('#tb_content');
                             account=data[i]["COA_ACC"];
+                            if (account != "") {
+                                var $st = $('<tr>').append(
+                                        $('<td>').text('Awal'),
+                                        $('<td>').text(data[i]["COA_ACC"]),
+                                        $('<td>').text(''),
+                                        $('<td>').text(''),
+                                        $('<td class="text-right"><span name="D_'+data[i]["COA_ACC"]+'">0.00</span>'),
+                                        $('<td class="text-right"><span name="K_'+data[i]["COA_ACC"]+'">0.00</span>'),
+                                        $('<td class="text-right"><span name="T_'+data[i]["COA_ACC"]+'">0.00</span>')
+                                      ).appendTo('#tb_content');
+                                sdebet = 0;
+                                skredit = 0
+                            }
                         }
 
                         if (jenis.substring(0,2)=="KM")
@@ -249,8 +263,8 @@
                             $('<td>').text(data[i]["ACC"]),
                             $('<td>').text(data[i]["CSH_INFO"]),
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSH_AMOUNT"],".",",",2)),
-                            $('<td>').css('text-align','right').text('0.00')
-                            
+                            $('<td>').css('text-align','right').text('0.00'),
+                            $('<td>').css('text-align','right').text(formatCurrency(total,".",",",2))
                             ).appendTo('#tb_content');
                         }
                         if (jenis.substring(0,2)=="KK")
@@ -263,26 +277,160 @@
                             $('<td>').text(data[i]["ACC"]),
                             $('<td>').text(data[i]["CSH_INFO"]),
                             $('<td>').css('text-align','right').text('0.00'),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSH_AMOUNT"],".",",",2))
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["CSH_AMOUNT"],".",",",2)),
+                            $('<td>').css('text-align','right').text(formatCurrency(total,".",",",2))
                             ).appendTo('#tb_content');
                         }
 
                     };
-                    var $st = $('<tr>').append(
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2)),
-                              ).appendTo('#tb_content');
-                    var $tot = $('<tr>').append(
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                               ).appendTo('#tb_content');
+                    saldo_awal_debet();
+                    saldo_awal_kredit();
+                    saldo_awal_total();
+                    // saldo_total_debet();
+                    // saldo_total_kredit();
+                    // saldo_total();
+                    // var $st = $('<tr>').append(
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                    //           $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2)),
+                    //           ).appendTo('#tb_content');
+                    // var $tot = $('<tr>').append(
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                    //            ).appendTo('#tb_content');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_awal_debet()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_awal_debet/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         $('[name="D_'+data[i]["acc"]+'"]').text(formatCurrency(data[i]['debet'],".",",",2));
+                   }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_awal_kredit()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_awal_kredit/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         $('[name="K_'+data[i]["acc"]+'"]').text(formatCurrency(data[i]['kredit'],".",",",2));
+                   }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_awal_total()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_awal_total/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         total = data[i]['kredit'] +  data[i]['debet'];
+                         $('[name="T_'+data[i]["acc"]+'"]').text(formatCurrency(total,".",",",2));
+                   }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_total_debet()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_total_debet/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         $('[name="TD_'+data[i]["acc"]+'"]').text(formatCurrency(data[i]['debet'],".",",",2));
+                   }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_total_kredit()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_total_kredit/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         $('[name="TK_'+data[i]["acc"]+'"]').text(formatCurrency(data[i]['kredit'],".",",",2));
+                   }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function saldo_total()
+        {            
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/show_kas_total/')?>/",
+                type: "POST",
+                data: $('#form_printbkas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {  
+                   for (i=0;i<data.length;i++) {
+                         $('[name="T_'+data[i]["acc"]+'"]').text(formatCurrency(data[i]['total'],".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0');
+                   }
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

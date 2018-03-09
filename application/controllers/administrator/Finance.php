@@ -2208,6 +2208,24 @@
         	echo json_encode($data);
         }
 
+        public function show_kas_awal_total()
+        {
+        	$tgl1 = $this->input->post('tgl1');
+        	$this->db->select('sum(csh_amount) as kredit,acc');
+        	$this->db->from('buku_kas a');
+        	$this->db->join('master_user b','a.user_id=b.user_id');
+        	$this->db->join('master_branch c','b.branch_id=c.branch_id');
+        	$this->db->join('chart_of_account d','a.coa_id=d.coa_id');
+        	$this->db->order_by('b.branch_id');
+        	$this->db->order_by('a.coa_id');
+        	$this->db->where('a.csh_date <',$tgl1);
+        	// $this->db->where('substr(a.csh_code,1,2) ="KK"');
+        	$this->db->group_by('a.acc');
+        	$res = $this->db->get();
+        	$data = $res->result();
+        	echo json_encode($data);
+        }
+
         public function show_kas_total_debet()
         {
         	$tgl2 = $this->input->post('tgl2');

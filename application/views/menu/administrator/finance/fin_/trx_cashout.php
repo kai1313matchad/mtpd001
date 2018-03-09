@@ -703,7 +703,8 @@ $(document).ready(function() {
                 {   
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="kas_sup"]').val(data.SUPP_NAME);
-                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);                   
+                    $('[name="kas_sup_ket"]').val(data.SUPP_ADDRESS);  
+                    $('[name="kas_sup_npwp"]').val(data.SUPP_NPWPCODE);                  
                     $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
