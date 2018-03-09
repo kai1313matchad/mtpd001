@@ -1927,6 +1927,73 @@
 	            }
 	        });
     	}
+    	function pick_appredit(id)
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {
+	            	$('[name="appr_id"]').val(data.APPR_ID);
+	            	$('[name="appr_code"]').val(data.APPR_CODE);
+	            	$('[name="appr_id"]').val(data.APPR_ID);
+	                $('[name="appr_brcid"]').val(data.APPR_BRANCHID);
+	                $('[name="appr_brc"]').val(data.APPR_BRANCH);
+	                $('[name="appr_po"]').val(data.APPR_PO);
+	                $('[name="tgl_awal"]').val(data.APPR_CONTRACT_START);
+	                $('[name="tgl_akhir"]').val(data.APPR_CONTRACT_END);
+	                $('[name="appr_rec"]').val(data.APPR_RECOV);
+	                $('[name="appr_vis"]').val(data.APPR_VISUAL);
+	                $('[name="appr_length"]').val(data.APPR_LENGTH);
+	                $('[name="appr_width"]').val(data.APPR_WIDTH);
+	                $('[name="appr_height"]').val(data.APPR_HEIGHT);
+	                $('[name="appr_sumsize"]').val(data.APPR_SUMSIZE);
+	                $('[name="appr_side"]').val(data.APPR_SIDE);
+	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
+	                $('[name="appr_info"]').val(data.APPR_INFO);
+	                $('[name="dpp"]').val(data.APPR_DPP_INCOME);
+	                $('[name="discp1"]').val(data.APPR_DISC_PERC1);
+	                $('[name="discp2"]').val(data.APPR_DISC_PERC2);
+	                $('[name="appr_bbtax"]').val(data.APPR_BBTAX);
+	                $('[name="ppnp"]').val(data.APPR_PPN_PERC);
+	                $('[name="pphp"]').val(data.APPR_PPH_PERC);
+	                pick_cust(data.CUST_ID);
+	                pick_mkt(data.SALES_ID);
+	                pick_bb(data.BB_ID);
+	                pick_loc(data.LOC_ID);
+	                pick_plc(data.PLC_ID);
+	                pick_curr(data.CURR_ID);
+	                costapp(id);
+	                termapp(id);
+	                ijinapp(id);
+	                pick_apprbrcedit(data.APPR_BRANCHID);
+	                $('#modal_appr_edit').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+    	function pick_apprbrcedit(id)
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Searchdata/pick_apprbranch/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {
+	            	$('[name="appr_brcid"]').val(data.APPR_ID);
+	            	$('[name="appr_brc"]').val(data.APPR_CODE+' '+data.BRANCH_INIT);
+	            	$('[name="brc_nom"]').val(data.APPR_DPP_INCOME);
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
     	function tes()
     	{
 	        $.ajax({

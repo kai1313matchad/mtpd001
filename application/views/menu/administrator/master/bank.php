@@ -32,7 +32,7 @@
                                     Actions
                                 </th>
                             </tr>                            
-                        </thead>                        
+                        </thead>
                     </table>
                 </div>
                 <!-- /.row -->

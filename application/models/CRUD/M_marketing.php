@@ -3,9 +3,9 @@
 	class M_marketing extends CI_Model
 	{
 		//Fungsi untuk cek pemakaian approval di tabel lain
-		public function check_appr($tb,$id)
+		public function check_appr($tb,$id,$sts)
 		{
-			$que = $this->db->get_where($tb,array('appr_id'=>$id));
+			$que = ($sts != null)?$this->db->get_where($tb,array('appr_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('appr_id'=>$id));
 			$cou = $que->num_rows();
 			return $cou;
 		}
