@@ -33,18 +33,12 @@
         {
             min-height: 400px;
         }
-        .bt-border
-        {
-            border-bottom: solid 2px black;
-        }
         .border-pay
         {
-            border: solid 2px black;
             min-height: 50px;
         }
         .border-chk
-        {
-            border: solid 2px black;
+        {            
             min-height: 250px;
         }
         .row-chk
@@ -54,10 +48,63 @@
         .table th
         {
             border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
         .table td
         {
             border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .nomarg
+        {
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        @media print
+        {
+            body 
+            {
+                background-color: white;
+                font-size: 10px;
+                font-family: 'times new roman';
+            }
+            h3
+            {
+                font-size: 13px;
+                font-weight: bold;
+            }
+            h4, h5
+            {
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .logo
+            {
+                width: 60%;
+                height: auto;
+            }
+            .bg-table
+            {
+                min-height: 200px;
+            }
+            .border-pay
+            {
+                min-height: 30px;
+            }
+            .border-chk
+            {
+                min-height: 150px;
+            }
+            .row-chk
+            {
+                min-height: 50px;
+            }
         }
     </style>
 </head>
@@ -66,18 +113,18 @@
         <input type="hidden" name="pr-pi-id" value="<?php echo $id; ?>">
         <div class="row">
             <div class="col-sm-4 col-xs-4">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img class="logo" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-xs-12">
-                <h3 class="text-center">FORM PENGAJUAN ANGGARAN REKLAME</h3>
-                <h4 class="text-center" name="pr-pi-period">PERIODE TAHUN 2017</h4>
-                <h4 class="text-center" name="pr-pi-date">TANGGAL 31 Dec 2017</h4>
-                <h5 class="text-center" name="pr-pi-sts">STATUS STANDARD</h5>
-                <h5 class="text-center" name="pr-pi-noreg">No.Reg : PI/1712/000001</h5>
+                <h3 class="text-center nomarg">FORM PENGAJUAN ANGGARAN REKLAME</h3>
+                <h4 class="text-center nomarg" name="pr-pi-period">PERIODE TAHUN 2017</h4>
+                <h4 class="text-center nomarg" name="pr-pi-date">TANGGAL 31 Dec 2017</h4>
+                <h5 class="text-center nomarg" name="pr-pi-sts">STATUS STANDARD</h5>
+                <h5 class="text-center nomarg" name="pr-pi-noreg">No.Reg : PI/1712/000001</h5>
             </div>
-        </div>
+        </div><br>
         <div class="row">
             <label class="col-sm-2 col-xs-2 control-label">PROJECT</label>
             <div class="col-sm-4 col-xs-4">
@@ -113,7 +160,7 @@
                 <div class="col-sm-12 col-xs-12 table-responsive">
                     <table id="dtb_rptpappr" class="table table-bordered" cellspacing="0" width="100%">
                         <thead>
-                            <tr>
+                            <tr style="border-bottom: 0px;">
                                 <th class="col-sm-1 col-xs-1 text-center">No</th>
                                 <th class="col-sm-5 col-xs-5 text-center">Rincian Biaya</th>
                                 <th class="col-sm-4 col-xs-4 text-center">Perhitungan Biaya</th>
@@ -171,24 +218,7 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -332,34 +362,33 @@
                 }
             });
         }
-
-        function dt_journal()
-        {
-            $('#dtb_rptpappr').DataTable({
-                info: false,
-                searching: false,
-                bLengthChange: false,
-                paging: false,
-                ordering: false,
-                // responsive: true,
-                columnDefs:
-                [
-                    // {visible: false, targets: 0},                    
-                    {orderable: false, targets: '_all'}
-                ],
-                // order: [[0, 'asc']],
-                drawCallback: function(settings)
-                {
-                    var api = this.api(), data;
-                    total = api.column(3).data().reduce( function (a,b)
-                    {
-                        return parseInt(a) + parseInt(b);
-                    }, 0);                    
-                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    $('[name="tb-total"]').text(sum);
-                }
-            });
-        }
+        // function dt_journal()
+        // {
+        //     $('#dtb_rptpappr').DataTable({
+        //         info: false,
+        //         searching: false,
+        //         bLengthChange: false,
+        //         paging: false,
+        //         ordering: false,
+        //         // responsive: true,
+        //         columnDefs:
+        //         [
+        //             // {visible: false, targets: 0},                    
+        //             {orderable: false, targets: '_all'}
+        //         ],
+        //         // order: [[0, 'asc']],
+        //         drawCallback: function(settings)
+        //         {
+        //             var api = this.api(), data;
+        //             total = api.column(3).data().reduce( function (a,b)
+        //             {
+        //                 return parseInt(a) + parseInt(b);
+        //             }, 0);                    
+        //             sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
+        //             $('[name="tb-total"]').text(sum);
+        //         }
+        //     });
+        // }
 
         function pick_sub(id)
         {

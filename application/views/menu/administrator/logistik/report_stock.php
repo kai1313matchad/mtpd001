@@ -40,10 +40,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Laporan</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="rptst_type" name="rptpo_type">
+                                <select class="form-control" id="rptst_type" name="rptst_type">
                                     <option value="">Pilih</option>
                                     <option value="1">Summary</option>
-                                    <option value="2">Detail</option>
                                 </select>
                             </div>
                         </div>
@@ -166,6 +165,9 @@
                 { 
                     "targets": [ 0 ],
                     "orderable": false,
+                },
+                {
+                    "className": "text-center", "targets":['_all']
                 },
                 ],
             });

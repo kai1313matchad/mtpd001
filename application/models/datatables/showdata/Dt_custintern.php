@@ -1,29 +1,20 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_showrptstock extends CI_Model 
+	class Dt_custintern extends CI_Model 
 	{
-		var $table = 'master_goods a';
-		var $column_order = array(null,'gd_name','gd_stock');
-		var $column_search = array('gd_name','gd_stock');
-		var $order = array('gd_id' => 'desc');
+		var $table = 'master_cust_intern a';
+		var $column_order = array(null,'cstin_code','person_name','person_address','person_phone','cstin_info');
+		var $column_search = array('cstin_code','person_name','person_address','person_phone','cstin_info');
+		var $order = array('cstin_code' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
 		private function _get_datatables_query()
-		{
-			if ($this->input->post('branch')) 
-			{
-				$this->db->like('a.branch_id', $this->input->post('branch') );
-			}
-			// if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-			// 	$this->db->where('a.po_date >=', $this->input->post('date_start'));
-   //      		$this->db->where('a.po_date <=', $this->input->post('date_end'));  
-			// }
+		{		
 			$this->db->from($this->table);
-			$this->db->join('master_branch b','b.branch_id = a.branch_id');
-			$this->db->where('a.gd_dtsts','1');
-			$this->db->where('a.gd_typestock','0');
+			$this->db->join('master_person b','b.person_id = a.person_id');
+			$this->db->where('cstin_dtsts','1');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{

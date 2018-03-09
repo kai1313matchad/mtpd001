@@ -46,7 +46,7 @@
                                     <input class="form-control" placeholder="username" name="username" type="text" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="password" name="password" type="password" value="" required>
                                 </div>
                                 <button onclick="loginsys()" class="btn btn-block btn-success btn-default">
                                     LOGIN

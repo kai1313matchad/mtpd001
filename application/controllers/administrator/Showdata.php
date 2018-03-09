@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('datatables/showdata/Dt_department','master_dept');
 			$this->load->model('datatables/showdata/Dt_bank','master_bank');
+			$this->load->model('datatables/showdata/Dt_custintern','master_custintern');
 			$this->load->model('datatables/showdata/Dt_govsts','master_govsts');
 			$this->load->model('datatables/showdata/Dt_coapartp','coa_partp');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
@@ -38,11 +39,6 @@
 			$this->load->model('datatables/showdata/Dt_showrptprcga','rpt_prcga');
 			$this->load->model('datatables/showdata/Dt_showrptusgga','rpt_usgga');
 			$this->load->model('datatables/showdata/Dt_showrptstock','rpt_stock');
-		}
-
-		public function index()
-		{
-
 		}
 
 		//Tampil Master Departemen
@@ -90,6 +86,32 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->master_bank->count_all(),
 							"recordsFiltered" => $this->master_bank->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Master Customer Internal
+		public function showmaster_custintern()
+		{
+			$list = $this->master_custintern->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSTIN_CODE;
+				$row[] = $dat->PERSON_NAME;
+				$row[] = $dat->PERSON_ADDRESS;
+				$row[] = $dat->PERSON_PHONE;
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_custin('."'".$dat->CSTIN_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_custin('."'".$dat->CSTIN_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_custin('."'".$dat->CSTIN_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->master_custintern->count_all(),
+							"recordsFiltered" => $this->master_custintern->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

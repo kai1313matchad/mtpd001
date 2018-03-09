@@ -496,6 +496,8 @@
             $('[name="sts"]').val("1");
             $('[name="check"]').val("0");
             $('[name="gen"]').prop('disabled',false);
+            $('#supp').selectpicker('refresh');
+            $('#branch').selectpicker('refresh');
             gen_gd();
             // $('[name="code"]').prop('readonly',false);
         }
@@ -507,6 +509,8 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
+            $('#supp').selectpicker('refresh');
+            $('#branch').selectpicker('refresh');
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/ajax_edit_gd/')?>" + id,
                 type: "GET",
@@ -517,10 +521,12 @@
                     $('[name="code"]').val(data.GD_CODE);
                     // var supp = data.SUPP_ID;
                     // document.querySelector('#supp [value="' + supp + '"]').selected = true;
-                    $('select#supp').val(data.SUPP_ID);
-                    $('select#branch').val(data.BRANCH_ID);
-                    $('#supp').selectpicker('refresh');
-                    $('#branch').selectpicker('refresh');
+                    $('#supp').selectpicker('val', data.SUPP_ID);
+                    $('#branch').selectpicker('val', data.BRANCH_ID);
+                    // $('select#supp').val(data.SUPP_ID);
+                    // $('select#branch').val(data.BRANCH_ID);
+                    // $('#supp').selectpicker('refresh');
+                    // $('#branch').selectpicker('refresh');
                     $('[name="nama"]').val(data.GD_NAME);
                     $('[name="unit"]').val(data.GD_UNIT);
                     $('[name="ukuran"]').val(data.GD_MEASURE);

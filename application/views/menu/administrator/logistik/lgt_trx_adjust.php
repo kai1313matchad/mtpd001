@@ -180,13 +180,13 @@
             });
             var id = $('[name="rtusg_id"]').val();
             barang(id);
+            $('[name="adj_curr"]').on('input', function() {
+                selisih();
+            });
             // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             //     $($.fn.dataTable.tables(true)).DataTable()
             //        .columns.adjust()
             //        .responsive.recalc();
-            // });
-            // $('[name="adj_curr"]').on('input', function() {
-            //     selisih();
             // });
             // $("textarea").change(function(){
             //     $(this).parent().parent().removeClass('has-error');

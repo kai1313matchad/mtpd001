@@ -2,7 +2,6 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_srchapprbyclient extends CI_Model 
 	{
-
 		var $table = 'trx_approvalbill a';
 		var $column_order = array(null,'appr_code','appr_brcname','appr_date','cust_name','loc_name');
 		var $column_search = array('appr_code','appr_brcname','appr_date','cust_name','loc_name');

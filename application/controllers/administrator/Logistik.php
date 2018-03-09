@@ -5,6 +5,7 @@
 		public function __construct()
 		{
 			parent::__construct();
+			$this->load->model('CRUD/M_logistik','logistik');
 			$this->load->model('datatables/Dt_srchgd','srch_gd');
 			$this->load->model('datatables/Dt_srchgdusg','srch_gdusg');
 			$this->load->model('datatables/Dt_srchsupp','srch_supp');
@@ -529,6 +530,28 @@
 			$this->db->group_by('a.usg_id');			
 			$que = $this->db->get();
 			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function print_rptst()
+		{
+			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['branch'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['rpt_type'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_rptstock',$data);
+		}
+
+		public function gen_rptstock()
+		{
+			$data['a'] = $this->logistik->get_allgd();
+			$data['b'] = $this->logistik->get_prcgd();
+			$data['c'] = $this->logistik->get_retprcgd();
+			$data['d'] = $this->logistik->get_usggd();
+			$data['e'] = $this->logistik->get_retusggd();
 			echo json_encode($data);
 		}
 

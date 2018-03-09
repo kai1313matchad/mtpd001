@@ -19,6 +19,7 @@
 			$this->load->model('datatables/search/Dt_srchgdbybrc','s_gdbybrc');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
+			$this->load->model('datatables/search/Dt_srchapprbysts','s_apprbysts');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
@@ -27,11 +28,6 @@
 			$this->load->model('datatables/search/Dt_srchgiroout','s_giroout');
 			$this->load->model('datatables/search/Dt_srchgiroinrec','s_giroinrec');
 			$this->load->model('datatables/search/Dt_srchgirooutrec','s_girooutrec');
-		}
-
-		public function index()
-		{
-
 		}
 
 		//Search Approval Cabang
@@ -121,6 +117,54 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->s_apprbyclient->count_all(),
 							"recordsFiltered" => $this->s_apprbyclient->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Approval Berdasarkan Status Untuk Edit dan Buka Record di halaman approval
+		public function srch_apprbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_apprbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->APPR_BRCNAME;
+					$row[] = $dat->APPR_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appropen('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->APPR_BRCNAME;
+					$row[] = $dat->APPR_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_appredit('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_apprbysts->count_all(),
+							"recordsFiltered" => $this->s_apprbysts->count_filtered($id,$brc),
 							"data" => $data,
 					);			
 			echo json_encode($output);

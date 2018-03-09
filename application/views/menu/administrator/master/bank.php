@@ -211,6 +211,7 @@
             $('[name="sts"]').val("1");
             $('[name="check"]').val("0");
             $('[name="gen"]').prop('disabled',false);
+            $('#acc_bank').selectpicker('refresh');
             gen_bank();        
         }
         function edit_bank(id)
@@ -221,7 +222,7 @@
             $('.help-block').empty();
             $('[name="code"]').prop('readonly',true);
             $('[name="gen"]').prop('disabled',true);
-
+            $('#acc_bank').selectpicker('refresh');
             $.ajax({
                 url : "<?php echo site_url('administrator/Master/ajax_edit_bank/')?>" + id,
                 type: "GET",
@@ -347,7 +348,8 @@
                         option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                         select.add(option);
                     }
-                    $('#acc_bank').selectpicker({});                
+                    $('#acc_bank').selectpicker({});
+                    $('#acc_bank').selectpicker('refresh');
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {

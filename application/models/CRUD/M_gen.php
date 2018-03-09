@@ -473,6 +473,7 @@
 					'hisappr_old' => 'None',
 					'hisappr_new' => 'None',
 					'hisappr_info' => 'Create By System',
+					'hisappr_date' => date('Y-m-d'),
 					'hisappr_upcount' => 0
 				);
 			$this->db->insert('his_approvalbill',$data2);

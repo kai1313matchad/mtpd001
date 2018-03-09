@@ -17,6 +17,7 @@
 			$this->load->model('datatables/Dt_costapp','costapp');
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('CRUD/M_marketing','marketing');
 		}
 
 		public function index()
@@ -140,6 +141,48 @@
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
 			$this->load->view('menu/administrator/marketing/print_bappimg',$data);
+		}
+
+		public function open_appr($id)
+		{
+			$string = array();
+			$po = $this->marketing->check_appr('trx_po',$id);
+			if($po > 0)
+			{
+				$string[] = 'PO Logistik';
+			}
+			$pappr = $this->marketing->check_appr('trx_permitappr',$id);
+			if($pappr > 0)
+			{
+				$string[] = 'Persetujuan Ijin';
+			}
+			$bapp = $this->marketing->check_appr('trx_bapp',$id);
+			if($bapp > 0)
+			{
+				$string[] = 'BAPP';
+			}
+			$inv = $this->marketing->check_appr('inv_details',$id);
+			if($inv > 0)
+			{
+				$string[] = 'Invoice';
+			}
+			$usg = $this->marketing->check_appr('trx_usage',$id);
+			if($usg > 0)
+			{
+				$string[] = 'Pemakaian Barang Logistik';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('appr_sts'=>'0');
+				$update = $this->crud->update('trx_approvalbill',$dt,array('appr_id' => $id));
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
 		}
 
 		//Laporan Marketing
@@ -743,7 +786,7 @@
 		}
 
 		public function ajax_add_ijinapp()
-	    {	        
+	    {
 	        $table = 'appr_permit_det';
 	        $data = array(
 	                'appr_id' => $this->input->post('appr_id'),
@@ -814,7 +857,7 @@
 		}
 
 		public function ajax_add_termapp()
-	    {	        
+	    {
 	        $table = 'appr_terms_det';
 	        $data = array(
 	                'appr_id' => $this->input->post('appr_id'),
@@ -985,6 +1028,33 @@
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
 	        $this->uphis_appr($this->input->post('appr_id'),$get->USER_NAME);
 	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function tes()
+	    {
+	    	$get = $this->marketing->getlog_appr('1');
+	    	if($get->HISAPPR_UPCOUNT != '1')
+	    	{
+	    		$data['tes'] = $get->HISAPPR_STS;
+	    	}
+	    	else
+	    	{
+	    		$data['tes'] = 'aaa';
+	    	}
+	    	echo json_encode($data);
+	    }
+
+	    public function logupd_appr($id)
+	    {
+	    	$his = $this->marketing->getlog_appr($id);
+	    	if ($his->HISAPPR_UPCOUNT == '0') 
+	    	{
+	    		
+	    	}
+	    	else
+	    	{
+	    		
+	    	}
 	    }
 
 	    public function uphis_appr($id,$user)

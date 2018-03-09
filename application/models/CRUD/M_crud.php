@@ -70,6 +70,15 @@
 	        return $query->row();
 	    }
 
+	    public function get_by_id2b($tb1,$tb2,$id1,$id2,$l)
+	    {
+	        $this->db->from($tb1);
+	        $this->db->join($tb2,$id2,$l);
+	        $this->db->where($id1);
+	        $query = $this->db->get();
+	        return $query->row();
+	    }
+
 	    public function get_by_id3($tb1,$tb2,$tb3,$id1,$id2,$id3)
 	    {
 	        $this->db->from($tb1);
@@ -566,7 +575,8 @@
 			{
 				$max = $suf.'-00000';
 			}
-			$num = (int) substr($max,4,5);
+			// $num = (int) substr($max,4,5);
+			$num = (int) substr($max,-5);
 			$num++;
 			$kode = $suf.'-';
 			$res = $kode . sprintf('%05s',$num);

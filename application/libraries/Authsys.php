@@ -23,6 +23,7 @@
 					'user_id'=>$usrdata->USER_ID,
 					'user_name'=>$usrdata->USER_NAME,
 					'user_branch'=>$usrdata->BRANCH_ID,
+					'user_branchname'=>$brcdata->BRANCH_NAME,
 					'branch_sts'=>$brcdata->BRANCH_STATUS,					
 					'user_level'=>$usrdata->USER_LEVEL
 				);

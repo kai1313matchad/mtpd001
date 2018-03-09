@@ -153,7 +153,7 @@
                 <p>
                     <i>
                         Pembayaran dapat ditransfer ke
-                        <span>BANK BNI CAB. KEDUNGDORO A/C 0192281920 A/N PT XXXXXXX YYYYY</span>
+                        <span name="print_bankinv">BANK BNI CAB. KEDUNGDORO A/C 0192281920 A/N PT XXXXXXX YYYYY</span>
                     </i>
                 </p>
             </div>
@@ -171,8 +171,8 @@
         {
             var id = $('[name="inv_id"]').val();
             pick_invoice(id);
+            pick_bankprint();
         });
-
         function pick_invoice(id)
         {            
             $.ajax({
@@ -199,7 +199,6 @@
                 }
             });
         }
-
         function pick_cust(id)
         {
             $.ajax({
@@ -217,7 +216,6 @@
                 }
             });
         }
-
         function pick_sub(id)
         {
             $.ajax({
@@ -238,7 +236,6 @@
                 }
             });
         }
-
         function pick_invdet(id)
         {
             $.ajax({
@@ -265,7 +262,6 @@
                 }
             });
         }
-
         function pick_getappterm(id)
         {
             $.ajax({
@@ -295,7 +291,6 @@
                 }
             });
         }
-
         function pick_spelledtotal(v)
         {
             $.ajax({
@@ -305,6 +300,22 @@
                 success: function(data)
                 {   
                     $('[name="inv_terbilang"]').text(data.terbilang+' Rupiah');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bankprint()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/get_printbankinv')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="print_bankinv"]').text(data.PRINT_BANKINVOICE);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -586,9 +586,10 @@
                 {   
                     $('[name="partp_id"]').val(data.PARTP_ID);                    
                     $('[name="partp_name"]').val(data.PARTP_NAME);                    
-                    var sts = data.PARTP_STS;
-                    document.querySelector('#partp_sts [value="' + sts + '"]').selected = true;
-                    $('[name="partp_check"]').val("1");                    
+                    // var sts = data.PARTP_STS;
+                    // document.querySelector('#partp_sts [value="' + sts + '"]').selected = true;
+                    $('#partp_sts').selectpicker('val', data.PARTP_STS);
+                    $('[name="partp_check"]').val("1");
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -615,8 +616,9 @@
                     $('[name="par_acc"]').val(data.PAR_ACC);
                     $('[name="par_name"]').val(data.PAR_ACCNAME);
                     $('[name="par_info"]').val(data.PAR_INFO);
-                    var sts = data.PARTP_ID;
-                    document.querySelector('#par_type [value="' + sts + '"]').selected = true;
+                    // var sts = data.PARTP_ID;
+                    // document.querySelector('#par_type [value="' + sts + '"]').selected = true;
+                    $('#par_type').selectpicker('val', data.PARTP_ID);
                     $('[name="par_check"]').val("1");
                     $('[name="par_tb"]').val("parent_chart");
                     $('#modal_parent').modal('show');
@@ -646,8 +648,9 @@
                     $('[name="coa_id"]').val(data.COA_ID);
                     $('[name="coa_acc"]').val(data.COA_ACC);
                     $('[name="coa_accname"]').val(data.COA_ACCNAME);
-                    var sts = data.PAR_ID;
-                    document.querySelector('#coa_par [value="' + sts + '"]').selected = true;
+                    // var sts = data.PAR_ID;
+                    // document.querySelector('#coa_par [value="' + sts + '"]').selected = true;
+                    $('#coa_par').selectpicker('val', data.PAR_ID);
                     $('[name="coa_check"]').val("1");
                     $('[name="coa_tb"]').val("chart_of_account");
                     $('#modal_coa').modal('show');
@@ -854,8 +857,9 @@
                     $('[name="par_accv"]').val(data.PAR_ACC);
                     $('[name="par_namev"]').val(data.PAR_ACCNAME);
                     $('[name="par_infov"]').val(data.PAR_INFO);
-                    var sts = data.PARTP_ID;
-                    document.querySelector('#par_typev [value="' + sts + '"]').selected = true;
+                    // var sts = data.PARTP_ID;
+                    // document.querySelector('#par_typev [value="' + sts + '"]').selected = true;
+                    $('#par_typev').selectpicker('val', data.PARTP_ID);
                     $('#modal_view').modal('show');
                     $('.modal-title').text('Lihat Rek. Induk');
                 },
@@ -878,8 +882,9 @@
                     $('[name="coa_id"]').val(data.COA_ID);
                     $('[name="coa_accv"]').val(data.COA_ACC);
                     $('[name="coa_accnamev"]').val(data.COA_ACCNAME);                    
-                    var sts = data.PAR_ID;
-                    document.querySelector('#coa_parv [value="' + sts + '"]').selected = true;
+                    // var sts = data.PAR_ID;
+                    // document.querySelector('#coa_parv [value="' + sts + '"]').selected = true;
+                    $('#coa_parv').selectpicker('val', data.PAR_ID);
                     $('#modal_view2').modal('show');
                     $('.modal-title').text('Lihat Rek. Induk');
                 },

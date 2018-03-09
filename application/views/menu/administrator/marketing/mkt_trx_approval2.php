@@ -12,6 +12,21 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '1')?'style="display:none"':'');?>>
+                        <a href="javascript:void(0)" onclick="open_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '1')?'style="display:none"':'');?>>
+                        <a href="javascript:void(0)" onclick="tes()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                 		<ul class="nav nav-tabs">
@@ -27,6 +42,7 @@
                 		</ul>
                 		<form class="form-horizontal" id="form_appr" enctype="multipart/form-data">
                 			<input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                			<input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
 	                        <input type="hidden" name="user_brc" value="<?= $this->session->userdata('user_branch')?>">
 	                        <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                 			<div class="tab-content">
@@ -929,6 +945,38 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_appr_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_appr_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Approval</th>
+                                        <th class="col-xs-4">Nama Cabang</th>
+                                        <th>Tanggal</th>
+                                        <th>Klien</th>
+                                        <th>Lokasi</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /Modal Search -->
     <!-- /#wrapper -->
     <!-- jQuery -->
@@ -945,12 +993,7 @@
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
-            costapp(id);
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-				$($.fn.dataTable.tables(true)).DataTable()
-			    	.columns.adjust()
-			        .responsive.recalc();
-			 });
+            costapp(id);            
     	});
     	function print_appr()
         {
@@ -1248,7 +1291,7 @@
 	        });
     	}
     	function add_termapp()
-    	{    		
+    	{
 	        $.ajax({
 	            url : "<?php echo site_url('administrator/Marketing/ajax_add_termapp')?>",
 	            type: "POST",
@@ -1425,7 +1468,62 @@
                 ],
             });
     	}
-
+    	function edit_appr()
+    	{
+    		$('#modal_appr_edit').modal('show');
+            $('.modal-title').text('Cari Approval');            
+            table = $('#dtb_appr_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_brc"]').val();
+                        data.chk = '0';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+    	}
+    	function open_appr()
+    	{
+    		$('#modal_appr_edit').modal('show');
+            $('.modal-title').text('Cari Approval');            
+            table = $('#dtb_appr_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_brc"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+    	}
     	function srch_cust()
     	{
     		$('#modal_cust').modal('show');
@@ -1797,6 +1895,47 @@
 	            success: function(data)
 	            {   
 	                $('[name="appr_init"]').val(data.BRANCH_INIT);
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+    	function pick_appropen(id)
+    	{
+    		$.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/open_appr/')?>" + id,
+	            type: "POST",
+	            data: $('#form_appr').serialize(),
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                if(data.status)
+	                {
+	                	alert('Record Approval Sukses Dibuka');
+	                	$('#modal_appr_edit').modal('hide');
+	                }
+	                else
+	                {
+	                	alert('Record Approval masih digunakan di transaksi '+data.string);
+	                }
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+    	function tes()
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Marketing/tes')?>",
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {   
+	                alert(data.tes);
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)
 	            {
