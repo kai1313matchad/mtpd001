@@ -121,7 +121,7 @@
                                         <div class="form-group">
                                              <label class="col-sm-3 control-label">Nominal</label>
                                              <div class="col-sm-4">
-                                                  <input class="form-control curr-num" type="text" name="nominal">
+                                                  <input class="form-control curr-num" type="text" name="nominal" readonly>
                                              </div>
                                         </div>
                                         <div class="form-group">
@@ -154,6 +154,10 @@
                                     <div id="mySave" class="row">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-success" onclick="save_giro_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
+                                                <i class="glyphicon glyphicon-print"></i>
+                                                Cetak
+                                        </button>
                                     </div>
                                     </div>
                                 </div>
@@ -416,6 +420,13 @@ $(document).ready(function() {
             }
         });
     }
+
+    function printPre()
+        {
+            var ids = $('[name=giro_id]').val();
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_gm/')?>"+ids,'_blank');
+        }
+
     function save_giro_in()
         {            
             $.ajax({

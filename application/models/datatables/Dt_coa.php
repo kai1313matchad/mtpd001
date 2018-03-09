@@ -15,6 +15,7 @@
 		{		
 			$this->db->from($this->table);
 			$this->db->join('parent_chart','parent_chart.par_id = chart_of_account.par_id');
+			// $this->db->where("par_id",$id);
 			$this->db->where("coa_dtsts","1");
 			$i = 0;
 			foreach ($this->column_search as $item) // loop column 

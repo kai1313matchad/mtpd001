@@ -7,7 +7,7 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
-			$this->load->model('datatables/Dt_coa','srch_acc');
+			$this->load->model('datatables/Dt_coa_parent','srch_acc');
 			$this->load->model('datatables/Dt_srchcust','srch_cust');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
@@ -932,9 +932,9 @@
 			echo json_encode($output);
 		}
 
-		public function ajax_srch_acc()
+		public function ajax_srch_acc($id)
 		{
-			$list = $this->srch_acc->get_datatables();
+			$list = $this->srch_acc->get_datatables($id);
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $dat) {
@@ -949,7 +949,7 @@
 			$output = array(
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->srch_acc->count_all(),
-							"recordsFiltered" => $this->srch_acc->count_filtered(),
+							"recordsFiltered" => $this->srch_acc->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1168,7 +1168,8 @@
 	                'CSH_date' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
-	                'CSH_INFO' => $this->input->post('kas_info')
+	                'CSH_INFO' => $this->input->post('kas_info'),
+	                'CSH_ACC' => $this->input->post('kas_acc')
 	                // 'po_sub' => $this->input->post('po_subs'),
 	                // 'po_gtotal' => $this->input->post('po_subs')	                
 	            );

@@ -335,6 +335,10 @@
                                     <div id="mySave" class="row">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-success" onclick="save_bank_out()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
+                                                <i class="glyphicon glyphicon-print"></i>
+                                                Cetak
+                                        </button>
                                     </div>
                                     </div>
                                 </div>
@@ -659,6 +663,18 @@
 $(document).ready(function() {
     $('#myDIV1').css({'display':'none'});
     $('#myDIV2').css({'display':'none'});
+    $('[name="bank_no_giro1"]').on('input',function(){
+        $('[name="bank_no_giro2"]').val($('[name="bank_no_giro1"]').val());
+    });
+    $('[name="bank_no_giro2"]').on('input',function(){
+        $('[name="bank_no_giro1"]').val($('[name="bank_no_giro2"]').val());
+    });
+    $('[name="nominal1"]').on('input',function(){
+        $('[name="nominal2"]').val($('[name="nominal1"]').val());
+    });
+    $('[name="nominal2"]').on('input',function(){
+        $('[name="nominal1"]').val($('[name="nominal2"]').val());
+    });
     // $('[name="bank_mu"]').change(function(){
     //     curr($('select :selected').val());
     // })
@@ -780,6 +796,7 @@ $(document).ready(function() {
     function srch_acc(t)
         {
             sts=t;
+            acc=3;
             $('#modal_account').modal('show');
             $('.modal-title').text('Cari Account');            
             table = $('#dtb_acc').DataTable({
@@ -790,7 +807,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc/')?>" + acc,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -1207,6 +1224,12 @@ $(document).ready(function() {
                     alert('Error get data from ajax');
                 }
             });
+        }
+
+    function printPre()
+        {
+            var ids = $('[name=bank_id]').val();
+            window.open ( "<?php echo site_url('administrator/Finance/pageprint_bk/')?>"+ids,'_blank');
         }
 
     function save_bank_out()

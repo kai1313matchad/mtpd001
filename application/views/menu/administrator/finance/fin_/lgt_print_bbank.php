@@ -53,6 +53,7 @@
                     <div class="text-center">
                         <h3><strong><u>LAPORAN BUKU BANK</u></strong></h3>
                         <h3>Per Periode :<span name="periode"></span></h3>
+                        <span name="acc_header"></span>
                     </div>
                     <hr>
                     <div class="row">

@@ -66,6 +66,7 @@
             <div class="text-center">
                         <h3><strong><u>BUKTI BANK KELUAR</u></strong></h3>
                         <h3 style="margin-top:-10px">No.<span name="no_bk"></span></h3>
+                        <span name="acc_header"></span>
                     </div>
                     <hr>
                     <div class="row">
@@ -94,9 +95,6 @@
                         <div class="col-xs-4">
                             <address>
                                 <span>Tanggal :</span>&nbsp;<span name="bank_tgl"></span> 
-                                <!-- <strong>Info:</strong><br> 
-                                Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
-                                <span name="km_info"></span> -->
                             </address>
                         </div>
                     </div>
@@ -118,10 +116,9 @@
                                         <table id="tb_bm" class="table table-condensed">
                                             <thead>
                                                 <tr>
-                                                    <th class="col-sm-1 col-xs-1">Perkiraan</th>
+                                                    <th class="col-sm-2 col-xs-2">Perkiraan</th>
                                                     <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
                                                     <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
-                                                    <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -244,11 +241,11 @@
                 success: function(data)
                 {   
                     $('[name="bk_id"]').val(data.BNKO_ID);
+                    search_acc(data.COA_ID);
                     $('[name="bm_code"]').val(data.BNKO_CODE);
                     $('[name="no_bk"]').text(data.BNKO_CODE);
                     $('[name="bank_tgl"]').text(data.BNKO_DATE);
                     $('[name="bank_info"]').val(data.BNKO_INFO);
-                    // $('[name="appr_id"]').val(data.APPR_ID);
                     $('[name="supp_id"]').val(data.CUST_ID);
                     $('[name="pass"]').text(data.BNKO_ID);
                     if (($('[name="supp_id"]').val()) != ''){
@@ -258,12 +255,6 @@
                     pick_curr(data.SUPP_ID);
                     pick_bktrxdet($('[name="bk_id"]').val()); 
                     pick_bkdet($('[name="bk_id"]').val());       
-                     
-                    // pick_kmdet($('[name="km_id"]').val());
-                    // if(data.APPR_ID != null)
-                    // {
-                    //     pick_appr($('[name="appr_id"]').val());
-                    // }
                     $('#modal_bk').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -288,10 +279,9 @@
                     var terbi = $('[name="bank_terbilang"]').val() + ' ' + curr;
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
-                            $('<td>').text(data[i]["COA_ACC"]),
+                            $('<td>').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
                             $('<td>').text(data[i]["BNKODET_INFO"]),
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNKODET_AMOUNT"],".",",",2))
-                            // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
                             ).appendTo('#tb_content');
                     };
                     
@@ -360,7 +350,6 @@
                     $('[name="bank_suppaddr"]').text(data.SUPP_ADDRESS);
                     $('[name="bank_suppcity"]').text(data.SUPP_CITY);
                     $('[name="bank_suppphone"]').text(data.SUPP_PHONE);
-                    // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -398,6 +387,23 @@
                 success: function(data)
                 {   
                     $('[name="bank_terbilang"]').val(data.terbilang);           
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function search_acc(id)
+        {            
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                       $('[name="acc_header"]').text(data.COA_ACC +" - "+ data.COA_ACCNAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
