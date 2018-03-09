@@ -145,28 +145,29 @@
 
 		public function open_appr($id)
 		{
+			$user = $this->input->post('user_name');
 			$string = array();
-			$po = $this->marketing->check_appr('trx_po',$id);
+			$po = $this->marketing->check_appr('trx_po',$id,'po_sts');
 			if($po > 0)
 			{
 				$string[] = 'PO Logistik';
 			}
-			$pappr = $this->marketing->check_appr('trx_permitappr',$id);
+			$pappr = $this->marketing->check_appr('trx_permitappr',$id,null);
 			if($pappr > 0)
 			{
 				$string[] = 'Persetujuan Ijin';
 			}
-			$bapp = $this->marketing->check_appr('trx_bapp',$id);
+			$bapp = $this->marketing->check_appr('trx_bapp',$id,'bapp_sts');
 			if($bapp > 0)
 			{
 				$string[] = 'BAPP';
 			}
-			$inv = $this->marketing->check_appr('inv_details',$id);
+			$inv = $this->marketing->check_appr('inv_details',$id,null);
 			if($inv > 0)
 			{
 				$string[] = 'Invoice';
 			}
-			$usg = $this->marketing->check_appr('trx_usage',$id);
+			$usg = $this->marketing->check_appr('trx_usage',$id,'usg_sts');
 			if($usg > 0)
 			{
 				$string[] = 'Pemakaian Barang Logistik';
@@ -180,6 +181,17 @@
 			{
 				$dt = array('appr_sts'=>'0');
 				$update = $this->crud->update('trx_approvalbill',$dt,array('appr_id' => $id));
+				$his = $this->marketing->getlog_appr($id);
+				$dthis = array(
+						'appr_id' => $id,
+						'hisappr_sts' => 'Open by User '.$user,
+						'hisappr_old' => $his->HISAPPR_STS,
+						'hisappr_new' => 'Open By User '.$user,
+						'hisappr_info' => 'Open Record by appr form',
+						'hisappr_date' => date('Y-m-d'),
+						'hisappr_upcount' => $his->HISAPPR_UPCOUNT+1
+					);
+				$this->db->insert('his_approvalbill',$dthis);
 				$data['status'] = TRUE;
 			}
 			echo json_encode($data);
@@ -1026,7 +1038,8 @@
 	                // 'appr_jobdesc' => $this->input->post('jobdesc')
 	            );
 	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
-	        $this->uphis_appr($this->input->post('appr_id'),$get->USER_NAME);
+	        // $this->uphis_appr($this->input->post('appr_id'),$get->USER_NAME);
+	        $this->logupd_appr_save($this->input->post('appr_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 	    }
 
@@ -1044,16 +1057,34 @@
 	    	echo json_encode($data);
 	    }
 
-	    public function logupd_appr($id)
+	    public function logupd_appr_save($id,$user)
 	    {
 	    	$his = $this->marketing->getlog_appr($id);
 	    	if ($his->HISAPPR_UPCOUNT == '0') 
 	    	{
-	    		
+	    		$data = array(
+						'appr_id' => $id,
+						'hisappr_sts' => 'Posted by User '.$user,
+						'hisappr_old' => $his->HISAPPR_STS,
+						'hisappr_new' => 'Posted By User '.$user,
+						'hisappr_info' => 'Original Save by appr form',
+						'hisappr_date' => date('Y-m-d'),
+						'hisappr_upcount' => $his->HISAPPR_UPCOUNT+1
+					);
+				$this->db->insert('his_approvalbill',$data);
 	    	}
 	    	else
 	    	{
-	    		
+	    		$data = array(
+						'appr_id' => $id,
+						'hisappr_sts' => 'Posted by User '.$user,
+						'hisappr_old' => $his->HISAPPR_STS,
+						'hisappr_new' => 'Posted By User '.$user,
+						'hisappr_info' => 'Update by '.$user.' from appr form',
+						'hisappr_date' => date('Y-m-d'),
+						'hisappr_upcount' => $his->HISAPPR_UPCOUNT
+					);
+				$this->db->insert('his_approvalbill',$data);
 	    	}
 	    }
 
