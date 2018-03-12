@@ -20,6 +20,7 @@
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchapprbysts','s_apprbysts');
+			$this->load->model('datatables/search/Dt_srchbappbysts','s_bappbysts');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
@@ -170,10 +171,87 @@
 			echo json_encode($output);
 		}
 
+		//Search Approval Berdasarkan Status Untuk halaman bapp
+		public function srch_apprforbapp()
+		{
+			$id = '1';
+			$br = $this->input->post('brch');
+			$brc = 'd.branch_id = '.$br;
+			$list = $this->s_apprbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprgb('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_apprbysts->count_all(),
+							"recordsFiltered" => $this->s_apprbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_apprgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_approvalbill',array('appr_id' => $id));
 			echo json_encode($data);
+		}
+
+		//Search BAPP Berdasarkan Status Untuk Edit dan Buka Record di halaman BAPP
+		public function srch_bappbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$list = $this->s_bappbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->BAPP_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->BAPP_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bappopen('."'".$dat->BAPP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->BAPP_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->BAPP_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bappedit('."'".$dat->BAPP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bappbysts->count_all(),
+							"recordsFiltered" => $this->s_bappbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
 		}
 
 		//Search Master Departemen

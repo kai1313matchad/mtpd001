@@ -497,15 +497,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bapp_code'] = $res;
-			// $data2 = array(
-			// 		'appr_id' => $insID,
-			// 		'hisappr_sts' => 'Void By System',
-			// 		'hisappr_old' => 'None',
-			// 		'hisappr_new' => 'None',
-			// 		'hisappr_info' => 'Create By System',
-			// 		'hisappr_upcount' => 0
-			// 	);
-			// $this->db->insert('his_approvalbill',$data2);
+			$data2 = array(
+					'bapp_id' => $insID,
+					'hisbapp_sts' => 'Void By System',
+					'hisbapp_old' => 'None',
+					'hisbapp_new' => 'None',
+					'hisbapp_info' => 'Create By System',
+					'hisbapp_date' => date('Y-m-d'),
+					'hisbapp_upcount' => 0
+				);
+			$this->db->insert('his_bapp',$data2);
 			return  $out;
 		}
 
