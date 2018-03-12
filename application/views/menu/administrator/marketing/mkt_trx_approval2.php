@@ -17,16 +17,16 @@
                             <span class="glyphicon glyphicon-edit"> Edit</span>
                         </a>
                     </div>
-                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '1')?'style="display:none"':'');?>>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
                         <a href="javascript:void(0)" onclick="open_appr()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
                         </a>
                     </div>
-                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '1')?'style="display:none"':'');?>>
+                    <!-- <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '1')?'style="display:none"':'');?>>
                         <a href="javascript:void(0)" onclick="tes()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
                         </a>
-                    </div>
+                    </div> -->
                 </div><br>
                 <div class="row">
                 		<ul class="nav nav-tabs">

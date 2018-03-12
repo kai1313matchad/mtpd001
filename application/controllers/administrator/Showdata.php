@@ -77,8 +77,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->BANK_CODE;
-				$row[] = $dat->BANK_NAME;				
-				$row[] = $dat->BANK_INFO;
+				$row[] = $dat->BANK_NAME;
+				$row[] = $dat->BANK_ACC.' A/N '.$dat->BANK_ACCNAME.', Cabang '.$dat->BANK_BRANCH;
+				$row[] = $dat->BANK_PRODTYPE.', '.$dat->BANK_INFO;
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
