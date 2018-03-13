@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_lgtpo()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_lgtpo()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -44,6 +54,8 @@
                                             <input type="hidden" name="po_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                            <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                            <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -405,6 +417,38 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_po_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_po_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No PO</th>
+                                        <th>Approval</th>
+                                        <th>Tanggal</th>
+                                        <th>Lokasi</th>
+                                        <th>Supplier</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
@@ -592,8 +636,11 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Logistik/ajax_srch_appr')?>",
-                    "type": "POST",                
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprglobal')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.brch = $('[name="user_branch"]').val();
+                    },
                 },                
                 "columnDefs": [
                 { 
@@ -674,6 +721,62 @@
                 ],
             });
         }
+        function edit_lgtpo()
+        {
+            $('#modal_po_edit').modal('show');
+            $('.modal-title').text('Cari PO');
+            table = $('#dtb_po_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_pobysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_lgtpo()
+        {
+            $('#modal_po_edit').modal('show');
+            $('.modal-title').text('Cari PO');            
+            table = $('#dtb_po_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_pobysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -720,7 +823,7 @@
                 }
             });
         }
-        function pick_appr(id)
+        function pick_apprgb(id)
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
@@ -770,6 +873,31 @@
                     $('[name="loc_id"]').val(data.LOC_ID);
                     $('[name="loc_name"]').val(data.LOC_NAME);                    
                     $('#modal_loc').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_polgtopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/open_lgtpo/')?>" + id,
+                type: "POST",
+                data: $('#form_po').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    if(data.status)
+                    {
+                        alert('Record PO Logistik Sukses Dibuka');
+                        $('#modal_po_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record PO Logistik masih digunakan di transaksi '+data.string);
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

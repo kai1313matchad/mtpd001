@@ -294,6 +294,40 @@
 			$this->load->view('menu/administrator/logistik/adj_print',$data);
 		}
 
+		public function open_lgtpo($id)
+		{
+			$user = $this->input->post('user_name');
+			$string = array();
+			$prc = $this->logistik->check_po('trx_procurement',$id,'prc_sts');
+			if($prc > 0)
+			{
+				$string[] = 'Pembelian Logistik';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('appr_sts'=>'0');
+				$update = $this->crud->update('trx_po',$dt,array('po_id' => $id));
+				$his = $this->marketing->getlog_appr($id);
+				$dthis = array(
+						'po_id' => $id,
+						'hispo_sts' => 'Open by User '.$user,
+						'hispo_old' => $his->HISPO_STS,
+						'hispo_new' => 'Open By User '.$user,
+						'hispo_info' => 'Open Record by PO Logistik form',
+						'hispo_date' => date('Y-m-d'),
+						'hispo_upcount' => $his->HISPO_UPCOUNT+1
+					);
+				$this->db->insert('his_po',$dthis);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{

@@ -2,6 +2,23 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class M_logistik extends CI_Model
 	{
+		//Fungsi untuk cek pemakaian PO di tabel lain
+		public function check_po($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('po_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('po_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk PO Logistik
+		public function getlog_bapp($id)
+		{
+			$this->db->where('po_id',$id);
+			$this->db->where('hispo_upcount = (select max(hispo_upcount) from his_po where po_id = '.$id.')');
+			$que = $this->db->get('his_po');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{
