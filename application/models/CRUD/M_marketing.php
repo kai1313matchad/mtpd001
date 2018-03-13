@@ -10,12 +10,21 @@
 			return $cou;
 		}
 
-		//Funsgi simpan history untuk approval
+		//Funsgi ambil log history untuk approval
 		public function getlog_appr($id)
 		{
 			$this->db->where('appr_id',$id);
 	    	$this->db->where('hisappr_upcount = (select max(hisappr_upcount) from his_approvalbill where appr_id = '.$id.')');
 			$que = $this->db->get('his_approvalbill');
+			return $que->row();
+		}
+
+		//Fungsi ambil log histori untuk BAPP
+		public function getlog_bapp($id)
+		{
+			$this->db->where('bapp_id',$id);
+			$this->db->where('hisbapp_upcount = (select max(hisbapp_upcount) from his_bapp where bapp_id = '.$id.')');
+			$que = $this->db->get('his_bapp');
 			return $que->row();
 		}
 	}

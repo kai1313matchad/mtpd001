@@ -1506,7 +1506,7 @@
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Searchdata/srch_apprbysts')?>",
                     "type": "POST",
@@ -1515,7 +1515,7 @@
                         data.brch = $('[name="user_brc"]').val();
                         data.chk = '1';
                     },
-                },                
+                },
                 "columnDefs": [
                 { 
                     "targets": [ 0 ],
@@ -1534,11 +1534,11 @@
 	            "responsive": true,
 	            "processing": true,
 	            "serverSide": true,
-	            "order": [],	            
+	            "order": [],
 	            "ajax": {
 	                "url": "<?php echo site_url('administrator/Marketing/ajax_srch_cust')?>",
 	                "type": "POST",                
-	            },	            
+	            },
 	            "columnDefs": [
 	            { 
 	                "targets": [ 0 ],

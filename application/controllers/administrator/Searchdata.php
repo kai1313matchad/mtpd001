@@ -254,6 +254,12 @@
 			echo json_encode($output);
 		}
 
+		public function pick_bappgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_bapp',array('bapp_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Master Departemen
 		public function srch_dept()
 		{

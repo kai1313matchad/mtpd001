@@ -328,11 +328,21 @@
 			$data = array(
 					'po_code'=>$res,
 					'po_sts'=>'0'
-				);			
-			$this->db->insert('trx_po',$data);			
+				);
+			$this->db->insert('trx_po',$data);
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['po_code'] = $res;
+			$data2 = array(
+					'po_id' => $insID,
+					'hispo_sts' => 'Void By System',
+					'hispo_old' => 'None',
+					'hispo_new' => 'None',
+					'hispo_info' => 'Create By System',
+					'hispo_date' => date('Y-m-d'),
+					'hispo_upcount' => 0
+				);
+			$this->db->insert('his_po',$data2);
 			return  $out;
 		}
 

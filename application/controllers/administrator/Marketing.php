@@ -197,6 +197,26 @@
 			echo json_encode($data);
 		}
 
+		public function open_bapp($id)
+		{
+			$user = $this->input->post('user_name');
+			$dt = array('bapp_sts'=>'0');
+			$update = $this->crud->update('trx_bapp',$dt,array('bapp_id' => $id));
+			$his = $this->marketing->getlog_bapp($id);
+			$dthis = array(
+					'bapp_id' => $id,
+					'hisbapp_sts' => 'Open by User '.$user,
+					'hisbapp_old' => $his->HISBAPP_STS,
+					'hisbapp_new' => 'Open By User '.$user,
+					'hisbapp_info' => 'Open Record by BAPP form',
+					'hisbapp_date' => date('Y-m-d'),
+					'hisbapp_upcount' => $his->HISBAPP_UPCOUNT+1
+				);
+			$this->db->insert('his_bapp',$dthis);
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		//Laporan Marketing
 		public function print_rptappr_t1()
 		{
@@ -1226,7 +1246,39 @@
 	    		'bapp_info' => $this->input->post('bapp_info')
 	    	);
 	    	$update = $this->crud->update('trx_bapp',$data,array('bapp_id' => $this->input->post('bapp_id')));
+	    	$this->logupd_bapp_save($this->input->post('bapp_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
+	    }
+
+	    public function logupd_bapp_save($id,$user)
+	    {
+	    	$his = $this->marketing->getlog_bapp($id);
+	    	if ($his->HISBAPP_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'bapp_id' => $id,
+						'hisbapp_sts' => 'Posted by User '.$user,
+						'hisbapp_old' => $his->HISBAPP_STS,
+						'hisbapp_new' => 'Posted By User '.$user,
+						'hisbapp_info' => 'Original Save by BAPP form',
+						'hisbapp_date' => date('Y-m-d'),
+						'hisbapp_upcount' => $his->HISBAPP_UPCOUNT+1
+					);
+				$this->db->insert('his_bapp',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'bapp_id' => $id,
+						'hisbapp_sts' => 'Posted by User '.$user,
+						'hisbapp_old' => $his->HISBAPP_STS,
+						'hisbapp_new' => 'Posted By User '.$user,
+						'hisbapp_info' => 'Update by '.$user.' from BAPP form',
+						'hisbapp_date' => date('Y-m-d'),
+						'hisbapp_upcount' => $his->HISBAPP_UPCOUNT
+					);
+				$this->db->insert('his_bapp',$data);
+	    	}
 	    }
 
 	    public function bapp_delimg($id)

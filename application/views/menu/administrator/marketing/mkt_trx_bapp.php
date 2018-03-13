@@ -356,7 +356,11 @@
     <script>
     	$(document).ready(function()
     	{
-            get_images();            
+            get_images();
+            $('input').on('click',function(){                
+                $(this).parent().parent().parent().removeClass('has-error');
+                $(this).next().empty();
+            });
     	});
         function print_bapp()
         {
@@ -394,10 +398,10 @@
                 ],
             });
     	}
-        function pick_appr(id)
+        function pick_apprgb(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/ajax_pick_appr/')?>" + id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -407,7 +411,7 @@
                     pick_cust(data.CUST_ID);
                     var jenis = data.APPR_INFO + ' ( ' + data.APPR_CONTRACT_START + ' - ' + data.APPR_CONTRACT_END + ' )';
                     $('[name="appr_jenis"]').val(jenis);
-                    var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + 'mk';
+                    var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + ', ' + data.APPR_PLCSUM + 'mk';
                     $('[name="appr_size"]').val(size);
                     $('[name="bapp_startper"]').val(data.APPR_CONTRACT_START);
                     $('[name="bapp_endper"]').val(data.APPR_CONTRACT_END);
@@ -554,33 +558,43 @@
         {
             var date1 = $('[name="bapp_date"]').val();
             if (date1 == '')
-            {                
+            {
                 $('[name="bapp_date"]').parent().parent().parent().addClass('has-error');
             }
             var date2 = $('[name="bapp_startdate"]').val();
             if (date2 == '')
-            {                
+            {
                 $('[name="bapp_startdate"]').parent().parent().parent().addClass('has-error');
             }
             var date3 = $('[name="bapp_enddate"]').val();
             if (date3 == '')
-            {                
+            {
                 $('[name="bapp_enddate"]').parent().parent().parent().addClass('has-error');
             }
             var date4 = $('[name="bapp_finishdate"]').val();
             if (date4 == '')
-            {                
+            {
                 $('[name="bapp_finishdate"]').parent().parent().parent().addClass('has-error');
             }
-            var date5 = $('[name="bapp_startper"]').val();
-            if (date5 == '')
-            {                
-                $('[name="bapp_startper"]').parent().parent().parent().addClass('has-error');
+            // var date5 = $('[name="bapp_startper"]').val();
+            // if (date5 == '')
+            // {
+            //     $('[name="bapp_startper"]').parent().parent().parent().addClass('has-error');
+            // }
+            // var date6 = $('[name="bapp_endper"]').val();
+            // if (date6 == '')
+            // {
+            //     $('[name="bapp_endper"]').parent().parent().parent().addClass('has-error');
+            // }
+            var bappid = $('[name="bapp_code"]').val();
+            if (bappid == '')
+            {
+                $('[name="bapp_code"]').parent().parent().addClass('has-error');
             }
-            var date6 = $('[name="bapp_endper"]').val();
-            if (date6 == '')
-            {                
-                $('[name="bapp_endper"]').parent().parent().parent().addClass('has-error');
+            var apprid = $('[name="appr_code"]').val();
+            if (apprid == '')
+            {
+                $('[name="appr_code"]').parent().parent().addClass('has-error');
             }
         }
         function get_imgsum()
@@ -676,6 +690,60 @@
                     "orderable": false,
                 },
                 ],
+            });
+        }
+        function pick_bappopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/open_bapp/')?>" + id,
+                type: "POST",
+                data: $('#form_bapp').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    if(data.status)
+                    {
+                        alert('Record BAPP Sukses Dibuka');
+                        $('#modal_bapp_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record BAPP masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bappedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bappgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="bapp_id"]').val(data.BAPP_ID);
+                    $('[name="bapp_code"]').val(data.BAPP_CODE);
+                    if (data.APPR_ID != null)
+                    {
+                        pick_apprgb(data.APPR_ID);
+                    }
+                    $('[name="bapp_startdate"]').val(data.BAPP_DATESTART);
+                    $('[name="bapp_enddate"]').val(data.BAPP_DATEEND);
+                    $('[name="bapp_doc"]').val(data.BAPP_DOC);
+                    $('[name="bapp_oldtxt"]').val(data.BAPP_OLDTXT);
+                    $('[name="bapp_newtxt"]').val(data.BAPP_NEWTXT);
+                    $('[name="bapp_finishdate"]').val(data.BAPP_FINDATE);
+                    $('[name="bapp_info"]').val(data.BAPP_INFO);
+                    $('#modal_bapp_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
             });
         }
     </script>
