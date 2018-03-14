@@ -1963,7 +1963,7 @@
 	        if($this->input->post('nama') == '')
 	        {
 	            $data['inputerror'][] = 'nama';
-	            $data['error_string'][] = 'Nama Mata Uang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Reklame Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('info') == '')
@@ -2078,7 +2078,7 @@
 	        if($this->input->post('nama2') == '')
 	        {
 	            $data['inputerror'][] = 'nama2';
-	            $data['error_string'][] = 'Nama Mata Uang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)
@@ -2698,13 +2698,13 @@
 	        if($this->input->post('dept_name') == '')
 	        {
 	            $data['inputerror'][] = 'dept_name';
-	            $data['error_string'][] = 'Nama Barang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Departemen Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('dept_info') == '')
 	        {
 	            $data['inputerror'][] = 'dept_info';
-	            $data['error_string'][] = 'Satuan Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Info Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)

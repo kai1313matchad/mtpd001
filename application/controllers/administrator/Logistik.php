@@ -310,9 +310,9 @@
 			}
 			else
 			{
-				$dt = array('appr_sts'=>'0');
+				$dt = array('po_sts'=>'0');
 				$update = $this->crud->update('trx_po',$dt,array('po_id' => $id));
-				$his = $this->marketing->getlog_appr($id);
+				$his = $this->logistik->getlog_polgt($id);
 				$dthis = array(
 						'po_id' => $id,
 						'hispo_sts' => 'Open by User '.$user,
@@ -1078,8 +1078,40 @@
 	                'po_gtotal' => $this->input->post('po_subs')	                
 	            );
 	        $update = $this->crud->update('trx_po',$data,array('po_id' => $this->input->post('po_id')));
+	        $this->logupd_polgt_save($this->input->post('po_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_polgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_polgt($id);
+	    	if ($his->HISPO_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'po_id' => $id,
+						'hispo_sts' => 'Posted by User '.$user,
+						'hispo_old' => $his->HISPO_STS,
+						'hispo_new' => 'Posted By User '.$user,
+						'hispo_info' => 'Original Save by PO Logistik form',
+						'hispo_date' => date('Y-m-d'),
+						'hispo_upcount' => $his->HISPO_UPCOUNT+1
+					);
+				$this->db->insert('his_po',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'po_id' => $id,
+						'hispo_sts' => 'Posted by User '.$user,
+						'hispo_old' => $his->HISPO_STS,
+						'hispo_new' => 'Posted By User '.$user,
+						'hispo_info' => 'Update by '.$user.' from PO Logistik form',
+						'hispo_date' => date('Y-m-d'),
+						'hispo_upcount' => $his->HISPO_UPCOUNT
+					);
+				$this->db->insert('his_po',$data);
+	    	}
+	    }
 
 		public function ajax_add_brg()
 	    {

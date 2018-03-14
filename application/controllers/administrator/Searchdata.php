@@ -339,6 +339,12 @@
 			echo json_encode($output);
 		}
 
+		public function pick_polgtgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_po',array('po_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Master Departemen
 		public function srch_dept()
 		{

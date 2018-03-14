@@ -11,7 +11,7 @@
 		}
 
 		//Fungsi ambil log histori untuk PO Logistik
-		public function getlog_bapp($id)
+		public function getlog_polgt($id)
 		{
 			$this->db->where('po_id',$id);
 			$this->db->where('hispo_upcount = (select max(hispo_upcount) from his_po where po_id = '.$id.')');

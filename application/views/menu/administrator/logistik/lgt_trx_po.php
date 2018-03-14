@@ -905,6 +905,33 @@
                 }
             });
         }
+        function pick_polgtedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_polgtgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="po_id"]').val(data.PO_ID);
+                    $('[name="po_code"]').val(data.PO_CODE);
+                    $('[name="po_so"]').val(data.PO_ORDNUM);
+                    $('[name="po_code"]').val(data.PO_CODE);
+                    pick_apprgb(data.APPR_ID);
+                    pick_supp(data.SUPP_ID);
+                    barang(data.PO_ID);
+                    $('[name="po_term"]').val(data.PO_TERM);
+                    $('[name="po_info"]').val(data.PO_INFO);
+                    pick_curr(data.CURR_ID);
+                    sub_total(data.PO_ID);
+                    $('#modal_po_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
     </script>
 </body>
 </html>
