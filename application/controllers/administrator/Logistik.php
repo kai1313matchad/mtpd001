@@ -328,6 +328,50 @@
 			echo json_encode($data);
 		}
 
+		public function open_lgtprc($id)
+		{
+			$user = $this->input->post('user_name');
+			$string = array();
+			$retprc = $this->logistik->check_prc('procurement_ret',$id,'rtprc_sts');
+			if($retprc > 0)
+			{
+				$string[] = 'Retur Pembelian Logistik';
+			}
+			$bankout = $this->logistik->check_prc('bankout_det',array('bnkodet_reff'=>$id),null);
+			if($bankout > 0)
+			{
+				$string[] = 'Bank Keluar';
+			}
+			$bankout = $this->logistik->check_prc('cashout_det',array('cshodet_reff'=>$id),null);
+			if($bankout > 0)
+			{
+				$string[] = 'Kas Keluar';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('prc_sts'=>'0');
+				$update = $this->crud->update('trx_procurement',$dt,array('prc_id' => $id));
+				$his = $this->logistik->getlog_prclgt($id);
+				$dthis = array(
+						'prc_id' => $id,
+						'hisprc_sts' => 'Open by User '.$user,
+						'hisprc_old' => $his->HISPRC_STS,
+						'hisprc_new' => 'Open By User '.$user,
+						'hisprc_info' => 'Open Record by Pembelian Logistik form',
+						'hisprc_date' => date('Y-m-d'),
+						'hisprc_upcount' => $his->HISPRC_UPCOUNT+1
+					);
+				$this->db->insert('his_prc',$dthis);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{
@@ -1209,8 +1253,40 @@
 	                'prc_gtotal' => $this->input->post('prc_gtotal')	                
 	            );
 	        $update = $this->crud->update('trx_procurement',$data,array('prc_id' => $this->input->post('prc_id')));
+	        $this->logupd_prclgt_save($this->input->post('prc_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_prclgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_prclgt($id);
+	    	if ($his->HISPRC_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'prc_id' => $id,
+						'hisprc_sts' => 'Posted by User '.$user,
+						'hisprc_old' => $his->HISPRC_STS,
+						'hisprc_new' => 'Posted By User '.$user,
+						'hisprc_info' => 'Original Save by Pembelian Logistik form',
+						'hisprc_date' => date('Y-m-d'),
+						'hisprc_upcount' => $his->HISPRC_UPCOUNT+1
+					);
+				$this->db->insert('his_prc',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'prc_id' => $id,
+						'hisprc_sts' => 'Posted by User '.$user,
+						'hisprc_old' => $his->HISPRC_STS,
+						'hisprc_new' => 'Posted By User '.$user,
+						'hisprc_info' => 'Update by '.$user.' from Pembelian Logistik form',
+						'hisprc_date' => date('Y-m-d'),
+						'hisprc_upcount' => $his->HISPRC_UPCOUNT
+					);
+				$this->db->insert('his_prc',$data);
+	    	}
+	    }
 
 		public function ajax_add_brgretprc()
 	    {

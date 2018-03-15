@@ -508,12 +508,12 @@
 	            $data['error_string'][] = 'Kota Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('fax') == '')
-	        {
-	            $data['inputerror'][] = 'fax';
-	            $data['error_string'][] = 'No Fax Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('fax') == '')
+	        // {
+	        //     $data['inputerror'][] = 'fax';
+	        //     $data['error_string'][] = 'No Fax Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        if($this->input->post('alamat') == '')
 	        {
 	            $data['inputerror'][] = 'alamat';
@@ -891,7 +891,7 @@
 	        if($this->input->post('gov') == '')
 	        {
 	            $data['inputerror'][] = 'gov';
-	            $data['error_string'][] = 'Kode Lokasi Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Kode Status Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('lcheck') == '0')
@@ -2415,12 +2415,12 @@
 	            $data['error_string'][] = 'Telepon Supplier Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('fax') == '')
-	        {
-	            $data['inputerror'][] = 'fax';
-	            $data['error_string'][] = 'Fax Supplier Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('fax') == '')
+	        // {
+	        //     $data['inputerror'][] = 'fax';
+	        //     $data['error_string'][] = 'Fax Supplier Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        // if($this->input->post('acc') == '')
 	        // {
 	        //     $data['inputerror'][] = 'acc';

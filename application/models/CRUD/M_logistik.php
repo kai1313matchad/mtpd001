@@ -19,6 +19,23 @@
 			return $que->row();
 		}
 
+		//Fungsi untuk cek pemakaian Pembelian di tabel lain
+		public function check_prc($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('prc_id'=>$id,$sts=>'1')):$this->db->get_where($tb,$id);
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Pembelian Logistik
+		public function getlog_prclgt($id)
+		{
+			$this->db->where('prc_id',$id);
+			$this->db->where('hisprc_upcount = (select max(hisprc_upcount) from his_prc where prc_id = '.$id.')');
+			$que = $this->db->get('his_prc');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{
