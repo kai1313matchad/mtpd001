@@ -400,6 +400,60 @@
 			echo json_encode($data);
 		}
 
+		//Search Retur Pembelian Berdasarkan Status Untuk Edit dan Buka Record di halaman Retur Pembelian Logistik
+		public function srch_rtprcbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$list = $this->s_prcbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PRC_CODE;
+					$row[] = $dat->PO_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->PRC_DATE;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prclgtopen('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PRC_CODE;
+					$row[] = $dat->PO_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->PRC_DATE;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prclgtedit('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_prcbysts->count_all(),
+							"recordsFiltered" => $this->s_prcbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_rtprclgtgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Master Departemen
 		public function srch_dept()
 		{

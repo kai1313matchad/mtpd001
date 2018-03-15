@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_lgtretprc()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_lgtretprc()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>h
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -44,6 +54,8 @@
                                             <input type="hidden" name="ret_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                            <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                            <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -417,6 +429,38 @@
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Rate</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_rtprc_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_rtprc_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No BL</th>
+                                        <th>No PO</th>
+                                        <th>Approval</th>
+                                        <th>Tanggal</th>
+                                        <th>Lokasi</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -825,29 +869,116 @@
             $('[name="ret_qty_old"]').val('');
             $('[name="ret_sub"]').val('');
         }
-        // function pick_prcdet(id)
-        // {
-        //     $.ajax({
-        //         url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet/')?>" + id,
-        //         type: "GET",
-        //         dataType: "JSON",
-        //         success: function(data)
-        //         {   
-        //             $('[name="gd_id"]').val(data[0]["GD_ID"]);
-        //             $('[name="gd_name"]').val(data[0]["GD_NAME"]);
-        //             $('[name="gd_unit1"]').val(' / '+data[0]["GD_UNIT"]+' '+data[0]["GD_MEASURE"]);
-        //             $('[name="gd_price"]').val(data[0]["GD_PRICE"]);
-        //             $('[name="gd_unit2"]').val(data[0]["GD_MEASURE"]);
-        //             $('[name="ret_qty"]').val(data[0]["PRCDET_QTY"]);
-        //             $('[name="ret_qty_old"]').val(data[0]["PRCDET_QTY"]);
-        //             hitung();                    
-        //         },
-        //         error: function (jqXHR, textStatus, errorThrown)
-        //         {
-        //             alert('Error get data from ajax');
-        //         }
-        //     });
-        // }
+        function edit_lgtretprc()
+        {
+            $('#modal_rtprc_edit').modal('show');
+            $('.modal-title').text('Cari Pembelian');
+            table = $('#dtb_rtprc_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_prcbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_lgtretprc()
+        {
+            $('#modal_rtprc_edit').modal('show');
+            $('.modal-title').text('Cari Pembelian');            
+            table = $('#dtb_rtprc_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_prcbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_prclgtopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/open_lgtprc/')?>" + id,
+                type: "POST",
+                data: $('#form_po').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    if(data.status)
+                    {
+                        alert('Record Pembelian Logistik Sukses Dibuka');
+                        $('#modal_prc_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Pembelian Logistik masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_prclgtedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_prclgtgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="prc_id"]').val(data.PRC_ID);
+                    $('[name="prc_code"]').val(data.PRC_CODE);
+                    $('[name="prc_inv"]').val(data.PRC_INVOICE);
+                    pick_po(data.PO_ID);                    
+                    barang(data.PRC_ID);
+                    pick_curr(data.CURR_ID);
+                    sub_total(data.PRC_ID);
+                    $('[name="prc_disc"]').val(data.PRC_DISC);
+                    $('[name="disc_perc"]').val(Math.abs(data.PRC_DISC/data.PRC_SUB*100));
+                    $('[name="prc_ppn"]').val(data.PRC_PPN);
+                    $('[name="ppn_perc"]').val(Math.abs(data.PRC_PPN/(data.PRC_SUB-data.PRC_DISC)*100));
+                    $('[name="prc_cost"]').val(data.PRC_COST);
+                    $('[name="prc_gtotal"]').val(data.PRC_GTOTAL);
+                    $('#modal_prc_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
     </script>
 </body>
 </html>
