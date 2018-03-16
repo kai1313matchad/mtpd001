@@ -391,6 +391,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtprc_code'] = $res;
+			$data2 = array(
+					'rtprc_id' => $insID,
+					'hisrtprc_sts' => 'Void By System',
+					'hisrtprc_old' => 'None',
+					'hisrtprc_new' => 'None',
+					'hisrtprc_info' => 'Create By System',
+					'hisrtprc_date' => date('Y-m-d'),
+					'hisrtprc_upcount' => 0
+				);
+			$this->db->insert('his_retprc',$data2);
 			return  $out;
 		}
 

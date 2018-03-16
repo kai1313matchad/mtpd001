@@ -36,6 +36,23 @@
 			return $que->row();
 		}
 
+		//Fungsi untuk cek pemakaian Retur Pembelian di tabel lain
+		public function check_rtprc($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('rtprc_id'=>$id,$sts=>'1')):$this->db->get_where($tb,$id);
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Retur Pembelian Logistik
+		public function getlog_rtprclgt($id)
+		{
+			$this->db->where('rtprc_id',$id);
+			$this->db->where('hisrtprc_upcount = (select max(hisrtprc_upcount) from his_retprc where rtprc_id = '.$id.')');
+			$que = $this->db->get('his_retprc');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{

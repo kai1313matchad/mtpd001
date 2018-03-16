@@ -23,6 +23,7 @@
 			$this->load->model('datatables/search/Dt_srchbappbysts','s_bappbysts');
 			$this->load->model('datatables/search/Dt_srchpobysts','s_pobysts');
 			$this->load->model('datatables/search/Dt_srchprcbysts','s_prcbysts');
+			$this->load->model('datatables/search/Dt_srchrtprcbysts','s_rtprcbysts');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
@@ -406,7 +407,7 @@
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
 			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
-			$list = $this->s_prcbysts->get_datatables($id,$brc);
+			$list = $this->s_rtprcbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
 			if($this->input->post('chk') != '0')
@@ -415,12 +416,12 @@
 					$no++;
 					$row = array();
 					$row[] = $no;
+					$row[] = $dat->RTPRC_CODE;
 					$row[] = $dat->PRC_CODE;
 					$row[] = $dat->PO_CODE;
+					$row[] = $dat->RTPRC_DATE;
 					$row[] = $dat->APPR_CODE;
-					$row[] = $dat->PRC_DATE;
-					$row[] = $dat->LOC_NAME;
-					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prclgtopen('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_rtprclgtopen('."'".$dat->RTPRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 					$data[] = $row;
 				}
 			}
@@ -430,19 +431,19 @@
 					$no++;
 					$row = array();
 					$row[] = $no;
+					$row[] = $dat->RTPRC_CODE;
 					$row[] = $dat->PRC_CODE;
 					$row[] = $dat->PO_CODE;
+					$row[] = $dat->RTPRC_DATE;
 					$row[] = $dat->APPR_CODE;
-					$row[] = $dat->PRC_DATE;
-					$row[] = $dat->LOC_NAME;
-					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prclgtedit('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_rtprclgtedit('."'".$dat->RTPRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 					$data[] = $row;
 				}
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->s_prcbysts->count_all(),
-							"recordsFiltered" => $this->s_prcbysts->count_filtered($id,$brc),
+							"recordsTotal" => $this->s_rtprcbysts->count_all(),
+							"recordsFiltered" => $this->s_rtprcbysts->count_filtered($id,$brc),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -450,7 +451,7 @@
 
 		public function pick_rtprclgtgb($id)
 		{
-			$data = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
+			$data = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
 			echo json_encode($data);
 		}
 

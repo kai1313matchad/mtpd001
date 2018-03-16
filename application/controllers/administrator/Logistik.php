@@ -372,6 +372,26 @@
 			echo json_encode($data);
 		}
 
+		public function open_lgtrtprc($id)
+		{
+			$user = $this->input->post('user_name');
+			$dt = array('rtprc_sts'=>'0');
+			$update = $this->crud->update('procurement_ret',$dt,array('rtprc_id' => $id));
+			$his = $this->logistik->getlog_rtprclgt($id);
+			$dthis = array(
+					'rtprc_id' => $id,
+					'hisrtprc_sts' => 'Open by User '.$user,
+					'hisrtprc_old' => $his->HISRTPRC_STS,
+					'hisrtprc_new' => 'Open By User '.$user,
+					'hisrtprc_info' => 'Open Record by Retur Pembelian Logistik form',
+					'hisrtprc_date' => date('Y-m-d'),
+					'hisrtprc_upcount' => $his->HISRTPRC_UPCOUNT+1
+				);
+			$this->db->insert('his_retprc',$dthis);
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{
@@ -1170,27 +1190,27 @@
 	        echo json_encode(array("status" => TRUE));
 	    }
 
-	    public function save_po()
-	    {
-	    	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
-	    	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
-	    	$own = $get2->BRANCH_STATUS;
-	    	$data = array(
-	                'appr_id' => $this->input->post('appr_id'),
-	                'curr_id' => $this->input->post('curr_id'),
-	                'supp_id' => $this->input->post('supp_id'),
-	                'user_id' => $this->input->post('user_id'),
-	                'bb_id' => $this->input->post('bb_id'),
-	                'loc_id' => $this->input->post('loc_id'),
-	                'cust_id' => $this->input->post('cust_id'),
-	                'sales_id' => $this->input->post('sales_id'),
-	                'curr_id' => $this->input->post('curr_id'),
-	                'appr_code' => $this->input->post('appr_code'),
-	                'appr_sts' => '1',
-	            );
-	        $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
-	        echo json_encode(array("status" => TRUE));
-	    }
+	    // public function save_po()
+	    // {
+	    // 	$get = $this->crud->get_by_id('master_user',array('user_id' => $this->input->post('user_id')));
+	    // 	$get2 = $this->crud->get_by_id('master_branch',array('branch_id' => $get->BRANCH_ID));
+	    // 	$own = $get2->BRANCH_STATUS;
+	    // 	$data = array(
+	    //             'appr_id' => $this->input->post('appr_id'),
+	    //             'curr_id' => $this->input->post('curr_id'),
+	    //             'supp_id' => $this->input->post('supp_id'),
+	    //             'user_id' => $this->input->post('user_id'),
+	    //             'bb_id' => $this->input->post('bb_id'),
+	    //             'loc_id' => $this->input->post('loc_id'),
+	    //             'cust_id' => $this->input->post('cust_id'),
+	    //             'sales_id' => $this->input->post('sales_id'),
+	    //             'curr_id' => $this->input->post('curr_id'),
+	    //             'appr_code' => $this->input->post('appr_code'),
+	    //             'appr_sts' => '1',
+	    //         );
+	    //     $update = $this->crud->update('trx_approvalbill',$data,array('appr_id' => $this->input->post('appr_id')));
+	    //     echo json_encode(array("status" => TRUE));
+	    // }
 
 	    public function ajax_add_brgprc()
 	    {
@@ -1334,6 +1354,7 @@
 	                'prc_id' => $this->input->post('prc_id'),	                
 	                'rtprc_sts' => '1',
 	                'rtprc_date' => $this->input->post('retprc_tgl'),
+	                'rtprc_term' => $this->input->post('po_term'),
 	                'rtprc_info' => $this->input->post('po_info'),
 	                'rtprc_sub' => $this->input->post('po_subs'),
 	                'rtprc_disc' => $this->input->post('prc_disc'),
@@ -1342,8 +1363,40 @@
 	                'rtprc_gtotal' => $this->input->post('prc_gtotal')	                
 	            );
 	        $update = $this->crud->update('procurement_ret',$data,array('rtprc_id' => $this->input->post('ret_id')));
+	        $this->logupd_rtprclgt_save($this->input->post('ret_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_rtprclgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_rtprclgt($id);
+	    	if ($his->HISRTPRC_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'rtprc_id' => $id,
+						'hisrtprc_sts' => 'Posted by User '.$user,
+						'hisrtprc_old' => $his->HISRTPRC_STS,
+						'hisrtprc_new' => 'Posted By User '.$user,
+						'hisrtprc_info' => 'Original Save by Retur Pembelian Logistik form',
+						'hisrtprc_date' => date('Y-m-d'),
+						'hisrtprc_upcount' => $his->HISRTPRC_UPCOUNT+1
+					);
+				$this->db->insert('his_retprc',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'rtprc_id' => $id,
+						'hisrtprc_sts' => 'Posted by User '.$user,
+						'hisrtprc_old' => $his->HISRTPRC_STS,
+						'hisrtprc_new' => 'Posted By User '.$user,
+						'hisrtprc_info' => 'Update by '.$user.' from Retur Pembelian Logistik form',
+						'hisrtprc_date' => date('Y-m-d'),
+						'hisrtprc_upcount' => $his->HISRTPRC_UPCOUNT
+					);
+				$this->db->insert('his_retprc',$data);
+	    	}
+	    }
 
 		public function ajax_add_brgusg()
 	    {

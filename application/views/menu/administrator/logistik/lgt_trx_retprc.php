@@ -21,7 +21,7 @@
                         <a href="javascript:void(0)" onclick="open_lgtretprc()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
                         </a>
-                    </div>h
+                    </div>
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -456,11 +456,11 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>No Retur</th>
                                         <th>No BL</th>
                                         <th>No PO</th>
-                                        <th>Approval</th>
                                         <th>Tanggal</th>
-                                        <th>Lokasi</th>
+                                        <th>Approval</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -572,7 +572,7 @@
         function ppn()
         {
             var disc = $('[name=ppn_perc]').val();
-            var subt = $('[name=po_subs]').val();
+            var subt = $('[name=po_subs]').val()($('[name="prc_disc"]').val()*1);
             var sum = disc/100 * subt;
             $('[name=prc_ppn]').val(sum);
         }
@@ -835,7 +835,7 @@
                 }
             });
         }
-        function pick_retprc(id)
+        function pick_retprc(id)  
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_prcdet2/')?>" + id,
@@ -881,7 +881,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_prcbysts')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_rtprcbysts')?>",
                     "type": "POST",
                     "data": function(data){
                         data.sts = '0';
@@ -909,7 +909,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_prcbysts')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_rtprcbysts')?>",
                     "type": "POST",
                     "data": function(data){
                         data.sts = '1';
@@ -925,19 +925,19 @@
                 ],
             });
         }
-        function pick_prclgtopen(id)
+        function pick_rtprclgtopen(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Logistik/open_lgtprc/')?>" + id,
+                url : "<?php echo site_url('administrator/Logistik/open_lgtrtprc/')?>" + id,
                 type: "POST",
                 data: $('#form_po').serialize(),
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
                     if(data.status)
                     {
                         alert('Record Pembelian Logistik Sukses Dibuka');
-                        $('#modal_prc_edit').modal('hide');
+                        $('#modal_rtprc_edit').modal('hide');
                     }
                     else
                     {
@@ -950,28 +950,29 @@
                 }
             });
         }
-        function pick_prclgtedit(id)
+        function pick_rtprclgtedit(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Searchdata/pick_prclgtgb/')?>" + id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_rtprclgtgb/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="prc_id"]').val(data.PRC_ID);
-                    $('[name="prc_code"]').val(data.PRC_CODE);
-                    $('[name="prc_inv"]').val(data.PRC_INVOICE);
-                    pick_po(data.PO_ID);                    
-                    barang(data.PRC_ID);
+                    $('[name="ret_id"]').val(data.RTPRC_ID);
+                    $('[name="ret_code"]').val(data.RTPRC_CODE);
+                    pick_prc(data.PRC_ID);
+                    barang(data.RTPRC_ID);
                     pick_curr(data.CURR_ID);
-                    sub_total(data.PRC_ID);
-                    $('[name="prc_disc"]').val(data.PRC_DISC);
-                    $('[name="disc_perc"]').val(Math.abs(data.PRC_DISC/data.PRC_SUB*100));
-                    $('[name="prc_ppn"]').val(data.PRC_PPN);
-                    $('[name="ppn_perc"]').val(Math.abs(data.PRC_PPN/(data.PRC_SUB-data.PRC_DISC)*100));
-                    $('[name="prc_cost"]').val(data.PRC_COST);
-                    $('[name="prc_gtotal"]').val(data.PRC_GTOTAL);
-                    $('#modal_prc_edit').modal('hide');
+                    sub_total(data.RTPRC_ID);
+                    $('[name="po_term"]').val(data.RTPRC_TERM);
+                    $('[name="po_info"]').val(data.RTPRC_INFO);
+                    $('[name="prc_disc"]').val(data.RTPRC_DISC);
+                    $('[name="disc_perc"]').val(Math.abs(data.RTPRC_DISC/data.RTPRC_SUB*100));
+                    $('[name="prc_ppn"]').val(data.RTPRC_PPN);
+                    $('[name="ppn_perc"]').val(Math.abs(data.RTPRC_PPN/(data.RTPRC_SUB-data.RTPRC_DISC)*100));
+                    $('[name="prc_cost"]').val(data.RTPRC_COST);
+                    $('[name="prc_gtotal"]').val(data.RTPRC_GTOTAL);
+                    $('#modal_rtprc_edit').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
