@@ -449,6 +449,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtusg_code'] = $res;
+			$data2 = array(
+					'rtusg_id' => $insID,
+					'hisrtusg_sts' => 'Void By System',
+					'hisrtusg_old' => 'None',
+					'hisrtusg_new' => 'None',
+					'hisrtusg_info' => 'Create By System',
+					'hisrtusg_date' => date('Y-m-d'),
+					'hisrtusg_upcount' => 0
+				);
+			$this->db->insert('his_retusg',$data2);
 			return  $out;
 		}
 

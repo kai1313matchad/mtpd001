@@ -70,6 +70,23 @@
 			return $que->row();
 		}
 
+		//Fungsi untuk cek pemakaian Retur Pemakaian di tabel lain
+		public function check_rtusg($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('rtusg_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('rtusg_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Retur Pemakaian Logistik
+		public function getlog_rtusglgt($id)
+		{
+			$this->db->where('rtusg_id',$id);
+			$this->db->where('hisrtusg_upcount = (select max(hisrtusg_upcount) from his_retusg where rtusg_id = '.$id.')');
+			$que = $this->db->get('his_retusg');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{

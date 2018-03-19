@@ -426,6 +426,26 @@
 			echo json_encode($data);
 		}
 
+		public function open_lgtrtusg($id)
+		{
+			$user = $this->input->post('user_name');
+			$dt = array('rtusg_sts'=>'0');
+			$update = $this->crud->update('usage_ret',$dt,array('rtusg_id' => $id));
+			$his = $this->logistik->getlog_rtusglgt($id);
+			$dthis = array(
+					'rtusg_id' => $id,
+					'hisrtusg_sts' => 'Open by User '.$user,
+					'hisrtusg_old' => $his->HISRTUSG_STS,
+					'hisrtusg_new' => 'Open By User '.$user,
+					'hisrtusg_info' => 'Open Record by Retur Pemakaian Logistik form',
+					'hisrtusg_date' => date('Y-m-d'),
+					'hisrtusg_upcount' => $his->HISRTUSG_UPCOUNT+1
+				);
+			$this->db->insert('his_retusg',$dthis);
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{
@@ -1087,9 +1107,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->GD_NAME;
-				$row[] = $dat->GD_PRICE.' / '.$dat->GD_MEASURE.' '.$dat->GD_UNIT;
+				$row[] = $dat->GD_PRICE.' / '.$dat->UNIT.' '.$dat->GD_MEASURE;
 				$row[] = $dat->RETUSGDET_QTY;
-				$row[] = $dat->GD_UNIT;
+				$row[] = $dat->GD_MEASURE;
 				$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="del_brg('."'".$dat->RETUSGDET_ID."'".')"><span class="glyphicon glyphicon-remove"></span></a>';
 				$data[] = $row;
 			}
@@ -1566,13 +1586,45 @@
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
 	                'usg_id' => $this->input->post('usg_id'),               
-	                'rtusg_date' => $this->input->post('rtusg_tgl'),
+	                'rtusg_date' => $this->input->post('retusg_tgl'),
 	                'rtusg_sts' => '1',
 	                'rtusg_info' => $this->input->post('rtusg_info')
 	            );
 	        $update = $this->crud->update('usage_ret',$data,array('rtusg_id' => $this->input->post('rtusg_id')));
+	        $this->logupd_rtusglgt_save($this->input->post('rtusg_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_rtusglgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_rtusglgt($id);
+	    	if ($his->HISRTUSG_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'rtusg_id' => $id,
+						'hisrtusg_sts' => 'Posted by User '.$user,
+						'hisrtusg_old' => $his->HISRTUSG_STS,
+						'hisrtusg_new' => 'Posted By User '.$user,
+						'hisrtusg_info' => 'Original Save by Retur Pemakaian Logistik form',
+						'hisrtusg_date' => date('Y-m-d'),
+						'hisrtusg_upcount' => $his->HISRTUSG_UPCOUNT+1
+					);
+				$this->db->insert('his_retusg',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'rtusg_id' => $id,
+						'hisrtusg_sts' => 'Posted by User '.$user,
+						'hisrtusg_old' => $his->HISRTUSG_STS,
+						'hisrtusg_new' => 'Posted By User '.$user,
+						'hisrtusg_info' => 'Update by '.$user.' from Retur Pemakaian Logistik form',
+						'hisrtusg_date' => date('Y-m-d'),
+						'hisrtusg_upcount' => $his->HISRTUSG_UPCOUNT
+					);
+				$this->db->insert('his_retusg',$data);
+	    	}
+	    }
 
 		public function ajax_simpan_adj()
 		{
