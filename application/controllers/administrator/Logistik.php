@@ -392,6 +392,40 @@
 			echo json_encode($data);
 		}
 
+		public function open_lgtusg($id)
+		{
+			$user = $this->input->post('user_name');
+			$string = array();
+			$rtusg = $this->logistik->check_usg('usage_ret',$id,'rtusg_sts');
+			if($rtusg > 0)
+			{
+				$string[] = 'Retur Pemakaian Logistik';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('usg_sts'=>'0');
+				$update = $this->crud->update('trx_usage',$dt,array('usg_id' => $id));
+				$his = $this->logistik->getlog_usglgt($id);
+				$dthis = array(
+						'usg_id' => $id,
+						'hisusg_sts' => 'Open by User '.$user,
+						'hisusg_old' => $his->HISUSG_STS,
+						'hisusg_new' => 'Open By User '.$user,
+						'hisusg_info' => 'Open Record by Pemakaian Logistik form',
+						'hisusg_date' => date('Y-m-d'),
+						'hisusg_upcount' => $his->HISUSG_UPCOUNT+1
+					);
+				$this->db->insert('his_usg',$dthis);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
 		//Laporan
 		public function print_rptpo()
 		{
@@ -1455,8 +1489,40 @@
 	                'usg_info' => $this->input->post('usg_info')
 	            );
 	        $update = $this->crud->update('trx_usage',$data,array('usg_id' => $this->input->post('usg_id')));
+	        $this->logupd_usglgt_save($this->input->post('usg_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_usglgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_usglgt($id);
+	    	if ($his->HISUSG_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'usg_id' => $id,
+						'hisusg_sts' => 'Posted by User '.$user,
+						'hisusg_old' => $his->HISUSG_STS,
+						'hisusg_new' => 'Posted By User '.$user,
+						'hisusg_info' => 'Original Save by Pemakaian Logistik form',
+						'hisusg_date' => date('Y-m-d'),
+						'hisusg_upcount' => $his->HISUSG_UPCOUNT+1
+					);
+				$this->db->insert('his_usg',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'usg_id' => $id,
+						'hisusg_sts' => 'Posted by User '.$user,
+						'hisusg_old' => $his->HISUSG_STS,
+						'hisusg_new' => 'Posted By User '.$user,
+						'hisusg_info' => 'Update by '.$user.' from Pemakaian Logistik form',
+						'hisusg_date' => date('Y-m-d'),
+						'hisusg_upcount' => $his->HISUSG_UPCOUNT
+					);
+				$this->db->insert('his_usg',$data);
+	    	}
+	    }
 
 		public function ajax_add_brgrtusg()
 	    {

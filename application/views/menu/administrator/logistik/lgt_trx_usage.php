@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_lgtusg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_lgtusg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -38,6 +48,8 @@
                                             <input type="hidden" name="usg_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                            <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                            <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -258,6 +270,37 @@
                                         <th>Alamat</th>
                                         <th>Kota</th>
                                         <th>Info</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_usg_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_usg_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Pakai</th>
+                                        <th>Approval</th>
+                                        <th>Tanggal</th>
+                                        <th>Lokasi</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -573,6 +616,111 @@
             $('[name="gd_usg"]').val('');
             $('[name="gd_unit1"]').val('');
             $('[name="gd_unit2"]').val('');
+        }
+        function edit_lgtusg()
+        {
+            $('#modal_usg_edit').modal('show');
+            $('.modal-title').text('Cari Pemakaian');
+            table = $('#dtb_usg_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_usgbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_lgtusg()
+        {
+            $('#modal_usg_edit').modal('show');
+            $('.modal-title').text('Cari Pemakaian');            
+            table = $('#dtb_usg_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_usgbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_usglgtopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/open_lgtusg/')?>" + id,
+                type: "POST",
+                data: $('#form_usg').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    if(data.status)
+                    {
+                        alert('Record Pemakaian Logistik Sukses Dibuka');
+                        $('#modal_usg_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Pemakaian Logistik masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_usglgtedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_usglgtgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="usg_id"]').val(data.USG_ID);
+                    $('[name="usg_code"]').val(data.USG_CODE);
+                    $('[name="appr_id"]').val(data.APPR_ID);
+                    $('[name="loc_id"]').val(data.LOC_ID);
+                    pick_appr(data.APPR_ID);
+                    pick_loc(data.LOC_ID);
+                    $('[name="usg_info"]').val(data.USG_INFO);
+                    barang(id);
+                    $('#modal_usg_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
         }
     </script>
 </body>

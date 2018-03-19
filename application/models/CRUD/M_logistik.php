@@ -53,6 +53,23 @@
 			return $que->row();
 		}
 
+		//Fungsi untuk cek pemakaian Pemakaian di tabel lain
+		public function check_usg($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('usg_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('usg_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Pemakaian Logistik
+		public function getlog_usglgt($id)
+		{
+			$this->db->where('usg_id',$id);
+			$this->db->where('hisusg_upcount = (select max(hisusg_upcount) from his_usg where usg_id = '.$id.')');
+			$que = $this->db->get('his_usg');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{

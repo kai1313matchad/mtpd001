@@ -420,6 +420,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['usg_code'] = $res;
+			$data2 = array(
+					'usg_id' => $insID,
+					'hisusg_sts' => 'Void By System',
+					'hisusg_old' => 'None',
+					'hisusg_new' => 'None',
+					'hisusg_info' => 'Create By System',
+					'hisusg_date' => date('Y-m-d'),
+					'hisusg_upcount' => 0
+				);
+			$this->db->insert('his_usg',$data2);
 			return  $out;
 		}
 

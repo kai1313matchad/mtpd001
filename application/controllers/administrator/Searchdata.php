@@ -24,6 +24,7 @@
 			$this->load->model('datatables/search/Dt_srchpobysts','s_pobysts');
 			$this->load->model('datatables/search/Dt_srchprcbysts','s_prcbysts');
 			$this->load->model('datatables/search/Dt_srchrtprcbysts','s_rtprcbysts');
+			$this->load->model('datatables/search/Dt_srchusgbysts','s_usgbysts');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
@@ -452,6 +453,58 @@
 		public function pick_rtprclgtgb($id)
 		{
 			$data = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Pemakaian Berdasarkan Status Untuk Edit dan Buka Record di halaman Pemakaian Logistik
+		public function srch_usgbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_usgbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->USG_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->USG_DATE;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_usglgtopen('."'".$dat->USG_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->USG_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->USG_DATE;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_usglgtedit('."'".$dat->USG_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_usgbysts->count_all(),
+							"recordsFiltered" => $this->s_usgbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_usglgtgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
 			echo json_encode($data);
 		}
 
