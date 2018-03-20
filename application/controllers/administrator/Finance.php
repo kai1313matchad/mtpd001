@@ -1175,7 +1175,97 @@
 	            );
 	        // $update = $this->crud->save('trx_cash_in',$data);
 	        $update = $this->crud->update('trx_cash_in',$data,array('csh_id'=>$this->input->post('kas_id')));
-	        echo json_encode(array("status" => TRUE));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('kas_nomor'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('kas_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('kas_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+
+		    	$this->db->select('sum(cshdetin_amount) as amount');
+		    	$this->db->from('cashin_det');
+	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>$get1->amount,
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('cashin_det');
+	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+						$joudet2 = array(
+								'jou_id'=>$get->JOU_ID,
+								'coa_id'=>$dat->COA_ID,
+								'joudet_debit'=>0,
+								'joudet_credit'=>$dat->CSHDETIN_AMOUNT
+								);
+						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+			    }
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('kas_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('kas_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+
+		    	$this->db->select('sum(cshdetin_amount) as amount');
+		    	$this->db->from('cashin_det');
+	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>$get1->amount,
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('cashin_det');
+	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+					$joudet2 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$dat->COA_ID,
+							'joudet_debit'=>0,
+							'joudet_credit'=>$dat->CSHDETIN_AMOUNT
+							);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				}
+	    	}
+	        echo json_encode(array("status" => TRUE,"test"=>$get2));
 		}
 
 		public function ajax_simpan_cash_in_detail()
@@ -1238,6 +1328,96 @@
 	            );
 	        // $update = $this->crud->save('trx_cash_out',$data);
 	        $update = $this->crud->update('trx_cash_out',$data,array('csho_id'=>$this->input->post('kas_id')));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('kas_nomor'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('kas_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('kas_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+
+		    	$this->db->select('sum(cshodet_amount) as amount');
+		    	$this->db->from('cashout_det');
+	    	    $this->db->where('csho_id',$this->input->post('kas_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$get1->amount
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('cashout_det');
+	    	    $this->db->where('csho_id',$this->input->post('kas_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+						$joudet2 = array(
+								'jou_id'=>$get->JOU_ID,
+								'coa_id'=>$dat->COA_ID,
+								'joudet_debit'=>$dat->CSHODET_AMOUNT,
+								'joudet_credit'=>0
+								);
+						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+			    }
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('kas_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('kas_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+
+		    	$this->db->select('sum(cshodet_amount) as amount');
+		    	$this->db->from('cashout_det');
+	    	    $this->db->where('csho_id',$this->input->post('kas_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$get1->amount
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('cashout_det');
+	    	    $this->db->where('csho_id',$this->input->post('kas_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+					$joudet2 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$dat->COA_ID,
+							'joudet_debit'=>$dat->CSHODET_AMOUNT,
+							'joudet_credit'=>0
+							);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				}
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1278,6 +1458,7 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
@@ -1290,7 +1471,7 @@
 	                
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'BNK_STS' => '1',
-	                'BNK_DATE' => $this->input->post('bank_tgl'),
+	                'BNK_DATE' => $tgl,
 	                // 'po_ordnum' => $this->input->post('po_so'),
 	                // 'po_term' => $this->input->post('po_term'),
 	                'BNK_INFO' => $this->input->post('bank_info')
@@ -1299,6 +1480,96 @@
 	            );
 	        // $update = $this->crud->save('trx_bankin',$data);
 	        $update = $this->crud->update('trx_bankin',$data,array('bnk_id'=>$this->input->post('bank_id')));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('bank_nomor'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('bank_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('bank_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+
+		    	$this->db->select('sum(bnkdet_amount) as amount');
+		    	$this->db->from('bankin_det');
+	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>$get1->amount,
+						'joudet_credit'=>0
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('bankin_det');
+	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+						$joudet2 = array(
+								'jou_id'=>$get->JOU_ID,
+								'coa_id'=>$dat->COA_ID,
+								'joudet_debit'=>0,
+								'joudet_credit'=>$dat->BNKDET_AMOUNT
+								);
+						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+			    }
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('bank_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('bank_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+
+		    	$this->db->select('sum(bnkdet_amount) as amount');
+		    	$this->db->from('bankin_det');
+	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>$get1->amount,
+						'joudet_credit'=>0
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('bankin_det');
+	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+					$joudet2 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$dat->COA_ID,
+							'joudet_debit'=>0,
+							'joudet_credit'=>$dat->BNKDET_AMOUNT
+							);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				}
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1384,6 +1655,7 @@
 			// {
 			// 	$appr = $this->input->post('appr_id');
 			// }
+			$tgl = date('Y-m-d');
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
 				    // 'USER_ID' => '1',
@@ -1395,11 +1667,101 @@
 	                'BNKO_TAXHEADCODE' => $this->input->post('head_taxnumber'),
 	                'BNKO_TAXCODE' => $this->input->post('taxnumber'),
 	                'BNKO_STS' => '1',
-	                'BNKO_DATE' => $this->input->post('bank_tgl'),
+	                'BNKO_DATE' => $tgl,
 	                'BNKO_INFO' => $this->input->post('bank_info')               
 	            );
 	        // $update = $this->crud->save('trx_bankout',$data);
 	        $update = $this->crud->update('trx_bankout',$data,array('bnko_id'=>$this->input->post('bank_id')));
+	         //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('bank_nomor'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('bank_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('bank_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+
+		    	$this->db->select('sum(bnkodet_amount) as amount');
+		    	$this->db->from('bankout_det');
+	    	    $this->db->where('bnko_id',$this->input->post('bank_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$get1->amount
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('bankout_det');
+	    	    $this->db->where('bnko_id',$this->input->post('bank_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+						$joudet2 = array(
+								'jou_id'=>$get->JOU_ID,
+								'coa_id'=>$dat->COA_ID,
+								'joudet_debit'=>$dat->BNKODET_AMOUNT,
+								'joudet_credit'=>0
+								);
+						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+			    }
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('bank_nomor'),
+						'jou_date'=>$tgl,
+						'jou_info'=>$this->input->post('bank_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+
+		    	$this->db->select('sum(bnkodet_amount) as amount');
+		    	$this->db->from('bankout_det');
+	    	    $this->db->where('bnko_id',$this->input->post('bank_id'));
+	    	    $que1 = $this->db->get();
+	    	    $get1 = $que1->row();
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$get1->amount
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+
+				$this->db->from('bankout_det');
+	    	    $this->db->where('bnko_id',$this->input->post('bank_id'));
+	    	    $que2 = $this->db->get();
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) {
+					$joudet2 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$dat->COA_ID,
+							'joudet_debit'=>$dat->BNKODET_AMOUNT,
+							'joudet_credit'=>0
+							);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				}
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 

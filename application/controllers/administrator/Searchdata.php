@@ -319,6 +319,12 @@
 			echo json_encode($data);
 		}
 
+		public function pick_invppn($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Transaksi Invoice
 		public function srch_inv()
 		{

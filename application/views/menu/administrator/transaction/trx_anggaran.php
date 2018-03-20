@@ -485,11 +485,12 @@ $(document).ready(function() {
                 {   
                     // $('[name="kas_acc"]').val(data.COA_ACC);               
                     // $('[name="acc_id"]').val(data.COA_ID);     
+                    var accname= data.COA_ACC + ' - ' + data.COA_ACCNAME;
                     if (sts=='1'){
-                       $('[name="kas_acc"]').val(data.COA_ACC);
+                       $('[name="kas_acc"]').val(accname);
                        $('[name="acc_id"]').val(data.COA_ID);
                     } else {
-                       $('[name="acc_detail"]').val(data.COA_ACC);
+                       $('[name="acc_detail"]').val(accname);
                        $('[name="acc_id_detail"]').val(data.COA_ID);
                     }  
                     $('#modal_account').modal('hide');
@@ -784,7 +785,13 @@ $(document).ready(function() {
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error adding / update data');
+                     var jenisanggaran=$('[name="budget_type"]').val();
+                     var approval=$('[name="appr_id"]').val();
+                     if ((jenisanggaran=='Proyek') && (approval=='')){
+                        alert('Nomor Approval harus diisi!');
+                     } else {
+                        alert('Error adding / update data');
+                     }
                 }
             });
         }

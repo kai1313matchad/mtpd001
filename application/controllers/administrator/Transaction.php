@@ -162,7 +162,11 @@
 	                'BUD_INFO' => $this->input->post('budget_keterangan')            
 	            );
 	        // $update = $this->crud->save('trx_budget',$data);
-	        $update = $this->crud->update('trx_budget',$data,array('bud_id'=>$this->input->post('budget_id')));
+	        $jenisanggaran=$this->input->post('budget_type');
+	        $approval=$this->input->post('appr_id');
+	        if (($jenisanggaran=='Proyek') && ($approval=='')){
+	        	alert('Nomor Approval harus diisi!');
+			} else {$update = $this->crud->update('trx_budget',$data,array('bud_id'=>$this->input->post('budget_id')));}
 	        echo json_encode(array("status" => TRUE));
 		}
 

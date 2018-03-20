@@ -112,6 +112,7 @@
                                                     <th class="col-sm-3 col-xs-3 text-center">Keterangan</th> 
                                                     <th class="col-sm-3 col-xs-3 text-center">Debet</th> 
                                                     <th class="col-sm-3 col-xs-3 text-center">Kredit</th> 
+                                                    <th class="col-sm-3 col-xs-3 text-center">Sub Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_content">
@@ -212,17 +213,17 @@
                         var jenis = data[i]["BNK_CODE"];
                         if (account != data[i]["COA_ACC"]){
                             if ((cabang != "") && (account != "")) {
-                            var $st = $('<tr>').append(
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').text(''),
-                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                                        $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2))
-                                      ).appendTo('#tb_content');
-                            var $tot = $('<tr>').append(
-                                        $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                                      ).appendTo('#tb_content');
+                            // var $st = $('<tr>').append(
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').text(''),
+                            //             $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                            //             $('<td>').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2))
+                            //           ).appendTo('#tb_content');
+                            // var $tot = $('<tr>').append(
+                            //             $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                            //           ).appendTo('#tb_content');
                             }
                             if (cabang != data[i]["BRANCH_NAME"]) {
                                var $tr = $('<tr>').append(
@@ -249,8 +250,8 @@
                             $('<td>').text(data[i]["ACC"]),
                             $('<td>').text(data[i]["BNK_INFO"]),
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNK_AMOUNT"],".",",",2)),
-                            $('<td>').css('text-align','right').text('0.00')
-                            
+                            $('<td>').css('text-align','right').text('0.00'),
+                            $('<td>').css('text-align','right').text(formatCurrency(total,".",",",2))
                             ).appendTo('#tb_content');
                         }
                         if (jenis.substring(0,2)=="BK")
@@ -263,26 +264,27 @@
                             $('<td>').text(data[i]["ACC"]),
                             $('<td>').text(data[i]["BNK_INFO"]),
                             $('<td>').css('text-align','right').text('0.00'),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNK_AMOUNT"],".",",",2))
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNK_AMOUNT"],".",",",2)),
+                            $('<td>').css('text-align','right').text(formatCurrency(total,".",",",2))
                             ).appendTo('#tb_content');
                         }
 
                     };
-                    var $st = $('<tr>').append(
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td>').text(''),
-                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
-                              $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2)),
-                              ).appendTo('#tb_content');
-                    var $tot = $('<tr>').append(
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td>').text(''),
-                               $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
-                               ).appendTo('#tb_content');
+                    // var $st = $('<tr>').append(
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td>').text(''),
+                    //           $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tdebet,".",",",2)),
+                    //           $('<td align="right">').css({'border-top':'2px solid','border-bottom':'double','align':'right'}).text(formatCurrency(tkredit,".",",",2)),
+                    //           ).appendTo('#tb_content');
+                    // var $tot = $('<tr>').append(
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td>').text(''),
+                    //            $('<td colspan="6">').css('text-align','right').text(formatCurrency(total,".",",",2)+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0'+'\xa0')
+                    //            ).appendTo('#tb_content');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

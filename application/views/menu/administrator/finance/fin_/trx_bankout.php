@@ -48,6 +48,8 @@
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_bank">
                             <div class="tab-content">
+                                <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                 <div class="tab-pane fade in active" id="myKas">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">

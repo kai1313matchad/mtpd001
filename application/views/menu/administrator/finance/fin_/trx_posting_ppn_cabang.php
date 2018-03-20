@@ -646,9 +646,9 @@
         }
 
         function pick_inv_ppn(id)
-        {
+        { 
             $.ajax({
-                url : "<?php echo site_url('administrator/Showdata/show_invppn/')?>" + id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_invppn/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
