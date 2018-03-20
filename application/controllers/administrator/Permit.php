@@ -78,7 +78,7 @@
 					'hispappr_sts' => 'Open by User '.$user,
 					'hispappr_old' => $his->HISPAPPR_STS,
 					'hispappr_new' => 'Open By User '.$user,
-					'hispappr_info' => 'Open Record by appr form',
+					'hispappr_info' => 'Open Record by permit form',
 					'hispappr_date' => date('Y-m-d'),
 					'hispappr_upcount' => $his->HISPAPPR_UPCOUNT+1
 				);
@@ -249,7 +249,7 @@
 						'hispappr_sts' => 'Posted by User '.$user,
 						'hispappr_old' => $his->HISPAPPR_STS,
 						'hispappr_new' => 'Posted By User '.$user,
-						'hispappr_info' => 'Original Save by appr form',
+						'hispappr_info' => 'Original Save by permit form',
 						'hispappr_date' => date('Y-m-d'),
 						'hispappr_upcount' => $his->HISPAPPR_UPCOUNT+1
 					);
@@ -262,7 +262,7 @@
 						'hispappr_sts' => 'Posted by User '.$user,
 						'hispappr_old' => $his->HISPAPPR_STS,
 						'hispappr_new' => 'Posted By User '.$user,
-						'hispappr_info' => 'Update by '.$user.' from appr form',
+						'hispappr_info' => 'Update by '.$user.' from permit form',
 						'hispappr_date' => date('Y-m-d'),
 						'hispappr_upcount' => $his->HISPAPPR_UPCOUNT
 					);

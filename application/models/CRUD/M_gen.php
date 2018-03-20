@@ -577,6 +577,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['invo_code'] = $res;
+			$data2 = array(
+					'inv_id' => $insID,
+					'hisinv_sts' => 'Void By System',
+					'hisinv_old' => 'None',
+					'hisinv_new' => 'None',
+					'hisinv_info' => 'Create By System',
+					'hisinv_date' => date('Y-m-d'),
+					'hisinv_upcount' => 0
+				);
+			$this->db->insert('his_inv',$data2);
 			return  $out;
 		}
 
