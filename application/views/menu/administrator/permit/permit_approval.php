@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_pappr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_pappr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                     <ul class="nav nav-tabs">
@@ -23,7 +33,10 @@
                         </li>
                     </ul>
                     <form class="form-horizontal" id="form_pi" enctype="multipart/form-data">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                        <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                        <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                        <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="1">
                                 <div class="form-group">
@@ -293,7 +306,7 @@
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
-                                            <input id="pidet_datercv" type='text' class="form-control input-group-addon" name="pidet_datercv" value="<?= date('Y-m-d')?>" readonly />
+                                            <input id="pidet_datercv" type='text' class="form-control input-group-addon" name="pidet_datercv" value="<?= date('Y-m-d')?>" />
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +354,6 @@
                     </form>
                 </div>                
             </div>
-            <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -591,27 +603,40 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_pappr_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_pappr_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No PI</th>
+                                        <th>Approval</th>
+                                        <th>Tanggal</th>
+                                        <th>Client</th>
+                                        <th>Lokasi</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Select Bst -->
-    <script src="<?php echo base_url('assets/addons/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
@@ -621,13 +646,11 @@
             dt_docpi($('[name="pi_id"]').val());
             drop_coa();
         });
-
         function print_pi()
         {
             var id = $('[name=pi_id]').val();
             window.open ( "<?php echo site_url('administrator/Permit/print_permitappr/')?>"+id,'_blank');
         }
-
         function check_()
         {
             if($('#det_radio1').is(':checked'))
@@ -639,7 +662,6 @@
                 $('#det_biayapi').css({'display':'block'});
             }
         }
-
         function gen_pap()
         {
             $.ajax({
@@ -659,7 +681,6 @@
                 }
             });
         }
-
         function add_costpi()
         {
             $.ajax({
@@ -689,7 +710,6 @@
                 }
             });
         }
-
         function delete_picostdet(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -710,7 +730,6 @@
                 });
             }
         }
-
         function add_docpi()
         {
             $.ajax({
@@ -740,7 +759,6 @@
                 }
             });
         }
-
         function delete_pidocdet(id)
         {
             if(confirm('Are you sure delete this data?'))
@@ -761,7 +779,6 @@
                 });
             }
         }
-
         function save_pappr()
         {
             var n = checkradio();
@@ -798,19 +815,16 @@
                 alert('Status Masih Kosong');
             }
         }
-
         function checkradio()
         {
             var n = $('[name="pi_urg"]:checked').val();
             return n;
         }
-
         function new_jou()
         {
             $('#genbtn').attr('disabled',false);
             clean_();
         }
-
         function clean_()
         {
             $('input').val('');
@@ -1087,6 +1101,62 @@
                 ],
             });
         }
+        function edit_pappr()
+        {
+            $('#modal_pappr_edit').modal('show');
+            $('.modal-title').text('Cari Persetujuan Ijin');
+            table = $('#dtb_pappr_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_papprbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_pappr()
+        {
+            $('#modal_pappr_edit').modal('show');
+            $('.modal-title').text('Cari Persetujuan Ijin');            
+            table = $('#dtb_pappr_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_papprbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -1240,6 +1310,68 @@
                     $('[name="pi_plcid"]').val(data.GOV_ID);
                     $('[name="pi_plc"]').val(data.GOV_NAME);                  
                     $('#modal_govsts').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_pappropen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Permit/open_pappr/')?>" + id,
+                type: "POST",
+                data: $('#form_pi').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Persetujuan Ijin Sukses Dibuka');
+                        $('#modal_pappr_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Persetujuan Ijin masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_pappredit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_papprgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="pi_id"]').val(data.PAPPR_ID);
+                    $('[name="pi_code"]').val(data.PAPPR_CODE);
+                    var appr = data.APPR_ID;
+                    if(appr != '')
+                    {
+                        pick_apprgb(appr);
+                    }
+                    pick_loc(data.LOC_ID);
+                    pick_cust(data.CUST_ID);
+                    pick_bb(data.BB_ID);
+                    pick_govsts(data.GOV_ID);
+                    pick_permittype(data.PRMTTYP_ID);
+                    $('[name="pi_length"]').val(data.PAPPR_LENGTH);
+                    $('[name="pi_width"]').val(data.PAPPR_WIDTH);
+                    $('[name="pi_sumsize"]').val(data.PAPPR_SUMSIZE);
+                    $('[name="pi_side"]').val(data.PAPPR_SIDE);
+                    $('[name="pi_plcsum"]').val(data.PAPPR_PLCSUM);
+                    $('[name="pi_info"]').val(data.PAPPR_INFO);
+                    $('[name="pi_urg"][value="'+data.PAPPR_URG+'"]').prop('checked',true);
+                    dt_biayapi(data.PAPPR_ID);
+                    dt_docpi(data.PAPPR_ID);
+                    $('#modal_pappr_edit').modal('hide');                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

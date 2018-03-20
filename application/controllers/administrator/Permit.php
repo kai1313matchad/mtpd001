@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('CRUD/M_permit','permit');
 		}
 
 		public function index()
@@ -63,6 +64,27 @@
 			$data['menulist']='report_permit';
 			$data['isi']='menu/administrator/permit/report_permitappr';
 			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function open_pappr($id)
+		{
+			$user = $this->input->post('user_name');
+			$string = array();
+			$dt = array('pappr_sts'=>'0');
+			$update = $this->crud->update('trx_permitappr',$dt,array('pappr_id' => $id));
+			$his = $this->permit->getlog_pappr($id);
+			$dthis = array(
+					'pappr_id' => $id,
+					'hispappr_sts' => 'Open by User '.$user,
+					'hispappr_old' => $his->HISPAPPR_STS,
+					'hispappr_new' => 'Open By User '.$user,
+					'hispappr_info' => 'Open Record by appr form',
+					'hispappr_date' => date('Y-m-d'),
+					'hispappr_upcount' => $his->HISPAPPR_UPCOUNT+1
+				);
+			$this->db->insert('his_pappr',$dthis);
+			$data['status'] = TRUE;
+			echo json_encode($data);
 		}
 
 		//Laporan
@@ -208,11 +230,45 @@
 				'pappr_height' => $this->input->post('pi_height'),
 				'pappr_sumsize' => $this->input->post('pi_sumsize'),
 				'pappr_plcsum' => $this->input->post('pi_plcsum'),
-				'pappr_side' => $this->input->post('pi_side')
+				'pappr_side' => $this->input->post('pi_side'),
+				'pappr_info' => $this->input->post('pi_info'),
+				'pappr_sts' => '1'
 			);
 			$update = $this->crud->update('trx_permitappr',$data,array('pappr_id' => $this->input->post('pi_id')));
+			$this->logupd_pappr_save($this->input->post('pi_id'),$this->input->post('user_name'));
 			echo json_encode(array("status"=>TRUE));
 		}
+
+		public function logupd_pappr_save($id,$user)
+	    {
+	    	$his = $this->permit->getlog_pappr($id);
+	    	if ($his->HISPAPPR_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'pappr_id' => $id,
+						'hispappr_sts' => 'Posted by User '.$user,
+						'hispappr_old' => $his->HISPAPPR_STS,
+						'hispappr_new' => 'Posted By User '.$user,
+						'hispappr_info' => 'Original Save by appr form',
+						'hispappr_date' => date('Y-m-d'),
+						'hispappr_upcount' => $his->HISPAPPR_UPCOUNT+1
+					);
+				$this->db->insert('his_pappr',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'pappr_id' => $id,
+						'hispappr_sts' => 'Posted by User '.$user,
+						'hispappr_old' => $his->HISPAPPR_STS,
+						'hispappr_new' => 'Posted By User '.$user,
+						'hispappr_info' => 'Update by '.$user.' from appr form',
+						'hispappr_date' => date('Y-m-d'),
+						'hispappr_upcount' => $his->HISPAPPR_UPCOUNT
+					);
+				$this->db->insert('his_pappr',$data);
+	    	}
+	    }
 
 		public function add_costpi()
 		{

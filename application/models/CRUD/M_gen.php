@@ -617,6 +617,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['pappr_code'] = $res;
+			$data2 = array(
+					'pappr_id' => $insID,
+					'hispappr_sts' => 'Void By System',
+					'hispappr_old' => 'None',
+					'hispappr_new' => 'None',
+					'hispappr_info' => 'Create By System',
+					'hispappr_date' => date('Y-m-d'),
+					'hispappr_upcount' => 0
+				);
+			$this->db->insert('his_pappr',$data2);
 			return  $out;
 		}
 	}
