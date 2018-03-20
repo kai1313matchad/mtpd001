@@ -2,6 +2,91 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class M_logistik extends CI_Model
 	{
+		//Fungsi untuk cek pemakaian PO di tabel lain
+		public function check_po($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('po_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('po_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk PO Logistik
+		public function getlog_polgt($id)
+		{
+			$this->db->where('po_id',$id);
+			$this->db->where('hispo_upcount = (select max(hispo_upcount) from his_po where po_id = '.$id.')');
+			$que = $this->db->get('his_po');
+			return $que->row();
+		}
+
+		//Fungsi untuk cek pemakaian Pembelian di tabel lain
+		public function check_prc($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('prc_id'=>$id,$sts=>'1')):$this->db->get_where($tb,$id);
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Pembelian Logistik
+		public function getlog_prclgt($id)
+		{
+			$this->db->where('prc_id',$id);
+			$this->db->where('hisprc_upcount = (select max(hisprc_upcount) from his_prc where prc_id = '.$id.')');
+			$que = $this->db->get('his_prc');
+			return $que->row();
+		}
+
+		//Fungsi untuk cek pemakaian Retur Pembelian di tabel lain
+		public function check_rtprc($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('rtprc_id'=>$id,$sts=>'1')):$this->db->get_where($tb,$id);
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Retur Pembelian Logistik
+		public function getlog_rtprclgt($id)
+		{
+			$this->db->where('rtprc_id',$id);
+			$this->db->where('hisrtprc_upcount = (select max(hisrtprc_upcount) from his_retprc where rtprc_id = '.$id.')');
+			$que = $this->db->get('his_retprc');
+			return $que->row();
+		}
+
+		//Fungsi untuk cek pemakaian Pemakaian di tabel lain
+		public function check_usg($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('usg_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('usg_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Pemakaian Logistik
+		public function getlog_usglgt($id)
+		{
+			$this->db->where('usg_id',$id);
+			$this->db->where('hisusg_upcount = (select max(hisusg_upcount) from his_usg where usg_id = '.$id.')');
+			$que = $this->db->get('his_usg');
+			return $que->row();
+		}
+
+		//Fungsi untuk cek pemakaian Retur Pemakaian di tabel lain
+		public function check_rtusg($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('rtusg_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('rtusg_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk Retur Pemakaian Logistik
+		public function getlog_rtusglgt($id)
+		{
+			$this->db->where('rtusg_id',$id);
+			$this->db->where('hisrtusg_upcount = (select max(hisrtusg_upcount) from his_retusg where rtusg_id = '.$id.')');
+			$que = $this->db->get('his_retusg');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{

@@ -15,6 +15,7 @@
 			$this->load->model('datatables/showdata/Dt_budgetdet','det_budget');
 			$this->load->model('datatables/showdata/Dt_showrptappr','showrptappr');
 			$this->load->model('datatables/showdata/Dt_showrptbapp','showrptbapp');
+			$this->load->model('datatables/showdata/Dt_showusgtopick','showusgtopick');
 			$this->load->model('datatables/showdata/Dt_bankintrxdet','bankin_trxdet');
 			$this->load->model('datatables/showdata/Dt_bankindet','bankin_det');
 			$this->load->model('datatables/showdata/Dt_bankouttrxdet','bankout_trxdet');
@@ -77,8 +78,9 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->BANK_CODE;
-				$row[] = $dat->BANK_NAME;				
-				$row[] = $dat->BANK_INFO;
+				$row[] = $dat->BANK_NAME;
+				$row[] = $dat->BANK_ACC.' A/N '.$dat->BANK_ACCNAME.', Cabang '.$dat->BANK_BRANCH;
+				$row[] = $dat->BANK_PRODTYPE.', '.$dat->BANK_INFO;
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_bank('."'".$dat->BANK_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -917,6 +919,32 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_stock->count_all(),
 							"recordsFiltered" => $this->rpt_stock->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Detail Pemakaian Untuk Dipilih
+		public function show_usgtopick($id)
+		{
+			$list = $this->showusgtopick->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->GD_NAME;
+				$row[] = $dat->GD_PRICE.' / '.$dat->GD_UNIT.' '.$dat->GD_MEASURE;
+				$row[] = $dat->USGDET_QTY. ' ' .$dat->GD_MEASURE;
+				$row[] = $dat->USGDET_SUB;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_usgtopick('."'".$dat->GD_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->showusgtopick->count_all(),
+							"recordsFiltered" => $this->showusgtopick->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

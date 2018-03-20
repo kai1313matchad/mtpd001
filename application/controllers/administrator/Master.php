@@ -508,12 +508,12 @@
 	            $data['error_string'][] = 'Kota Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('fax') == '')
-	        {
-	            $data['inputerror'][] = 'fax';
-	            $data['error_string'][] = 'No Fax Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('fax') == '')
+	        // {
+	        //     $data['inputerror'][] = 'fax';
+	        //     $data['error_string'][] = 'No Fax Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        if($this->input->post('alamat') == '')
 	        {
 	            $data['inputerror'][] = 'alamat';
@@ -891,7 +891,7 @@
 	        if($this->input->post('gov') == '')
 	        {
 	            $data['inputerror'][] = 'gov';
-	            $data['error_string'][] = 'Kode Lokasi Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Kode Status Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('lcheck') == '0')
@@ -1963,7 +1963,7 @@
 	        if($this->input->post('nama') == '')
 	        {
 	            $data['inputerror'][] = 'nama';
-	            $data['error_string'][] = 'Nama Mata Uang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Reklame Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('info') == '')
@@ -2078,7 +2078,7 @@
 	        if($this->input->post('nama2') == '')
 	        {
 	            $data['inputerror'][] = 'nama2';
-	            $data['error_string'][] = 'Nama Mata Uang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)
@@ -2415,12 +2415,12 @@
 	            $data['error_string'][] = 'Telepon Supplier Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('fax') == '')
-	        {
-	            $data['inputerror'][] = 'fax';
-	            $data['error_string'][] = 'Fax Supplier Tidak Boleh Kosong';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('fax') == '')
+	        // {
+	        //     $data['inputerror'][] = 'fax';
+	        //     $data['error_string'][] = 'Fax Supplier Tidak Boleh Kosong';
+	        //     $data['status'] = FALSE;
+	        // }
 	        // if($this->input->post('acc') == '')
 	        // {
 	        //     $data['inputerror'][] = 'acc';
@@ -2698,13 +2698,13 @@
 	        if($this->input->post('dept_name') == '')
 	        {
 	            $data['inputerror'][] = 'dept_name';
-	            $data['error_string'][] = 'Nama Barang Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Nama Departemen Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('dept_info') == '')
 	        {
 	            $data['inputerror'][] = 'dept_info';
-	            $data['error_string'][] = 'Satuan Tidak Boleh Kosong';
+	            $data['error_string'][] = 'Info Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($data['status'] === FALSE)
@@ -2746,6 +2746,11 @@
 	        		'bank_code' => $this->input->post('code'),
 	        		'coa_id' => $this->input->post('acc_bank'),
 	                'bank_name' => $this->input->post('nama'),
+	                'bank_acc' => $this->input->post('rekening'),
+	                'bank_accname' => $this->input->post('rekatsnama'),
+	                'bank_prodtype' => $this->input->post('jenisproduk'),
+	                'bank_branch' => $this->input->post('cabang'),
+	                'bank_curr' => $this->input->post('kurensi'),
 	                'bank_info' => $this->input->post('info'),
 	                'bank_dtsts' => $this->input->post('sts')
 	            );
@@ -2761,6 +2766,11 @@
 	                'bank_code' => $this->input->post('code'),
 	                'coa_id' => $this->input->post('acc_bank'),
 	                'bank_name' => $this->input->post('nama'),
+	                'bank_acc' => $this->input->post('rekening'),
+	                'bank_accname' => $this->input->post('rekatsnama'),
+	                'bank_prodtype' => $this->input->post('jenisproduk'),
+	                'bank_branch' => $this->input->post('cabang'),
+	                'bank_curr' => $this->input->post('kurensi'),
 	                'bank_info' => $this->input->post('info')
 	            );
 	    	$update = $this->crud->update($table,$data,array('bank_id' => $this->input->post('id')));
@@ -2809,6 +2819,36 @@
 	        {
 	            $data['inputerror'][] = 'acc_bank';
 	            $data['error_string'][] = 'Nama Akun Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('rekening') == '')
+	        {
+	            $data['inputerror'][] = 'rekening';
+	            $data['error_string'][] = 'Nomor Rekening Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('rekatsnama') == '')
+	        {
+	            $data['inputerror'][] = 'rekatsnama';
+	            $data['error_string'][] = 'Atas Nama Rekening Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('jenisproduk') == '')
+	        {
+	            $data['inputerror'][] = 'jenisproduk';
+	            $data['error_string'][] = 'Jenis Produk Bank Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('cabang') == '')
+	        {
+	            $data['inputerror'][] = 'cabang';
+	            $data['error_string'][] = 'Nama Cabang Bank Tidak Boleh Kosong';
+	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('kurensi') == '')
+	        {
+	            $data['inputerror'][] = 'kurensi';
+	            $data['error_string'][] = 'Kurensi Akun Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
 	        if($this->input->post('info') == '')

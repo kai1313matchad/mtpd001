@@ -328,11 +328,21 @@
 			$data = array(
 					'po_code'=>$res,
 					'po_sts'=>'0'
-				);			
-			$this->db->insert('trx_po',$data);			
+				);
+			$this->db->insert('trx_po',$data);
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['po_code'] = $res;
+			$data2 = array(
+					'po_id' => $insID,
+					'hispo_sts' => 'Void By System',
+					'hispo_old' => 'None',
+					'hispo_new' => 'None',
+					'hispo_info' => 'Create By System',
+					'hispo_date' => date('Y-m-d'),
+					'hispo_upcount' => 0
+				);
+			$this->db->insert('his_po',$data2);
 			return  $out;
 		}
 
@@ -352,6 +362,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['prc_code'] = $res;
+			$data2 = array(
+					'prc_id' => $insID,
+					'hisprc_sts' => 'Void By System',
+					'hisprc_old' => 'None',
+					'hisprc_new' => 'None',
+					'hisprc_info' => 'Create By System',
+					'hisprc_date' => date('Y-m-d'),
+					'hisprc_upcount' => 0
+				);
+			$this->db->insert('his_prc',$data2);
 			return  $out;
 		}
 
@@ -371,6 +391,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtprc_code'] = $res;
+			$data2 = array(
+					'rtprc_id' => $insID,
+					'hisrtprc_sts' => 'Void By System',
+					'hisrtprc_old' => 'None',
+					'hisrtprc_new' => 'None',
+					'hisrtprc_info' => 'Create By System',
+					'hisrtprc_date' => date('Y-m-d'),
+					'hisrtprc_upcount' => 0
+				);
+			$this->db->insert('his_retprc',$data2);
 			return  $out;
 		}
 
@@ -390,6 +420,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['usg_code'] = $res;
+			$data2 = array(
+					'usg_id' => $insID,
+					'hisusg_sts' => 'Void By System',
+					'hisusg_old' => 'None',
+					'hisusg_new' => 'None',
+					'hisusg_info' => 'Create By System',
+					'hisusg_date' => date('Y-m-d'),
+					'hisusg_upcount' => 0
+				);
+			$this->db->insert('his_usg',$data2);
 			return  $out;
 		}
 
@@ -409,6 +449,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtusg_code'] = $res;
+			$data2 = array(
+					'rtusg_id' => $insID,
+					'hisrtusg_sts' => 'Void By System',
+					'hisrtusg_old' => 'None',
+					'hisrtusg_new' => 'None',
+					'hisrtusg_info' => 'Create By System',
+					'hisrtusg_date' => date('Y-m-d'),
+					'hisrtusg_upcount' => 0
+				);
+			$this->db->insert('his_retusg',$data2);
 			return  $out;
 		}
 
@@ -497,15 +547,16 @@
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bapp_code'] = $res;
-			// $data2 = array(
-			// 		'appr_id' => $insID,
-			// 		'hisappr_sts' => 'Void By System',
-			// 		'hisappr_old' => 'None',
-			// 		'hisappr_new' => 'None',
-			// 		'hisappr_info' => 'Create By System',
-			// 		'hisappr_upcount' => 0
-			// 	);
-			// $this->db->insert('his_approvalbill',$data2);
+			$data2 = array(
+					'bapp_id' => $insID,
+					'hisbapp_sts' => 'Void By System',
+					'hisbapp_old' => 'None',
+					'hisbapp_new' => 'None',
+					'hisbapp_info' => 'Create By System',
+					'hisbapp_date' => date('Y-m-d'),
+					'hisbapp_upcount' => 0
+				);
+			$this->db->insert('his_bapp',$data2);
 			return  $out;
 		}
 

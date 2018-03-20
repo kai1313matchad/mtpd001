@@ -22,8 +22,11 @@
                                 <th class="text-center">
                                     Kode
                                 </th>
-                                <th class="col-sm-3 col-xs-3 text-center">
+                                <th class="text-center">
                                     Nama
+                                </th>
+                                <th class="text-center">
+                                    Rekening
                                 </th>
                                 <th class="text-center">
                                     Info
@@ -68,6 +71,51 @@
                                 <label class="col-sm-2 control-label">Nama</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="nama">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">No Rekening</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="rekening">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Atas Nama</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="rekatsnama">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Jenis Produk Bank</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="jenisproduk">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Cabang Bank</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="cabang">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Mata Uang Rek.</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="kurensi">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -190,7 +238,7 @@
                     "orderable": false,
                 },
                 {
-                    "className": "text-center", "targets": [0,4]
+                    "className": "text-center", "targets": ['_all']
                 }
                 ],
             });
@@ -235,7 +283,12 @@
                     var sts = data.COA_ID;
                     // document.querySelector('#acc_bank [value="' + sts + '"]').selected = true;
                     $('#acc_bank').selectpicker('val', sts);
-                    $('[name="info"]').val(data.BANK_INFO);                
+                    $('[name="rekening"]').val(data.BANK_ACC);
+                    $('[name="rekatsnama"]').val(data.BANK_ACCNAME);
+                    $('[name="jenisproduk"]').val(data.BANK_PRODTYPE);
+                    $('[name="cabang"]').val(data.BANK_BRANCH);
+                    $('[name="kurensi"]').val(data.BANK_CURR);
+                    $('[name="info"]').val(data.BANK_INFO);
                     $('[name="sts"]').val(data.BANK_DTSTS);
                     $('[name="check"]').val("1");
                     $('[name="tb"]').val("master_bank");
@@ -260,7 +313,7 @@
                     $('[name="vcode"]').val(data.BANK_CODE);
                     $('[name="vnama"]').val(data.BANK_NAME);              
                     $('[name="vacc_bank"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
-                    $('[name="vinfo"]').val(data.BANK_INFO);
+                    $('[name="vinfo"]').val('No Rekening '+data.BANK_ACC+' A/N '+data.BANK_ACCNAME+', Cabang '+data.BANK_BRANCH+'\nJenis Produk '+data.BANK_PRODTYPE+', '+data.BANK_INFO);
                     $('#modal_view').modal('show');
                     $('.modal-title').text('Lihat Bank');
                 },

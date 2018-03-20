@@ -1,21 +1,21 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchappr extends CI_Model 
+	class Dt_showusgtopick extends CI_Model 
 	{
-		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_brcname','appr_date','cust_name','loc_name');
-		var $column_search = array('appr_code','appr_brcname','appr_date','cust_name','loc_name');
-		var $order = array('appr_id' => 'desc');
+		var $table = 'usage_details a';
+		var $column_order = array(null,'gd_name','gd_price','prcdet_qty','prcdet_sub');
+		var $column_search = array('gd_name','gd_price','prcdet_qty','prcdet_sub');
+		var $order = array('usgdet_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
-		{
-			$this->db->join('master_customer b','b.cust_id = a.cust_id');
-			$this->db->join('master_location c','c.loc_id = a.loc_id');
+		private function _get_datatables_query($id)
+		{		
 			$this->db->from($this->table);
-			$this->db->where('appr_sts','1');			
+			$this->db->join('master_goods b', 'b.gd_id = a.gd_id');
+			$this->db->join('trx_usage c', 'c.usg_id = a.usg_id');
+			$this->db->where('a.usg_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -46,17 +46,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}
@@ -64,6 +64,6 @@
 		{
 			$this->db->from($this->table);
 			return $this->db->count_all_results();
-		}
+		}		
 	}
 ?>

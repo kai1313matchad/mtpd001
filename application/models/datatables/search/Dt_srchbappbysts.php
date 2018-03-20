@@ -1,21 +1,24 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchappr extends CI_Model 
+	class Dt_srchbappbysts extends CI_Model 
 	{
-		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_brcname','appr_date','cust_name','loc_name');
-		var $column_search = array('appr_code','appr_brcname','appr_date','cust_name','loc_name');
-		var $order = array('appr_id' => 'desc');
+		var $table = 'trx_bapp a';
+		var $column_order = array(null,'bapp_code','appr_code','bapp_date','cust_name','loc_name');
+		var $column_search = array('bapp_code','appr_code','bapp_date','cust_name','loc_name');
+		var $order = array('a.bapp_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
 		}
-		private function _get_datatables_query()
+		private function _get_datatables_query($id,$brc)
 		{
-			$this->db->join('master_customer b','b.cust_id = a.cust_id');
-			$this->db->join('master_location c','c.loc_id = a.loc_id');
-			$this->db->from($this->table);
-			$this->db->where('appr_sts','1');			
+			$this->db->join('trx_approvalbill b','b.appr_id = a.appr_id','left');
+			$this->db->join('master_customer c','c.cust_id = b.cust_id','left');
+			$this->db->join('master_location d','d.loc_id = b.loc_id','left');
+			$this->db->join('master_user e','e.user_id = a.user_id','left');
+ 			$this->db->from($this->table);
+			$this->db->where('a.bapp_sts',$id);
+			$this->db->where($brc);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
@@ -46,17 +49,17 @@
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
-		public function get_datatables()
+		public function get_datatables($id,$brc)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id,$brc);
 			if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result();
 		}
-		public function count_filtered()
+		public function count_filtered($id,$brc)
 		{
-			$this->_get_datatables_query();
+			$this->_get_datatables_query($id,$brc);
 			$query = $this->db->get();
 			return $query->num_rows();
 		}

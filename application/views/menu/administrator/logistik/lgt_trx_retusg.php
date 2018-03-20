@@ -12,6 +12,16 @@
                             <span class="glyphicon glyphicon-print"> Cetak</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_lgtretusg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_lgtretusg()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
@@ -38,6 +48,8 @@
                                             <input type="hidden" name="rtusg_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                            <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                            <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -91,12 +103,40 @@
                                             <h2>Data Barang</h2>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12 table-responsive">
+                                            <table id="dtb_usage_1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">
+                                                            No
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Nama
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Harga
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Jumlah
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Total
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Actions
+                                                        </th>
+                                                    </tr>                            
+                                                </thead>                        
+                                            </table>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Nama Barang</label>
-                                        <div class="col-sm-1">
+                                        <!-- <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_brg()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
-                                        </div>
-                                        <div class="col-sm-7">
+                                        </div> -->
+                                        <div class="col-sm-8">
                                             <input class="form-control" type="text" name="gd_name" readonly>
                                             <input type="hidden" name="gd_id" value="">
                                         </div>
@@ -159,7 +199,6 @@
                                             </table>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
                                             <a href="javascript:void(0)" onclick="save_rtusg()" class="btn btn-block btn-primary btn-default">Simpan</a>
@@ -170,11 +209,8 @@
                         </form>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
     <div class="modal fade" id="modal_usg" role="dialog">
@@ -240,10 +276,42 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_rtusg_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_rtusg_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Retur</th>
+                                        <th>No Pakai</th>
+                                        <th>Tanggal</th>
+                                        <th>Approval</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function()
+        {
             $('#dtp1').datetimepicker({                
                 format: 'YYYY-MM-DD'
             });
@@ -400,8 +468,29 @@
                 ],
             });
         }
+        function brg_usg(id)
+        {
+            table = $('#dtb_usage_1').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Showdata/show_usgtopick/')?>"+id,
+                    "type": "POST",
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function srch_usg()
-        {            
+        {
             $('#modal_usg').modal('show');
             $('.modal-title').text('Cari Approval');
             table = $('#dtb_usg').DataTable({
@@ -424,7 +513,7 @@
             });
         }
         function srch_brg()
-        {            
+        {
             $('#modal_goods').modal('show');
             $('.modal-title').text('Cari Barang');
             table = $('#dtb_good').DataTable({
@@ -462,6 +551,7 @@
                         var appr_id = data.APPR_ID;
                         pick_appr(appr_id);
                     }
+                    brg_usg(data.USG_ID);
                     $('#modal_usg').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -489,7 +579,7 @@
                 }
             });
         }
-        function pick_brg(id)
+        function pick_usgtopick(id)
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/ajax_pick_brg/')?>" + id,
@@ -501,8 +591,8 @@
                     $('[name="gd_name"]').val(data.GD_NAME);
                     $('[name="gd_info"]').val(data.GD_INFO);
                     $('[name="gd_stock"]').val(data.GD_STOCK);
-                    $('[name="gd_unit1"]').val(data.GD_UNIT);
-                    $('[name="gd_unit2"]').val(data.GD_UNIT);
+                    $('[name="gd_unit1"]').val(data.GD_MEASURE);
+                    $('[name="gd_unit2"]').val(data.GD_MEASURE);
                     $('#modal_goods').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -520,6 +610,108 @@
             $('[name="gd_usg"]').val('');
             $('[name="gd_unit1"]').val('');
             $('[name="gd_unit2"]').val('');
+        }
+        function edit_lgtretusg()
+        {
+            $('#modal_rtusg_edit').modal('show');
+            $('.modal-title').text('Cari Pembelian');
+            table = $('#dtb_rtusg_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_rtusgbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_lgtretusg()
+        {
+            $('#modal_rtusg_edit').modal('show');
+            $('.modal-title').text('Cari Pembelian');            
+            table = $('#dtb_rtusg_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_rtusgbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_rtusglgtopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Logistik/open_lgtrtusg/')?>" + id,
+                type: "POST",
+                data: $('#form_rtusg').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Retur Pemakaian Logistik Sukses Dibuka');
+                        $('#modal_rtusg_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Retur Pemakaian Logistik masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_rtusglgtedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_rtusglgtgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="rtusg_id"]').val(data.RTUSG_ID);
+                    $('[name="rtusg_code"]').val(data.RTUSG_CODE);
+                    pick_usage(data.USG_ID);
+                    barang(data.RTUSG_ID);
+                    $('[name="rtusg_info"]').val(data.RTUSG_INFO);
+                    $('#modal_rtusg_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
         }
     </script>
 </body>

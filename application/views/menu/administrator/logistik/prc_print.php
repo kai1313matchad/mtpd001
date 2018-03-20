@@ -287,15 +287,15 @@
                             $('<td class="text-right chgnum">'+data[i]["PRCDET_SUB"]+'</td>')
                             ).appendTo('#tb_content');
                     }
-                    if (data.length > 0)
+                    if (data.length > 5)
                     {
                         var $trexp1 = $('<tr>').append(
                             $('<th colspan="3" class="text-right">Sub Total Rp</th>'),
                             $('<th class="text-right chgnum">'+data[0]["PRC_SUB"]+'</th>')
                             ).appendTo('#tb_content');
                         var $trexp2 = $('<tr>').append(
-                            $('<th colspan="3" class="text-right">(Diskon+PPN+Biaya) Rp</th>'),
-                            $('<th class="text-right chgnum">'+(Math.abs(data[0]["PRC_DISC"])+Math.abs(data[0]["PRC_PPN"])+Math.abs(data[0]["PRC_COST"]))+'</th>')
+                            $('<th colspan="3" class="text-right">(Diskon,PPN,Biaya) Rp</th>'),
+                            $('<th class="text-right chgnum">'+(Math.abs(data[0]["PRC_DISC"])-Math.abs(data[0]["PRC_PPN"])+Math.abs(data[0]["PRC_COST"]))+'</th>')
                             ).appendTo('#tb_content');
                         var $trexp3 = $('<tr>').append(
                             $('<th colspan="3" class="text-right">Grand Total Rp</th>'),
