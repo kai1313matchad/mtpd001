@@ -2058,6 +2058,12 @@
         	echo json_encode($data);
 		}
 
+		public function ajax_pick_inv_amount($id)
+		{
+			$data = $this->crud->get_by_id('inv_details',array('inv_id' => $id));
+        	echo json_encode($data);
+		}
+
 		public function ajax_pick_inv_ppn($id)
 		{
 			$data = $this->crud->get_by_id('inv_details',array('inv_id' => $id));

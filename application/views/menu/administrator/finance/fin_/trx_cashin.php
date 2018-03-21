@@ -668,7 +668,25 @@ $(document).ready(function() {
                 {   
                     $('[name="no_jual"]').val(data.INV_CODE);
                     $('[name="invoice_id"]').val(data.INV_ID);
+                    pick_inv_amount(id);
                     $('#modal_inv').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+    function pick_inv_amount(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_inv_amount/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="nominal"]').val(data.INVDET_AMOUNT);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

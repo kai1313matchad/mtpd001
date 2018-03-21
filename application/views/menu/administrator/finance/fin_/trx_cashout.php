@@ -842,6 +842,7 @@ $(document).ready(function() {
                     $('[name="no_beli"]').val(data.PRC_CODE);
                     // $('[name="no_prc"]').text(data.PRC_CODE);
                     // $('[name="prc_info"]').text(data.PRC_INFO);
+                    $('[name="nominal"]').val(data.PRC_GTOTAL);
                     $('[name="id_beli"]').val(data.PRC_ID);
                     // $('[name="supp_id"]').val(data.SUPP_ID);
                     // $('[name="appr_id"]').val(data.APPR_ID);                    
