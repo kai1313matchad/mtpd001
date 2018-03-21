@@ -331,18 +331,20 @@
 		public function open_lgtprc($id)
 		{
 			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_procurement',array('prc_id'=>$id));
+			$code = $get->row()->PRC_CODE;
 			$string = array();
 			$retprc = $this->logistik->check_prc('procurement_ret',$id,'rtprc_sts');
 			if($retprc > 0)
 			{
 				$string[] = 'Retur Pembelian Logistik';
 			}
-			$bankout = $this->logistik->check_prc('bankout_det',array('bnkodet_reff'=>$id),null);
+			$bankout = $this->logistik->check_prc('bankout_det',array('bnkodet_reff'=>$code),null);
 			if($bankout > 0)
 			{
 				$string[] = 'Bank Keluar';
 			}
-			$bankout = $this->logistik->check_prc('cashout_det',array('cshodet_reff'=>$id),null);
+			$bankout = $this->logistik->check_prc('cashout_det',array('cshodet_reff'=>$code),null);
 			if($bankout > 0)
 			{
 				$string[] = 'Kas Keluar';

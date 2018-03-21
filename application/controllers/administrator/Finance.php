@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('CRUD/M_finance','finance');
 			$this->load->model('datatables/Dt_coa_parent','srch_acc');
 			$this->load->model('datatables/Dt_srchcust','srch_cust');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
@@ -2978,17 +2979,19 @@
 	    	$this->_validate_inv();
 	    	$data = array(
 	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'user_id'=>$this->input->post('user_id'),
 	    			'branch_id'=>$this->input->post('inv_branchid'),
 	    			'cust_id'=>$this->input->post('inv_custid'),
 	    			'curr_id'=>$this->input->post('inv_currid'),
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'inv_info'=>$this->input->post('inv_info'),
-	    			'inv_term'=>$this->input->post('inv_term'),
+	    			'inv_term'=>$this->input->post('inv_terms'),
 	    			'inv_date'=>$this->input->post('inv_date'),
 	    			'inv_type'=>$this->input->post('inv_typechk'),
 	    			'inv_sts'=>'1'
 	    			);
 	    	$update = $this->crud->update('trx_invoice',$data,array('inv_id'=>$this->input->post('inv_id')));
+	    	$this->logupd_inv_save($this->input->post('inv_id'),$this->input->post('user_name'));
 	    	//cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('inv_code'));
@@ -3176,5 +3179,78 @@
 			$data = $this->crud->get_by_id2('trx_procurement','trx_po',array('prc_id' => $id),'trx_po.po_id = trx_procurement.po_id');
         	echo json_encode($data);
 		}
+
+		//Histori Log Invoice
+		public function open_inv($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_invoice',array('inv_id'=>$id));
+			$code = $get->row()->INV_CODE;
+			$string = array();
+			$bnk = $this->finance->check_inv('bankin_det',array('bnkdet_reff'=>$code),null);
+			if($bnk > 0)
+			{
+				$string[] = 'Bank Masuk';
+			}
+			$csh = $this->finance->check_inv('cashin_det',array('cshindet_reff'=>$code),null);
+			if($csh > 0)
+			{
+				$string[] = 'Kas Masuk';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('inv_sts'=>'0');
+				$update = $this->crud->update('trx_invoice',$dt,array('inv_id' => $id));
+				$his = $this->finance->getlog_inv($id);
+				$dthis = array(
+						'inv_id' => $id,
+						'hisinv_sts' => 'Open by User '.$user,
+						'hisinv_old' => $his->HISINV_STS,
+						'hisinv_new' => 'Open By User '.$user,
+						'hisinv_info' => 'Open Record by Invoice form',
+						'hisinv_date' => date('Y-m-d'),
+						'hisinv_upcount' => $his->HISINV_UPCOUNT+1
+					);
+				$this->db->insert('his_inv',$dthis);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
+		public function logupd_inv_save($id,$user)
+	    {
+	    	$his = $this->finance->getlog_inv($id);
+	    	if ($his->HISINV_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'inv_id' => $id,
+						'hisinv_sts' => 'Posted by User '.$user,
+						'hisinv_old' => $his->HISINV_STS,
+						'hisinv_new' => 'Posted By User '.$user,
+						'hisinv_info' => 'Original Save by Invoice form',
+						'hisinv_date' => date('Y-m-d'),
+						'hisinv_upcount' => $his->HISINV_UPCOUNT+1
+					);
+				$this->db->insert('his_inv',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'inv_id' => $id,
+						'hisinv_sts' => 'Posted by User '.$user,
+						'hisinv_old' => $his->HISINV_STS,
+						'hisinv_new' => 'Posted By User '.$user,
+						'hisinv_info' => 'Update by '.$user.' from Invoice form',
+						'hisinv_date' => date('Y-m-d'),
+						'hisinv_upcount' => $his->HISINV_UPCOUNT
+					);
+				$this->db->insert('his_inv',$data);
+	    	}
+	    }
 	}
 ?>

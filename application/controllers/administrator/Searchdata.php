@@ -21,6 +21,8 @@
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchapprbysts','s_apprbysts');
 			$this->load->model('datatables/search/Dt_srchbappbysts','s_bappbysts');
+			$this->load->model('datatables/search/Dt_srchpapprbysts','s_papprbysts');
+			$this->load->model('datatables/search/Dt_srchinvbysts','s_invbysts');
 			$this->load->model('datatables/search/Dt_srchpobysts','s_pobysts');
 			$this->load->model('datatables/search/Dt_srchprcbysts','s_prcbysts');
 			$this->load->model('datatables/search/Dt_srchrtprcbysts','s_rtprcbysts');
@@ -614,6 +616,119 @@
 		public function pick_govsts($id)
 		{
 			$data = $this->crud->get_by_id('master_gov_type',array('gov_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Persetujuan Ijin Berdasarkan Status Untuk Edit dan Buka Record di halaman Persetujuan Ijin
+		public function srch_papprbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$list = $this->s_papprbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PAPPR_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->PAPPR_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_pappropen('."'".$dat->PAPPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PAPPR_CODE;
+					$row[] = $dat->APPR_CODE;
+					$row[] = $dat->PAPPR_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_pappredit('."'".$dat->PAPPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_papprbysts->count_all(),
+							"recordsFiltered" => $this->s_papprbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_papprgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_permitappr',array('pappr_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Invoice Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_invbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_invbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->INV_CODE;
+					$row[] = $dat->INC_CODE.' - '.$dat->INC_NAME;
+					$row[] = $dat->INV_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_invopen('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->INV_CODE;
+					$row[] = $dat->INC_CODE.' - '.$dat->INC_NAME;
+					$row[] = $dat->INV_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_invedit('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_invbysts->count_all(),
+							"recordsFiltered" => $this->s_invbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_invgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Ambil data faktur pajak
+		public function pick_taxinv($id)
+		{
+			$data = $this->crud->get_by_id('trx_tax_invoice',array('inv_id' => $id));
 			echo json_encode($data);
 		}
 

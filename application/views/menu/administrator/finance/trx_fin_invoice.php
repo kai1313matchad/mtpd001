@@ -7,6 +7,18 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_inv()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_inv()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -16,6 +28,9 @@
                         <form action="#" method="post" class="form-horizontal" id="form_inv">
                             <div class="tab-content">
                                 <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                 <div class="tab-pane fade in active" id="1">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
@@ -511,6 +526,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_inv_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_inv_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Invoice</th>
+                                        <th>Jenis Inv.</th>
+                                        <th>Tanggal</th>
+                                        <th>Client</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
@@ -741,6 +787,62 @@
                 ],
             });
         }
+        function edit_inv()
+        {
+            $('#modal_inv_edit').modal('show');
+            $('.modal-title').text('Cari Invoice');
+            table = $('#dtb_inv_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_inv()
+        {
+            $('#modal_inv_edit').modal('show');
+            $('.modal-title').text('Cari Invoice');            
+            table = $('#dtb_inv_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invbysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -868,6 +970,76 @@
                     drop_term(appr);
                     drop_termbrc(apprbrc);
                     $('#modal_appr').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_taxinv(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_taxinv/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="inv_taxhead"]').val(data.TINV_TAXHEADCODE);
+                    $('[name="inv_taxcode"]').val(data.TINV_TAXCODE);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_invopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/open_inv/')?>" + id,
+                type: "POST",
+                data: $('#form_inv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Invoice Sukses Dibuka');
+                        $('#modal_inv_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Invoice masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_invedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_invgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="inv_id"]').val(data.INV_ID);
+                    $('[name="inv_code"]').val(data.INV_CODE);
+                    $('[name="inv_typechk"][value="'+data.INV_TYPE+'"]').prop('checked',true);
+                    pick_invtype(data.INC_ID);
+                    pick_branch(data.BRANCH_ID);
+                    pick_cust(data.CUST_ID);
+                    $('[name="inv_terms"]').val(data.INV_TERM);
+                    $('[name="inv_info"]').val(data.INV_INFO);
+                    pick_curr(data.CURR_ID);
+                    pick_taxinv(data.INV_ID);
+                    invdet(data.INV_ID);
+                    get_sub();
+                    $('#modal_inv_edit').modal('hide');                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
