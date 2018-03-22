@@ -4,7 +4,8 @@
 	{
 		public function __construct()
 		{
-			parent::__construct();			
+			parent::__construct();
+			$this->load->model('CRUD/M_crud','crud');
 		}
 
 		public function index()
@@ -41,6 +42,30 @@
 		public function logout()
 		{
 			$this->authsys->logout();
+		}
+
+		public function pass_change()
+		{
+			$id = $this->input->post('user_id');
+			$oldpass = md5($this->input->post('old_pass'));
+			$newpass = md5($this->input->post('new_pass'));
+			$data['error_string'] = array();
+	        $data['inputerror'] = array();
+			//Cek Password Lama
+			$get = $this->db->get_where('master_user',array('user_id'=>$id));
+			if($oldpass != $get->row()->USER_PASSWORD)
+			{
+				$data['inputerror'][] = 'old_pass';
+				$data['error_string'][] = 'Password Lama Salah';
+				$data['status'] = FALSE;
+			}
+			else
+			{
+				$dtup = array('user_password'=>$newpass);
+				$update = $this->crud->update('master_user',$dtup,array('user_id' =>$id));
+				$data['status'] = TRUE;				
+			}
+			echo json_encode($data);
 		}
 
 		public function tes()
