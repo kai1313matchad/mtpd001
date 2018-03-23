@@ -68,6 +68,16 @@
 			echo json_encode($data);
 		}
 
+		public function test()
+		{
+			$arr = $this->input->post('trx[]');
+			$data = array();
+			if(in_array())
+			{
+				$data[] = ''
+			}
+		}
+
 		public function tes()
 		{
 			$data['title']='Match Terpadu';

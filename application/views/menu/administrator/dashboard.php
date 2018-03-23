@@ -137,46 +137,83 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="4"><br>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        Data Master
+                        <form class="form-horizontal" id="form_useraccess">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Data Master</strong> <br>
+                                            <input type="checkbox" name="master_pick" onclick="pickall_master()"> Pilih Semua
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Bank<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Barang<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Cabang<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Departemen<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Chart of Account
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Customer<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Currency<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Jenis Invoice<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Location<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Permit
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Reklame<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Salesforce<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Supplier<br>
+                                                <input type="checkbox" class="mstr" name="mas[]" value=""> User
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="panel-body">
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">a
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Data Transaksi</strong><br>
+                                            <input type="checkbox" name="trx_pick" onclick="pickall_trx()"> Pilih Semua
                                         </div>
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">a
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">a
+                                        <div class="panel-body">
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="trx" name="trx[]" value="Finance"> Finance<br>
+                                                <input type="checkbox" class="trx" name="trx[]" value="GA"> General Affairs<br>
+                                                <input type="checkbox" class="trx" name="trx[]" value="Logistic"> Logistik
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="trx" name="trx[]" value="Marketing"> Marketing<br>
+                                                <input type="checkbox" class="trx" name="trx[]" value="Accounting"> Accounting<br>
+                                                <input type="checkbox" class="trx" name="trx[]" value="Transaction"> Transaction
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" class="trx" name="trx[]" value="Permit"> Permit
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        Data Transaksi
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">Pilihan 1
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Data Transaksi</strong><br>
+                                            <input type="checkbox" name="trx_pick" onclick="pickall_trx()"> Pilih Semua
                                         </div>
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">Pilihan 1
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <input type="checkbox" name="">Pilihan 1
+                                        <div class="panel-body" id="test">
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-offset-1 col-xs-2">
+                                        <button onclick="useraccess_submit()" type="button" class="btn btn-block btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -187,7 +224,8 @@
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function() 
-        {            
+        {
+
         });
         function change_pass()
         {
@@ -238,6 +276,77 @@
             var c = $('[name="confirm_pass"]').val();
             var s = (n != c)? 1:0;
             return s;
+        }
+        function pickall_master()
+        {
+            $('[name="master_pick"]').click(function() 
+            {
+                $('.mstr').prop('checked',$(this).prop('checked'));
+            });
+        }
+        function pickall_trx()
+        {
+            $('[name="trx_pick"]').click(function() 
+            {
+                $('.trx').prop('checked',$(this).prop('checked'));
+            });
+        }
+        function useraccess_submit()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/test')?>",
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    }
+                    else
+                    {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                        }
+                    }
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
+                    $('#btnSave').text('save');
+                    $('#btnSave').attr('disabled',false);
+                }
+            });
+        }
+        function checkboxes(url,drop,value,text)
+        {
+            $('#'+drop).empty()
+            $.ajax({
+            url : url,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    if(data.length != null)
+                    {
+                        for (var i = 0; i < data.length; i++) 
+                        {
+                            var chkbox = $('<div class="col-xs-4"><input type="checkbox" onclick="member_gen()" name="sch_dept[]" value="'+data[i][value]+'" /> '+data[i][text]+'</div>');
+                            chkbox.appendTo('#'+drop);
+                        }
+                    }            
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
         }
     </script>
 </body>
