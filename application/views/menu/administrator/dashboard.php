@@ -5,18 +5,16 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Selamat Datang Di Aplikasi Match Terpadu</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- <div class="row">
-                   <h2>
-                    <?php 
-                        echo $this->session->userdata('log_id');
-                   ?></h2>
-                   <h2>
-                   <?php 
-                        echo $this->session->userdata('user_branch');
-                   ?></h2>
-                </div> -->
+                <div class="row">
+                    <?php
+                        if(isset($_SESSION['alert']))
+                        {
+                            echo $_SESSION['alert'];
+                            $this->session->unset_userdata('alert');
+                        }                        
+                    ?>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
@@ -138,59 +136,13 @@
                     </div>
                     <div class="tab-pane fade" id="4"><br>
                         <form class="form-horizontal" id="form_useraccess">
-                            <div class="row">
+                            <input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id'); ?>">
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">User</label>
                                 <div class="col-xs-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <strong>Data Master</strong> <br>
-                                            <input type="checkbox" name="master_pick" onclick="pickall_master()"> Pilih Semua
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Bank<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Barang<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Cabang<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Departemen<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Chart of Account
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Customer<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Currency<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Jenis Invoice<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Location<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Permit
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Reklame<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Salesforce<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> Supplier<br>
-                                                <input type="checkbox" class="mstr" name="mas[]" value=""> User
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <strong>Data Transaksi</strong><br>
-                                            <input type="checkbox" name="trx_pick" onclick="pickall_trx()"> Pilih Semua
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="trx" name="trx[]" value="Finance"> Finance<br>
-                                                <input type="checkbox" class="trx" name="trx[]" value="GA"> General Affairs<br>
-                                                <input type="checkbox" class="trx" name="trx[]" value="Logistic"> Logistik
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="trx" name="trx[]" value="Marketing"> Marketing<br>
-                                                <input type="checkbox" class="trx" name="trx[]" value="Accounting"> Accounting<br>
-                                                <input type="checkbox" class="trx" name="trx[]" value="Transaction"> Transaction
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <input type="checkbox" class="trx" name="trx[]" value="Permit"> Permit
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <select class="form-control" id="user_list" name="user_list" data-live-search="true">
+                                        <option value="">Pilih</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -198,10 +150,19 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <strong>Data Transaksi</strong><br>
+                                            <input type="checkbox" name="master_pick" onclick="pickall_master()"> Pilih Semua
+                                        </div>
+                                        <div class="panel-body" id="mstr">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Data Transaksi</strong><br>
                                             <input type="checkbox" name="trx_pick" onclick="pickall_trx()"> Pilih Semua
                                         </div>
-                                        <div class="panel-body" id="test">
-                                            
+                                        <div class="panel-body" id="trx">
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +170,7 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-xs-offset-1 col-xs-2">
-                                        <button onclick="useraccess_submit()" type="button" class="btn btn-block btn-primary">Submit</button>
+                                        <button onclick="useraccess_submit()" id="subUsrAccs" type="button" class="btn btn-block btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +186,11 @@
     <script>
         $(document).ready(function() 
         {
-
+            checkboxes();
+            drop_user();
+            $('#user_list').change(function(){
+                check_access($('#user_list option:selected').val());                
+            });
         });
         function change_pass()
         {
@@ -293,58 +258,99 @@
         }
         function useraccess_submit()
         {
+            $('#subUsrAccs').text('Processing....');
+            $('#subUsrAccs').attr('disabled',true);
             $.ajax({
-                url : "<?php echo site_url('Dashboard/test')?>",
+                url : "<?php echo site_url('Dashboard/add_useraccess')?>",
                 type: "POST",
-                data: $('#form').serialize(),
+                data: $('#form_useraccess').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
                     if(data.status)
                     {
-                        $('#modal_form').modal('hide');
-                        reload_table();
+                        alert('Hak Akses Sudah Ditambah');
                     }
-                    else
-                    {
-                        for (var i = 0; i < data.inputerror.length; i++) 
-                        {
-                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
-                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-                        }
-                    }
-                    $('#btnSave').text('save');
-                    $('#btnSave').attr('disabled',false);
+                    $('#subUsrAccs').text('Submit');
+                    $('#subUsrAccs').attr('disabled',false);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error adding / update data');
-                    $('#btnSave').text('save');
-                    $('#btnSave').attr('disabled',false);
+                    $('#subUsrAccs').text('Submit');
+                    $('#subUsrAccs').attr('disabled',false);
                 }
             });
         }
-        function checkboxes(url,drop,value,text)
+        function checkboxes()
         {
-            $('#'+drop).empty()
+            $('#mstr').empty();
+            $('#trx').empty();
             $.ajax({
-            url : url,
+            url : "<?php echo site_url('Dashboard/get_menulist')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)
-                {   
-                    if(data.length != null)
+                {
+                    for (var i = 0; i < data['mst'].length; i++) 
                     {
-                        for (var i = 0; i < data.length; i++) 
-                        {
-                            var chkbox = $('<div class="col-xs-4"><input type="checkbox" onclick="member_gen()" name="sch_dept[]" value="'+data[i][value]+'" /> '+data[i][text]+'</div>');
-                            chkbox.appendTo('#'+drop);
-                        }
-                    }            
+                        var chkbox = $('<div class="col-xs-4"><input type="checkbox" name="mstr[]" class="mstr" value="'+data['mst'][i]['MENU_CODE']+'" /> '+data['mst'][i]['MENU_NAME']+'</div>');
+                        chkbox.appendTo('#mstr');
+                    }
+                    for (var i = 0; i < data['trx'].length; i++) 
+                    {
+                        var chkbox = $('<div class="col-xs-4"><input type="checkbox" name="trx[]" class="trx" value="'+data['trx'][i]['MENU_CODE']+'" /> '+data['trx'][i]['MENU_NAME']+'</div>');
+                        chkbox.appendTo('#trx');
+                    }          
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error get data from ajax');
+                }
+            });
+        }
+        function drop_user()
+        {
+            $.ajax({
+            url : "<?php echo site_url('Dashboard/get_user')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {   
+                    var select = document.getElementById('user_list');
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["USER_ID"]
+                        option.text = data[i]["USER_NAME"];
+                        select.add(option);
+                    }
+                    $('#user_list').selectpicker({});
+                    $('#user_list').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function check_access(id)
+        {
+            $('input:checkbox').prop('checked',false);
+            $.ajax({            
+            url : "<?php echo site_url('Dashboard/get_useraccess/')?>"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {                    
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        $('input[type="checkbox"][value="'+data[i]["MENU_CODE"]+'"]').prop('checked',true);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Pilih Salah Satu User');
                 }
             });
         }

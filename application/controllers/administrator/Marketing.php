@@ -22,6 +22,7 @@
 
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='dash_marketing';
@@ -42,6 +43,7 @@
 
 		public function mkt_trx_approval()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['pattyp'] = $this->crud->get_pattyp();			
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
@@ -63,6 +65,7 @@
 
 		public function mkt_trx_bapp()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='bapp';
@@ -72,6 +75,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
@@ -81,6 +85,7 @@
 
 		public function report_appr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
@@ -90,6 +95,7 @@
 
 		public function report_bapp()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
@@ -99,6 +105,7 @@
 
 		public function print_approval()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
@@ -108,6 +115,7 @@
 
 		public function pageprint_approval($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
@@ -117,6 +125,7 @@
 
 		public function print_bapp()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
@@ -126,6 +135,7 @@
 
 		public function pageprint_bapp($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Marketing';
 			$data['menu']='marketing';
@@ -135,6 +145,7 @@
 
 		public function pageprint_bappimg()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'MKT');
 			$data['img_siang']=$this->uri->segment(4);
 			$data['img_malam']=$this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Marketing';
@@ -1381,13 +1392,13 @@
 		}
 
 		public function get_appcost($id)
-		{			
+		{
 			$data = $this->crud->get_by_id4('appr_cost_det',array('appr_id' => $id));
 			echo json_encode($data);
 		}
 
 		public function get_appterm($id)
-		{			
+		{
 			$data = $this->crud->get_by_id4('appr_terms_det',array('appr_id' => $id));
 			echo json_encode($data);
 		}

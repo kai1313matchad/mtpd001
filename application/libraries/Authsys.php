@@ -52,6 +52,30 @@
 			}
 		}
 
+		//fungsi cek menu master
+		public function master_check_($id,$mn)
+		{
+			$this->CI->db->where('user_id = '.$id.' AND menu_code = "'.$mn.'"');
+			$get = $this->CI->db->get('group_user');
+			if($get->num_rows() < 1)
+			{
+				$this->CI->session->set_userdata('alert', '<div class="col-xs-12"><div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button><strong>Anda Tidak Memiliki Akses Halaman Tersebut</strong></div></div>');
+				redirect(base_url('Dashboard'));
+			}
+		}
+
+		//fungsi cek menu transaksi
+		public function trx_check_($id,$mn)
+		{
+			$this->CI->db->where('user_id = '.$id.' AND menu_code = "'.$mn.'"');
+			$get = $this->CI->db->get('group_user');
+			if($get->num_rows() < 1)
+			{
+				$this->CI->session->set_userdata('alert', '<div class="col-xs-12"><div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button><strong>Anda Tidak Memiliki Akses Halaman Tersebut</strong></div></div>');
+				redirect(base_url('Dashboard'));
+			}
+		}
+
 		//fungsi cek hak akses admin
 		public function admlog()
 		{
