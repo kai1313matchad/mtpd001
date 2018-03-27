@@ -2,13 +2,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Supplier</h1>
                     </div>                    
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-xs-2">
                         <button class="btn btn-success" onclick="add_supp()"><i class="glyphicon glyphicon-plus"></i> Tambah Supplier</button>
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-block btn-info" onclick="exp_supp()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">
@@ -563,6 +566,10 @@
                     alert('Error Generate Number');
                 }
             });
+        }
+        function exp_supp()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_supp')?>",'_blank');
         }
     </script>
 </body>

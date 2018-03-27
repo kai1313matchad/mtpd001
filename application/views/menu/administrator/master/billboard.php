@@ -25,8 +25,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="1">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_bb()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Reklame</button>
+                            </div>
+                            <div class="col-xs-2">
+                                <button class="btn btn-block btn-info" onclick="exp_bb()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">
@@ -55,8 +58,11 @@
                     </div>
                     <div class="tab-pane fade" id="2">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_placement()"><i class="glyphicon glyphicon-plus"></i> Tambah Penempatan</button>
+                            </div>
+                            <div class="col-xs-2">
+                                <button class="btn btn-block btn-info" onclick="exp_plc()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">
@@ -270,25 +276,12 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
     $(document).ready(function() {
         dt_bboard();
         dt_placement();
     });
-
     function dt_bboard()
     {
         table = $('#dtb_bb').DataTable({ 
@@ -309,7 +302,6 @@
             ],
         });
     }
-
     function dt_placement()
     {
         table = $('#dtb_placement').DataTable({ 
@@ -330,9 +322,8 @@
             ],
         });
     }
-
     function lihat_bb(id)
-    {        
+    {
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_bb/')?>" + id,
             type: "GET",
@@ -352,9 +343,8 @@
             }
         });
     }
-
     function lihat_plc(id)
-    {        
+    {
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_plc/')?>" + id,
             type: "GET",
@@ -373,9 +363,8 @@
             }
         });
     }
-
     function add_bb()
-    {        
+    {
         save_method = 'add';
         $('#form')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -389,9 +378,8 @@
         gen_bb();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function add_placement()
-    {        
+    {
         save_method = 'add';
         $('#form2')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -405,7 +393,6 @@
         gen_plc();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function edit_bb(id)
     {
         save_method = 'update';
@@ -414,7 +401,6 @@
         $('.help-block').empty();
         $('[name="code"]').prop('readonly',true);
         $('[name="gen"]').prop('disabled',true);
-
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_bb/')?>" + id,
             type: "GET",
@@ -437,7 +423,6 @@
             }
         });
     }
-
     function edit_plc(id)
     {
         save_method = 'update';
@@ -446,7 +431,6 @@
         $('.help-block').empty();
         $('[name="code2"]').prop('readonly',true);
         $('[name="gen2"]').prop('disabled',true);
-
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_plc/')?>" + id,
             type: "GET",
@@ -468,13 +452,11 @@
             }
         });
     }
-
     function reload_table()
     {
         $('#dtb_bb').DataTable().ajax.reload(null,false);
         $('#dtb_placement').DataTable().ajax.reload(null,false);
     }
-
     function save()
     {
         $('#btnSave').text('saving...');
@@ -484,8 +466,7 @@
             url = "<?php echo site_url('administrator/Master/ajax_add_bb')?>";
         } else {
             url = "<?php echo site_url('administrator/Master/ajax_update_bb')?>";
-        }        
-        
+        }
         $.ajax({
             url : url,
             type: "POST",
@@ -517,7 +498,6 @@
             }
         });
     }
-
     function save2()
     {
         $('#btnSave2').text('saving...');
@@ -527,8 +507,7 @@
             url = "<?php echo site_url('administrator/Master/ajax_add_plc')?>";
         } else {
             url = "<?php echo site_url('administrator/Master/ajax_update_plc')?>";
-        }        
-        
+        }
         $.ajax({
             url : url,
             type: "POST",
@@ -560,7 +539,6 @@
             }
         });
     }
-
     function delete_bb(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -581,7 +559,6 @@
             });
         }
     }
-
     function delete_plc(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -601,7 +578,6 @@
             });
         }
     }
-
     function gen_bb()
     {
         $.ajax({
@@ -618,7 +594,6 @@
             }
         });
     }
-
     function gen_plc()
     {
         $.ajax({
@@ -634,6 +609,14 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_bb()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_bb')?>",'_blank');
+    }
+    function exp_plc()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_plc')?>",'_blank');
     }
     </script>
 </body>

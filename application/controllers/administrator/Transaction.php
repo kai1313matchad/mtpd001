@@ -16,7 +16,7 @@
 
 		public function index()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu';
 			$data['menu']='transact';
 			$data['menulist']='dash_transact';
@@ -37,14 +37,14 @@
 
         public function trn_trx_budget()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Anggaran';
 			$data['menu']='transaction';
 			$data['menulist']='budget';
 			// $data['account'] = $this->crud->get_coa();
 			// $data['customer'] = $this->crud->get_cst();
 			// $data['mu'] = $this->crud->get_mu();
-			$data['isi']='menu/administrator/Transaction/trx_anggaran';
+			$data['isi']='menu/administrator/transaction/trx_anggaran';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -189,7 +189,7 @@
 
 		public function report()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Report';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
@@ -200,51 +200,51 @@
 
 		public function print_anggaran()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
-			$data['isi']='menu/administrator/Transaction/lgt_print_budget';
+			$data['isi']='menu/administrator/transaction/lgt_print_budget';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
         public function print_anggaran_proyek_detail()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
-			$data['isi']='menu/administrator/Transaction/lgt_print_anggaran_proyek_detail';
+			$data['isi']='menu/administrator/transaction/lgt_print_anggaran_proyek_detail';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
         public function print_anggaran_proyek_summary()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
-			$data['isi']='menu/administrator/Transaction/lgt_print_anggaran_proyek_summary';
+			$data['isi']='menu/administrator/transaction/lgt_print_anggaran_proyek_summary';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
 		public function print_anggaran_lokasi_detail()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
-			$data['isi']='menu/administrator/Transaction/lgt_print_anggaran_lokasi_detail';
+			$data['isi']='menu/administrator/transaction/lgt_print_anggaran_lokasi_detail';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
 		public function print_anggaran_lokasi_summary()
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';
 			$data['menulist']='report_transaction';
-			$data['isi']='menu/administrator/Transaction/lgt_print_anggaran_lokasi_summary';
+			$data['isi']='menu/administrator/transaction/lgt_print_anggaran_lokasi_summary';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -346,7 +346,7 @@
 
         public function pageprint_ra($id)
 		{
-			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
+			$this->authsys->trx_check_($_SESSION['user_id'],'TRX');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Transaction';
 			$data['menu']='transaction';

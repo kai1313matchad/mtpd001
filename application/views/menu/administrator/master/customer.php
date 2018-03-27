@@ -25,8 +25,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="1">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_cust()"><i class="glyphicon glyphicon-plus"></i> Tambah Customer</button>
+                            </div>
+                            <div class="col-xs-2">
+                                <button class="btn btn-block btn-info" onclick="exp_cust()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">
@@ -898,6 +901,10 @@
                     alert('Error get data from ajax');
                 }
             });
+        }
+        function exp_cust()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_cust')?>",'_blank');
         }
     </script>
 </body>
