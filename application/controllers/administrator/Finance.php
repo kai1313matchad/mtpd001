@@ -31,6 +31,7 @@
 
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='dash_finance';
@@ -145,6 +146,7 @@
 
 		public function fin_invoice()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='inv';
@@ -154,6 +156,7 @@
 
 		public function print_invoice($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -163,6 +166,7 @@
 
 		public function print_invoicetax($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -172,6 +176,7 @@
 
 		public function rpt_invoice()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -181,6 +186,7 @@
 
 		public function print_rptinv()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
@@ -254,6 +260,7 @@
 
 		public function cash_in()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Kas Masuk';
 			$data['menu']='finance';
 			$data['menulist']='cashin';
@@ -266,6 +273,7 @@
 
 		public function cash_out()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Kas Keluar';
 			$data['menu']='finance';
 			$data['menulist']='cashout';
@@ -278,6 +286,7 @@
 
 		public function bank_in()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Bank Masuk';
 			$data['menu']='finance';
 			$data['menulist']='bankin';
@@ -291,6 +300,7 @@
 
 		public function bank_out()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Bank Keluar';
 			$data['menu']='finance';
 			$data['menulist']='bankout';
@@ -304,6 +314,7 @@
 
 		public function bg_in()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Giro Masuk';
 			$data['menu']='finance';
 			$data['menulist']='bgin';
@@ -314,6 +325,7 @@
 
 		public function bg_out()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Giro Keluar';
 			$data['menu']='finance';
 			$data['menulist']='bgout';
@@ -324,6 +336,7 @@
 
 		public function f_pjk()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Giro Keluar';
 			$data['menu']='finance';
 			$data['menulist']='fpjk';
@@ -334,6 +347,7 @@
 
 		public function branch_ppn()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Posting PPN Cabang';
 			$data['menu']='finance';
 			$data['menulist']='ppnbrc';
@@ -344,6 +358,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Report';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -354,6 +369,7 @@
 
 		public function print_km()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -363,6 +379,7 @@
 
 		public function pageprint_km($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -372,6 +389,7 @@
 
 		public function print_kk()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -381,6 +399,7 @@
 
 		public function pageprint_kk($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -390,6 +409,7 @@
 
 		public function print_bm()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -399,6 +419,7 @@
 
 		public function pageprint_bm($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -408,6 +429,7 @@
 
 		public function print_bk()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -417,6 +439,7 @@
 
 		public function pageprint_bk($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -426,6 +449,7 @@
 
         public function print_gm()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -435,6 +459,7 @@
 
 		public function pageprint_gm($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -444,6 +469,7 @@
 
 		public function print_gk()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -453,6 +479,7 @@
 
 		public function pageprint_gk($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -462,6 +489,7 @@
 
 		public function print_bkas()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -471,6 +499,7 @@
 
 		public function pageprint_bkas($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -481,6 +510,7 @@
 
 		public function print_bbank()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -490,6 +520,7 @@
 
 		public function pageprint_bbank($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -500,6 +531,7 @@
 
         public function print_giro_tr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -509,6 +541,7 @@
 
 		public function pageprint_giro_tr($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -519,6 +552,7 @@
 
 		public function print_giro_tgl()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -528,6 +562,7 @@
 
 		public function pageprint_giro_tgl($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -538,6 +573,7 @@
 
 		public function print_giro_supp()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -547,6 +583,7 @@
 
 		public function pageprint_giro_supp($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -557,6 +594,7 @@
 
 		public function print_giro_cust()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -566,6 +604,7 @@
 
 		public function pageprint_giro_cust($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -576,6 +615,7 @@
 
 		public function print_giro_blm_cr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -585,6 +625,7 @@
 
 		public function pageprint_giro_blm_cr($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -595,6 +636,7 @@
 
         public function print_giro_masuk_sdh_cr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -604,6 +646,7 @@
 
 		public function print_giro_keluar_sdh_cr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -613,6 +656,7 @@
 
 		public function pageprint_giro_masuk_sdh_cr($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -623,6 +667,7 @@
 
 		public function pageprint_giro_keluar_sdh_cr($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -633,6 +678,7 @@
 
 		public function print_giro_in()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -642,6 +688,7 @@
 
 		public function pageprint_giro_in($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -652,6 +699,7 @@
 
 		public function print_giro_out()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -661,6 +709,7 @@
 
 		public function pageprint_giro_out($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -671,6 +720,7 @@
 
 		public function pageprint_bfaktur($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			// $data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			// $data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['id'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
@@ -682,6 +732,7 @@
 
 		public function print_FP_Nomor()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -691,6 +742,7 @@
 
 		public function pageprint_FP_Nomor()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -701,6 +753,7 @@
 
 		public function print_FP_Nomor_Summary()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -710,6 +763,7 @@
 
 		public function pageprint_FP_Nomor_Summary()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -720,6 +774,7 @@
 
 		public function print_FP_Customer()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -729,6 +784,7 @@
 
 		public function pageprint_FP_Customer()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -739,6 +795,7 @@
 
 		public function print_FP_Proyek()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -748,6 +805,7 @@
 
 		public function pageprint_FP_Proyek()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -758,6 +816,7 @@
 
 		public function print_FP_Invoice()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
@@ -767,6 +826,7 @@
 
 		public function pageprint_FP_Invoice()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
 			$data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['title']='Match Terpadu - Dashboard Finance';
@@ -1575,7 +1635,7 @@
 		}
 
 		public function ajax_simpan_bank_in_detail1()
-		{   
+		{
 			$tgl = date('Y-m-d');
             $data = array(
                     'BNK_ID' => $this->input->post('bank_id'),

@@ -12,6 +12,7 @@
 
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
 			$data['title']='Match Terpadu';
 			$data['menu']='permit';
 			$data['menulist']='dash_permit';
@@ -32,6 +33,7 @@
 
 		public function permit_approval()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
 			$data['title']='Match Terpadu';
 			$data['menu']='permit';
 			$data['menulist']='permit_appr';
@@ -41,6 +43,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
 			$data['title']='Match Terpadu';
 			$data['menu']='permit';
 			$data['menulist']='report_permit';
@@ -50,6 +53,7 @@
 
 		public function print_permitappr($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -59,6 +63,7 @@
 
 		public function report_permitappr()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'PMT');
 			$data['title']='Match Terpadu';
 			$data['menu']='permit';
 			$data['menulist']='report_permit';

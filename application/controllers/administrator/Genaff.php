@@ -29,6 +29,7 @@
 		//menu link
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='dash_ga';
@@ -38,6 +39,7 @@
 
 		public function lap_po()
 	    {
+	    	$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 	    	$data['title']='Match Terpadu - Laporan PO GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -47,6 +49,7 @@
 
 	    public function lap_pembelian()
 	    {
+	    	$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -56,6 +59,7 @@
 
 	    public function lap_pemakaian()
 	    {
+	    	$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 	    	$data['title']='Match Terpadu - Laporan Pembelian GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -65,6 +69,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -119,6 +124,7 @@
 
 		public function ga_trx_po()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			// $id=$this->crud->add_po();
 			// $data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
 			$data['title']='Match Terpadu - PO GA';
@@ -130,6 +136,7 @@
 
 		public function ga_trx_prc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			// $id=$this->crud->add_bl();
 			// $data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
 			$data['title']='Match Terpadu - Pembelian GA';
@@ -141,6 +148,7 @@
 
 		public function ga_trx_retprc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$id=$this->crud->add_rb();
 			$data['rb'] = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard GA';
@@ -152,6 +160,7 @@
 
 		public function ga_trx_usage()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			// $id=$this->crud->add_usg();
 			// // $id = '1';
 			// $data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
@@ -164,6 +173,7 @@
 
 		public function ga_trx_retusage()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			// $id=$this->crud->add_retusg();
 			// $id = '1';
 			// $data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
@@ -176,6 +186,7 @@
 
 		public function gen_retusage_ga()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$gen = $this->gen->gen_num_retusagega();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['rtusgga_code'];
@@ -185,6 +196,7 @@
 
 		public function ga_trx_adjust()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			// $id=$this->crud->add_adj();
 			// // $id = '1';
 			// $data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
@@ -197,6 +209,7 @@
 
 		public function print_po()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -206,6 +219,7 @@
 
 		public function pageprint_po($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
@@ -215,6 +229,7 @@
 
 		public function print_prc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -224,6 +239,7 @@
 
 		public function pageprint_prc($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
@@ -233,6 +249,7 @@
 
 		public function print_retprc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
 			$data['menulist']='report_ga';
@@ -242,6 +259,7 @@
 
 		public function pageprint_retprc($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
@@ -251,6 +269,7 @@
 
 		public function pageprint_usgga($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
@@ -260,6 +279,7 @@
 
 		public function pageprint_adjga($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'GA');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard GA';
 			$data['menu']='ga';
