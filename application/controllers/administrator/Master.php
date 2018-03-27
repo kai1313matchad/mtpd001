@@ -28,6 +28,7 @@
 		//Menu Master Person
 		public function person()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'USR');
 			$data['title']='Match Terpadu - Master Person';
 			$data['menu']='master';
 			$data['menulist']='person';
@@ -114,13 +115,13 @@
 		}
 
 		public function ajax_edit_person($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_person',array('person_id' => $id));
         	echo json_encode($data);
 	    }
 
 	    public function ajax_edit_user($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_user',array('user_id' => $id));
         	echo json_encode($data);
 	    }
@@ -209,7 +210,7 @@
 	    }
 
 	    public function ajax_delete_person($id)
-	    {		    	
+	    {
 	    	$data = array(
 	                'person_dtsts' => '0'
 	            );
@@ -218,7 +219,7 @@
 	    }
 
 	    public function ajax_delete_user($id)
-	    {		    	
+	    {
 	    	$data = array(
 	                'user_dtsts' => '0'
 	            );
@@ -334,6 +335,7 @@
 		//Menu Master Customer
 		public function customer()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'CUST');
 			$data['title']='Match Terpadu - Master Customer';
 			$data['menu']='master';
 			$data['menulist']='customer';
@@ -654,6 +656,7 @@
 	    //Menu master lokasi
 	    public function location()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'LOC');
 			$data['gov']=$this->crud->get_gov();
 			$data['title']='Match Terpadu - Master Lokasi';
 			$data['menu']='master';
@@ -736,13 +739,13 @@
 		}
 
 		public function ajax_edit_gov($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_gov_type',array('gov_id' => $id));
         	echo json_encode($data);
 	    }
 
 		public function ajax_edit_loc($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_location',array('loc_id' => $id));
         	echo json_encode($data);
 	    }
@@ -810,7 +813,7 @@
 	    }
 
 	    public function ajax_delete_gov($id)
-	    {	    
+	    {
 	    	$data = array(	                
 	                'gov_dtsts' => '0'
 	            );
@@ -819,7 +822,7 @@
 	    }
 
 	    public function ajax_delete_loc($id)
-	    {	    
+	    {
 	    	$data = array(	                
 	                'loc_dtsts' => '0'
 	            );
@@ -932,6 +935,7 @@
 	    //Menu master branch
 	    public function branch()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'BRC');
 			$data['title']='Match Terpadu - Master Cabang';
 			$data['menu']='master';
 			$data['menulist']='branch';
@@ -940,7 +944,7 @@
 		}
 
 		public function gen_brc()
-		{			
+		{
 			$res = $this->crud->gen_numb('branch_code','master_branch','BRC');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
@@ -974,7 +978,7 @@
 		}
 
 		public function ajax_edit_brc($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_branch',array('branch_id' => $id));
         	echo json_encode($data);
 	    }
@@ -1018,7 +1022,7 @@
 	    }
 
 	    public function ajax_delete_brc($id)
-	    {	    	    	
+	    {
 	    	$data = array(	                
 	                'branch_dtsts' => '0'
 	            );
@@ -1089,6 +1093,7 @@
 	    //Menu master COA	    
 	    public function coa()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'COA');
 			$data['title']='Match Terpadu - Master Cabang';
 			$data['menu']='master';
 			$data['menulist']='coa';
@@ -1425,6 +1430,7 @@
 		//Menu master invoice type
 	    public function invoice_type()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'INVT');
 			$data['title']='Match Terpadu - Master Cabang';
 			$data['menu']='master';
 			$data['menulist']='invtyp';
@@ -1466,7 +1472,7 @@
 		}
 
 		public function edit_invtype($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('invoice_type',array('inc_id' => $id));
         	echo json_encode($data);
 	    }
@@ -1505,7 +1511,7 @@
 	    }
 
 	    public function delete_invtype($id)
-	    {	    	    	
+	    {
 	    	$data = array(	                
 	                'inc_dtsts' => '0'
 	            );
@@ -1564,6 +1570,7 @@
 	    //Menu master sales
 	    public function salesforce()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'SLS');
 			$data['person']=$this->crud->get_person();
 			$data['branch']=$this->crud->get_branch();
 			$data['title']='Match Terpadu - Master Sales';
@@ -1608,7 +1615,7 @@
 		}
 
 		public function ajax_edit_sls($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_sales',array('sales_id' => $id));
         	echo json_encode($data);
 	    }
@@ -1646,7 +1653,7 @@
 	    }
 
 	    public function ajax_delete_sls($id)
-	    {	    
+	    {
 	    	$data = array(
 	                'sales_dtsts' => '0'
 	            );
@@ -1719,6 +1726,7 @@
 	    //Menu master currency
 	    public function currency()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'CURR');
 			$data['title']='Match Terpadu - Master Currency';
 			$data['menu']='master';
 			$data['menulist']='currency';
@@ -1760,7 +1768,7 @@
 		}
 
 		public function ajax_edit_crc($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_currency',array('curr_id' => $id));
         	echo json_encode($data);
 	    }
@@ -1796,7 +1804,7 @@
 	    }
 
 	    public function ajax_delete_crc($id)
-	    {	    	
+	    {
 	    	$data = array(
 	                'curr_dtsts' => '0'
 	            );
@@ -1855,6 +1863,7 @@
 	    //Menu master billboard
 	    public function billboard()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'REK');
 			$data['title']='Match Terpadu - Master Billboard';
 			$data['menu']='master';
 			$data['menulist']='bboard';
@@ -1895,7 +1904,7 @@
 		}
 
 		public function ajax_edit_bb($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_bboard',array('bb_id' => $id));
         	echo json_encode($data);
 	    }
@@ -1929,7 +1938,7 @@
 	    }
 
 	    public function ajax_delete_bb($id)
-	    {	    	    	
+	    {
 	    	$data = array(
 	                'bb_dtsts' => '0'
 	            );
@@ -1981,7 +1990,7 @@
 
 	    //Menu master placement
 		public function gen_plc()
-		{			
+		{
 			$res = $this->crud->gen_numb('plc_code','master_placement','PLC');
 			$data['kode'] = $res;
 			$data['status'] = TRUE;
@@ -2012,7 +2021,7 @@
 		}
 
 		public function ajax_edit_plc($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_placement',array('plc_id' => $id));
         	echo json_encode($data);
 	    }
@@ -2044,7 +2053,7 @@
 	    }
 
 	    public function ajax_delete_plc($id)
-	    {	    	    	
+	    {
 	    	$data = array(
 	                'plc_dtsts' => '0'
 	            );
@@ -2091,6 +2100,7 @@
 	    //Menu master permit type
 	    public function permit()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'PAT');
 			$data['loc']=$this->crud->get_loc();
 			$data['pattyp']=$this->crud->get_pattyp();
 			$data['title']='Match Terpadu - Master Permit Type';
@@ -2159,13 +2169,13 @@
 		}
 
 		public function ajax_edit_ptyp($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_permit_type',array('prmttyp_id' => $id));
         	echo json_encode($data);
 	    }
 
 	    public function ajax_edit_locpat($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_permit',array('permit_id' => $id));
         	echo json_encode($data);
 	    }
@@ -2199,7 +2209,7 @@
 	    }
 
 	    public function ajax_delete_ptyp($id)
-	    {	    	
+	    {
 	    	$data = array(
 	                'prmttyp_dtsts' => '0'
 	            );
@@ -2252,6 +2262,7 @@
 	    //Menu master supplier
 	    public function supplier()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'SUPP');
 			$data['title']='Match Terpadu - Master Supplier';
 			$data['menu']='master';
 			$data['menulist']='supplier';
@@ -2293,7 +2304,7 @@
 		}
 
 		public function ajax_edit_sup($id)
-	    {	    
+	    {
 	    	// $data = $this->crud->get_by_id('master_supplier',array('supp_id' => $id));
 	    	$data = $this->crud->get_by_id2b('master_supplier a','chart_of_account b',array('a.supp_id'=>$id),'b.coa_id = a.coa_id','left');
         	echo json_encode($data);
@@ -2437,6 +2448,7 @@
 	    //Menu master barang
 	    public function goods()
 		{
+			$this->authsys->master_check_($_SESSION['user_id'],'GD');
 			$data['supplier']=$this->crud->get_supplier();
 			$data['title']='Match Terpadu - Master Barang';
 			$data['menu']='master';
@@ -2487,7 +2499,7 @@
 		}
 
 		public function ajax_edit_gd($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_goods',array('gd_id' => $id));
         	echo json_encode($data);
 	    }
@@ -2614,7 +2626,8 @@
 
 	    //Master Departemen
 	    public function department()
-	    {	    	
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'DEPT');
 			$data['title']='Match Terpadu - Master Departemen';
 			$data['menu']='master';
 			$data['menulist']='department';
@@ -2631,7 +2644,7 @@
 		}
 
 		public function ajax_edit_dept($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id('master_dept',array('dept_id' => $id));
         	echo json_encode($data);
 	    }
@@ -2716,7 +2729,8 @@
 
 	    //Master Bank
 	    public function bank()
-	    {	    	
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'BNK');
 			$data['title']='Match Terpadu - Master Bank';
 			$data['menu']='master';
 			$data['menulist']='bank';
@@ -2733,7 +2747,7 @@
 		}
 
 		public function ajax_edit_bank($id)
-	    {	    
+	    {
 	    	$data = $this->crud->get_by_id2('master_bank a','chart_of_account b',array('bank_id' => $id),'b.coa_id = a.coa_id');
         	echo json_encode($data);
 	    }

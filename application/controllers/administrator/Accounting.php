@@ -11,6 +11,7 @@
 
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='dash_account';
@@ -31,6 +32,7 @@
 
 		public function journal_acc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='journal';
@@ -40,6 +42,7 @@
 
 		public function journal_adj()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='journal_adj';
@@ -49,6 +52,7 @@
 
 		public function journal_pay()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='journal_pay';
@@ -58,6 +62,7 @@
 
 		public function ledger_acc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='ledger';
@@ -67,6 +72,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
@@ -76,6 +82,7 @@
 
 		public function report_journal()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
@@ -85,6 +92,7 @@
 
 		public function report_ledger()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
@@ -94,6 +102,7 @@
 
 		public function report_trialbalance()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
@@ -103,6 +112,7 @@
 
 		public function report_profitloss()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';
@@ -112,6 +122,7 @@
 
 		public function report_balancesheet()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
 			$data['title']='Match Terpadu - Dashboard Accounting';
 			$data['menu']='accounting';
 			$data['menulist']='report_accounting';

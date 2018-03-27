@@ -29,6 +29,7 @@
 		//Menu Link
 		public function index()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='dash_logistik';
@@ -38,6 +39,7 @@
 
 		public function lap_po()
 	    {
+	    	$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 	    	$data['title']='Match Terpadu - Laporan PO Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -47,6 +49,7 @@
 
 	    public function lap_pembelian()
 	    {
+	    	$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 	    	$data['title']='Match Terpadu - Laporan Pembelian Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -56,6 +59,7 @@
 
 		public function report()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -65,6 +69,7 @@
 
 		public function report_po()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -74,6 +79,7 @@
 
 		public function report_prc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -83,6 +89,7 @@
 
 		public function report_usg()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -92,6 +99,7 @@
 
 		public function report_stock()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -155,6 +163,7 @@
 
 		public function lgt_trx_po()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->gen_ponumber();
 			// $data['po'] = $this->crud->get_by_id('trx_po',array('po_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
@@ -166,6 +175,7 @@
 
 		public function lgt_trx_prc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->add_bl();
 			// $data['prc'] = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
@@ -177,6 +187,7 @@
 
 		public function lgt_trx_retprc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->add_rb();
 			// $data['rb'] = $this->crud->get_by_id('procurement_ret',array('rtprc_id' => $id));
 			$data['title']='Match Terpadu - Dashboard Logistik';
@@ -188,6 +199,7 @@
 
 		public function lgt_trx_usage()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->add_usg();
 			// // $id = '1';
 			// $data['usg'] = $this->crud->get_by_id('trx_usage',array('usg_id' => $id));
@@ -200,6 +212,7 @@
 
 		public function lgt_trx_retusage()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->add_retusg();
 			// // $id = '1';
 			// $data['usg'] = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
@@ -212,6 +225,7 @@
 
 		public function lgt_trx_adjust()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			// $id=$this->crud->add_adj();
 			// // $id = '1';
 			// $data['adj'] = $this->crud->get_by_id('trx_adjustment',array('adj_id' => $id));
@@ -224,6 +238,7 @@
 
 		public function print_po()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -233,6 +248,7 @@
 
 		public function pageprint_po($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
@@ -242,6 +258,7 @@
 
 		public function print_prc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -251,6 +268,7 @@
 
 		public function pageprint_prc($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
@@ -260,6 +278,7 @@
 
 		public function print_retprc()
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
 			$data['menulist']='report_logistik';
@@ -269,6 +288,7 @@
 
 		public function pageprint_retprc($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
@@ -278,6 +298,7 @@
 
 		public function pageprint_usg($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';
@@ -287,6 +308,7 @@
 
 		public function pageprint_adj($id)
 		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
 			$data['id']=$id;
 			$data['title']='Match Terpadu - Dashboard Logistik';
 			$data['menu']='logistik';

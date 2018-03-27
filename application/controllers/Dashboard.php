@@ -4,7 +4,8 @@
 	{
 		public function __construct()
 		{
-			parent::__construct();			
+			parent::__construct();
+			$this->load->model('CRUD/M_crud','crud');
 		}
 
 		public function index()
@@ -41,6 +42,99 @@
 		public function logout()
 		{
 			$this->authsys->logout();
+		}
+
+		public function pass_change()
+		{
+			$id = $this->input->post('user_id');
+			$oldpass = md5($this->input->post('old_pass'));
+			$newpass = md5($this->input->post('new_pass'));
+			$data['error_string'] = array();
+	        $data['inputerror'] = array();
+			//Cek Password Lama
+			$get = $this->db->get_where('master_user',array('user_id'=>$id));
+			if($oldpass != $get->row()->USER_PASSWORD)
+			{
+				$data['inputerror'][] = 'old_pass';
+				$data['error_string'][] = 'Password Lama Salah';
+				$data['status'] = FALSE;
+			}
+			else
+			{
+				$dtup = array('user_password'=>$newpass);
+				$update = $this->crud->update('master_user',$dtup,array('user_id' =>$id));
+				$data['status'] = TRUE;				
+			}
+			echo json_encode($data);
+		}
+
+		public function menu_trx()
+		{
+			$get = $this->db->get('master_menutrx');
+			$data = $get->result();
+			echo json_encode($data);
+		}
+
+		public function menu_master()
+		{
+			$get = $this->db->get('master_menumaster');
+			$data = $get->result();
+			echo json_encode($data);
+		}
+
+		public function get_menulist()
+		{
+			$getmst = $this->db->get_where('master_menu',array('menu_sts'=>0));
+			$data['mst'] = $getmst->result();
+			$gettrx = $this->db->get_where('master_menu',array('menu_sts'=>1));
+			$data['trx'] = $gettrx->result();
+			echo json_encode($data);
+		}
+
+		public function get_useraccess($id)
+		{
+			$get = $this->db->get_where('group_user',array('user_id'=>$id));
+			$data = $get->result();
+			echo json_encode($data);
+		}
+
+		public function get_user()
+		{
+			$get = $this->db->get_where('master_user',array('user_dtsts'=>'1'));
+			$data = $get->result();
+			echo json_encode($data);
+		}
+
+		public function add_useraccess()
+		{
+			$user = $this->input->post('user_list');
+			$data['arr'] = $this->input->post('trx');
+			$data['arr2'] = $this->input->post('mstr');
+			$del_acc = $this->crud->delete_by_id('group_user',array('user_id'=>$user));
+			if(sizeof($data['arr'])>0)
+			{
+				foreach($data['arr'] as $trx)
+				{
+					$dt_trx = array(
+							'user_id' => $user,
+							'menu_code' => $trx
+						);
+					$ins_trx = $this->crud->save('group_user',$dt_trx);
+				}
+			}
+			if(sizeof($data['arr2'])>0)
+			{
+				foreach($data['arr2'] as $mst)
+				{
+					$dt_mst = array(
+							'user_id' => $user,
+							'menu_code' => $mst
+						);
+					$ins_mst = $this->crud->save('group_user',$dt_mst);
+				}
+			}
+			$data['status'] = TRUE;
+			echo json_encode($data);
 		}
 
 		public function tes()
