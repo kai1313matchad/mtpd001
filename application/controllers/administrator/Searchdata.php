@@ -29,7 +29,9 @@
 			$this->load->model('datatables/search/Dt_srchusgbysts','s_usgbysts');
 			$this->load->model('datatables/search/Dt_srchrtusgbysts','s_rtusgbysts');
 			$this->load->model('datatables/search/Dt_srchcashin','s_cashin');
+			$this->load->model('datatables/search/Dt_srchcashinbysts','s_cashinbysts');
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
+			$this->load->model('datatables/search/Dt_srchcashoutbysts','s_cashoutbysts');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
 			$this->load->model('datatables/search/Dt_srchbankout','s_bankout');
 			$this->load->model('datatables/search/Dt_srchgiroin','s_giroin');
@@ -1195,6 +1197,110 @@
 							"data" => $data,
 					);			
 			echo json_encode($output);
+		}
+
+		//Search Kas Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_cash_in_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_cashinbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->CSH_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->CSH_DATE;				
+				    $row[] = $dat->CSH_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashinopen('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->CSH_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->CSH_DATE;				
+				    $row[] = $dat->CSH_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashinedit('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashinbysts->count_all(),
+							"recordsFiltered" => $this->s_cashinbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Invoice Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_cash_out_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_cashoutbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->CSHO_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->CSHO_DATE;				
+				    $row[] = $dat->CSHO_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashoutopen('."'".$dat->CSHO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->CSHO_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->CSHO_DATE;				
+				    $row[] = $dat->CSHO_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashoutedit('."'".$dat->CSHO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashoutbysts->count_all(),
+							"recordsFiltered" => $this->s_cashoutbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_cashingb($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_in',array('csh_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_cashoutgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_cash_out',array('csho_id' => $id));
+			echo json_encode($data);
 		}
 	}
 ?>

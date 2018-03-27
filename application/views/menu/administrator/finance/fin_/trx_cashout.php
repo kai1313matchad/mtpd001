@@ -24,6 +24,18 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_cash_out()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_cash_out()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -501,6 +513,39 @@
         </div>
     </div>
     <!-- modal Pembelian selesai -->
+
+    <!-- Modal Search -->
+    <div class="modal fade" id="modal_cash_out_edit" name="modal_cash_out_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_cash_out_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode Kas Masuk</th>
+                                        <th>Nama Customer</th>
+                                        <th>Tanggal</th>  
+                                        <th>Keterangan</th>                                      
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery -->
     <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
@@ -1074,6 +1119,122 @@ $(document).ready(function() {
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error adding / update data');
+                }
+            });
+        }
+
+        function edit_cash_out()
+        {
+            $('#modal_cash_out_edit').modal('show');
+            $('.modal-title').text('Cari Kas Keluar');
+            table = $('#dtb_cash_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_out_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function open_cash_out()
+        {
+            $('#modal_cash_out_edit').modal('show');
+            $('.modal-title').text('Cari Kas Keluar');            
+            table = $('#dtb_cash_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_out_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function pick_cashoutopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/open_cashout/')?>" + id,
+                type: "POST",
+                data: $('#form_kas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Kas Keluar Sukses Dibuka');
+                        $('#modal_cash_out_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Kas Keluar masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_cashoutedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_cashoutgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="kas_id"]').val(data.CSHO_ID);
+                    $('[name="kas_nomor"]').val(data.CSHO_CODE);
+                    $('[name="kas_tgl"]').val(data.CSHO_DATE);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="kas_info"]').val(data.CSHO_INFO);
+                    pick_appr(data.CSHO_APPR);
+                    pick_supp(data.CSHO_SUPP);
+                    $('[name="kas_info"]').val(data.CSHO_INFO);
+                    pick_dept(data.DEPT_ID);
+                    pick_anggaran(data.CSHO_BUDGET);
+                    $('[name="head_taxnumber"]').val(data.CSHO_TAXHEADCODE);
+                    $('[name="taxnumber"]').val(data.CSHO_TAXCODE);
+                    pick_curr(data.CURR_ID);
+                    kas_keluar_detail(data.CSHO_ID);
+                    $('#modal_cash_out_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
             });
         }

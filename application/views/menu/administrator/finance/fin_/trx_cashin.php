@@ -30,6 +30,18 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_cash_in()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_cash_in()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -211,6 +223,38 @@
         <!-- /#page-wrapper -->
     </div>
 
+    <!-- Modal Search -->
+    <div class="modal fade" id="modal_cash_in_edit" name="modal_cash_in_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_cash_in_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode Kas Masuk</th>
+                                        <th>Nama Customer</th>
+                                        <th>Tanggal</th>  
+                                        <th>Keterangan</th>                                      
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
      <!-- Modal Account -->
     <div class="modal fade" id="modal_account" name="modal_account" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -681,12 +725,12 @@ $(document).ready(function() {
     function pick_inv_amount(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_inv_amount/')?>" + id,
+                url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="nominal"]').val(data.INVDET_AMOUNT);
+                    $('[name="nominal"]').val(data.gt1);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -785,6 +829,115 @@ $(document).ready(function() {
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error adding / update data');
+                }
+            });
+        }
+
+        function edit_cash_in()
+        {
+            $('#modal_cash_in_edit').modal('show');
+            $('.modal-title').text('Cari Kas Masuk');
+            table = $('#dtb_cash_in_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_in_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_cash_in()
+        {
+            $('#modal_cash_in_edit').modal('show');
+            $('.modal-title').text('Cari Kas Masuk');            
+            table = $('#dtb_cash_in_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_in_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function pick_cashinopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/open_cashin/')?>" + id,
+                type: "POST",
+                data: $('#form_kas').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Kas Masuk Sukses Dibuka');
+                        $('#modal_cash_in_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Invoice masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_cashinedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_cashingb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="kas_id"]').val(data.CSH_ID);
+                    $('[name="kas_nomor"]').val(data.CSH_CODE);
+                    $('[name="kas_tgl"]').val(data.CSH_DATE);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="kas_info"]').val(data.CSH_INFO);
+                    pick_cust(data.CUST_ID);
+                    pick_curr(data.CURR_ID)
+                    kas_masuk_detail(data.CSH_ID);
+                    $('#modal_cash_in_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
             });
         }

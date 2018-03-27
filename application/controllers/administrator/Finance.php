@@ -1313,7 +1313,7 @@
 				    'USER_ID' => '1',
                     'CSHO_CODE' => $this->input->post('kas_nomor'),
                     'CSHO_APPR' => $this->input->post('appr_id'),
-                    'CSHO_SUPP' => $this->input->post('kas_customer_id'),
+                    'CSHO_SUPP' => $this->input->post('supp_id'),
                     'DEPT_ID' => $this->input->post('dept_id'),
 	                'COA_ID' => $this->input->post('acc_id'),
 	                'CURR_ID' => $this->input->post('curr_id'),
@@ -2059,11 +2059,11 @@
         	echo json_encode($data);
 		}
 
-		public function ajax_pick_inv_amount($id)
-		{
-			$data = $this->crud->get_by_id('inv_details',array('inv_id' => $id));
-        	echo json_encode($data);
-		}
+		// public function ajax_pick_inv_amount($id)
+		// {
+		// 	$data = $this->crud->get_by_id('inv_details',array('inv_id' => $id));
+        //  echo json_encode($data);
+		// }
 
 		public function ajax_pick_inv_ppn($id)
 		{
@@ -3252,5 +3252,27 @@
 				$this->db->insert('his_inv',$data);
 	    	}
 	    }
+
+	    public function open_cashin($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_cash_in',array('csh_id'=>$id));
+			$code = $get->row()->CSH_CODE;
+			$dt = array('csh_sts'=>'0');
+			$update = $this->crud->update('trx_cash_in',$dt,array('csh_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_cashout($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_cash_out',array('csho_id'=>$id));
+			$code = $get->row()->CSHO_CODE;
+			$dt = array('csho_sts'=>'0');
+			$update = $this->crud->update('trx_cash_out',$dt,array('csho_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
 	}
 ?>

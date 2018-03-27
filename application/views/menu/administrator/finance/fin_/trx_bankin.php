@@ -869,12 +869,12 @@ $(document).ready(function() {
     function pick_inv_amount(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_inv_amount/')?>" + id,
+                url : "<?php echo site_url('administrator/Finance/get_subinvdet/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="nominal2"]').val(data.INVDET_AMOUNT);
+                    $('[name="nominal2"]').val(data.gt1);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
