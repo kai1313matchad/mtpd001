@@ -28,7 +28,7 @@
                             <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_bb()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Reklame</button>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                                 <button class="btn btn-block btn-info" onclick="exp_bb()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
@@ -62,7 +62,7 @@
                                 <button class="btn btn-success" onclick="add_placement()"><i class="glyphicon glyphicon-plus"></i> Tambah Penempatan</button>
                             </div>
                             <div class="col-xs-2">
-                                <button class="btn btn-block btn-info" onclick="exp_plc()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
+                                <button class="btn btn-block btn-info" onclick="exp_plc()" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">

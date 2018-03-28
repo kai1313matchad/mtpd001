@@ -10,7 +10,7 @@
                     <div class="col-xs-2">
                         <button class="btn btn-block btn-success" onclick="add_gd()"><i class="glyphicon glyphicon-plus"></i> Tambah Barang</button>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                         <button class="btn btn-block btn-info" onclick="exp_barang()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>

@@ -28,7 +28,7 @@
                             <div class="col-lg-2">
                                 <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Tambah Karyawan</button>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                                 <button class="btn btn-block btn-info" onclick="exp_person()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
@@ -64,7 +64,7 @@
                             <div class="col-lg-2">
                                 <button class="btn btn-success" onclick="add_user()"><i class="glyphicon glyphicon-plus"></i> Tambah User</button>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                                 <button class="btn btn-block btn-info" onclick="exp_user()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>

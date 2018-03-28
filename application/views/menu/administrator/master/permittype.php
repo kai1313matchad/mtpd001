@@ -28,7 +28,7 @@
                             <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_ptyp()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Ijin</button>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                                 <button class="btn btn-block btn-info" onclick="exp_patt()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>

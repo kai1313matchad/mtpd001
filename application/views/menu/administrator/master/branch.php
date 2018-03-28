@@ -11,7 +11,7 @@
                         <button class="btn btn-block btn-success" onclick="add_brc()"><i class="glyphicon glyphicon-plus"></i> Tambah Cabang</button>
                     </div>
                     <div class="col-xs-2">
-                        <button class="btn btn-block btn-info" onclick="exp_branch()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
+                        <button class="btn btn-block btn-info" onclick="exp_branch()" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">                    
