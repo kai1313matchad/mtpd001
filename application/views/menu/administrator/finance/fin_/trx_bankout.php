@@ -37,6 +37,18 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_bank_out()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_bank_out()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -238,7 +250,7 @@
                                                   <input class="form-control" type="text" name="acc_detail" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_acc('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_acc2('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
@@ -353,6 +365,39 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
+    </div>
+
+    <!-- Modal Search -->
+    <div class="modal fade" id="modal_bank_out_edit" name="modal_bank_out_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_bank_out_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode Bank Keluar</th>
+                                        <th>Nama Account</th>
+                                        <th>Tanggal</th>  
+                                        <th>Keterangan</th>                                      
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
      <!-- Modal Account -->
@@ -798,7 +843,7 @@ $(document).ready(function() {
     function srch_acc(t)
         {
             sts=t;
-            acc=3;
+            acc='1110000';
             $('#modal_account').modal('show');
             $('.modal-title').text('Cari Account');            
             table = $('#dtb_acc').DataTable({
@@ -810,6 +855,32 @@ $(document).ready(function() {
                 "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc/')?>" + acc,
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+    function srch_acc2(t)
+        {
+            sts=t;
+            //acc=3;
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');            
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc2/')?>",
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -1387,6 +1458,121 @@ $(document).ready(function() {
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error adding / update data');
+                }
+            });
+        }
+
+        function edit_bank_out()
+        {
+            $('#modal_bank_out_edit').modal('show');
+            $('.modal-title').text('Cari Bank Keluar');
+            table = $('#dtb_bank_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_bank_out_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_bank_out()
+        {
+            $('#modal_bank_out_edit').modal('show');
+            $('.modal-title').text('Cari Bank Keluar');            
+            table = $('#dtb_bank_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_bank_out_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_bankoutopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/open_bankout/')?>" + id,
+                type: "POST",
+                data: $('#form_bank').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Bank Masuk Sukses Dibuka');
+                        $('#modal_bank_out_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Bank Masuk masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_bankoutedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bankoutgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="bank_id"]').val(data.BNKO_ID);
+                    $('[name="bank_nomor"]').val(data.BNKO_CODE);
+                    $('[name="bank_tgl"]').val(data.BNKO_DATE);
+                    pick_bank(data.BANK_ID);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="bank_nomor_approval"]').val(data.BNKO_APPR);
+                    pick_supp(data.SUPP_ID);
+                    $('[name="bank_info"]').val(data.BNKO_INFO);
+                    pick_dept(data.DEPT_ID);
+                    $('[name="bank_anggaran"]').val(data.BNKO_BUDGET);
+                    $('[name="head_taxnumber"]').val(data.BNKO_TAXHEADCODE);
+                    $('[name="taxnumber"]').val(data.BNKO_TAXCODE);
+                    pick_curr(data.CURR_ID)
+                    bank_keluar_detail1(data.BNKO_ID);
+                    bank_keluar_detail2(data.BNKO_ID);
+                    $('#modal_bank_out_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
             });
         }

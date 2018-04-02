@@ -24,6 +24,18 @@
                     </div>                    
                 </div>
                 <div class="row">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="edit_budget()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Edit</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
+                        <a href="javascript:void(0)" onclick="open_budget()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-open"> Open</span>
+                        </a>
+                    </div>
+                </div><br>
+                <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
@@ -223,6 +235,41 @@
         <!-- /#page-wrapper -->
     </div>
 
+     <!-- Modal Anggaran Search -->
+    <div class="modal fade" id="modal_anggaran_edit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_anggaran_edit" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Tanggal</th>
+                                        <th>Nomor Approval</th>
+                                        <th>Nama Lokasi</th>
+                                        <th>Alamat Lokasi</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal Anggaran selesai -->
+
      <!-- Modal Account -->
     <div class="modal fade" id="modal_account" name="modal_account" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -391,7 +438,7 @@ $(document).ready(function() {
     //     curr($('select :selected').val());
     // })
     var id = $('[name="kas_id"]').val();
-    kas_keluar_detail(id);
+    budget_detail(id);
 })
 
         var sts;
@@ -860,6 +907,114 @@ $(document).ready(function() {
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Error adding / update data');
+                }
+            });
+        }
+
+        function edit_budget()
+        {
+            $('#modal_anggaran_edit').modal('show');
+            $('.modal-title').text('Cari Anggaran');
+            table = $('#dtb_anggaran_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_budget_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '0';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '0';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function open_budget()
+        {
+            $('#modal_anggaran_edit').modal('show');
+            $('.modal-title').text('Cari Anggaran Masuk');            
+            table = $('#dtb_anggaran_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_budget_bysts')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_budgetopen(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Transaction/open_budget/')?>" + id,
+                type: "POST",
+                data: $('#form_budget').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Record Anggaran Dibuka');
+                        $('#modal_anggaran_edit').modal('hide');
+                    }
+                    else
+                    {
+                        alert('Record Anggaran masih digunakan di transaksi '+data.string);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function pick_budgetedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_budgetgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="budget_id"]').val(data.BUD_ID);
+                    $('[name="budget_nomor"]').val(data.BUD_CODE);
+                    $('[name="budget_tgl"]').val(data.BUD_DATE);
+                    pick_appr(data.BUD_APPR);
+                    sts=1;
+                    pick_location(data.BUD_LOC);
+                    $('[name="budget_keterangan"]').val(data.BUD_INFO);
+                    $('[name="budget_type"]').val(data.BUD_PROJECT);
+                    budget_detail(data.BUD_ID);
+                    $('#modal_anggaran_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
                 }
             });
         }

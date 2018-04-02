@@ -33,11 +33,16 @@
 			$this->load->model('datatables/search/Dt_srchcashout','s_cashout');
 			$this->load->model('datatables/search/Dt_srchcashoutbysts','s_cashoutbysts');
 			$this->load->model('datatables/search/Dt_srchbankin','s_bankin');
+			$this->load->model('datatables/search/Dt_srchbankinbysts','s_bankinbysts');
 			$this->load->model('datatables/search/Dt_srchbankout','s_bankout');
+			$this->load->model('datatables/search/Dt_srchbankoutbysts','s_bankoutbysts');
 			$this->load->model('datatables/search/Dt_srchgiroin','s_giroin');
+			$this->load->model('datatables/search/Dt_srchgiroinbysts','s_giroinbysts');
 			$this->load->model('datatables/search/Dt_srchgiroout','s_giroout');
+			$this->load->model('datatables/search/Dt_srchgirooutbysts','s_girooutbysts');
 			$this->load->model('datatables/search/Dt_srchgiroinrec','s_giroinrec');
 			$this->load->model('datatables/search/Dt_srchgirooutrec','s_girooutrec');
+			 $this->load->model('datatables/search/Dt_srchbudgetbysts','s_budgetbysts');
 		}
 
 		//Search Approval Cabang
@@ -1291,6 +1296,238 @@
 			echo json_encode($output);
 		}
 
+		//Search Bank Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_bank_in_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_bankinbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BNK_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->BNK_DATE;				
+				    $row[] = $dat->BNK_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankinopen('."'".$dat->BNK_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BNK_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->BNK_DATE;				
+				    $row[] = $dat->BNK_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankinedit('."'".$dat->BNK_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bankinbysts->count_all(),
+							"recordsFiltered" => $this->s_bankinbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Bank Keluar Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_bank_out_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_bankoutbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BNKO_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->BNKO_DATE;				
+				    $row[] = $dat->BNKO_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankoutopen('."'".$dat->BNKO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BNKO_CODE;
+				    $row[] = $dat->COA_ACCNAME;
+				    $row[] = $dat->BNKO_DATE;				
+				    $row[] = $dat->BNKO_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankoutedit('."'".$dat->BNKO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bankoutbysts->count_all(),
+							"recordsFiltered" => $this->s_bankoutbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Giro Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_giro_in_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_giroinbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->GRIN_CODE;
+				    $row[] = $dat->BANK_NAME;
+				    $row[] = $dat->GRIN_DATE;				
+				    $row[] = $dat->GRIN_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroinopen('."'".$dat->GRIN_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->GRIN_CODE;
+				    $row[] = $dat->BANK_NAME;
+				    $row[] = $dat->GRIN_DATE;				
+				    $row[] = $dat->GRIN_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroinedit('."'".$dat->GRIN_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_giroinbysts->count_all(),
+							"recordsFiltered" => $this->s_giroinbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Giro Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_giro_out_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_girooutbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->GROUT_CODE;
+				    $row[] = $dat->BANK_NAME;
+				    $row[] = $dat->GROUT_DATE;				
+				    $row[] = $dat->GROUT_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_girooutopen('."'".$dat->GROUT_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->GROUT_CODE;
+				    $row[] = $dat->BANK_NAME;
+				    $row[] = $dat->GROUT_DATE;				
+				    $row[] = $dat->GROUT_INFO;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_girooutedit('."'".$dat->GROUT_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_girooutbysts->count_all(),
+							"recordsFiltered" => $this->s_girooutbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Search Anggaran Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_budget_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_budgetbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BUD_CODE;
+				    $row[] = $dat->BUD_DATE;
+				    $row[] = $dat->BUD_APPR;				
+				    $row[] = $dat->LOC_NAME;
+				    $row[] = $dat->LOC_ADDRESS;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_budgetopen('."'".$dat->BUD_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->BUD_CODE;
+				    $row[] = $dat->BUD_DATE;
+				    $row[] = $dat->BUD_APPR;				
+				    $row[] = $dat->LOC_NAME;
+				    $row[] = $dat->LOC_ADDRESS;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_budgetedit('."'".$dat->BUD_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_budgetbysts->count_all(),
+							"recordsFiltered" => $this->s_budgetbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_cashingb($id)
 		{
 			$data = $this->crud->get_by_id('trx_cash_in',array('csh_id' => $id));
@@ -1300,6 +1537,36 @@
 		public function pick_cashoutgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_cash_out',array('csho_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_bankingb($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankin',array('bnk_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_bankoutgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_bankout',array('bnko_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_giroingb($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_in',array('grin_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_girooutgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_giro_out',array('grout_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_budgetgb($id)
+		{
+			$data = $this->crud->get_by_id('trx_budget',array('bud_id' => $id));
 			echo json_encode($data);
 		}
 	}

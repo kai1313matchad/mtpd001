@@ -175,7 +175,7 @@
                                                   <input class="form-control" type="text" name="acc_detail" readonly>
                                              </div>
                                              <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_acc('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
+                                                  <button type="button" class="btn btn-info" onclick="srch_acc2('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
                                              </div>
                                              <input class="form-control" type="hidden" name="acc_id_detail">
                                         </div>
@@ -529,8 +529,8 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode Kas Masuk</th>
-                                        <th>Nama Customer</th>
+                                        <th>Kode Kas Keluar</th>
+                                        <th>Nama Supplier</th>
                                         <th>Tanggal</th>  
                                         <th>Keterangan</th>                                      
                                         <th>Pilih</th>
@@ -623,7 +623,7 @@ $(document).ready(function() {
      function srch_acc(t)
         {
             sts=t;
-            acc=1;
+            acc='1110000';
             $('#modal_account').modal('show');
             $('.modal-title').text('Cari Account');            
             table = $('#dtb_acc').DataTable({
@@ -635,6 +635,32 @@ $(document).ready(function() {
                 "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc/')?>" + acc,
+                    "type": "POST",                
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+
+        function srch_acc2(t)
+        {
+            sts=t;
+            //acc=1;
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');            
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc2/')?>",
                     "type": "POST",                
                 },                
                 "columnDefs": [

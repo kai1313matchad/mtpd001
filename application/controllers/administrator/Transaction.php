@@ -393,5 +393,16 @@
 			$data['menulist']='report_transaction';
 			$this->load->view('menu/administrator/transaction/anggaran_lokasi_summary_print',$data);
 		}
+
+		public function open_budget($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_budget',array('bud_id'=>$id));
+			$code = $get->row()->BUD_CODE;
+			$dt = array('bud_sts'=>'0');
+			$update = $this->crud->update('trx_budget',$dt,array('bud_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
 	}
 ?>

@@ -9,6 +9,8 @@
 			$this->load->model('CRUD/M_gen','gen');
 			$this->load->model('CRUD/M_finance','finance');
 			$this->load->model('datatables/Dt_coa_parent','srch_acc');
+			$this->load->model('datatables/Dt_coa_account','srch_acc2');
+			$this->load->model('datatables/Dt_coa','srch_acc3');
 			$this->load->model('datatables/Dt_srchcust','srch_cust');
 			$this->load->model('datatables/Dt_srchcurr','srch_curr');
 			$this->load->model('datatables/Dt_srchappr','srch_appr');
@@ -995,7 +997,7 @@
 
 		public function ajax_srch_acc($id)
 		{
-			$list = $this->srch_acc->get_datatables($id);
+			$list = $this->srch_acc2->get_datatables($id);
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $dat) {
@@ -1009,8 +1011,31 @@
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->srch_acc->count_all(),
-							"recordsFiltered" => $this->srch_acc->count_filtered($id),
+							"recordsTotal" => $this->srch_acc2->count_all(),
+							"recordsFiltered" => $this->srch_acc2->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function ajax_srch_acc2()
+		{
+			$list = $this->srch_acc3->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_acc('."'".$dat->COA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->srch_acc3->count_all(),
+							"recordsFiltered" => $this->srch_acc3->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1724,6 +1749,8 @@
                     'BANK_ID' => $this->input->post('kode_bank'),
                     'COA_ID' => $this->input->post('acc_id'),
                     'BNKO_SUPP' => $this->input->post('supp_id'),
+                    'BNKO_APPR' => $this->input->post('bank_nomor_approval'),
+                    'BNKO_BUDGET' => $this->input->post('bank_anggaran'),
 	                'CURR_ID' => $this->input->post('curr_id'),
 	                'BNKO_TAXHEADCODE' => $this->input->post('head_taxnumber'),
 	                'BNKO_TAXCODE' => $this->input->post('taxnumber'),
@@ -3331,6 +3358,50 @@
 			$code = $get->row()->CSHO_CODE;
 			$dt = array('csho_sts'=>'0');
 			$update = $this->crud->update('trx_cash_out',$dt,array('csho_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_bankin($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_bankin',array('bnk_id'=>$id));
+			$code = $get->row()->BNK_CODE;
+			$dt = array('bnk_sts'=>'0');
+			$update = $this->crud->update('trx_bankin',$dt,array('bnk_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_bankout($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_bankout',array('bnko_id'=>$id));
+			$code = $get->row()->BNK_CODE;
+			$dt = array('bnk_sts'=>'0');
+			$update = $this->crud->update('trx_bankout',$dt,array('bnko_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_giroin($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_giro_in',array('grin_id'=>$id));
+			$code = $get->row()->GRIN_CODE;
+			$dt = array('grin_sts'=>'0');
+			$update = $this->crud->update('trx_giro_in',$dt,array('grin_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_giroout($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_giro_out',array('grout_id'=>$id));
+			$code = $get->row()->GROUT_CODE;
+			$dt = array('grout_sts'=>'0');
+			$update = $this->crud->update('trx_giro_out',$dt,array('grout_id' => $id));
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
