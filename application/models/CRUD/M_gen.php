@@ -555,14 +555,18 @@
 		//Gen Nomor BAPP
 		public function gen_numbapp()
 		{
-			$res = $this->gen_num_('trx_bapp','bapp_code','BA');			
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_bapp','bapp_code','BA');
+			$res = $this->gen_numbybrc_('trx_bapp','bapp_code',$brc,'BA');
 			$check = $this->db->get_where('trx_bapp',array('bapp_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_bapp','bapp_code','BA');
+				// $res = $this->gen_num_('trx_bapp','bapp_code','BA');
+				$res = $this->gen_numbybrc_('trx_bapp','bapp_code',$brc,'BA');
 			}
 			$data = array(
 					'bapp_code'=>$res,
+					'branch_id'=>$brc,
 					'bapp_sts'=>'0'
 				);			
 			$this->db->insert('trx_bapp',$data);

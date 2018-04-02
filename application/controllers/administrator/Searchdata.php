@@ -216,7 +216,7 @@
 		{
 			$id = '1';
 			$br = $this->input->post('brch');
-			$brc = 'd.branch_id = '.$br;
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_apprbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -251,7 +251,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_bappbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
