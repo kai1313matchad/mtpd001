@@ -103,40 +103,68 @@
 		//Gen Nomor Kas Masuk
 		public function gen_numcashin()
 		{
-			$res = $this->gen_num_('trx_cash_in','csh_code','KM');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_cash_in','csh_code','KM');
+			$res = $this->gen_numbybrc_('trx_cash_in','csh_code',$brc,'KM');
 			$check = $this->db->get_where('trx_cash_in',array('csh_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_cash_in','csh_code','KM');
+				// $res = $this->gen_num_('trx_cash_in','csh_code','KM');
+				$res = $this->gen_numbybrc_('trx_cash_in','csh_code',$brc,'KM');
 			}
 			$data = array(
 					'csh_code'=>$res,
+					'branch_id'=>$brc,
 					'csh_sts'=>'0'
 				);			
-			$this->db->insert('trx_cash_in',$data);			
+			$this->db->insert('trx_cash_in',$data);
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['csh_code'] = $res;
+			$data2 = array(
+					'csh_id' => $insID,
+					'hischin_sts' => 'Void By System',
+					'hischin_old' => 'None',
+					'hischin_new' => 'None',
+					'hischin_info' => 'Create By System',
+					'hischin_date' => date('Y-m-d'),
+					'hischin_upcount' => 0
+				);
+			$this->db->insert('his_cashin',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Kas Keluar
 		public function gen_numcashout()
 		{
-			$res = $this->gen_num_('trx_cash_out','csho_code','KK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_cash_out','csho_code','KK');
+			$res = $this->gen_numbybrc_('trx_cash_out','csho_code',$brc,'KK');
 			$check = $this->db->get_where('trx_cash_out',array('csho_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_cash_out','csho_code','KK');
+				// $res = $this->gen_num_('trx_cash_out','csho_code','KK');
+				$res = $this->gen_numbybrc_('trx_cash_out','csho_code',$brc,'KK');
 			}
 			$data = array(
 					'csho_code'=>$res,
+					'branch_id'=>$brc,
 					'csho_sts'=>'0'
 				);			
-			$this->db->insert('trx_cash_out',$data);			
+			$this->db->insert('trx_cash_out',$data);
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['csho_code'] = $res;
+			$data2 = array(
+					'csho_id' => $insID,
+					'hiscsho_sts' => 'Void By System',
+					'hiscsho_old' => 'None',
+					'hiscsho_new' => 'None',
+					'hiscsho_info' => 'Create By System',
+					'hiscsho_date' => date('Y-m-d'),
+					'hiscsho_upcount' => 0
+				);
+			$this->db->insert('his_cashout',$data2);
 			return  $out;
 		}
 
