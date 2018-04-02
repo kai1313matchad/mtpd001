@@ -339,14 +339,18 @@
 		//Gen Logistik
 		public function gen_numpolgt()
 		{
-			$res = $this->gen_num_('trx_po','po_code','PO');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_po','po_code','PO');
+			$res = $this->gen_numbybrc_('trx_po','po_code',$brc,'PO');
 			$check = $this->db->get_where('trx_po',array('po_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_po','po_code','PO');
+				// $res = $this->gen_num_('trx_po','po_code','PO');
+				$res = $this->gen_numbybrc_('trx_po','po_code',$brc,'PO');
 			}
 			$data = array(
 					'po_code'=>$res,
+					'branch_id'=>$brc,
 					'po_sts'=>'0'
 				);
 			$this->db->insert('trx_po',$data);
