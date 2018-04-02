@@ -523,14 +523,16 @@
 		//Gen Nomor Approval
 		public function gen_numappr()
 		{
-			$res = $this->gen_numbybrc_('trx_approvalbill','appr_code',$this->session->userdata('user_branch'),'AB');			
+			$brc = $this->session->userdata('user_branch');
+			$res = $this->gen_numbybrc_('trx_approvalbill','appr_code',$brc,'AB');
 			$check = $this->db->get_where('trx_approvalbill',array('appr_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_numbybrc_('trx_approvalbill','appr_code',$this->session->userdata('user_branch'),'AB');
+				$res = $this->gen_numbybrc_('trx_approvalbill','appr_code',$brc,'AB');
 			}
 			$data = array(
 					'appr_code'=>$res,
+					'branch_id'=>$brc,
 					'appr_sts'=>'0'
 				);			
 			$this->db->insert('trx_approvalbill',$data);

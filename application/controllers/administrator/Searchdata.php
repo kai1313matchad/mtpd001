@@ -167,7 +167,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_apprbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -178,7 +179,7 @@
 					$row = array();
 					$row[] = $no;
 					$row[] = $dat->APPR_CODE;
-					$row[] = $dat->APPR_BRCNAME;
+					$row[] = $dat->BRANCH_NAME;
 					$row[] = $dat->APPR_DATE;
 					$row[] = $dat->CUST_NAME;
 					$row[] = $dat->LOC_NAME;
@@ -193,7 +194,7 @@
 					$row = array();
 					$row[] = $no;
 					$row[] = $dat->APPR_CODE;
-					$row[] = $dat->APPR_BRCNAME;
+					$row[] = $dat->BRANCH_NAME;
 					$row[] = $dat->APPR_DATE;
 					$row[] = $dat->CUST_NAME;
 					$row[] = $dat->LOC_NAME;

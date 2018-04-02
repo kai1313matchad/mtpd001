@@ -15,6 +15,7 @@
 			$this->db->join('master_customer b','b.cust_id = a.cust_id','left');
 			$this->db->join('master_location c','c.loc_id = a.loc_id','left');
 			$this->db->join('master_user d','d.user_id = a.user_id','left');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id','left');
 			$this->db->from($this->table);
 			$this->db->where('a.appr_sts',$id);
 			$this->db->where($brc);
