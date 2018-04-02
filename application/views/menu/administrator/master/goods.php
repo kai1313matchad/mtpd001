@@ -2,13 +2,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Barang</h1>
                     </div>                    
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
-                        <button class="btn btn-success" onclick="add_gd()"><i class="glyphicon glyphicon-plus"></i> Tambah Barang</button>
+                    <div class="col-xs-2">
+                        <button class="btn btn-block btn-success" onclick="add_gd()"><i class="glyphicon glyphicon-plus"></i> Tambah Barang</button>
+                    </div>
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                        <button class="btn btn-block btn-info" onclick="exp_barang()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">
@@ -628,6 +631,10 @@
                     alert('Error Generate Number');
                 }
             });
+        }
+        function exp_barang()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_goods')?>",'_blank');
         }
     </script>
 </body>

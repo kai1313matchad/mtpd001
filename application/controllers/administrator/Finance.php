@@ -1366,6 +1366,7 @@
                 );
             $buku = array(
             	    'USER_ID' => '1',
+            	    'CSH_ID' => $this->input->post('kas_id'),
             	    'CSH_CODE' => $this->input->post('kas_nomor'),
             	    'CSH_DATE' => $tgl,
             	    'COA_ID' => $this->input->post('acc_id_detail'),
@@ -1519,6 +1520,7 @@
                 );
             $buku = array(
             	    'USER_ID' => '1',
+            	    'CSH_ID' => $this->input->post('kas_id'),
             	    'CSH_CODE' => $this->input->post('kas_nomor'),
             	    'CSH_DATE' => $tgl,
             	    'COA_ID' => $this->input->post('acc_id_detail'),

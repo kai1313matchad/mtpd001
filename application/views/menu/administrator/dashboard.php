@@ -84,6 +84,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <button type="button" onclick="test()" class="btn btn-primary">Test</button>
+                            </div>
                         </form>
                     </div>
                     <div class="tab-pane fade" id="2">
@@ -351,6 +354,23 @@
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Pilih Salah Satu User');
+                }
+            });
+        }
+        function test()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/test')?>",
+                type: "POST",
+                data: $('#form_useraccess').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert(data.tes);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');
                 }
             });
         }

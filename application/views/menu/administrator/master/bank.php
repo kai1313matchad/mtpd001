@@ -2,17 +2,19 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Bank</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
-                        <button class="btn btn-success" onclick="add_bank()"><i class="glyphicon glyphicon-plus"></i> Tambah Bank</button>
+                    <div class="col-xs-2">
+                        <button class="btn btn-block btn-success" onclick="add_bank()"><i class="glyphicon glyphicon-plus"></i> Tambah Bank</button>
+                    </div>
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                        <button class="btn btn-block btn-info" onclick="exp_bank()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
-                <div class="col-sm-12 col-xs-12 table-responsive">                    
+                <div class="col-sm-12 col-xs-12 table-responsive">
                     <table id="dtb_bank" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -30,7 +32,7 @@
                                 </th>
                                 <th class="text-center">
                                     Info
-                                </th>                                
+                                </th>
                                 <th class="text-center">
                                     Actions
                                 </th>
@@ -426,6 +428,10 @@
                     alert('Error Generate Number');
                 }
             });
+        }
+        function exp_bank()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_bank')?>",'_blank');
         }
     </script>
 </body>

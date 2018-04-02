@@ -2,13 +2,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Sales</h1>
                     </div>                
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-xs-2">
                         <button class="btn btn-success" onclick="add_sls()"><i class="glyphicon glyphicon-plus"></i> Tambah Sales</button>
+                    </div>
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                        <button class="btn btn-block btn-info" onclick="exp_sales()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -194,19 +197,7 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
     $(document).ready(function() {
         dt_sls();
@@ -215,7 +206,6 @@
         dropbranch();
         dropbranch2();
     });
-
     function dt_sls()
     {
         table = $('#dtb_sls').DataTable({ 
@@ -236,7 +226,6 @@
             ],
         });
     }
-
     function dropperson()
     {
         $.ajax({
@@ -260,7 +249,6 @@
             }
         });
     }
-
     function dropperson2()
     {
         $.ajax({
@@ -284,7 +272,6 @@
             }
         });
     }
-
     function dropbranch()
     {
         $.ajax({
@@ -308,7 +295,6 @@
             }
         });
     }
-
     function dropbranch2()
     {
         $.ajax({
@@ -332,8 +318,6 @@
             }
         });
     }
-
-
     function lihat_sls(id)
     {
         $.ajax({
@@ -360,7 +344,6 @@
             }
         });
     }
-
     function add_sls()
     {        
         save_method = 'add';
@@ -376,7 +359,6 @@
         gen_sls();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function edit_sls(id)
     {
         save_method = 'update';
@@ -384,8 +366,7 @@
         $('.formgroup').removeClass('has-error');
         $('.help-block').empty();
         $('[name="code"]').prop('readonly',true);
-        $('[name="gen"]').prop('disabled',true);        
-        
+        $('[name="gen"]').prop('disabled',true);
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_sls/')?>/" + id,
             type: "GET",
@@ -413,12 +394,10 @@
             }
         });
     }
-
     function reload_table()
     {
         table.ajax.reload(null,false);
     }
-
     function save()
     {
         $('#btnSave').text('saving...');
@@ -460,7 +439,6 @@
             }
         });
     }
-
     function delete_sls(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -481,7 +459,6 @@
             });
         }
     }
-
     function gen_sls()
     {
         $.ajax({
@@ -497,6 +474,10 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_sales()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_sales')?>",'_blank');
     }
     </script>
 </body>

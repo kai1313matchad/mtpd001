@@ -2,14 +2,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Departemen</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-xs-2">
                         <button class="btn btn-success" onclick="add_dept()"><i class="glyphicon glyphicon-plus"></i> Tambah Departemen</button>
+                    </div>
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                        <button class="btn btn-block btn-info" onclick="exp_dept()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -321,6 +323,10 @@
                     alert('Error Generate Number');
                 }
             });
+        }
+        function exp_dept()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_dept')?>",'_blank');
         }
     </script>
 </body>

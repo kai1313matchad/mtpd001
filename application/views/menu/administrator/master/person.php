@@ -28,6 +28,9 @@
                             <div class="col-lg-2">
                                 <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Tambah Karyawan</button>
                             </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_person()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
+                            </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_prs" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -60,6 +63,9 @@
                         <div class="row"><br>
                             <div class="col-lg-2">
                                 <button class="btn btn-success" onclick="add_user()"><i class="glyphicon glyphicon-plus"></i> Tambah User</button>
+                            </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_user()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -374,26 +380,13 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">
     $(document).ready(function() {
         dt_person();
         dt_user();
         dropbranch();
     });
-
     function dt_person()
     {
         table = $('#dtb_prs').DataTable({
@@ -414,7 +407,6 @@
             ],
         });
     }
-
     function dt_user()
     {
         table = $('#dtb_prs2').DataTable({
@@ -435,7 +427,6 @@
             ],
         });
     }
-
     function dropperson()
     {
         $.ajax({
@@ -463,7 +454,6 @@
             }
         });
     }
-
     function dropbranch()
     {
         $.ajax({
@@ -487,7 +477,6 @@
             }
         });
     }
-
     function lihat_person(id)
     {
         $.ajax({
@@ -511,7 +500,6 @@
             }
         });
     }
-
     function lihat_user(id)
     {
         $.ajax({
@@ -536,7 +524,6 @@
             }
         });
     }
-
     function add_person()
     {
         save_method = 'add';
@@ -552,7 +539,6 @@
         gen_person();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function add_user()
     {
         save_method = 'add';
@@ -570,7 +556,6 @@
         gen_user();
         // $('[name="codeu"]').prop('readonly',false);
     }
-
     function edit_person(id)
     {
         save_method = 'update';
@@ -603,7 +588,6 @@
             }
         });
     }
-
     function edit_user(id)
     {
         save_method = 'update';        
@@ -641,13 +625,11 @@
             }
         });
     }
-
     function reload_table()
     {
         $('#dtb_prs').DataTable().ajax.reload(null,false);
         $('#dtb_prs2').DataTable().ajax.reload(null,false);
     }
-
     function save()
     {
         $('#btnSave').text('saving...');
@@ -689,7 +671,6 @@
             }
         });
     }
-
     function save2()
     {
         $('#btnSave2').text('saving...');
@@ -731,7 +712,6 @@
             }
         });
     }
-
     function delete_person(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -752,7 +732,6 @@
             });
         }
     }
-
     function delete_user(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -773,7 +752,6 @@
             });
         }
     }
-
     function gen_person()
     {
         $.ajax({
@@ -790,7 +768,6 @@
             }
         });
     }
-
     function gen_user()
     {
         $.ajax({
@@ -806,6 +783,14 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_person()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_person')?>",'_blank');
+    }
+    function exp_user()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_user')?>",'_blank');
     }
     </script>
 </body>

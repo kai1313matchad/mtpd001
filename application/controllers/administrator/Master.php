@@ -36,6 +36,40 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_person()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'USR');
+			$data['title']='Match Terpadu - Master Person';
+			$data['menu']='master';
+			$data['menulist']='person';
+			$this->load->view('menu/administrator/master/print_person',$data);
+	    }
+
+	    public function get_masterperson()
+	    {
+	    	$data = $this->crud->get_datamaster('master_person',array('person_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
+	    public function export_user()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'USR');
+			$data['title']='Match Terpadu - Master Person';
+			$data['menu']='master';
+			$data['menulist']='person';
+			$this->load->view('menu/administrator/master/print_user',$data);
+	    }
+
+	    public function get_masteruser()
+	    {
+	    	$this->db->join('master_person b','b.person_id = a.person_id');
+	    	$this->db->join('master_branch c','c.branch_id = a.branch_id');
+	    	$this->db->where('user_dtsts','1');
+	    	$get = $this->db->get('master_user a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
+
 		public function gen_person()
 		{
 			$res = $this->crud->gen_numb('person_code','master_person','KRY');
@@ -342,6 +376,24 @@
 			$data['isi']='menu/administrator/master/customer';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_cust()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'CUST');
+			$data['title']='Match Terpadu - Master Customer';
+			$data['menu']='master';
+			$data['menulist']='customer';
+			$this->load->view('menu/administrator/master/print_cust',$data);
+	    }
+
+	    public function get_mastercust()
+	    {
+	    	$this->db->join('chart_of_account b','b.coa_id = a.coa_id','left');
+	    	$this->db->where('cust_dtsts','1');
+	    	$get = $this->db->get('master_customer a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
 
 		public function gen_cust()
 		{
@@ -665,6 +717,39 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_gov()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'LOC');
+			$data['title']='Match Terpadu - Master Lokasi';
+			$data['menu']='master';
+			$data['menulist']='location';
+			$this->load->view('menu/administrator/master/print_gov',$data);
+	    }
+
+	    public function get_mastergov()
+	    {
+	    	$data = $this->crud->get_datamaster('master_gov_type',array('gov_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
+	    public function export_loc()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'LOC');
+			$data['title']='Match Terpadu - Master Lokasi';
+			$data['menu']='master';
+			$data['menulist']='location';
+			$this->load->view('menu/administrator/master/print_loc',$data);
+	    }
+
+	    public function get_masterloc()
+	    {
+	    	$this->db->join('master_gov_type b','b.gov_id = a.gov_id');
+	    	$this->db->where('loc_dtsts','1');
+	    	$get = $this->db->get('master_location a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
+
 		public function gen_gov()
 		{
 			$res = $this->crud->gen_numb('gov_code','master_gov_type','GOV');
@@ -943,6 +1028,21 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_branch()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'BRC');
+			$data['title']='Match Terpadu - Master Cabang';
+			$data['menu']='master';
+			$data['menulist']='branch';
+			$this->load->view('menu/administrator/master/print_branch',$data);
+	    }
+
+	    public function get_masterbrc()
+	    {
+	    	$data = $this->crud->get_datamaster('master_branch',array('branch_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
 		public function gen_brc()
 		{
 			$res = $this->crud->gen_numb('branch_code','master_branch','BRC');
@@ -1094,12 +1194,31 @@
 	    public function coa()
 		{
 			$this->authsys->master_check_($_SESSION['user_id'],'COA');
-			$data['title']='Match Terpadu - Master Cabang';
+			$data['title']='Match Terpadu - Master COA';
 			$data['menu']='master';
 			$data['menulist']='coa';
 			$data['isi']='menu/administrator/master/coa';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_coa()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'COA');
+			$data['title']='Match Terpadu - Master COA';
+			$data['menu']='master';
+			$data['menulist']='coa';
+			$this->load->view('menu/administrator/master/print_coa',$data);
+	    }
+
+	    public function get_mastercoa()
+	    {
+	    	$this->db->join('parent_chart b','b.par_id = a.par_id');
+	    	$this->db->join('parent_type c','c.partp_id = b.partp_id');
+	    	$this->db->where('coa_dtsts','1');
+	    	$get = $this->db->get('chart_of_account a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
 
 		public function ajax_coaparent()
 		{
@@ -1431,12 +1550,27 @@
 	    public function invoice_type()
 		{
 			$this->authsys->master_check_($_SESSION['user_id'],'INVT');
-			$data['title']='Match Terpadu - Master Cabang';
+			$data['title']='Match Terpadu - Master Jenis Invoice';
 			$data['menu']='master';
 			$data['menulist']='invtyp';
 			$data['isi']='menu/administrator/master/invtype';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_invt()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'INVT');
+			$data['title']='Match Terpadu - Master Jenis Invoice';
+			$data['menu']='master';
+			$data['menulist']='invtyp';
+			$this->load->view('menu/administrator/master/print_invt',$data);
+	    }
+
+	    public function get_masterinvt()
+	    {
+	    	$data = $this->crud->get_datamaster('invoice_type',array('inc_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
 
 		public function gen_invtype()
 		{
@@ -1579,6 +1713,25 @@
 			$data['isi']='menu/administrator/master/salesforce';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_sales()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'SLS');
+			$data['title']='Match Terpadu - Master Sales';
+			$data['menu']='master';
+			$data['menulist']='sales';
+			$this->load->view('menu/administrator/master/print_sales',$data);
+	    }
+
+	    public function get_mastersales()
+	    {
+	    	$this->db->join('master_person b','b.person_id = a.person_id');
+	    	$this->db->join('master_branch c','c.branch_id = a.branch_id');
+	    	$this->db->where('sales_dtsts','1');
+	    	$get = $this->db->get('master_sales a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
 
 		public function gen_sls()
 		{
@@ -1734,6 +1887,21 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_curr()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'CURR');
+			$data['title']='Match Terpadu - Master Currency';
+			$data['menu']='master';
+			$data['menulist']='currency';
+			$this->load->view('menu/administrator/master/print_curr',$data);
+	    }
+
+	    public function get_mastercurr()
+	    {
+	    	$data = $this->crud->get_datamaster('master_currency',array('curr_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
 		public function gen_crc()
 		{
 			$res = $this->crud->gen_numb('curr_code','master_currency','CUR');
@@ -1871,6 +2039,21 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_bb()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'REK');
+			$data['title']='Match Terpadu - Master Billboard';
+			$data['menu']='master';
+			$data['menulist']='bboard';
+			$this->load->view('menu/administrator/master/print_bb',$data);
+	    }
+
+	    public function get_masterbb()
+	    {
+	    	$data = $this->crud->get_datamaster('master_bboard',array('bb_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
 		public function gen_bb()
 		{
 			$res = $this->crud->gen_numb('bb_code','master_bboard','BBO');
@@ -1997,6 +2180,21 @@
 			echo json_encode($data);
 		}
 
+		public function export_plc()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'REK');
+			$data['title']='Match Terpadu - Master Billboard';
+			$data['menu']='master';
+			$data['menulist']='bboard';
+			$this->load->view('menu/administrator/master/print_plc',$data);
+	    }
+
+	    public function get_masterplc()
+	    {
+	    	$data = $this->crud->get_datamaster('master_placement',array('plc_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
 		public function ajax_plc()
 		{
 			$list = $this->master_plc->get_datatables();
@@ -2109,6 +2307,21 @@
 			$data['isi']='menu/administrator/master/permittype';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_patt()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'PAT');
+			$data['title']='Match Terpadu - Master Permit Type';
+			$data['menu']='master';
+			$data['menulist']='permit';
+			$this->load->view('menu/administrator/master/print_patt',$data);
+	    }
+
+	    public function get_masterpatt()
+	    {
+	    	$data = $this->crud->get_datamaster('master_permit_type',array('prmttyp_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
 
 		public function gen_ptyp()
 		{
@@ -2269,6 +2482,24 @@
 			$data['isi']='menu/administrator/master/supplier';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
+
+		public function export_supp()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'SUPP');
+			$data['title']='Match Terpadu - Master Supplier';
+			$data['menu']='master';
+			$data['menulist']='supplier';
+			$this->load->view('menu/administrator/master/print_supp',$data);
+	    }
+
+	    public function get_mastersupp()
+	    {
+	    	$this->db->join('chart_of_account b','b.coa_id = a.coa_id','left');
+	    	$this->db->where('supp_dtsts','1');
+	    	$get = $this->db->get('master_supplier a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
 
 		public function gen_supp()
 		{
@@ -2457,6 +2688,24 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function export_goods()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'GD');
+			$data['title']='Match Terpadu - Master Barang';
+			$data['menu']='master';
+			$data['menulist']='barang';
+			$this->load->view('menu/administrator/master/print_goods',$data);
+	    }
+
+	    public function get_mastergd()
+	    {
+	    	$this->db->join('master_supplier b','b.supp_id = a.supp_id');
+	    	$this->db->where('gd_dtsts','1');
+	    	$get = $this->db->get('master_goods a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
+	    }
+
 		public function gen_gd()
 		{
 			$res = $this->crud->gen_numb('gd_code','master_goods','BRG');
@@ -2635,6 +2884,21 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 	    }
 
+	    public function export_dept()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'DEPT');
+			$data['title']='Match Terpadu - Master Departemen';
+			$data['menu']='master';
+			$data['menulist']='department';
+			$this->load->view('menu/administrator/master/print_dept',$data);
+	    }
+
+	    public function get_masterdpt()
+	    {
+	    	$data = $this->crud->get_datamaster('master_dept',array('dept_dtsts'=>'1'));
+	    	echo json_encode($data);
+	    }
+
 	    public function gen_dept()
 		{
 			$res = $this->crud->gen_numb('dept_code','master_dept','DPT');
@@ -2736,6 +3000,24 @@
 			$data['menulist']='bank';
 			$data['isi']='menu/administrator/master/bank';
 			$this->load->view('layout/administrator/wrapper',$data);
+	    }
+
+	    public function export_bank()
+	    {
+	    	$this->authsys->master_check_($_SESSION['user_id'],'BNK');
+			$data['title']='Match Terpadu - Master Bank';
+			$data['menu']='master';
+			$data['menulist']='bank';
+			$this->load->view('menu/administrator/master/print_bank',$data);
+	    }
+
+	    public function get_masterbank()
+	    {
+	    	$this->db->join('chart_of_account b','b.coa_id = a.coa_id','left');
+	    	$this->db->where('bank_dtsts','1');
+	    	$get = $this->db->get('master_bank a');
+	    	$data = $get->result();
+	    	echo json_encode($data);
 	    }
 
 	    public function gen_bank()

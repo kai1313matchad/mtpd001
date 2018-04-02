@@ -25,8 +25,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="1">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_gov()"><i class="glyphicon glyphicon-plus"></i> Tambah Status Pemerintahan</button>
+                            </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_gov()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -55,8 +58,11 @@
                     </div>
                     <div class="tab-pane fade" id="2">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_loc()"><i class="glyphicon glyphicon-plus"></i> Tambah Lokasi</button>
+                            </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_loc()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -365,7 +371,6 @@
         dropgov();
         dropgov2();
     });
-
     function dt_gov()
     {
         table = $('#dtb_gov').DataTable({ 
@@ -386,7 +391,6 @@
             ],
         });
     }
-
     function dt_loc()
     {
         table = $('#dtb_loc').DataTable({ 
@@ -407,7 +411,6 @@
             ],
         });
     }
-
     function dropgov()
     {
         $.ajax({
@@ -435,9 +438,8 @@
             }
         });
     }
-
     function dropgov2()
-    {         
+    {
         $.ajax({
         url : "<?php echo site_url('administrator/Master/getgov')?>",
         type: "GET",
@@ -464,7 +466,7 @@
         });
     }
     function lihat_gov(id)
-    {        
+    {
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_gov/')?>" + id,
             type: "GET",
@@ -484,7 +486,6 @@
             }
         });
     }
-
     function lihat_loc(id)
     {
         $('#vgov').empty()
@@ -511,9 +512,8 @@
             }
         });
     }
-
     function add_gov()
-    {        
+    {
         save_method = 'add';
         $('#form2')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -527,7 +527,6 @@
         gen_gov();
         // $('[name="gcode"]').prop('readonly',false);
     }
-
     function add_loc()
     {
         save_method = 'add';
@@ -545,7 +544,6 @@
         gen_loc();
         // $('[name="lcode"]').prop('readonly',false);
     }
-
     function edit_gov(id)
     {
         save_method = 'update';
@@ -554,7 +552,6 @@
         $('.help-block').empty();
         $('[name="gcode"]').prop('readonly',true);
         $('[name="gen"]').prop('disabled',true);
-
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_gov/')?>" + id,
             type: "GET",
@@ -577,7 +574,6 @@
             }
         });
     }
-
     function edit_loc(id)
     {
         save_method = 'update';
@@ -587,8 +583,7 @@
         $('[name="lcode"]').prop('readonly',true);
         $('[name="gen2"]').prop('disabled',true);
         $('#gov').empty()
-        dropgov();
-        
+        dropgov();     
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_loc/')?>" + id,
             type: "GET",
@@ -613,17 +608,14 @@
             }
         });
     }
-
     function reload_table_gov()
     {        
         $('#dtb_gov').DataTable().ajax.reload(null,false);
     }
-
     function reload_table_loc()
     {        
         $('#dtb_loc').DataTable().ajax.reload(null,false);
     }
-
     function savegov()
     {
         $('#btnSave2').text('saving...');
@@ -634,7 +626,6 @@
         } else {
             url = "<?php echo site_url('administrator/Master/ajax_update_gov')?>";
         }
-        
         $.ajax({
             url : url,
             type: "POST",
@@ -666,7 +657,6 @@
             }
         });
     }
-
     function saveloc()
     {
         $('#btnSave').text('saving...');
@@ -677,7 +667,6 @@
         } else {
             url = "<?php echo site_url('administrator/Master/ajax_update_loc')?>";
         }
-        
         $.ajax({
             url : url,
             type: "POST",
@@ -709,7 +698,6 @@
             }
         });
     }
-
     function delete_loc(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -730,7 +718,6 @@
             });
         }
     }
-
     function delete_gov(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -751,7 +738,6 @@
             });
         }
     }
-
     function gen_gov()
     {
         $.ajax({
@@ -768,7 +754,6 @@
             }
         });
     }
-
     function gen_loc()
     {
         $.ajax({
@@ -784,6 +769,14 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_gov()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_gov')?>",'_blank');
+    }
+    function exp_loc()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_loc')?>",'_blank');
     }
     </script>
 </body>

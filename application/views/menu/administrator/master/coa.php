@@ -121,6 +121,9 @@
                             <div class="col-sm-2">
                                 <button class="btn btn-success" onclick="add_chart()"><i class="glyphicon glyphicon-plus"></i> Tambah Rekening</button>
                             </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_coa()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
+                            </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_coa" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -893,5 +896,9 @@
                     alert('Error get data from ajax');
                 }
             });
+        }
+        function exp_coa()
+        {
+            window.open ( "<?php echo site_url('administrator/Master/export_coa')?>",'_blank');
         }
     </script>

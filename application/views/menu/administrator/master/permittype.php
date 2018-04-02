@@ -25,8 +25,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="1">
                         <div class="row"><br>
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                                 <button class="btn btn-success" onclick="add_ptyp()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Ijin</button>
+                            </div>
+                            <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                                <button class="btn btn-block btn-info" onclick="exp_patt()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                             </div>
                         </div><br>
                         <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -325,25 +328,12 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script type="text/javascript">    
     $(document).ready(function() {
         dt_ptyp();
         dt_locpat();
     });
-
     function dt_ptyp()
     {
         table = $('#dtb_ptyp').DataTable({ 
@@ -364,7 +354,6 @@
             ],
         });
     }
-
     function dt_locpat()
     {
         table = $('#dtb_locpat').DataTable({ 
@@ -385,7 +374,6 @@
             ],
         });
     }
-
     function lihat_ptyp(id)
     {
         $.ajax({
@@ -407,9 +395,8 @@
             }
         });
     }
-
     function lihat_locpat(id)
-    {        
+    {
         $.ajax({
             url : "<?php echo site_url('administrator/Master/ajax_edit_ptyp/')?>" + id,
             type: "GET",
@@ -429,7 +416,6 @@
             }
         });
     }
-
     function add_ptyp()
     {        
         save_method = 'add';
@@ -445,9 +431,8 @@
         gen_ptyp();
         // $('[name="code"]').prop('readonly',false);
     }
-
     function add_locpat()
-    {        
+    {
         save_method = 'add';
         $('#form2')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -459,7 +444,6 @@
         $('[name="check"]').val("0");
         $('[name="code"]').prop('readonly',false);
     }
-
     function edit_ptyp(id)
     {
         save_method = 'update';
@@ -491,17 +475,14 @@
             }
         });
     }
-
     function reload_table_ptyp()
     {        
         $('#dtb_ptyp').DataTable().ajax.reload(null,false);
     }
-
     function reload_table_locpat()
     {        
         $('#dtb_locpat').DataTable().ajax.reload(null,false);
     }
-
     function save_ptyp()
     {
         $('#btnSave').text('saving...');
@@ -511,8 +492,7 @@
             url = "<?php echo site_url('administrator/Master/ajax_add_ptyp')?>";
         } else {
             url = "<?php echo site_url('administrator/Master/ajax_update_ptyp')?>";
-        }        
-        
+        }
         $.ajax({
             url : url,
             type: "POST",
@@ -544,7 +524,6 @@
             }
         });
     }
-
     function delete_ptyp(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -565,7 +544,6 @@
             });
         }
     }
-
     function gen_ptyp()
     {
         $.ajax({
@@ -581,6 +559,10 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_patt()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_patt')?>",'_blank');
     }
     </script>
 </body>

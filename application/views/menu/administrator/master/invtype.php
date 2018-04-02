@@ -2,13 +2,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-12">
                         <h1 class="page-header">Master Jenis Invoice</h1>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-xs-2">
                         <button class="btn btn-success" onclick="add_invtype()"><i class="glyphicon glyphicon-plus"></i> Tambah Jenis Invoice</button>
+                    </div>
+                    <div class="col-xs-2" <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
+                        <button class="btn btn-block btn-info" onclick="exp_invt()"><i class="glyphicon glyphicon-print"></i> Cetak Data</button>
                     </div>
                 </div><br>
                 <div class="col-sm-12 col-xs-12 table-responsive">                    
@@ -195,9 +198,7 @@
         $('#accinc').change(function(){            
             $('[name="accincname"]').val($('#accinc option:selected').text());
         });
-        // $('.sel').selectpicker({});
     });
-
     function drop_coa1()
     {
         $.ajax({
@@ -222,7 +223,6 @@
             }
         });
     }
-
     function drop_coa2()
     {
         $.ajax({
@@ -247,7 +247,6 @@
             }
         });
     }
-
     function dt_invtype()
     {        
         table = $('#dtb_invtype').DataTable({ 
@@ -268,12 +267,10 @@
             ],
         });
     }
-
     function reload_table()
     {
         table.ajax.reload(null,false);
     }
-
     function add_invtype()
     {        
         save_method = 'add';
@@ -292,7 +289,6 @@
         $('#accinc').val('default');
         $('#accinc').selectpicker('refresh');
     }
-
     function edit_invtype(id)
     {
         save_method = 'update';
@@ -301,7 +297,6 @@
         $('.help-block').empty();
         $('[name="code"]').prop('readonly',true);
         $('[name="gen"]').prop('disabled',true);
-
         $.ajax({
             url : "<?php echo site_url('administrator/Master/edit_invtype/')?>" + id,
             type: "GET",
@@ -329,7 +324,6 @@
             }
         });
     }
-
     function lihat_invtype(id)
     {        
         $.ajax({
@@ -353,7 +347,6 @@
             }
         });
     }
-
     function save()
     {
         $('#btnSave').text('saving...');
@@ -364,7 +357,6 @@
         } else {
             url = "<?php echo site_url('administrator/Master/update_invtype')?>";
         }
-
         $.ajax({
             url : url,
             type: "POST",
@@ -396,7 +388,6 @@
             }
         });
     }
-
     function delete_invtype(id)
     {
         if(confirm('Are you sure delete this data?'))
@@ -417,7 +408,6 @@
             });
         }
     }
-
     function gen_invtype()
     {
         $.ajax({
@@ -434,6 +424,10 @@
                 alert('Error Generate Number');
             }
         });
+    }
+    function exp_invt()
+    {
+        window.open ( "<?php echo site_url('administrator/Master/export_invt')?>",'_blank');
     }
     </script>
 </body>

@@ -614,5 +614,12 @@
 			$query = $this->db->get('inv_details');
 	        return $query->row();
 		}
+
+		//Get Data Master
+		public function get_datamaster($table,$sts)
+		{
+			$get = $this->db->get_where($table,$sts);
+			return $get->result();
+		}
 	}
 ?>
