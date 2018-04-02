@@ -1711,6 +1711,7 @@
                 );
             $buku = array(
              	    'USER_ID' => '1',
+             	    'BNK_ID' => $this->input->post('bank_id'),
             	    'BNK_CODE' => $this->input->post('bank_nomor'),
             	    'BNK_DATE' => $tgl,
             	    'COA_ID' => $this->input->post('acc_id_detail'),
@@ -1867,6 +1868,7 @@
                 );
             $buku = array(
              	    'USER_ID' => '1',
+             	    'BNK_ID' => $this->input->post('bank_id'),
              	    'BANK_ID' => $this->input->post('kode_bank'),
             	    'BNK_CODE' => $this->input->post('bank_nomor'),
             	    'GR_NUMBER' => $this->input->post('bank_no_giro1'),
@@ -1903,6 +1905,7 @@
                 );
             $buku = array(
             	    'USER_ID' => '1',
+            	    'BNK_ID' => $this->input->post('bank_id'),
             	    'BNK_CODE' => $this->input->post('bank_nomor'),
             	    'BNK_DATE' => $tgl,
             	    'COA_ID' => $this->input->post('acc_id_detail'),

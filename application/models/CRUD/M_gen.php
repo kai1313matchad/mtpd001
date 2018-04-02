@@ -171,40 +171,68 @@
 		//Gen Nomor Bank Masuk
 		public function gen_numbankin()
 		{
-			$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			$res = $this->gen_numbybrc_('trx_bankin','bnk_code',$brc,'BM');
 			$check = $this->db->get_where('trx_bankin',array('bnk_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+				// $res = $this->gen_num_('trx_bankin','bnk_code','BM');
+				$res = $this->gen_numbybrc_('trx_bankin','bnk_code',$brc,'BM');
 			}
 			$data = array(
 					'bnk_code'=>$res,
+					'branch_id'=>$brc,
 					'bnk_sts'=>'0'
 				);			
 			$this->db->insert('trx_bankin',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bnk_code'] = $res;
+			$data2 = array(
+					'bnk_id' => $insID,
+					'hisbnk_sts' => 'Void By System',
+					'hisbnk_old' => 'None',
+					'hisbnk_new' => 'None',
+					'hisbnk_info' => 'Create By System',
+					'hisbnk_date' => date('Y-m-d'),
+					'hisbnk_upcount' => 0
+				);
+			$this->db->insert('his_bankin',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Bank Keluar
 		public function gen_numbankout()
 		{
-			$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			$res = $this->gen_numbybrc_('trx_bankout','bnko_code',$brc,'BK');
 			$check = $this->db->get_where('trx_bankout',array('bnko_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+				// $res = $this->gen_num_('trx_bankout','bnko_code','BK');
+				$res = $this->gen_numbybrc_('trx_bankout','bnko_code',$brc,'BK');
 			}
 			$data = array(
 					'bnko_code'=>$res,
+					'branch_id'=>$brc,
 					'bnko_sts'=>'0'
 				);			
 			$this->db->insert('trx_bankout',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bnko_code'] = $res;
+			$data2 = array(
+					'bnko_id' => $insID,
+					'hisbnko_sts' => 'Void By System',
+					'hisbnko_old' => 'None',
+					'hisbnko_new' => 'None',
+					'hisbnko_info' => 'Create By System',
+					'hisbnko_date' => date('Y-m-d'),
+					'hisbnko_upcount' => 0
+				);
+			$this->db->insert('his_bankout',$data2);
 			return  $out;
 		}
 
