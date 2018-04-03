@@ -239,40 +239,68 @@
 		//Gen Nomor Giro Masuk
 		public function gen_giroin()
 		{
-			$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			$res = $this->gen_numbybrc_('trx_giro_in','grin_code',$brc,'GM');
 			$check = $this->db->get_where('trx_giro_in',array('grin_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+				// $res = $this->gen_num_('trx_giro_in','grin_code','GM');
+				$res = $this->gen_numbybrc_('trx_giro_in','grin_code',$brc,'GM');
 			}
 			$data = array(
 					'grin_code'=>$res,
+					'branch_id'=>$brc,
 					'grin_sts'=>'0'
 				);			
 			$this->db->insert('trx_giro_in',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['grin_code'] = $res;
+			$data2 = array(
+					'grin_id' => $insID,
+					'hisgrin_sts' => 'Void By System',
+					'hisgrin_old' => 'None',
+					'hisgrin_new' => 'None',
+					'hisgrin_info' => 'Create By System',
+					'hisgrin_date' => date('Y-m-d'),
+					'hisgrin_upcount' => 0
+				);
+			$this->db->insert('his_giroin',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Giro Keluar
 		public function gen_giroout()
 		{
-			$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			$res = $this->gen_numbybrc_('trx_giro_out','grout_code',$brc,'GK');
 			$check = $this->db->get_where('trx_giro_out',array('grout_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+				// $res = $this->gen_num_('trx_giro_out','grout_code','GK');
+				$res = $this->gen_numbybrc_('trx_giro_out','grout_code',$brc,'GK');
 			}
 			$data = array(
 					'grout_code'=>$res,
+					'branch_id'=>$brc,
 					'grout_sts'=>'0'
 				);			
 			$this->db->insert('trx_giro_out',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['grout_code'] = $res;
+			$data2 = array(
+					'grout_id' => $insID,
+					'hisgro_sts' => 'Void By System',
+					'hisgro_old' => 'None',
+					'hisgro_new' => 'None',
+					'hisgro_info' => 'Create By System',
+					'hisgro_date' => date('Y-m-d'),
+					'hisgro_upcount' => 0
+				);
+			$this->db->insert('his_giroout',$data2);
 			return  $out;
 		}
 
