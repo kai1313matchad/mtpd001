@@ -421,7 +421,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_rtprcbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -475,7 +476,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_usgbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -527,7 +529,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_rtusgbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];

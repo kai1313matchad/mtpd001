@@ -500,6 +500,7 @@
 			}
 			$data = array(
 					'rtprc_code'=>$res,
+					'branch_id'=>$brc,
 					'rtprc_sts'=>'0'
 				);			
 			$this->db->insert('procurement_ret',$data);			
@@ -521,14 +522,18 @@
 
 		public function gen_numusagelgt()
 		{
-			$res = $this->gen_num_('trx_usage','usg_code','PK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_usage','usg_code','PK');
+			$res = $this->gen_numbybrc_('trx_usage','usg_code',$brc,'PK');
 			$check = $this->db->get_where('trx_usage',array('usg_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_usage','usg_code','PK');
+				// $res = $this->gen_num_('trx_usage','usg_code','PK');
+				$res = $this->gen_numbybrc_('trx_usage','usg_code',$brc,'PK');
 			}
 			$data = array(
 					'usg_code'=>$res,
+					'branch_id'=>$brc,
 					'usg_sts'=>'0'
 				);			
 			$this->db->insert('trx_usage',$data);			
@@ -550,14 +555,18 @@
 
 		public function gen_num_retusagelgt()
 		{
-			$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+			$res = $this->gen_numbybrc_('usage_ret','rtusg_code',$brc,'RPK');
 			$check = $this->db->get_where('usage_ret',array('rtusg_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+				// $res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+				$res = $this->gen_numbybrc_('usage_ret','rtusg_code',$brc,'RPK');
 			}
 			$data = array(
 					'rtusg_code'=>$res,
+					'branch_id'=>$brc,
 					'rtusg_sts'=>'0'
 				);			
 			$this->db->insert('usage_ret',$data);			
@@ -579,20 +588,34 @@
 
 		public function gen_num_adjlgt()
 		{
-			$res = $this->gen_num_('trx_adjustment','adj_code','PS');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_adjustment','adj_code','PS');
+			$res = $this->gen_numbybrc_('trx_adjustment','adj_code',$brc,'PS');
 			$check = $this->db->get_where('trx_adjustment',array('adj_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_adjustment','adj_code','PS');
+				// $res = $this->gen_num_('trx_adjustment','adj_code','PS');
+				$res = $this->gen_numbybrc_('trx_adjustment','adj_code',$brc,'PS');
 			}
 			$data = array(
 					'adj_code'=>$res,
+					'branch_id'=>$brc,
 					'adj_dtsts'=>'0'
 				);			
 			$this->db->insert('trx_adjustment',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['adj_code'] = $res;
+			$data2 = array(
+					'adj_id' => $insID,
+					'hisadj_sts' => 'Void By System',
+					'hisadj_old' => 'None',
+					'hisadj_new' => 'None',
+					'hisadj_info' => 'Create By System',
+					'hisadj_date' => date('Y-m-d'),
+					'hisadj_upcount' => 0
+				);
+			$this->db->insert('his_adj',$data2);
 			return  $out;
 		}
 
