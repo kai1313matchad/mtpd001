@@ -757,14 +757,18 @@
 		//Gen Nomor Permit Approval
 		public function gen_numpermitappr()
 		{
-			$res = $this->gen_num_('trx_permitappr','pappr_code','PI');			
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+			$res = $this->gen_numbybrc_('trx_permitappr','pappr_code',$brc,'PI');
 			$check = $this->db->get_where('trx_permitappr',array('pappr_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+				// $res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+				$res = $this->gen_numbybrc_('trx_permitappr','pappr_code',$brc,'PI');
 			}
 			$data = array(
 					'pappr_code'=>$res,
+					'branch_id'=>$brc,
 					'pappr_sts'=>'0'
 				);			
 			$this->db->insert('trx_permitappr',$data);
