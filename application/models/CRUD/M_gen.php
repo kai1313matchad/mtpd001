@@ -456,14 +456,18 @@
 
 		public function gen_numbllgt()
 		{
-			$res = $this->gen_num_('trx_procurement','prc_code','BL');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_procurement','prc_code','BL');
+			$res = $this->gen_numbybrc_('trx_procurement','prc_code',$brc,'BL');
 			$check = $this->db->get_where('trx_procurement',array('prc_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_procurement','prc_code','BL');
+				// $res = $this->gen_num_('trx_procurement','prc_code','BL');
+				$res = $this->gen_numbybrc_('trx_procurement','prc_code',$brc,'BL');
 			}
 			$data = array(
 					'prc_code'=>$res,
+					'branch_id'=>$brc,
 					'prc_sts'=>'0'
 				);			
 			$this->db->insert('trx_procurement',$data);			
@@ -485,11 +489,14 @@
 
 		public function gen_numretlgt()
 		{
-			$res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+			$res = $this->gen_numbybrc_('procurement_ret','rtprc_code',$brc,'RB');
 			$check = $this->db->get_where('procurement_ret',array('rtprc_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+				// $res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+				$res = $this->gen_numbybrc_('procurement_ret','rtprc_code',$brc,'RB');
 			}
 			$data = array(
 					'rtprc_code'=>$res,

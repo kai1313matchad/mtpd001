@@ -16,6 +16,7 @@
 			$this->db->join('trx_po c','c.po_id = b.po_id','left');
 			$this->db->join('trx_approvalbill d','d.appr_id = c.appr_id','left');
 			$this->db->join('master_user e','e.user_id = a.user_id','left');
+			$this->db->join('master_branch f','f.branch_id = a.branch_id','left');
 			$this->db->from($this->table);
 			$this->db->where('a.rtprc_sts',$id);
 			$this->db->where($brc);
