@@ -307,20 +307,34 @@
 		//Gen Nomor Anggaran
 		public function gen_numbudg()
 		{
-			$res = $this->gen_num_('trx_budget','bud_code','RA');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_budget','bud_code','RA');
+			$res = $this->gen_numbybrc_('trx_budget','bud_code',$brc,'RA');
 			$check = $this->db->get_where('trx_budget',array('bud_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_budget','bud_code','RA');
+				// $res = $this->gen_num_('trx_budget','bud_code','RA');
+				$res = $this->gen_numbybrc_('trx_budget','bud_code',$brc,'RA');
 			}
 			$data = array(
 					'bud_code'=>$res,
+					'branch_id'=>$brc,
 					'bud_dtsts'=>'0'
 				);			
 			$this->db->insert('trx_budget',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bud_code'] = $res;
+			$data2 = array(
+					'bud_id' => $insID,
+					'hisbdg_sts' => 'Void By System',
+					'hisbdg_old' => 'None',
+					'hisbdg_new' => 'None',
+					'hisbdg_info' => 'Create By System',
+					'hisbdg_date' => date('Y-m-d'),
+					'hisbdg_upcount' => 0
+				);
+			$this->db->insert('his_budget',$data2);
 			return  $out;
 		}
 
