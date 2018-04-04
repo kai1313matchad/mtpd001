@@ -15,6 +15,7 @@
 			$this->db->join('invoice_type b','b.inc_id = a.inc_id','left');
 			$this->db->join('master_customer c','c.cust_id = a.cust_id','left');
 			$this->db->join('master_user d','d.user_id = a.user_id','left');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id','left');
  			$this->db->from($this->table);
 			$this->db->where('a.inv_sts',$id);
 			$this->db->where($brc);

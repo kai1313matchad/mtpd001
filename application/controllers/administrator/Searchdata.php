@@ -216,6 +216,36 @@
 			echo json_encode($output);
 		}
 
+		public function srch_apprbystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_apprbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->BRANCH_NAME;
+				$row[] = $dat->APPR_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprchk('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_apprbysts->count_all(),
+							"recordsFiltered" => $this->s_apprbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		//Search Approval Berdasarkan Status Untuk halaman bapp
 		public function srch_apprforbapp()
 		{
@@ -693,7 +723,8 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_invbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];

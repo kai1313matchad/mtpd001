@@ -707,14 +707,18 @@
 		//Gen Nomor Invoice
 		public function gen_numinvo()
 		{
-			$res = $this->gen_num_('trx_invoice','inv_code','INV');			
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_invoice','inv_code','INV');
+			$res = $this->gen_numbybrc_('trx_invoice','inv_code',$brc,'INV');
 			$check = $this->db->get_where('trx_invoice',array('inv_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_invoice','inv_code','INV');
+				// $res = $this->gen_num_('trx_invoice','inv_code','INV');
+				$res = $this->gen_numbybrc_('trx_invoice','inv_code',$brc,'INV');
 			}
 			$data = array(
 					'inv_code'=>$res,
+					'branch_id'=>$brc,
 					'inv_sts'=>'0'
 				);			
 			$this->db->insert('trx_invoice',$data);

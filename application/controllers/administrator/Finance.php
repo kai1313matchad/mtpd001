@@ -3072,7 +3072,7 @@
 	    	$data = array(
 	    			'inc_id'=>$this->input->post('inv_typeid'),
 	    			'user_id'=>$this->input->post('user_id'),
-	    			'branch_id'=>$this->input->post('inv_branchid'),
+	    			// 'branch_id'=>$this->input->post('inv_branchid'),
 	    			'cust_id'=>$this->input->post('inv_custid'),
 	    			'curr_id'=>$this->input->post('inv_currid'),
 	    			'inc_id'=>$this->input->post('inv_typeid'),
@@ -3204,11 +3204,11 @@
 	            $data['status'] = FALSE;
 	        }
 
-	        if($this->input->post('inv_branch') == '')
-	        {
-	            $data['inputerror'][] = 'inv_branch';
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('inv_branch') == '')
+	        // {
+	        //     $data['inputerror'][] = 'inv_branch';
+	        //     $data['status'] = FALSE;
+	        // }
 
 	        if($this->input->post('inv_cust') == '')
 	        {

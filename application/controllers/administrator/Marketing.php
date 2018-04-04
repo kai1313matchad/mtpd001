@@ -1033,6 +1033,7 @@
 	                'curr_id' => $this->input->post('curr_id'),
 	                'plc_id' => $this->input->post('plc_id'),
 	                // Data Tabel
+	                'appr_code' => $this->input->post('appr_code'),
 	                'appr_sts' => '1', //Ubah status jadi posted
 	                'appr_branchid' => $this->input->post('appr_brcid'),
 	                'appr_own' => $get2->BRANCH_STATUS,

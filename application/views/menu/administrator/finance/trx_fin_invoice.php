@@ -89,7 +89,7 @@
                                             <input class="form-control" type="text" name="inv_rcvacc" readonly>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="col-sm-3 control-label">Cabang</label>
                                         <div class="col-sm-1">
                                             <a href="javascript:void(0)" onclick="srch_brc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
@@ -98,7 +98,7 @@
                                             <input class="form-control" type="text" name="inv_branch" readonly>
                                             <input type="hidden" name="inv_branchid">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Client</label>
                                         <div class="col-sm-1">
