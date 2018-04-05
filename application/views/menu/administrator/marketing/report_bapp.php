@@ -319,7 +319,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_cust')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cust')?>",
                     "type": "POST",                
                 },              
                 "columnDefs": [
@@ -379,7 +379,7 @@
         function pick_cust(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/ajax_pick_cust/')?>" + id,
+                url : "<?php echo site_url('administrator/Searchdata/pick_cust/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
