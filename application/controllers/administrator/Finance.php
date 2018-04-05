@@ -20,6 +20,7 @@
 		    $this->load->model('datatables/search/Dt_srchcashin','srch_km');
 		    $this->load->model('datatables/search/Dt_srchcashout','srch_kk');
 		    $this->load->model('datatables/Dt_srchprc','srch_prc');
+		    $this->load->model('datatables/Dt_srchprcbyid','srch_prcbyid');
 		    $this->load->model('datatables/search/Dt_srchbudget','srch_ra');
 		    $this->load->model('datatables/search/Dt_srchbankin','srch_bm');
 		    $this->load->model('datatables/search/Dt_srchbankout','srch_bk');
@@ -27,7 +28,7 @@
             $this->load->model('datatables/search/Dt_srchgiroinrec','srch_gmrec');
             $this->load->model('datatables/search/Dt_srchgiroout','srch_gk');
             $this->load->model('datatables/search/Dt_srchgirooutrec','srch_gkrec');
-            $this->load->model('datatables/search/Dt_srchinv','s_inv');
+            $this->load->model('datatables/search/Dt_srchinvbyid','s_inv');
             $this->load->model('datatables/showdata/Dt_showinvppn','showinvppn');
 		}
 
@@ -906,11 +907,14 @@
 				$no++;
 				$row = array();
 				$row[] = $no;
+				// $row[] = $dat->a;
+				// $row[] = $dat->b;
+				// $row[] = $dat->c;
 				$row[] = $dat->CUST_CODE;
 				$row[] = $dat->CUST_NAME;
 				$row[] = $dat->CUST_ADDRESS;				
-				$row[] = $dat->CUST_CITY;				
-				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_ID."'".')">Pilih</a>';
+				// $row[] = $dat->CUST_CITY;				
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_CODE."'".')">Pilih</a>';
 				$data[] = $row;
 			}
 			$output = array(
@@ -922,9 +926,9 @@
 			echo json_encode($output);
 		}
 
-		public function ajax_srch_inv()
+		public function ajax_srch_inv($id)
 		{
-			$list = $this->srch_inv->get_datatables();
+			$list = $this->s_inv->get_datatables($id);
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $dat) {
@@ -940,8 +944,8 @@
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->srch_inv->count_all(),
-							"recordsFiltered" => $this->srch_inv->count_filtered(),
+							"recordsTotal" => $this->s_inv->count_all(),
+							"recordsFiltered" => $this->s_inv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -1360,6 +1364,7 @@
             $data = array(
                     'CSH_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
+                    'CASHINDET_INVID' => $this->input->post('invoice_id'),
                     'CSHINDET_REFF' => $this->input->post('no_jual'),
                     'CSHINDET_INFO' => $this->input->post('ket_detail'),
                     'CSHDETIN_AMOUNT' => $this->input->post('nominal')
@@ -1514,6 +1519,7 @@
             $data = array(
                     'CSHO_ID' => $this->input->post('kas_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
+                    'CSHODET_PRCID' => $this->input->post('id_beli'),
                     'CSHODET_REFF' => $this->input->post('no_beli'),
                     'CSHODET_INFO' => $this->input->post('ket_detail'),
                     'CSHODET_AMOUNT' => $this->input->post('nominal')
@@ -1703,6 +1709,7 @@
             $data = array(
                     'BNK_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
+                    'BNKDET_INVID' => $this->input->post('invoice_id'),
                     'BNKDET_NUM' => $this->input->post('bank_no_giro2'),
                     'BNKDET_TYPE' => $this->input->post('bank_type2'),
                     'BNKDET_REFF' => $this->input->post('no_jual'),
@@ -1895,6 +1902,7 @@
             $data = array(
                     'BNKO_ID' => $this->input->post('bank_id'),
                     'COA_ID' => $this->input->post('acc_id_detail'),
+                    'BNKODET_PRCID' => $this->input->post('id_beli'),
                     'BNKODET_NUM' => $this->input->post('bank_no_giro2'),
                     'BNKODET_TYPE' => $this->input->post('bank_type2'),
                     'BNKODET_REFF' => $this->input->post('no_beli'),
@@ -2075,6 +2083,7 @@
 			// 	$appr = $this->input->post('appr_id');
 			// }
 			$tgl = date('Y-m-d');
+			echo $this->input->post('tax_id');
 			$data = array(	                
 	                // 'user_id' => $this->input->post('user_id'),
 	                // 'appr_id' => $appr,
@@ -2131,8 +2140,13 @@
 		}
 
         public function ajax_pick_cust($id)
-		{
-			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+		{   
+			if (substr($id,0,4)!='CSTI'){
+			     $data = $this->crud->get_by_id('master_customer',array('CUST_CODE' => $id));
+			}
+			if (substr($id,0,4)=='CSTI'){
+			     $data = $this->crud->get_by_id2('master_cust_intern','master_person',array('master_cust_intern.CSTIN_CODE' => $id),'master_cust_intern.PERSON_ID = master_person.PERSON_ID');
+			}
         	echo json_encode($data);
 		}
 
@@ -3238,9 +3252,9 @@
         	echo json_encode($data);
         }
 	  
-	    public function ajax_srch_prc()
+	    public function ajax_srch_prc($id)
 		{
-			$list = $this->srch_prc->get_datatables();
+			$list = $this->srch_prcbyid->get_datatables($id);
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $dat) {
@@ -3256,8 +3270,8 @@
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->srch_prc->count_all(),
-							"recordsFiltered" => $this->srch_prc->count_filtered(),
+							"recordsTotal" => $this->srch_prc->count_all($id),
+							"recordsFiltered" => $this->srch_prc->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);
@@ -3404,6 +3418,17 @@
 			$code = $get->row()->GROUT_CODE;
 			$dt = array('grout_sts'=>'0');
 			$update = $this->crud->update('trx_giro_out',$dt,array('grout_id' => $id));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_taxinvoice($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_tax_invoice',array('tinv'=>$id));
+			$code = $get->row()->TINV_CODE;
+			$dt = array('tinv_sts'=>'0');
+			$update = $this->crud->update('trx_tax_invoice',array('tinv' => $id));
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

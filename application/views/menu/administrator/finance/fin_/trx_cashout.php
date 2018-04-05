@@ -876,7 +876,8 @@ $(document).ready(function() {
     function srch_prc()
         {            
             $('#modal_pembelian').modal('show');
-            $('.modal-title').text('Cari Pembelian'); // Set title to Bootstrap modal title      
+            $('.modal-title').text('Cari Pembelian'); // Set title to Bootstrap modal title  
+            var id = $('[name="supp_id"]').val();    
             //datatables        
             table = $('#dtb_pembelian').DataTable({
                 "info": false,
@@ -887,7 +888,7 @@ $(document).ready(function() {
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_prc')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_prc/')?>" + id,
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.

@@ -316,7 +316,7 @@
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Alamat</th>
-                                        <th>Kota</th>
+                                        <!-- <th>Kota</th> -->
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -642,15 +642,24 @@ $(document).ready(function() {
 
     function pick_cust(id)
         {
+            var kd = id;
+            var kode = kd.substr(0,4);
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_kode_customer"]').val(data.CUST_CODE);
-                    $('[name="kas_nama_customer"]').val(data.CUST_NAME);
-                    $('[name="kas_customer_id"]').val(data.CUST_ID);
+                    if (kode!='CSTI'){
+                       $('[name="kas_kode_customer"]').val(data.CUST_CODE);
+                       $('[name="kas_nama_customer"]').val(data.CUST_NAME);
+                       $('[name="kas_customer_id"]').val(data.CUST_ID);
+                    }
+                    if (kode=='CSTI'){
+                       $('[name="kas_kode_customer"]').val(data.CSTIN_CODE);
+                       $('[name="kas_nama_customer"]').val(data.PERSON_NAME);
+                       $('[name="kas_customer_id"]').val(data.CSTIN_ID);
+                    }
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -707,7 +716,8 @@ $(document).ready(function() {
     function srch_inv()
         {
             $('#modal_inv').modal('show');
-            $('.modal-title').text('Cari Invoice');            
+            $('.modal-title').text('Cari Invoice');  
+            var id = $('[name="kas_customer_id"]').val();          
             table = $('#dtb_inv').DataTable({
                 "info": false,
                 "destroy": true,
@@ -716,7 +726,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_inv')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invbyid/')?>" + id,
                     "type": "POST",                
                 },              
                 "columnDefs": [

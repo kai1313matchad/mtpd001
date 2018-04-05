@@ -14,6 +14,7 @@
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
 			$this->load->model('datatables/search/Dt_srchinvtype','s_invtype');
 			$this->load->model('datatables/search/Dt_srchinv','s_inv');
+			$this->load->model('datatables/search/Dt_srchinvbyid','s_invbyid');
 			$this->load->model('datatables/search/Dt_srchappr','s_appr');
 			$this->load->model('datatables/search/Dt_srchgdforlgt','s_gdforlgt');
 			$this->load->model('datatables/search/Dt_srchgdbybrc','s_gdbybrc');
@@ -42,7 +43,8 @@
 			$this->load->model('datatables/search/Dt_srchgirooutbysts','s_girooutbysts');
 			$this->load->model('datatables/search/Dt_srchgiroinrec','s_giroinrec');
 			$this->load->model('datatables/search/Dt_srchgirooutrec','s_girooutrec');
-			 $this->load->model('datatables/search/Dt_srchbudgetbysts','s_budgetbysts');
+			$this->load->model('datatables/search/Dt_srchbudgetbysts','s_budgetbysts');
+			$this->load->model('datatables/search/Dt_srchtaxinvoicebysts','s_taxinvoicebysts');
 		}
 
 		//Search Approval Cabang
@@ -861,6 +863,31 @@
 			echo json_encode($output);
 		}
 
+		public function srch_invbyid($id)
+		{
+			$list = $this->s_invbyid->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->INV_CODE;
+				$row[] = $dat->INV_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->INV_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_inv('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_invbyid->count_all($id),
+							"recordsFiltered" => $this->s_invbyid->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_invoice($id)
 		{
 			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
@@ -1531,6 +1558,52 @@
 			echo json_encode($output);
 		}
 
+		//Search Faktur Pajak Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		public function srch_taxinvoice_bysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$list = $this->s_taxinvoicebysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->TINV_CODE;
+				    $row[] = $dat->TINV_DATE;				
+				    $row[] = $dat->TINV_TAXHEADCODE;
+				    $row[] = $dat->TINV_TAXCODE;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_taxinvoiceopen('."'".$dat->TINV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+				    $row[] = $dat->TINV_CODE;
+				    $row[] = $dat->TINV_DATE;				
+				    $row[] = $dat->TINV_TAXHEADCODE;
+				    $row[] = $dat->TINV_TAXCODE;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_taxinvoiceedit('."'".$dat->TINV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_taxinvoicebysts->count_all(),
+							"recordsFiltered" => $this->s_taxinvoicebysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_cashingb($id)
 		{
 			$data = $this->crud->get_by_id('trx_cash_in',array('csh_id' => $id));
@@ -1570,6 +1643,12 @@
 		public function pick_budgetgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_budget',array('bud_id' => $id));
+			echo json_encode($data);
+		}
+
+		public function pick_taxinvoicegb($id)
+		{
+			$data = $this->crud->get_by_id('trx_tax_invoice',array('tinv_id' => $id));
 			echo json_encode($data);
 		}
 	}

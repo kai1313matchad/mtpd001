@@ -896,7 +896,8 @@ $(document).ready(function() {
       function srch_inv()
         {
             $('#modal_inv').modal('show');
-            $('.modal-title').text('Cari Invoice');            
+            $('.modal-title').text('Cari Invoice');  
+            var id = $('[name="bank_customer_id"]').val();           
             table = $('#dtb_inv').DataTable({
                 "info": false,
                 "destroy": true,
@@ -905,7 +906,7 @@ $(document).ready(function() {
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_inv')?>",
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invbyid/')?>" + id,
                     "type": "POST",                
                 },              
                 "columnDefs": [
