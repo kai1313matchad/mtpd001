@@ -17,6 +17,11 @@
                             <span class="glyphicon glyphicon-edit"> Edit</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="check_appr()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Lihat</span>
+                        </a>
+                    </div>
                     <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
                         <a href="javascript:void(0)" onclick="open_appr()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
@@ -58,7 +63,7 @@
 	                                        <a id="genbtn" href="javascript:void(0)" onclick="gen_appr()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
 	                                    </div>
 					                    <div class="col-sm-5">
-					                        <input class="form-control" type="text" name="appr_code" value="" readonly>
+					                        <input class="form-control" type="text" name="appr_code" value="">
 					                        <input type="hidden" name="appr_id" value="0">
 					                	</div>
 					                	<div class="col-sm-2">
@@ -88,7 +93,7 @@
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl" value="<?= date('Y-m-d')?>" readonly />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="tgl" value="<?= date('Y-m-d')?>" />
 				                            </div>
 	                                    </div>
 	                            	</div>
@@ -316,7 +321,7 @@
 	                            		</div>
 	                            		<div class="form-group">
 	                            			<div class="col-sm-offset-3 col-sm-4">
-	                            				<a href="javascript:void(0)" onclick="add_costapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+	                            				<a href="javascript:void(0)" onclick="add_costapp()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
 	                            			</div>
 	                            		</div>
 	                            		<div class="row">
@@ -365,7 +370,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="discp1" placeholder="Diskon 1">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="discp1" placeholder="Diskon 1">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -380,7 +385,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="discp2" placeholder="Diskon 2">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="discp2" placeholder="Diskon 2">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -404,7 +409,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="ppnp">             	
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="ppnp">             	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -434,7 +439,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="pphp" placeholder="PPH">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="pphp" placeholder="PPH">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -455,7 +460,7 @@
 			                        </div>
 			                        <div class="form-group">
 										<div class="col-sm-offset-3 col-sm-2 text-center">
-			                            	<a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
+			                            	<a href="javascript:void(0)" onclick="saveapp()" class="btn btn-block btn-primary btn-default btnCh">Simpan</a>
 			                            </div>
 									</div>
                 				</div>
@@ -548,7 +553,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">%</span>
-	                                        	<input class="form-control termchgcount curr-num" type="text" name="termperc">
+	                                        	<input class="form-control termchgcount curr-num-perc" type="text" name="termperc">
 	                                        </div>
 	                                    </div>
                             		</div>
@@ -575,7 +580,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                            		<input class="form-control termchgcount curr-num" type="text" name="termppnp">
+			                            		<input class="form-control termchgcount curr-num-perc" type="text" name="termppnp">
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
@@ -590,7 +595,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                        			<input class="form-control termchgcount curr-num" type="text" name="termpphp">
+			                        			<input class="form-control termchgcount curr-num-perc" type="text" name="termpphp">
 			                            	</div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -611,7 +616,7 @@
                             		</div>
 			                        <div class="form-group">
                             			<div class="col-sm-offset-3 col-sm-4">
-                            				<a href="javascript:void(0)" onclick="add_termapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                            				<a href="javascript:void(0)" onclick="add_termapp()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                             			</div>
                             		</div>
                             		<div class="row">
@@ -696,7 +701,7 @@
                             		</div>
                             		<div class="form-group">
                             			<div class="col-sm-offset-3 col-sm-4">
-                            				<a href="javascript:void(0)" onclick="add_ijinapp()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                            				<a href="javascript:void(0)" onclick="add_ijinapp()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                             			</div>
                             		</div>
                             		<div class="row">
@@ -993,7 +998,7 @@
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
-            costapp(id);            
+            costapp(id);
     	});
     	function print_appr()
         {
@@ -1524,6 +1529,34 @@
                 ],
             });
     	}
+    	function check_appr()
+    	{
+    		$('#modal_appr_edit').modal('show');
+            $('.modal-title').text('Cari Approval');            
+            table = $('#dtb_appr_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_brc"]').val();
+                        data.chk = '2';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+    	}
     	function srch_cust()
     	{
     		$('#modal_cust').modal('show');
@@ -1953,6 +1986,7 @@
 	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
 	                $('[name="appr_info"]').val(data.APPR_INFO);
 	                $('[name="dpp"]').val(data.APPR_DPP_INCOME);
+	                get_subcost(data.APPR_ID);
 	                $('[name="discp1"]').val(data.APPR_DISC_PERC1);
 	                $('[name="discp2"]').val(data.APPR_DISC_PERC2);
 	                $('[name="appr_bbtax"]').val(data.APPR_BBTAX);
@@ -1968,6 +2002,56 @@
 	                termapp(id);
 	                ijinapp(id);
 	                pick_apprbrcedit(data.APPR_BRANCHID);
+	                $('#modal_appr_edit').modal('hide');
+	            },
+	            error: function (jqXHR, textStatus, errorThrown)
+	            {
+	                alert('Error get data from ajax');
+	            }
+	        });
+    	}
+    	function pick_apprchk(id)
+    	{
+	        $.ajax({
+	            url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
+	            type: "GET",
+	            dataType: "JSON",
+	            success: function(data)
+	            {
+	            	$('[name="appr_id"]').val(data.APPR_ID);
+	            	$('[name="appr_code"]').val(data.APPR_CODE);
+	            	$('[name="appr_id"]').val(data.APPR_ID);
+	                $('[name="appr_brcid"]').val(data.APPR_BRANCHID);
+	                $('[name="appr_brc"]').val(data.APPR_BRANCH);
+	                $('[name="appr_po"]').val(data.APPR_PO);
+	                $('[name="tgl_awal"]').val(data.APPR_CONTRACT_START);
+	                $('[name="tgl_akhir"]').val(data.APPR_CONTRACT_END);
+	                $('[name="appr_rec"]').val(data.APPR_RECOV);
+	                $('[name="appr_vis"]').val(data.APPR_VISUAL);
+	                $('[name="appr_length"]').val(data.APPR_LENGTH);
+	                $('[name="appr_width"]').val(data.APPR_WIDTH);
+	                $('[name="appr_height"]').val(data.APPR_HEIGHT);
+	                $('[name="appr_sumsize"]').val(data.APPR_SUMSIZE);
+	                $('[name="appr_side"]').val(data.APPR_SIDE);
+	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
+	                $('[name="appr_info"]').val(data.APPR_INFO);
+	                $('[name="dpp"]').val(data.APPR_DPP_INCOME);
+	                $('[name="discp1"]').val(data.APPR_DISC_PERC1);
+	                $('[name="discp2"]').val(data.APPR_DISC_PERC2);
+	                $('[name="appr_bbtax"]').val(data.APPR_BBTAX);
+	                $('[name="ppnp"]').val(data.APPR_PPN_PERC);
+	                $('[name="pphp"]').val(data.APPR_PPH_PERC);
+	                pick_cust(data.CUST_ID);
+	                pick_mkt(data.SALES_ID);
+	                pick_bb(data.BB_ID);
+	                pick_loc(data.LOC_ID);
+	                pick_plc(data.PLC_ID);
+	                pick_curr(data.CURR_ID);
+	                costapp(id);
+	                termapp(id);
+	                ijinapp(id);
+	                pick_apprbrcedit(data.APPR_BRANCHID);
+	                $('.btnCh').css({'display':'none'});	                
 	                $('#modal_appr_edit').modal('hide');
 	            },
 	            error: function (jqXHR, textStatus, errorThrown)

@@ -14,11 +14,11 @@
                                     <h4>Data Jenis Ijin</h4>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#2" data-toggle="tab">
                                     <h4>Data Ijin Lokasi</h4>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="2">
+                    <!-- <div class="tab-pane fade" id="2">
                         <div class="row"><br>
                             <div class="col-lg-2">
                                 <button class="btn btn-success" onclick="add_locpat()"><i class="glyphicon glyphicon-plus"></i> Tambah Ijin Lokasi</button>
@@ -91,7 +91,7 @@
                                 </thead>                        
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- /.row -->
             </div>

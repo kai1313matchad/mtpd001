@@ -1026,13 +1026,14 @@
 	    	$data = array(
 	    			// Kumpulan Key
 	                'user_id' => $this->input->post('user_id'),
-	                'bb_id' => $this->input->post('bb_id'),
-	                'loc_id' => $this->input->post('loc_id'),
+	                'bb_id' => ($this->input->post('bb_id') != '')?$this->input->post('bb_id'):NULL,
+	                'loc_id' => ($this->input->post('loc_id') != '')?$this->input->post('loc_id'):NULL,
 	                'cust_id' => $this->input->post('cust_id'),
 	                'sales_id' => $this->input->post('sales_id'),
 	                'curr_id' => $this->input->post('curr_id'),
-	                'plc_id' => $this->input->post('plc_id'),
+	                'plc_id' => ($this->input->post('plc_id') != '')?$this->input->post('plc_id'):NULL,
 	                // Data Tabel
+	                'appr_code' => $this->input->post('appr_code'),
 	                'appr_sts' => '1', //Ubah status jadi posted
 	                'appr_branchid' => $this->input->post('appr_brcid'),
 	                'appr_own' => $get2->BRANCH_STATUS,
@@ -1143,17 +1144,17 @@
 	        $data['inputerror'] = array();
 	        $data['status'] = TRUE;
 
-	        if($this->input->post('bb_id') == '')
-	        {
-	            $data['inputerror'][] = 'jnsbb';	            
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('bb_id') == '')
+	        // {
+	        //     $data['inputerror'][] = 'jnsbb';
+	        //     $data['status'] = FALSE;
+	        // }
 
-	        if($this->input->post('loc_id') == '')
-	        {
-	            $data['inputerror'][] = 'loc_name';	            
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('loc_id') == '')
+	        // {
+	        //     $data['inputerror'][] = 'loc_name';
+	        //     $data['status'] = FALSE;
+	        // }
 
 	        if($this->input->post('cust_id') == '')
 	        {
@@ -1169,11 +1170,11 @@
 	            $data['status'] = FALSE;
 	        }
 
-	        if($this->input->post('plc_id') == '')
-	        {
-	            $data['inputerror'][] = 'plc_name';	            
-	            $data['status'] = FALSE;
-	        }
+	        // if($this->input->post('plc_id') == '')
+	        // {
+	        //     $data['inputerror'][] = 'plc_name';
+	        //     $data['status'] = FALSE;
+	        // }
 
 	        if($this->input->post('curr_id') == '')
 	        {

@@ -81,6 +81,7 @@ function money_rev(inp)
 };
 
 $('.curr-num').number(true);
+$('.curr-num-perc').number(true,2);
 
 function resizetarea(id) 
 {

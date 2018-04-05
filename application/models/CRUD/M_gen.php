@@ -171,196 +171,336 @@
 		//Gen Nomor Bank Masuk
 		public function gen_numbankin()
 		{
-			$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_bankin','bnk_code','BM');
+			$res = $this->gen_numbybrc_('trx_bankin','bnk_code',$brc,'BM');
 			$check = $this->db->get_where('trx_bankin',array('bnk_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_bankin','bnk_code','BM');
+				// $res = $this->gen_num_('trx_bankin','bnk_code','BM');
+				$res = $this->gen_numbybrc_('trx_bankin','bnk_code',$brc,'BM');
 			}
 			$data = array(
 					'bnk_code'=>$res,
+					'branch_id'=>$brc,
 					'bnk_sts'=>'0'
 				);			
 			$this->db->insert('trx_bankin',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bnk_code'] = $res;
+			$data2 = array(
+					'bnk_id' => $insID,
+					'hisbnk_sts' => 'Void By System',
+					'hisbnk_old' => 'None',
+					'hisbnk_new' => 'None',
+					'hisbnk_info' => 'Create By System',
+					'hisbnk_date' => date('Y-m-d'),
+					'hisbnk_upcount' => 0
+				);
+			$this->db->insert('his_bankin',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Bank Keluar
 		public function gen_numbankout()
 		{
-			$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_bankout','bnko_code','BK');
+			$res = $this->gen_numbybrc_('trx_bankout','bnko_code',$brc,'BK');
 			$check = $this->db->get_where('trx_bankout',array('bnko_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_bankout','bnko_code','BK');
+				// $res = $this->gen_num_('trx_bankout','bnko_code','BK');
+				$res = $this->gen_numbybrc_('trx_bankout','bnko_code',$brc,'BK');
 			}
 			$data = array(
 					'bnko_code'=>$res,
+					'branch_id'=>$brc,
 					'bnko_sts'=>'0'
 				);			
 			$this->db->insert('trx_bankout',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bnko_code'] = $res;
+			$data2 = array(
+					'bnko_id' => $insID,
+					'hisbnko_sts' => 'Void By System',
+					'hisbnko_old' => 'None',
+					'hisbnko_new' => 'None',
+					'hisbnko_info' => 'Create By System',
+					'hisbnko_date' => date('Y-m-d'),
+					'hisbnko_upcount' => 0
+				);
+			$this->db->insert('his_bankout',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Giro Masuk
 		public function gen_giroin()
 		{
-			$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_giro_in','grin_code','GM');
+			$res = $this->gen_numbybrc_('trx_giro_in','grin_code',$brc,'GM');
 			$check = $this->db->get_where('trx_giro_in',array('grin_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_giro_in','grin_code','GM');
+				// $res = $this->gen_num_('trx_giro_in','grin_code','GM');
+				$res = $this->gen_numbybrc_('trx_giro_in','grin_code',$brc,'GM');
 			}
 			$data = array(
 					'grin_code'=>$res,
+					'branch_id'=>$brc,
 					'grin_sts'=>'0'
 				);			
 			$this->db->insert('trx_giro_in',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['grin_code'] = $res;
+			$data2 = array(
+					'grin_id' => $insID,
+					'hisgrin_sts' => 'Void By System',
+					'hisgrin_old' => 'None',
+					'hisgrin_new' => 'None',
+					'hisgrin_info' => 'Create By System',
+					'hisgrin_date' => date('Y-m-d'),
+					'hisgrin_upcount' => 0
+				);
+			$this->db->insert('his_giroin',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Giro Keluar
 		public function gen_giroout()
 		{
-			$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_giro_out','grout_code','GK');
+			$res = $this->gen_numbybrc_('trx_giro_out','grout_code',$brc,'GK');
 			$check = $this->db->get_where('trx_giro_out',array('grout_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_giro_out','grout_code','GK');
+				// $res = $this->gen_num_('trx_giro_out','grout_code','GK');
+				$res = $this->gen_numbybrc_('trx_giro_out','grout_code',$brc,'GK');
 			}
 			$data = array(
 					'grout_code'=>$res,
+					'branch_id'=>$brc,
 					'grout_sts'=>'0'
 				);			
 			$this->db->insert('trx_giro_out',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['grout_code'] = $res;
+			$data2 = array(
+					'grout_id' => $insID,
+					'hisgro_sts' => 'Void By System',
+					'hisgro_old' => 'None',
+					'hisgro_new' => 'None',
+					'hisgro_info' => 'Create By System',
+					'hisgro_date' => date('Y-m-d'),
+					'hisgro_upcount' => 0
+				);
+			$this->db->insert('his_giroout',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor Anggaran
 		public function gen_numbudg()
 		{
-			$res = $this->gen_num_('trx_budget','bud_code','RA');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_budget','bud_code','RA');
+			$res = $this->gen_numbybrc_('trx_budget','bud_code',$brc,'RA');
 			$check = $this->db->get_where('trx_budget',array('bud_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_budget','bud_code','RA');
+				// $res = $this->gen_num_('trx_budget','bud_code','RA');
+				$res = $this->gen_numbybrc_('trx_budget','bud_code',$brc,'RA');
 			}
 			$data = array(
 					'bud_code'=>$res,
+					'branch_id'=>$brc,
 					'bud_dtsts'=>'0'
 				);			
 			$this->db->insert('trx_budget',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['bud_code'] = $res;
+			$data2 = array(
+					'bud_id' => $insID,
+					'hisbdg_sts' => 'Void By System',
+					'hisbdg_old' => 'None',
+					'hisbdg_new' => 'None',
+					'hisbdg_info' => 'Create By System',
+					'hisbdg_date' => date('Y-m-d'),
+					'hisbdg_upcount' => 0
+				);
+			$this->db->insert('his_budget',$data2);
 			return  $out;
 		}
 
 		//Gen Nomor PO GAgit 
 		public function gen_numpoga()
 		{
-			$res = $this->gen_num_('trx_po_ga','poga_code','POG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_po_ga','poga_code','POG');
+			$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'POG');
 			$check = $this->db->get_where('trx_po_ga',array('poga_code' => $res));
-			if($check->row() > 0)
+			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_po_ga','poga_code','POG');
+				// $res = $this->gen_num_('trx_po_ga','poga_code','POG');
+				$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'POG');
 			}
 			$data = array(
 					'poga_code'=>$res,
+					'branch_id'=>$brc,
 					'poga_sts'=>'0'
 				);			
 			$this->db->insert('trx_po_ga',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['poga_code'] = $res;
+			$data2 = array(
+					'poga_id' => $insID,
+					'hispoga_sts' => 'Void By System',
+					'hispoga_old' => 'None',
+					'hispoga_new' => 'None',
+					'hispoga_info' => 'Create By System',
+					'hispoga_date' => date('Y-m-d'),
+					'hispoga_upcount' => 0
+				);
+			$this->db->insert('his_poga',$data2);
 			return  $out;
 		}
 
 		public function gen_numblga()
 		{
-			$res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+			$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'BLG');
 			$check = $this->db->get_where('trx_prc_ga',array('prcga_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+				// $res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
+				$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'BLG');
 			}
 			$data = array(
 					'prcga_code'=>$res,
+					'branch_id'=>$brc,
 					'prcga_sts'=>'0'
 				);			
 			$this->db->insert('trx_prc_ga',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['prcga_code'] = $res;
+			$data2 = array(
+					'prcga_id' => $insID,
+					'hisprcga_sts' => 'Void By System',
+					'hisprcga_old' => 'None',
+					'hisprcga_new' => 'None',
+					'hisprcga_info' => 'Create By System',
+					'hisprcga_date' => date('Y-m-d'),
+					'hisprcga_upcount' => 0
+				);
+			$this->db->insert('his_prcga',$data2);
 			return  $out;
 		}
 
 		public function gen_numretga()
 		{
-			$res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+			$res = $this->gen_numbybrc_('prcga_ret','rtprcga_code',$brc,'RBG');
 			$check = $this->db->get_where('prcga_ret',array('rtprcga_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+				// $res = $this->gen_num_('prcga_ret','rtprcga_code','RBG');
+				$res = $this->gen_numbybrc_('prcga_ret','rtprcga_code',$brc,'RBG');
 			}
 			$data = array(
 					'rtprcga_code'=>$res,
+					'branch_id'=>$brc,
 					'rtprcga_sts'=>'0'
 				);			
 			$this->db->insert('prcga_ret',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtprc_code'] = $res;
+			$data2 = array(
+					'rtprcga_id' => $insID,
+					'hisrtprcga_sts' => 'Void By System',
+					'hisrtprcga_old' => 'None',
+					'hisrtprcga_new' => 'None',
+					'hisrtprcga_info' => 'Create By System',
+					'hisrtprcga_date' => date('Y-m-d'),
+					'hisrtprcga_upcount' => 0
+				);
+			$this->db->insert('his_rtprcga',$data2);
 			return  $out;
 		}
 
 		public function gen_numusagega()
 		{
-			$res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+			$res = $this->gen_numbybrc_('trx_usage_ga','usgga_code',$brc,'PKG');
 			$check = $this->db->get_where('trx_usage_ga',array('usgga_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+				// $res = $this->gen_num_('trx_usage_ga','usgga_code','PKG');
+				$res = $this->gen_numbybrc_('trx_usage_ga','usgga_code',$brc,'PKG');
 			}
 			$data = array(
 					'usgga_code'=>$res,
+					'branch_id'=>$brc,
 					'usgga_sts'=>'0'
 				);			
 			$this->db->insert('trx_usage_ga',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['usgga_code'] = $res;
+			$data2 = array(
+					'usgga_id' => $insID,
+					'hisusgga_sts' => 'Void By System',
+					'hisusgga_old' => 'None',
+					'hisusgga_new' => 'None',
+					'hisusgga_info' => 'Create By System',
+					'hisusgga_date' => date('Y-m-d'),
+					'hisusgga_upcount' => 0
+				);
+			$this->db->insert('his_usgga',$data2);
 			return  $out;
 		}
 
 		public function gen_num_retusagega()
 		{
-			$res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+			$res = $this->gen_numbybrc_('usage_ga_ret','rtusgga_code',$brc,'RPG');
 			$check = $this->db->get_where('usage_ga_ret',array('rtusgga_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+				// $res = $this->gen_num_('usage_ga_ret','rtusgga_code','RPG');
+				$res = $this->gen_numbybrc_('usage_ga_ret','rtusgga_code',$brc,'RPG');
 			}
 			$data = array(
 					'rtusgga_code'=>$res,
+					'branch_id'=>$brc,
 					'rtusgga_sts'=>'0'
 				);			
 			$this->db->insert('usage_ga_ret',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['rtusgga_code'] = $res;
+			$data2 = array(
+					'rtusgga_id' => $insID,
+					'hisrtusgga_sts' => 'Void By System',
+					'hisrtusgga_old' => 'None',
+					'hisrtusgga_new' => 'None',
+					'hisrtusgga_info' => 'Create By System',
+					'hisrtusgga_date' => date('Y-m-d'),
+					'hisrtusgga_upcount' => 0
+				);
+			$this->db->insert('his_rtusgga',$data2);
 			return  $out;
 		}
 
@@ -400,14 +540,18 @@
 
 		public function gen_numbllgt()
 		{
-			$res = $this->gen_num_('trx_procurement','prc_code','BL');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_procurement','prc_code','BL');
+			$res = $this->gen_numbybrc_('trx_procurement','prc_code',$brc,'BL');
 			$check = $this->db->get_where('trx_procurement',array('prc_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_procurement','prc_code','BL');
+				// $res = $this->gen_num_('trx_procurement','prc_code','BL');
+				$res = $this->gen_numbybrc_('trx_procurement','prc_code',$brc,'BL');
 			}
 			$data = array(
 					'prc_code'=>$res,
+					'branch_id'=>$brc,
 					'prc_sts'=>'0'
 				);			
 			$this->db->insert('trx_procurement',$data);			
@@ -429,14 +573,18 @@
 
 		public function gen_numretlgt()
 		{
-			$res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+			$res = $this->gen_numbybrc_('procurement_ret','rtprc_code',$brc,'RB');
 			$check = $this->db->get_where('procurement_ret',array('rtprc_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+				// $res = $this->gen_num_('procurement_ret','rtprc_code','RB');
+				$res = $this->gen_numbybrc_('procurement_ret','rtprc_code',$brc,'RB');
 			}
 			$data = array(
 					'rtprc_code'=>$res,
+					'branch_id'=>$brc,
 					'rtprc_sts'=>'0'
 				);			
 			$this->db->insert('procurement_ret',$data);			
@@ -458,14 +606,18 @@
 
 		public function gen_numusagelgt()
 		{
-			$res = $this->gen_num_('trx_usage','usg_code','PK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_usage','usg_code','PK');
+			$res = $this->gen_numbybrc_('trx_usage','usg_code',$brc,'PK');
 			$check = $this->db->get_where('trx_usage',array('usg_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_usage','usg_code','PK');
+				// $res = $this->gen_num_('trx_usage','usg_code','PK');
+				$res = $this->gen_numbybrc_('trx_usage','usg_code',$brc,'PK');
 			}
 			$data = array(
 					'usg_code'=>$res,
+					'branch_id'=>$brc,
 					'usg_sts'=>'0'
 				);			
 			$this->db->insert('trx_usage',$data);			
@@ -487,14 +639,18 @@
 
 		public function gen_num_retusagelgt()
 		{
-			$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+			$res = $this->gen_numbybrc_('usage_ret','rtusg_code',$brc,'RPK');
 			$check = $this->db->get_where('usage_ret',array('rtusg_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+				// $res = $this->gen_num_('usage_ret','rtusg_code','RPK');
+				$res = $this->gen_numbybrc_('usage_ret','rtusg_code',$brc,'RPK');
 			}
 			$data = array(
 					'rtusg_code'=>$res,
+					'branch_id'=>$brc,
 					'rtusg_sts'=>'0'
 				);			
 			$this->db->insert('usage_ret',$data);			
@@ -516,39 +672,67 @@
 
 		public function gen_num_adjlgt()
 		{
-			$res = $this->gen_num_('trx_adjustment','adj_code','PS');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_adjustment','adj_code','PS');
+			$res = $this->gen_numbybrc_('trx_adjustment','adj_code',$brc,'PS');
 			$check = $this->db->get_where('trx_adjustment',array('adj_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_adjustment','adj_code','PS');
+				// $res = $this->gen_num_('trx_adjustment','adj_code','PS');
+				$res = $this->gen_numbybrc_('trx_adjustment','adj_code',$brc,'PS');
 			}
 			$data = array(
 					'adj_code'=>$res,
+					'branch_id'=>$brc,
 					'adj_dtsts'=>'0'
 				);			
 			$this->db->insert('trx_adjustment',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['adj_code'] = $res;
+			$data2 = array(
+					'adj_id' => $insID,
+					'hisadj_sts' => 'Void By System',
+					'hisadj_old' => 'None',
+					'hisadj_new' => 'None',
+					'hisadj_info' => 'Create By System',
+					'hisadj_date' => date('Y-m-d'),
+					'hisadj_upcount' => 0
+				);
+			$this->db->insert('his_adj',$data2);
 			return  $out;
 		}
 
 		public function gen_num_adjga()
 		{
-			$res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+			$res = $this->gen_numbybrc_('trx_adj_ga','adjga_code',$brc,'PSG');
 			$check = $this->db->get_where('trx_adj_ga',array('adjga_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+				// $res = $this->gen_num_('trx_adj_ga','adjga_code','PSG');
+				$res = $this->gen_numbybrc_('trx_adj_ga','adjga_code',$brc,'PSG');
 			}
 			$data = array(
 					'adjga_code'=>$res,
+					'branch_id'=>$brc,
 					'adjga_dtsts'=>'0'
 				);			
 			$this->db->insert('trx_adj_ga',$data);			
 			$insID = $this->db->insert_id();
 			$out['insertId'] = $insID;
 			$out['adjga_code'] = $res;
+			$data2 = array(
+					'adjga_id' => $insID,
+					'hisadjga_sts' => 'Void By System',
+					'hisadjga_old' => 'None',
+					'hisadjga_new' => 'None',
+					'hisadjga_info' => 'Create By System',
+					'hisadjga_date' => date('Y-m-d'),
+					'hisadjga_upcount' => 0
+				);
+			$this->db->insert('his_adjga',$data2);
 			return  $out;
 		}
 
@@ -621,14 +805,18 @@
 		//Gen Nomor Invoice
 		public function gen_numinvo()
 		{
-			$res = $this->gen_num_('trx_invoice','inv_code','INV');			
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_invoice','inv_code','INV');
+			$res = $this->gen_numbybrc_('trx_invoice','inv_code',$brc,'INV');
 			$check = $this->db->get_where('trx_invoice',array('inv_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_invoice','inv_code','INV');
+				// $res = $this->gen_num_('trx_invoice','inv_code','INV');
+				$res = $this->gen_numbybrc_('trx_invoice','inv_code',$brc,'INV');
 			}
 			$data = array(
 					'inv_code'=>$res,
+					'branch_id'=>$brc,
 					'inv_sts'=>'0'
 				);			
 			$this->db->insert('trx_invoice',$data);
@@ -671,14 +859,18 @@
 		//Gen Nomor Permit Approval
 		public function gen_numpermitappr()
 		{
-			$res = $this->gen_num_('trx_permitappr','pappr_code','PI');			
+			$brc = $this->session->userdata('user_branch');
+			// $res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+			$res = $this->gen_numbybrc_('trx_permitappr','pappr_code',$brc,'PI');
 			$check = $this->db->get_where('trx_permitappr',array('pappr_code' => $res));
 			if($check->num_rows() > 0)
 			{
-				$res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+				// $res = $this->gen_num_('trx_permitappr','pappr_code','PI');
+				$res = $this->gen_numbybrc_('trx_permitappr','pappr_code',$brc,'PI');
 			}
 			$data = array(
 					'pappr_code'=>$res,
+					'branch_id'=>$brc,
 					'pappr_sts'=>'0'
 				);			
 			$this->db->insert('trx_permitappr',$data);
