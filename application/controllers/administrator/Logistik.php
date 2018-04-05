@@ -161,6 +161,15 @@
 			echo json_encode($data);
 		}
 
+		public function gen_bapp_lgt()
+		{
+			$gen = $this->gen->gen_num_bapplgt();
+			$data['id'] = $gen['insertId'];
+			$data['kode'] = $gen['bapp_code'];
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function lgt_trx_po()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
@@ -233,6 +242,16 @@
 			$data['menu']='logistik';
 			$data['menulist']='adjust';
 			$data['isi']='menu/administrator/logistik/lgt_trx_adjust';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function lgt_trx_bapp()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');			
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='bapplog';
+			$data['isi']='menu/administrator/logistik/lgt_trx_bapp';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 

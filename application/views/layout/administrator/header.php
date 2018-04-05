@@ -177,6 +177,9 @@
                                     <a <?php if ($menulist == 'adjust') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Logistik/lgt_trx_adjust') ?>"><i class="fa <?php if ($menulist == 'adjust') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Penyesuaian</a>
                                 </li>
                                 <li>
+                                    <a <?php if ($menulist == 'bapplog') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Logistik/lgt_trx_bapp') ?>"><i class="fa <?php if ($menulist == 'bapplog') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> BAPP</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'report_logistik') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Logistik/report') ?>"><i class="fa <?php if ($menulist == 'report_logistik') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Laporan</a>
                                 </li>                                
                             </ul>

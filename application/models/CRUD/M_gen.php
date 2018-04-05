@@ -736,6 +736,37 @@
 			return  $out;
 		}
 
+		public function gen_num_bapplgt()
+		{
+			$brc = $this->session->userdata('user_branch');
+			$res = $this->gen_numbybrc_('trx_bapplog','balg_code',$brc,'B1');
+			$check = $this->db->get_where('trx_bapplog',array('balg_code' => $res));
+			if($check->num_rows() > 0)
+			{
+				$res = $this->gen_numbybrc_('trx_bapplog','balg_code',$brc,'B1');
+			}
+			$data = array(
+					'balg_code'=>$res,
+					'branch_id'=>$brc,
+					'balg_sts'=>'0'
+				);			
+			$this->db->insert('trx_bapplog',$data);			
+			$insID = $this->db->insert_id();
+			$out['insertId'] = $insID;
+			$out['bapp_code'] = $res;
+			$data2 = array(
+					'balg_id' => $insID,
+					'hisbalg_sts' => 'Void By System',
+					'hisbalg_old' => 'None',
+					'hisbalg_new' => 'None',
+					'hisbalg_info' => 'Create By System',
+					'hisbalg_date' => date('Y-m-d'),
+					'hisbalg_upcount' => 0
+				);
+			$this->db->insert('his_bapplog',$data2);
+			return  $out;
+		}
+
 		//Gen Nomor Approval
 		public function gen_numappr()
 		{
