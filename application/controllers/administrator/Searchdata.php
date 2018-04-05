@@ -9,6 +9,7 @@
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
 			$this->load->model('datatables/search/Dt_srchsupp','s_supp');
+			$this->load->model('datatables/search/Dt_srchcust','s_cust');
 			$this->load->model('datatables/search/Dt_srchgovsts','s_govsts');
 			$this->load->model('datatables/search/Dt_srchpermittype','s_permittype');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
@@ -834,6 +835,38 @@
 		{
 			$data = $this->crud->get_by_id('master_supplier',array('supp_id' => $id));
 			echo json_encode($data);
+		}
+
+		//Search Master Customer
+		public function srch_cust()
+		{
+			$list = $this->s_cust->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CUST_CODE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->CUST_ADDRESS;				
+				$row[] = $dat->CUST_CITY;				
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cust->count_all(),
+							"recordsFiltered" => $this->s_cust->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_cust($id)
+		{
+			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+        	echo json_encode($data);
 		}
 
 		//Search Master Cabang
