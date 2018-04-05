@@ -370,7 +370,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="discp1" placeholder="Diskon 1">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="discp1" placeholder="Diskon 1">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -385,7 +385,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="discp2" placeholder="Diskon 2">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="discp2" placeholder="Diskon 2">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -409,7 +409,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="ppnp">             	
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="ppnp">             	
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -439,7 +439,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                                	<input class="form-control chgcount curr-num" type="text" name="pphp" placeholder="PPH">
+			                                	<input class="form-control chgcount curr-num-perc" type="text" name="pphp" placeholder="PPH">
 			                                </div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -553,7 +553,7 @@
 	                                    <div class="col-sm-8">
 	                                    	<div class="input-group">
 	                                    		<span class="input-group-addon">%</span>
-	                                        	<input class="form-control termchgcount curr-num" type="text" name="termperc">
+	                                        	<input class="form-control termchgcount curr-num-perc" type="text" name="termperc">
 	                                        </div>
 	                                    </div>
                             		</div>
@@ -580,7 +580,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                            		<input class="form-control termchgcount curr-num" type="text" name="termppnp">
+			                            		<input class="form-control termchgcount curr-num-perc" type="text" name="termppnp">
 			                            	</div>			                                
 			                            </div>
 			                            <div class="col-sm-4">
@@ -595,7 +595,7 @@
 			                            <div class="col-sm-4">
 			                            	<div class="input-group">
 			                            		<span class="input-group-addon">%</span>
-			                        			<input class="form-control termchgcount curr-num" type="text" name="termpphp">
+			                        			<input class="form-control termchgcount curr-num-perc" type="text" name="termpphp">
 			                            	</div>
 			                            </div>
 			                            <div class="col-sm-4">
@@ -998,7 +998,7 @@
             var id = $('[name="appr_id"]').val();
             ijinapp(id);
             termapp(id);
-            costapp(id);            
+            costapp(id);
     	});
     	function print_appr()
         {
@@ -1986,6 +1986,7 @@
 	                $('[name="appr_plcsum"]').val(data.APPR_PLCSUM);
 	                $('[name="appr_info"]').val(data.APPR_INFO);
 	                $('[name="dpp"]').val(data.APPR_DPP_INCOME);
+	                get_subcost(data.APPR_ID);
 	                $('[name="discp1"]').val(data.APPR_DISC_PERC1);
 	                $('[name="discp2"]').val(data.APPR_DISC_PERC2);
 	                $('[name="appr_bbtax"]').val(data.APPR_BBTAX);
