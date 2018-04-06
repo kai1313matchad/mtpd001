@@ -87,6 +87,23 @@
 			return $que->row();
 		}
 
+		//Fungsi untuk cek pemakaian BAPP Logistik di tabel lain
+		public function check_bapp($tb,$id,$sts)
+		{
+			$que = ($sts != null)?$this->db->get_where($tb,array('balg_id'=>$id,$sts=>'1')):$this->db->get_where($tb,array('balg_id'=>$id));
+			$cou = $que->num_rows();
+			return $cou;
+		}
+
+		//Fungsi ambil log histori untuk BAPP Logistik Logistik
+		public function getlog_bapplgt($id)
+		{
+			$this->db->where('balg_id',$id);
+			$this->db->where('hisbalg_upcount = (select max(hisbalg_upcount) from his_bapplog where balg_id = '.$id.')');
+			$que = $this->db->get('his_bapplog');
+			return $que->row();
+		}
+
 		//Fungsi untuk laporan stock
 		public function get_allgd()
 		{

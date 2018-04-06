@@ -12,11 +12,11 @@
                             <span class="glyphicon glyphicon-print"> CetakForm</span>
                         </a>
                     </div>
-                    <div class="col-sm-2">
+                    <!-- <div class="col-sm-2">
                         <a href="javascript:void(0)" onclick="print_bappimg()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-print"> CetakGambar</span>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="col-sm-2">
                         <a href="javascript:void(0)" onclick="edit_bapp()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-edit"> Edit</span>
@@ -155,7 +155,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Model Cetak</label>
                                         <div class="col-sm-8">
-                                            <select name="bapp_print" class="form-control" data-live-search="true">
+                                            <select id="bapp_print" name="bapp_print" class="form-control" data-live-search="true">
                                                 <option value="">Pilih</option>
                                                 <option value="Recovering">Recovering</option>
                                                 <option value="Konstruksi">Konstruksi</option>
@@ -196,7 +196,7 @@
         </div>
     </div>
     <!-- Modal Search -->
-    <div class="modal fade" id="modal_appr" role="dialog">
+    <div class="modal fade" id="modal_cust" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,14 +206,46 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12 table-responsive">
-                            <table id="dtb_appr" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="dtb_cust" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Approval</th>
-                                        <th>Tanggal</th>
-                                        <th>Customer</th>
-                                        <th>Lokasi</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_loc" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_loc" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Kota</th>
+                                        <th>Info</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -346,6 +378,7 @@
     <script>
     	$(document).ready(function()
     	{
+            $('#bapp_print').selectpicker({});
             get_images();
             $('input').on('click',function(){                
                 $(this).parent().parent().parent().removeClass('has-error');
@@ -362,11 +395,11 @@
             var ids = $('[name=bapp_id]').val();
             window.open ( "<?php echo site_url('administrator/Marketing/pageprint_bappimg/')?>"+ids,'_blank');
         }
-    	function srch_appr()
-    	{
-    		$('#modal_appr').modal('show');
-            $('.modal-title').text('Cari Approval');
-            table = $('#dtb_appr').DataTable({
+        function srch_cust()
+        {
+            $('#modal_cust').modal('show');
+            $('.modal-title').text('Cari Customer');            
+            table = $('#dtb_cust').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -374,11 +407,8 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprforbapp')?>",
-                    "type": "POST",
-                    "data": function(data){
-                        data.brch = $('[name="user_brc"]').val();
-                    },
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cust')?>",
+                    "type": "POST",                
                 },
                 "columnDefs": [
                 { 
@@ -386,31 +416,6 @@
                     "orderable": false,
                 },
                 ],
-            });
-    	}
-        function pick_apprgb(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Searchdata/pick_apprgb/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="appr_code"]').val(data.APPR_CODE);
-                    pick_cust(data.CUST_ID);
-                    var jenis = data.APPR_INFO + ' ( ' + data.APPR_CONTRACT_START + ' - ' + data.APPR_CONTRACT_END + ' )';
-                    $('[name="appr_jenis"]').val(jenis);
-                    var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + ', ' + data.APPR_PLCSUM + 'mk';
-                    $('[name="appr_size"]').val(size);
-                    $('[name="bapp_startper"]').val(data.APPR_CONTRACT_START);
-                    $('[name="bapp_endper"]').val(data.APPR_CONTRACT_END);
-                    $('#modal_appr').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
             });
         }
         function pick_cust(id)
@@ -421,7 +426,51 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="client"]').val(data.CUST_NAME);
+                    $('[name="cust_name"]').val(data.CUST_NAME);
+                    $('[name="cust_id"]').val(data.CUST_ID);
+                    $('#modal_cust').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function srch_loc()
+        {
+            $('#modal_loc').modal('show');
+            $('.modal-title').text('Cari Lokasi');          
+            table = $('#dtb_loc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Marketing/ajax_srch_loc')?>",
+                    "type": "POST",                
+                },              
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_loc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Marketing/ajax_pick_loc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="loc_id"]').val(data.LOC_ID);
+                    $('[name="loc_name"]').val(data.LOC_NAME);
+                    $('[name="loc_address"]').val(data.LOC_ADDRESS+', '+data.LOC_CITY);
+                    $('#modal_loc').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -503,9 +552,9 @@
             if ($('.form-group').hasClass('has-error') != 1)
             {                
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Marketing/simpan_bapp')?>",
+                    url : "<?php echo site_url('administrator/Logistik/simpan_bapp')?>",
                     type: "POST",
-                    data: $('#form_bapp').serialize(),
+                    data: $('#form_bapplog').serialize(),
                     dataType: "JSON",
                     success: function(data)
                     {
@@ -550,31 +599,16 @@
             if (date1 == '')
             {
                 $('[name="bapp_date"]').parent().parent().parent().addClass('has-error');
-            }
-            var date2 = $('[name="bapp_startdate"]').val();
-            if (date2 == '')
-            {
-                $('[name="bapp_startdate"]').parent().parent().parent().addClass('has-error');
-            }
-            var date3 = $('[name="bapp_enddate"]').val();
-            if (date3 == '')
-            {
-                $('[name="bapp_enddate"]').parent().parent().parent().addClass('has-error');
-            }
-            var date4 = $('[name="bapp_finishdate"]').val();
-            if (date4 == '')
-            {
-                $('[name="bapp_finishdate"]').parent().parent().parent().addClass('has-error');
-            }
+            }            
             var bappid = $('[name="bapp_code"]').val();
             if (bappid == '')
             {
                 $('[name="bapp_code"]').parent().parent().addClass('has-error');
             }
-            var apprid = $('[name="appr_code"]').val();
-            if (apprid == '')
+            var bappprint = $('[name="bapp_print"]').val();
+            if (bappprint == '')
             {
-                $('[name="appr_code"]').parent().parent().addClass('has-error');
+                $('[name="bapp_print"]').parent().parent().addClass('has-error');
             }
         }
         function get_imgsum()

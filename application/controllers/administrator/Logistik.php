@@ -1690,6 +1690,62 @@
 	        echo json_encode(array("status" => TRUE));
 		}
 
+		public function simpan_bapp()
+		{
+			$loc = ($this->input->post('loc_id') != '')?$this->input->post('loc_id'):NULL;
+			$cust = ($this->input->post('cust_id') != '')?$this->input->post('cust_id'):NULL;
+			$data = array(	                
+	                'user_id' => $this->input->post('user_id'),              
+	                'loc_id' => $loc,
+	                'loc_id' => $cust,
+	                'balg_sts' => '1',
+	                'balg_date' => $this->input->post('bapp_date'),
+	                'balg_dealer' => $this->input->post('bapp_dealer'),
+	                'balg_size' => $this->input->post('bapp_size'),
+	                'balg_work' => $this->input->post('bapp_work'),
+	                'balg_note' => $this->input->post('bapp_note'),
+	                'balg_workdate' => $this->input->post('bapp_workdate'),
+	                'balg_contractor' => $this->input->post('bapp_contr'),
+	                'balg_logistic' => $this->input->post('bapp_log'),
+	                'balg_prod' => $this->input->post('bapp_prod'),
+	                'balg_printtype' => $this->input->post('bapp_print')
+	            );
+	        $update = $this->crud->update('trx_bapplog',$data,array('balg_id' => $this->input->post('bapp_id')));
+	        $this->logupd_bapplgt_save($this->input->post('bapp_id'),$this->input->post('user_name'));
+	        echo json_encode(array("status" => TRUE));
+		}
+
+		public function logupd_bapplgt_save($id,$user)
+	    {
+	    	$his = $this->logistik->getlog_bapplgt($id);
+	    	if ($his->HISUSG_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'balg_id' => $id,
+						'hisbalg_sts' => 'Posted by User '.$user,
+						'hisbalg_old' => $his->HISBALG_STS,
+						'hisbalg_new' => 'Posted By User '.$user,
+						'hisbalg_info' => 'Original Save by BAPP Logistik form',
+						'hisbalg_date' => date('Y-m-d'),
+						'hisbalg_upcount' => $his->HISBALG_UPCOUNT+1
+					);
+				$this->db->insert('his_bapplog',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'balg_id' => $id,
+						'hisbalg_sts' => 'Posted by User '.$user,
+						'hisbalg_old' => $his->HISBALG_STS,
+						'hisbalg_new' => 'Posted By User '.$user,
+						'hisbalg_info' => 'Update by '.$user.' from BAPP Logistik form',
+						'hisbalg_date' => date('Y-m-d'),
+						'hisbalg_upcount' => $his->HISBALG_UPCOUNT
+					);
+				$this->db->insert('his_bapplog',$data);
+	    	}
+	    }
+
 	    //Ajax Get Data
 		public function ajax_pick_po($id)
 		{
