@@ -7,7 +7,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
     <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
+    <script src="<?php echo base_url('assets/addons/moment-with-locales.js')?>"></script>
     <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
     <!-- Dropzone -->
     <script src="<?php echo base_url('assets/addons/dropzone.js')?>"></script>

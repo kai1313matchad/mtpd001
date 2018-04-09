@@ -23,6 +23,7 @@
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
 			$this->load->model('datatables/search/Dt_srchapprbysts','s_apprbysts');
 			$this->load->model('datatables/search/Dt_srchbappbysts','s_bappbysts');
+			$this->load->model('datatables/search/Dt_srchbapplogbysts','s_bapplogbysts');
 			$this->load->model('datatables/search/Dt_srchpapprbysts','s_papprbysts');
 			$this->load->model('datatables/search/Dt_srchinvbysts','s_invbysts');
 			$this->load->model('datatables/search/Dt_srchpobysts','s_pobysts');
@@ -607,6 +608,59 @@
 		public function pick_rtusglgtgb($id)
 		{
 			$data = $this->crud->get_by_id('usage_ret',array('rtusg_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search BAPP Logistik Berdasarkan Status Untuk Edit dan Buka Record di halaman BAPP
+		public function srch_bapplogbysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			// $brc = ($this->input->post('chk') != '0')? 'e.branch_id = '.$br : 'e.branch_id = '.$br.' OR e.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_bapplogbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->BALG_CODE;
+					$row[] = $dat->BALG_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bapplogopen('."'".$dat->BALG_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->BALG_CODE;
+					$row[] = $dat->BALG_DATE;
+					$row[] = $dat->CUST_NAME;
+					$row[] = $dat->LOC_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bapplogedit('."'".$dat->BALG_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bapplogbysts->count_all(),
+							"recordsFiltered" => $this->s_bapplogbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_bapploggb($id)
+		{
+			$data = $this->crud->get_by_id('trx_bapplog',array('balg_id' => $id));
 			echo json_encode($data);
 		}
 

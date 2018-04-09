@@ -335,6 +335,16 @@
 			$this->load->view('menu/administrator/logistik/adj_print',$data);
 		}
 
+		public function pageprint_bapplog($id)
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'LOG');
+			$data['id']=$id;
+			$data['title']='Match Terpadu - Dashboard Logistik';
+			$data['menu']='logistik';
+			$data['menulist']='report_logistik';
+			$this->load->view('menu/administrator/logistik/print_bapplog',$data);
+		}
+
 		public function open_lgtpo($id)
 		{
 			$user = $this->input->post('user_name');
@@ -485,6 +495,26 @@
 					'hisrtusg_upcount' => $his->HISRTUSG_UPCOUNT+1
 				);
 			$this->db->insert('his_retusg',$dthis);
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function open_bapplog($id)
+		{
+			$user = $this->input->post('user_name');
+			$dt = array('balg_sts'=>'0');
+			$update = $this->crud->update('trx_bapplog',$dt,array('balg_id' => $id));
+			$his = $this->logistik->getlog_bapplgt($id);
+			$dthis = array(
+					'balg_id' => $id,
+					'hisbalg_sts' => 'Open by User '.$user,
+					'hisbalg_old' => $his->HISBALG_STS,
+					'hisbalg_new' => 'Open By User '.$user,
+					'hisbalg_info' => 'Open Record by BAPP Logistik form',
+					'hisbalg_date' => date('Y-m-d'),
+					'hisbalg_upcount' => $his->HISBALG_UPCOUNT+1
+				);
+			$this->db->insert('his_bapplog',$dthis);
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -1697,7 +1727,7 @@
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),              
 	                'loc_id' => $loc,
-	                'loc_id' => $cust,
+	                'cust_id' => $cust,
 	                'balg_sts' => '1',
 	                'balg_date' => $this->input->post('bapp_date'),
 	                'balg_dealer' => $this->input->post('bapp_dealer'),
@@ -1718,7 +1748,7 @@
 		public function logupd_bapplgt_save($id,$user)
 	    {
 	    	$his = $this->logistik->getlog_bapplgt($id);
-	    	if ($his->HISUSG_UPCOUNT == '0') 
+	    	if ($his->HISBALG_UPCOUNT == '0') 
 	    	{
 	    		$data = array(
 						'balg_id' => $id,
