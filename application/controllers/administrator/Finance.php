@@ -3090,6 +3090,7 @@
 	    			'cust_id'=>$this->input->post('inv_custid'),
 	    			'curr_id'=>$this->input->post('inv_currid'),
 	    			'inc_id'=>$this->input->post('inv_typeid'),
+	    			'inv_code'=>$this->input->post('inv_code'),
 	    			'inv_info'=>$this->input->post('inv_info'),
 	    			'inv_term'=>$this->input->post('inv_terms'),
 	    			'inv_date'=>$this->input->post('inv_date'),

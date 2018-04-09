@@ -12,6 +12,11 @@
                             <span class="glyphicon glyphicon-edit"> Edit</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="check_inv()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Lihat</span>
+                        </a>
+                    </div>
                     <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
                         <a href="javascript:void(0)" onclick="open_inv()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
@@ -50,7 +55,7 @@
                                             <a id="genbtn" href="javascript:void(0)" onclick="gen_invo()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="inv_code" readonly>
+                                            <input type="text" class="form-control" name="inv_code" >
                                             <input type="hidden" name="inv_id" value="0">
                                         </div>
                                     </div>
@@ -61,7 +66,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="jou_date" type='text' class="form-control input-group-addon" name="inv_date" value="<?= date('Y-m-d')?>" readonly />
+                                                <input id="jou_date" type='text' class="form-control input-group-addon" name="inv_date" value="<?= date('Y-m-d')?>" />
                                             </div>
                                         </div>
                                     </div>
@@ -222,7 +227,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-4">
-                                                <a href="javascript:void(0)" onclick="add_invdet()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                                                <a href="javascript:void(0)" onclick="add_invdet()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -345,7 +350,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="save_inv()" class="btn btn-block btn-primary btn-default">
+                                            <a href="javascript:void(0)" onclick="save_inv()" class="btn btn-block btn-primary btn-default btnCh">
                                                 <span class="glyphicon glyphicon-floppy-disk"></span>
                                                 Simpan
                                             </a>
@@ -843,6 +848,34 @@
                 ],
             });
         }
+        function check_inv()
+        {
+            $('#modal_inv_edit').modal('show');
+            $('.modal-title').text('Cari Invoice');            
+            table = $('#dtb_inv_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_invbystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '2';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -1039,6 +1072,35 @@
                     pick_taxinv(data.INV_ID);
                     invdet(data.INV_ID);
                     get_sub();
+                    $('#modal_inv_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_invchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_invgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="inv_id"]').val(data.INV_ID);
+                    $('[name="inv_code"]').val(data.INV_CODE);
+                    $('[name="inv_typechk"][value="'+data.INV_TYPE+'"]').prop('checked',true);
+                    pick_invtype(data.INC_ID);
+                    pick_branch(data.BRANCH_ID);
+                    pick_cust(data.CUST_ID);
+                    $('[name="inv_terms"]').val(data.INV_TERM);
+                    $('[name="inv_info"]').val(data.INV_INFO);
+                    pick_curr(data.CURR_ID);
+                    pick_taxinv(data.INV_ID);
+                    invdet(data.INV_ID);
+                    get_sub();
+                    $('.btnCh').css({'display':'none'});
                     $('#modal_inv_edit').modal('hide');                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
