@@ -137,6 +137,13 @@
 			echo json_encode($data);
 		}
 
+		public function get_appdata()
+		{
+			$get = $this->db->get_where('other_settings',array('os_id'=>'1'));
+			$data = $get->row();
+			echo json_encode($data);
+		}
+
 		public function test()
 		{
 			$tb = 'trx_approvalbill';
@@ -160,7 +167,6 @@
 			$res = $kode . sprintf('%06s',$num);
 			$data['tes'] = $res;
 			echo json_encode($data);
-
 		}
 
 		public function tes()

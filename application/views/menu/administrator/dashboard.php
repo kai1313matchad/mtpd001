@@ -148,7 +148,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <strong>Setting - Rekening Pembelian</strong>
+                                        <strong>Setting - Keterangan Invoice</strong>
                                     </div>
                                     <div class="panel-body">
                                         <form id="form_setting" class="form-horizontal">
@@ -168,7 +168,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="tab-pane fade" id="4"><br>
                         <form class="form-horizontal" id="form_useraccess">
@@ -224,6 +223,7 @@
         {
             checkboxes();
             drop_user();
+            drop_coa();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
             });
@@ -363,6 +363,38 @@
                     }
                     $('#user_list').selectpicker({});
                     $('#user_list').selectpicker('refresh');
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function drop_coa()
+        {
+            $.ajax({
+            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {
+                    $('#os_accdet').empty();
+                    var select = document.getElementById('os_accdet');
+                    var option;
+                    option = document.createElement('option');
+                        option.value = ''
+                        option.text = 'Pilih';
+                        select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["COA_ID"]
+                        option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
+                        select.add(option);
+                    }
+                    $('#os_accdet').selectpicker({
+                        dropupAuto: false
+                    });
+                    $('#os_accdet').selectpicker('refresh');                    
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
