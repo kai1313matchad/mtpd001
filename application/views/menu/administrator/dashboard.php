@@ -123,19 +123,52 @@
                     </div>
                     <div class="tab-pane fade" id="3">
                         <br>
-                        <form id="form_setting" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan Invoice</label>
-                                <div class="col-xs-6">
-                                    <textarea name="stg_infoinvc" class="form-control" rows="2" style="resize:vertical;"></textarea>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Setting - Rekening Pembelian</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id="form_prccoa" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">No Rekening</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control text-center" name="os_accdet" id="os_accdet" data-live-search="true">
+                                                    </select>
+                                                    <input type="hidden" name="os_prccoaid" value="0">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-xs-offset-3 col-xs-6">
-                                    <button type="button" class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Setting - Rekening Pembelian</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id="form_setting" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan Invoice</label>
+                                                <div class="col-xs-6">
+                                                    <textarea name="stg_infoinvc" class="form-control" rows="2" style="resize:vertical;"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-offset-3 col-xs-6">
+                                                    <button type="button" class="btn btn-sm btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        
                     </div>
                     <div class="tab-pane fade" id="4"><br>
                         <form class="form-horizontal" id="form_useraccess">

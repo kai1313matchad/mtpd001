@@ -21,6 +21,7 @@
 			$this->load->model('datatables/search/Dt_srchgdbybrc','s_gdbybrc');
 			$this->load->model('datatables/search/Dt_srchapprbranch','s_apprbranch');
 			$this->load->model('datatables/search/Dt_srchapprbyclient','s_apprbyclient');
+			$this->load->model('datatables/search/Dt_srchapprbyclientbrc','s_apprbyclientbrc');
 			$this->load->model('datatables/search/Dt_srchapprbysts','s_apprbysts');
 			$this->load->model('datatables/search/Dt_srchbappbysts','s_bappbysts');
 			$this->load->model('datatables/search/Dt_srchbapplogbysts','s_bapplogbysts');
@@ -166,6 +167,33 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->s_apprbyclient->count_all(),
 							"recordsFiltered" => $this->s_apprbyclient->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_apprbyclientbrc($id)
+		{
+			$brc = $this->session->userdata('user_branch');
+			$list = $this->s_apprbyclientbrc->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->APPR_BRCNAME;				
+				$row[] = $dat->APPR_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_apprbyclient('."'".$dat->APPR_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_apprbyclientbrc->count_all(),
+							"recordsFiltered" => $this->s_apprbyclientbrc->count_filtered($id,$brc),
 							"data" => $data,
 					);			
 			echo json_encode($output);

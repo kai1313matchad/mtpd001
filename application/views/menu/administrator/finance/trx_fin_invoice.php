@@ -200,7 +200,7 @@
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control curr-num" type="text" name="invdet_sub" readonly>
+                                                    <input class="form-control curr-num chgcount" type="text" name="invdet_sub" >
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     <span class="input-group-addon curr">Rp</span>
-                                                    <input class="form-control curr-num" type="text" name="invdet_brcsub" readonly>
+                                                    <input class="form-control curr-num chgcount" type="text" name="invdet_brcsub" >
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -570,6 +570,7 @@
             $('#det_radio0').prop('checked',true);
             $('[name="inv_typechk"][value="0"]').prop('checked',true);
             check_();
+            inputchg();
             $('select').selectpicker({});
             $('#inv_term').change(function(){
                 termnom($('#inv_term option:selected').val());
@@ -712,7 +713,7 @@
                 "serverSide": true,
                 "order": [],                
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbyclient/')?>"+id,
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_apprbyclientbrc/')?>"+id,
                     "type": "POST",                
                 },                
                 "columnDefs": [
@@ -1411,6 +1412,25 @@
             res2 = curr*nom2;
             $('[name="invdet_sub"]').val(res1);
             $('[name="invdet_brcsub"]').val(res2);
+        }
+        function hitung_()
+        {
+            var nom1 = $('[name="invdet_sub"]').val();
+            dpp1 = nom1/1.1;
+            ppn1 = dpp1*0.1;
+            $('[name="inv_termsub"]').val(dpp1);
+            $('[name="inv_termppn"]').val(ppn1);
+            var nom2 = $('[name="invdet_brcsub"]').val();
+            dpp2 = nom2/1.1;
+            ppn2 = dpp2*0.1;
+            $('[name="inv_termsubbrc"]').val(dpp2);
+            $('[name="inv_termppnbrc"]').val(ppn2);
+        }
+        function inputchg()
+        {
+            $('.chgcount').on('input', function() {
+                hitung_();
+            });
         }
         function get_sub()
         {
