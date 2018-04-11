@@ -144,6 +144,30 @@
 			echo json_encode($data);
 		}
 
+		public function save_prccoa()
+		{
+			$coa = $this->input->post('os_accdet');
+			$get = $this->db->get_where('chart_of_account',array('coa_id'=>$coa));
+			$coaname = $get->row()->COA_ACCNAME;
+			$d_up = array(
+					'prc_coa'=>$coa,
+					'prc_coaname'=>$coaname
+					);
+			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
+		public function save_bankinfo()
+		{
+			$d_up = array(
+					'print_bankinvoice'=>$this->input->post('stg_infoinvc')
+					);
+			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function test()
 		{
 			$tb = 'trx_approvalbill';

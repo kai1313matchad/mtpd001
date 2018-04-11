@@ -917,6 +917,12 @@
 			echo json_encode($output);
 		}
 
+		public function pick_bank($id)
+		{
+			$data = $this->crud->get_by_id('master_bank',array('bank_id' => $id));
+			echo json_encode($data);
+		}
+
 		//Search Master Supplier
 		public function srch_supp()
 		{

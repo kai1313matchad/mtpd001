@@ -133,10 +133,20 @@
                                         <form id="form_prccoa" class="form-horizontal">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3">No Rekening</label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-6">
                                                     <select class="form-control text-center" name="os_accdet" id="os_accdet" data-live-search="true">
                                                     </select>
-                                                    <input type="hidden" name="os_prccoaid" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan</label>
+                                                <div class="col-xs-6">
+                                                    <textarea name="stg_infoprccoa" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-offset-3 col-xs-6">
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="sub_prccoa()">Submit</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -151,16 +161,23 @@
                                         <strong>Setting - Keterangan Invoice</strong>
                                     </div>
                                     <div class="panel-body">
-                                        <form id="form_setting" class="form-horizontal">
+                                        <form id="form_bankinv" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Bank</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_bankinfo" id="os_bankinfo" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan Invoice</label>
                                                 <div class="col-xs-6">
-                                                    <textarea name="stg_infoinvc" class="form-control" rows="2" style="resize:vertical;"></textarea>
+                                                    <textarea name="stg_infoinvc" class="form-control" rows="2" style="resize:vertical;" ></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-xs-offset-3 col-xs-6">
-                                                    <button type="button" class="btn btn-sm btn-primary">Submit</button>
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="sub_bankinfo()">Submit</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -184,7 +201,7 @@
                                 <div class="col-xs-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <strong>Data Transaksi</strong><br>
+                                            <strong>Data Master</strong><br>
                                             <input type="checkbox" name="master_pick" onclick="pickall_master()"> Pilih Semua
                                         </div>
                                         <div class="panel-body" id="mstr">
@@ -221,13 +238,38 @@
     <script>
         $(document).ready(function() 
         {
+            os_data();
             checkboxes();
             drop_user();
             drop_coa();
+            drop_bank();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
             });
+            $('#os_bankinfo').change(function(){
+                if($('#os_bankinfo option:selected').val() != '')
+                {
+                    pick_bank($('#os_bankinfo option:selected').val());
+                }                
+            });
         });
+        function os_data()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/get_appdata')?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
+                    $('[name="stg_infoprccoa"]').val(data.PRC_COANAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Gagal Ambil Data Setting Aplikasi');
+                }
+            });
+        }
         function change_pass()
         {
             var x = check_pass();
@@ -277,6 +319,42 @@
             var c = $('[name="confirm_pass"]').val();
             var s = (n != c)? 1:0;
             return s;
+        }
+        function sub_prccoa()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/save_prccoa/')?>",
+                type: "POST",
+                data: $('#form_prccoa').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert('Data Berhasil Disimpan');
+                    os_data();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');                    
+                }
+            });
+        }
+        function sub_bankinfo()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/save_bankinfo/')?>",
+                type: "POST",
+                data: $('#form_bankinv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert('Data Berhasil Disimpan');
+                    os_data();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');                    
+                }
+            });
         }
         function pickall_master()
         {
@@ -337,7 +415,7 @@
                     {
                         var chkbox = $('<div class="col-xs-4"><input type="checkbox" name="trx[]" class="trx" value="'+data['trx'][i]['MENU_CODE']+'" /> '+data['trx'][i]['MENU_NAME']+'</div>');
                         chkbox.appendTo('#trx');
-                    }          
+                    }
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -372,8 +450,8 @@
         }
         function drop_coa()
         {
-            $.ajax({
-            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
+            $.ajax({            
+            url : "<?php echo site_url('administrator/Master/getcoa')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -398,7 +476,39 @@
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error get data from ajax');
+                    alert('Error get data from ajax drop coa');
+                }
+            });
+        }
+        function drop_bank()
+        {
+            $.ajax({
+            url : "<?php echo site_url('administrator/Master/get_masterbank')?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+                {
+                    $('#os_bankinfo').empty();
+                    var select = document.getElementById('os_bankinfo');
+                    var option;
+                    option = document.createElement('option');
+                        option.value = ''
+                        option.text = 'Pilih';
+                        select.add(option);
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.value = data[i]["BANK_ID"]
+                        option.text = data[i]["BANK_NAME"];
+                        select.add(option);
+                    }
+                    $('#os_bankinfo').selectpicker({
+                        dropupAuto: false
+                    });
+                    $('#os_bankinfo').selectpicker('refresh');                    
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax drop bank');
                 }
             });
         }
@@ -419,6 +529,22 @@
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Pilih Salah Satu User');
+                }
+            });
+        }
+        function pick_bank(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bank/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="stg_infoinvc"]').val(data.BANK_NAME+' '+data.BANK_BRANCH+' A/C '+data.BANK_ACC+' A/N '+data.BANK_ACCNAME);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax pick bank');
                 }
             });
         }
