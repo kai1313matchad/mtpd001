@@ -17,6 +17,11 @@
                             <span class="glyphicon glyphicon-edit"> Edit</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="check_lgtpo()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Lihat</span>
+                        </a>
+                    </div>
                     <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
                         <a href="javascript:void(0)" onclick="open_lgtpo()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
@@ -50,7 +55,7 @@
                                             <a href="javascript:void(0)" id="genbtn" onclick="tambah()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input class="form-control" type="text" name="po_code" value="" readonly>
+                                            <input class="form-control" type="text" name="po_code" value="" >
                                             <input type="hidden" name="po_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
@@ -65,7 +70,7 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input id="po_tgl" type='text' class="form-control text-center" name="po_tgl" value="<?= date('Y-m-d')?>" readonly />
+                                                <input id="po_tgl" type='text' class="form-control text-center" name="po_tgl" value="<?= date('Y-m-d')?>" />
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +172,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-4">
-                                            <a href="javascript:void(0)" onclick="add_barang()" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                                            <a href="javascript:void(0)" onclick="add_barang()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -244,7 +249,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="savepo()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                            <a href="javascript:void(0)" onclick="savepo()" class="btn btn-block btn-primary btn-default btnCh">Simpan</a>
                                         </div>
                                     </div>
                                 </div>
@@ -777,6 +782,34 @@
                 ],
             });
         }
+        function check_lgtpo()
+        {
+            $('#modal_po_edit').modal('show');
+            $('.modal-title').text('Cari PO');            
+            table = $('#dtb_po_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_pobystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
     </script>
     <!-- Pick -->
     <script>
@@ -916,7 +949,7 @@
                     $('[name="po_id"]').val(data.PO_ID);
                     $('[name="po_code"]').val(data.PO_CODE);
                     $('[name="po_so"]').val(data.PO_ORDNUM);
-                    $('[name="po_code"]').val(data.PO_CODE);
+                    $('[name="po_tgl"]').val(data.PO_DATE);
                     pick_apprgb(data.APPR_ID);
                     pick_supp(data.SUPP_ID);
                     barang(data.PO_ID);
@@ -924,6 +957,35 @@
                     $('[name="po_info"]').val(data.PO_INFO);
                     pick_curr(data.CURR_ID);
                     sub_total(data.PO_ID);
+                    $('#modal_po_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_polgtchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_polgtgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="po_id"]').val(data.PO_ID);
+                    $('[name="po_code"]').val(data.PO_CODE);
+                    $('[name="po_so"]').val(data.PO_ORDNUM);
+                    $('[name="po_code"]').val(data.PO_CODE);
+                    $('[name="po_tgl"]').val(data.PO_DATE);
+                    pick_apprgb(data.APPR_ID);
+                    pick_supp(data.SUPP_ID);
+                    barang(data.PO_ID);
+                    $('[name="po_term"]').val(data.PO_TERM);
+                    $('[name="po_info"]').val(data.PO_INFO);
+                    pick_curr(data.CURR_ID);
+                    sub_total(data.PO_ID);
+                    $('.btnCh').css({'display':'none'});
                     $('#modal_po_edit').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

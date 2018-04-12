@@ -446,6 +446,35 @@
 			echo json_encode($output);
 		}
 
+		public function srch_pobystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_pobysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PO_CODE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->PO_DATE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = $dat->SUPP_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_polgtchk('."'".$dat->PO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_pobysts->count_all(),
+							"recordsFiltered" => $this->s_pobysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_polgtgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_po',array('po_id' => $id));

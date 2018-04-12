@@ -1252,6 +1252,7 @@
 	    		'bapp_doc' => $this->input->post('bapp_doc'),
 	    		'bapp_oldtxt' => $this->input->post('bapp_oldtxt'),
 	    		'bapp_newtxt' => $this->input->post('bapp_newtxt'),
+	    		'bapp_type' => $this->input->post('appr_jenis'),
 	    		'bapp_findate' => $this->input->post('bapp_finishdate'),
 	    		'bapp_periodstart' => $this->input->post('bapp_startper'),
 	    		'bapp_periodend' => $this->input->post('bapp_endper'),

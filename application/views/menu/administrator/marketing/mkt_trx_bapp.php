@@ -134,7 +134,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Jenis</label>
                                         <div class="col-sm-8">
-                                            <textarea name="appr_jenis" class="form-control" rows="2" style="resize: vertical;" readonly></textarea>
+                                            <textarea name="appr_jenis" class="form-control" rows="2" style="resize: vertical;" ></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

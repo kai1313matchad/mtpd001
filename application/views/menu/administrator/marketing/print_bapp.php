@@ -291,6 +291,7 @@
                     $('[name="bapp_doc"]').text(doc);
                     $('[name="bapp_oldtxt"]').text(data.BAPP_OLDTXT);
                     $('[name="bapp_newtxt"]').text(data.BAPP_NEWTXT);
+                    $('[name="bapp_bboard"]').text(data.BAPP_TYPE);
                     $('[name="bapp_findate"]').text(data.BAPP_FINDATE);
                     pick_appr(data.APPR_ID);
                     $('#modal_bapp').modal('hide');
@@ -312,8 +313,8 @@
                 success: function(data)
                 {                       
                     pick_cust(data.CUST_ID);
-                    var jenis = data.APPR_INFO + ' ( ' + data.APPR_CONTRACT_START + ' - ' + data.APPR_CONTRACT_END + ' )';
-                    $('[name="bapp_bboard"]').text(jenis);
+                    // var jenis = data.APPR_INFO + ' ( ' + data.APPR_CONTRACT_START + ' - ' + data.APPR_CONTRACT_END + ' )';
+                    // $('[name="bapp_bboard"]').text(jenis);
                     var size = 'Lebar: ' + data.APPR_WIDTH + 'm, Panjang: ' + data.APPR_LENGTH + 'm, Sisi: ' + data.APPR_SIDE + 'mk';
                     $('[name="bapp_size"]').text(size);
                     $('[name="bapp_appr"]').text(data.APPR_CODE);
