@@ -362,6 +362,35 @@
 			echo json_encode($output);
 		}
 
+		public function srch_bappbystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_bappbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BAPP_CODE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->BAPP_DATE;
+				$row[] = $dat->CUST_NAME;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bappchk('."'".$dat->BAPP_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}			
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bappbysts->count_all(),
+							"recordsFiltered" => $this->s_bappbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_bappgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_bapp',array('bapp_id' => $id));

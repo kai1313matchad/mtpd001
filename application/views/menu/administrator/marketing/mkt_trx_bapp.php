@@ -59,7 +59,7 @@
                                             </a>
                                         </div>
 	                                    <div class="col-sm-7">
-                                            <input class="form-control" type="text" name="bapp_code" value="" readonly>
+                                            <input class="form-control" type="text" name="bapp_code" value="" >
 	                                        <input type="hidden" name="bapp_id" value="0">
 	                                        <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                                             <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
@@ -84,7 +84,7 @@
 				                                <span class="input-group-addon">
 				                                    <span class="glyphicon glyphicon-calendar"></span>
 				                                </span>
-				                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_date" value="<?= date('Y-m-d')?>" readonly />
+				                                <input id="tgl" type='text' class="form-control input-group-addon" name="bapp_date" value="<?= date('Y-m-d')?>" />
 				                            </div>
 	                                    </div>
 	                                </div>
@@ -181,7 +181,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="savebapp()" class="btn btn-block btn-primary btn-default">Simpan</a>
+                                            <a href="javascript:void(0)" onclick="savebapp()" class="btn btn-block btn-primary btn-default btnCh">Simpan</a>
                                         </div>
                                     </div>
                             	</div>
@@ -193,7 +193,7 @@
                                 	</div>
                                 	<div class="form-group">
 	                                    <div class="col-sm-2 col-sm-offset-3">
-	                                        <a href="javascript:void(0)" onclick="add_img()" class="btn btn-sm btn-block btn-primary"><span class="glyphicon glyphicon-plus"></span> Upload</a>
+	                                        <a href="javascript:void(0)" onclick="add_img()" class="btn btn-sm btn-block btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Upload</a>
 	                                    </div>
 	                                </div>                                    
                                     <div class="row">
@@ -697,6 +697,34 @@
                 ],
             });
         }
+        function check_bapp()
+        {
+            $('#modal_bapp_edit').modal('show');
+            $('.modal-title').text('Cari BAPP');            
+            table = $('#dtb_bapp_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_bappbystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_brc"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function pick_bappopen(id)
         {
             $.ajax({
@@ -732,6 +760,7 @@
                 {   
                     $('[name="bapp_id"]').val(data.BAPP_ID);
                     $('[name="bapp_code"]').val(data.BAPP_CODE);
+                    $('[name="bapp_date"]').val(data.BAPP_DATE);
                     if (data.APPR_ID != null)
                     {
                         pick_apprgb(data.APPR_ID);
@@ -743,6 +772,39 @@
                     $('[name="bapp_newtxt"]').val(data.BAPP_NEWTXT);
                     $('[name="bapp_finishdate"]').val(data.BAPP_FINDATE);
                     $('[name="bapp_info"]').val(data.BAPP_INFO);
+                    reload();                    
+                    $('#modal_bapp_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bappchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bappgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="bapp_id"]').val(data.BAPP_ID);
+                    $('[name="bapp_code"]').val(data.BAPP_CODE);
+                    $('[name="bapp_date"]').val(data.BAPP_DATE);
+                    if (data.APPR_ID != null)
+                    {
+                        pick_apprgb(data.APPR_ID);
+                    }
+                    $('[name="bapp_startdate"]').val(data.BAPP_DATESTART);
+                    $('[name="bapp_enddate"]').val(data.BAPP_DATEEND);
+                    $('[name="bapp_doc"]').val(data.BAPP_DOC);
+                    $('[name="bapp_oldtxt"]').val(data.BAPP_OLDTXT);
+                    $('[name="bapp_newtxt"]').val(data.BAPP_NEWTXT);
+                    $('[name="bapp_finishdate"]').val(data.BAPP_FINDATE);
+                    $('[name="bapp_info"]').val(data.BAPP_INFO);
+                    reload();
+                    $('.btnCh').css({'display':'none'});
                     $('#modal_bapp_edit').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
