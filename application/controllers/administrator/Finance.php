@@ -3102,13 +3102,14 @@
 	    	//cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('inv_code'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
-		    			'branch_id'=>$this->input->post('inv_branchid'),
+		    			'branch_id'=>$this->input->post('user_branch'),
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('inv_code'),
 						'jou_date'=>$this->input->post('inv_date'),
@@ -3139,7 +3140,7 @@
 				$jouid = $gen['insertId'];
 				$joucode = $gen['jou_code'];
 		    	$jou = array(
-		    			'branch_id'=>$this->input->post('inv_branchid'),
+		    			'branch_id'=>$this->input->post('user_branch'),
 						'user_id'=>$this->input->post('user_id'),
 						'jou_code'=>$joucode,
 						'jou_reff'=>$this->input->post('inv_code'),
