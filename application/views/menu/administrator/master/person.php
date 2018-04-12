@@ -14,7 +14,7 @@
                                     <h4>Data Karyawan</h4>
                                 </a>
                             </li>
-                            <li>
+                            <li <?php echo (($this->session->userdata('user_level') != '1')? 'style="display:none"':''); ?>>
                                 <a href="#2" data-toggle="tab">
                                     <h4>Data User</h4>
                                 </a>

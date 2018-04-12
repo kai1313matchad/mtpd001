@@ -1063,6 +1063,7 @@
                 {
                     $('[name="inv_id"]').val(data.INV_ID);
                     $('[name="inv_code"]').val(data.INV_CODE);
+                    $('[name="inv_date"]').val(data.INV_DATE);
                     $('[name="inv_typechk"][value="'+data.INV_TYPE+'"]').prop('checked',true);
                     pick_invtype(data.INC_ID);
                     pick_branch(data.BRANCH_ID);

@@ -1974,6 +1974,7 @@
 	                $('[name="appr_brcid"]').val(data.APPR_BRANCHID);
 	                $('[name="appr_brc"]').val(data.APPR_BRANCH);
 	                $('[name="appr_po"]').val(data.APPR_PO);
+	                $('[name="tgl"]').val(data.APPR_DATE);
 	                $('[name="tgl_awal"]').val(data.APPR_CONTRACT_START);
 	                $('[name="tgl_akhir"]').val(data.APPR_CONTRACT_END);
 	                $('[name="appr_rec"]').val(data.APPR_RECOV);
