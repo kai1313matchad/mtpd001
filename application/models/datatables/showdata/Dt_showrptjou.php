@@ -21,7 +21,10 @@
 				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
         		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
 			}
-
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
 			$this->db->from($this->table);
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
 			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');

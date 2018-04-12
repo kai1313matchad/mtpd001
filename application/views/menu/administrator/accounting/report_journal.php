@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Accounting - Buku Besar</h1>
+                        <h1 class="page-header">Accounting - Jurnal Umum</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Nomor Rekening</label>
+                            <label class="col-sm-3 control-label">Nomor Akun</label>
                             <div class="col-sm-8">
                                 <select class="form-control text-center" name="rpjou_coaid" id="rpjou_coaid" data-live-search="true">
                                 </select>
@@ -160,7 +160,7 @@
             drop_coa();
         });
 
-        function filter_ledger()
+        function filter_journal()
         {
             $('#dtb_ledger').DataTable().ajax.reload(null,false);
         }
@@ -189,9 +189,10 @@
                     "url": "<?php echo site_url('administrator/Showdata/showrpt_journal')?>",
                     "type": "POST",
                     "data": function(data){
-                        data.coaid = $('[name="ldg_coaid"]').val();
-                        data.date_start = $('[name="ldg_datestart"]').val();
-                        data.date_end = $('[name="ldg_datestart"]').val();
+                        data.coaid = $('[name="rpjou_coaid"]').val();
+                        data.date_start = $('[name="rpjou_datestart"]').val();
+                        data.date_end = $('[name="rpjou_dateend"]').val();
+                        data.branch = $('[name="rpjou_branchid"]').val();
                     },
                 },                
                 "columnDefs": [
@@ -208,7 +209,7 @@
         function drop_coa()
         {
             $.ajax({
-            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
+            url : "<?php echo site_url('administrator/Master/getcoa')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)
