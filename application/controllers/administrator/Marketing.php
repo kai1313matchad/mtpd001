@@ -1244,6 +1244,7 @@
 	    {
 	    	$data = array (
 	    		'appr_id' => $this->input->post('appr_id'),
+	    		'bapp_code' => $this->input->post('bapp_code'),
 	    		'user_id' => $this->input->post('user_id'),
 	    		'bapp_date' => $this->input->post('bapp_date'),
 	    		'bapp_datestart' => $this->input->post('bapp_startdate'),
