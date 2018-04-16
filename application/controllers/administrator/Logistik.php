@@ -1386,11 +1386,12 @@
 
 	    public function ajax_simpanprc()
 		{
-			$data = array(	                
+			$data = array(
 	                'user_id' => $this->input->post('user_id'),
 	                'curr_id' => $this->input->post('curr_id'),
 	                'po_id' => $this->input->post('po_id'),	                
 	                'prc_sts' => '1',
+	                'prc_code' => $this->input->post('prc_code'),
 	                'prc_date' => $this->input->post('prc_tgl'),
 	                'prc_invoice' => $this->input->post('prc_inv'),	                
 	                'prc_info' => $this->input->post('po_info'),
@@ -1402,6 +1403,73 @@
 	            );
 	        $update = $this->crud->update('trx_procurement',$data,array('prc_id' => $this->input->post('prc_id')));
 	        $this->logupd_prclgt_save($this->input->post('prc_id'),$this->input->post('user_name'));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('prc_code'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('prc_code'),
+						'jou_date'=>$this->input->post('prc_tgl'),
+						'jou_info'=>$this->input->post('po_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->PRC_COA;
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$this->input->post('prc_gtotal'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$this->input->post('inv_coasupp'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('prc_gtotal'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('prc_code'),
+						'jou_date'=>$this->input->post('prc_tgl'),
+						'jou_info'=>$this->input->post('po_info'),
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+		    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->PRC_COA;
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$this->input->post('prc_gtotal'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('inv_coasupp'),
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('prc_gtotal'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 
@@ -1730,6 +1798,7 @@
 	                'loc_id' => $loc,
 	                'cust_id' => $cust,
 	                'balg_sts' => '1',
+	                'balg_code' => $this->input->post('bapp_code'),
 	                'balg_date' => $this->input->post('bapp_date'),
 	                'balg_dealer' => $this->input->post('bapp_dealer'),
 	                'balg_size' => $this->input->post('bapp_size'),

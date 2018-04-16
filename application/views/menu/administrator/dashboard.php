@@ -127,14 +127,21 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <strong>Setting - Rekening Pembelian</strong>
+                                        <strong>Setting - Rekening/Akun Transaksi Pembelian</strong>
                                     </div>
                                     <div class="panel-body">
                                         <form id="form_prccoa" class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3">No Rekening</label>
+                                                <label class="control-label col-xs-3">Akun HPP</label>
                                                 <div class="col-sm-6">
-                                                    <select class="form-control text-center" name="os_accdet" id="os_accdet" data-live-search="true">
+                                                    <select class="form-control text-center" name="os_prccoadeb" id="os_prccoadeb" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Hutang</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_prccoacrd" id="os_prccoacrd" data-live-search="true">
                                                     </select>
                                                 </div>
                                             </div>
@@ -241,7 +248,8 @@
             os_data();
             checkboxes();
             drop_user();
-            drop_coa();
+            drop_coa('os_prccoadeb');
+            drop_coa('os_prccoacrd');
             drop_bank();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
@@ -262,7 +270,7 @@
                 success: function(data)
                 {
                     $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
-                    $('[name="stg_infoprccoa"]').val(data.PRC_COANAME);
+                    $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -448,7 +456,7 @@
                 }
             });
         }
-        function drop_coa()
+        function drop_coa(parid)
         {
             $.ajax({            
             url : "<?php echo site_url('administrator/Master/getcoa')?>",
@@ -456,8 +464,8 @@
             dataType: "JSON",
             success: function(data)
                 {
-                    $('#os_accdet').empty();
-                    var select = document.getElementById('os_accdet');
+                    $('#'+parid).empty();
+                    var select = document.getElementById(parid);
                     var option;
                     option = document.createElement('option');
                         option.value = ''
@@ -469,10 +477,10 @@
                         option.text = data[i]["COA_ACC"]+'-'+data[i]["COA_ACCNAME"];
                         select.add(option);
                     }
-                    $('#os_accdet').selectpicker({
+                    $('#'+parid).selectpicker({
                         dropupAuto: false
                     });
-                    $('#os_accdet').selectpicker('refresh');                    
+                    $('#'+parid).selectpicker('refresh');                    
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {

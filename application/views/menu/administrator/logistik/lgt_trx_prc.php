@@ -109,6 +109,7 @@
                                         <div class="col-sm-8">
                                             <input class="form-control" type="text" name="supp_name" readonly>
                                             <input type="hidden" name="supp_id">
+                                            <input type="hidden" name="inv_coasupp">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -808,11 +809,12 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
                     $('[name="supp_id"]').val(data.SUPP_ID);
                     $('[name="supp_name"]').val(data.SUPP_NAME);
                     $('[name="supp_address"]').val(data.SUPP_ADDRESS+', '+data.SUPP_CITY);
                     $('[name="supp_info"]').val(data.SUPP_DUE);
+                    $('[name="inv_coasupp"]').val(data.COA_ID);
                     $('#modal_supp').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -146,12 +146,17 @@
 
 		public function save_prccoa()
 		{
-			$coa = $this->input->post('os_accdet');
-			$get = $this->db->get_where('chart_of_account',array('coa_id'=>$coa));
-			$coaname = $get->row()->COA_ACCNAME;
+			$deb = $this->input->post('os_prccoadeb');
+			$crd = $this->input->post('os_prccoacrd');
+			$getdeb = $this->db->get_where('chart_of_account',array('coa_id'=>$deb));
+			$debname = $getdeb->row()->COA_ACCNAME;
+			$getcrd = $this->db->get_where('chart_of_account',array('coa_id'=>$crd));
+			$crdname = $getcrd->row()->COA_ACCNAME;
 			$d_up = array(
-					'prc_coa'=>$coa,
-					'prc_coaname'=>$coaname
+					'prc_coa'=>$deb,
+					'prc_coaname'=>$debname,
+					'prc_coaag'=>$crd,
+					'prc_coanameag'=>$crdname
 					);
 			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
 			$data['status'] = TRUE;

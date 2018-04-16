@@ -874,7 +874,7 @@
         	echo json_encode($data);
 		}
 		
-		 public function ajax_pick_dept($id)
+		public function ajax_pick_dept($id)
 		{
 			$data = $this->crud->get_by_id('master_dept',array('DEPT_ID' => $id));
         	echo json_encode($data);
@@ -2143,7 +2143,7 @@
 		}
 
         public function ajax_pick_cust($id)
-		{   
+		{
 			if (substr($id,0,4)!='CSTI'){
 			     $data = $this->crud->get_by_id('master_customer',array('CUST_CODE' => $id));
 			}
@@ -2459,7 +2459,7 @@
         	echo json_encode($data);
         }
 
-         public function show_gkdet($id)
+        public function show_gkdet($id)
         {
         	$this->db->from('giroout_det a');
         	$this->db->join('giroout_record b','b.gor_id = a.gor_id');
@@ -2520,7 +2520,7 @@
         	echo json_encode($data);
         }
 
-         public function show_kas()
+        public function show_kas()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
@@ -2559,7 +2559,7 @@
         	echo json_encode($data);
         }
 
-         public function show_fp_nomor()
+        public function show_fp_nomor()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
@@ -2776,7 +2776,7 @@
         	echo json_encode($data);
         }
 
-         public function show_giro_tgl_giro()
+        public function show_giro_tgl_giro()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
@@ -2797,7 +2797,7 @@
         	echo json_encode($data);
         }
 
-         public function show_giro_supp()
+        public function show_giro_supp()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
@@ -2817,7 +2817,7 @@
         	echo json_encode($data);
         }
 
-         public function show_giro_cust()
+        public function show_giro_cust()
         {
         	$tgl1 = $this->input->post('tgl1');
         	$tgl2 = $this->input->post('tgl2');
