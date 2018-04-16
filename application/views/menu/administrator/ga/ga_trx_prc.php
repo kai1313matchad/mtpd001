@@ -43,6 +43,7 @@
                                              <input class="form-control" type="text" name="prc_code" value="" readonly>
                                             <input type="hidden" name="prc_id" value="0">
                                             <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                            <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
                                         </div>
                                     </div>
                                     <div class="form-group">

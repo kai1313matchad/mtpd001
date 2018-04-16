@@ -485,6 +485,7 @@
 	                'curr_id' => $this->input->post('curr_id'),
 	                'poga_id' => $this->input->post('po_id'),	                
 	                'prcga_sts' => '1',
+	                'prcga_code' => $this->input->post('prc_code'),
 	                'prcga_date' => $this->input->post('prc_tgl'),
 	                'prcga_inv' => $this->input->post('prc_inv'),	                
 	                'prcga_info' => $this->input->post('po_info'),
@@ -495,6 +496,74 @@
 	                'prcga_gtotal' => $this->input->post('prc_gtotal')	                
 	            );
 	        $update = $this->crud->update('trx_prc_ga',$data,array('prcga_id' => $this->input->post('prc_id')));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('prc_code'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COA;
+	    	$dbt = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COAAG;
+	    	$infos = 'Jurnal Pembelian dari '.$this->input->post('supp_name');
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('prc_code'),
+						'jou_date'=>$this->input->post('prc_tgl'),
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$this->input->post('prc_gtotal'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$dbt,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('prc_gtotal'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
+	    	else
+	    	{
+	    		//simpan jurnal
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('prc_code'),
+						'jou_date'=>$this->input->post('prc_tgl'),
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$this->input->post('prc_gtotal'),
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$dbt,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$this->input->post('prc_gtotal'),
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 
