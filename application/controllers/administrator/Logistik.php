@@ -1410,6 +1410,9 @@
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
+	    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COA;
+	    	$dbt = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COAAG;
+	    	$infos = 'Jurnal Pembelian dari '.$this->input->post('supp_name');
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
@@ -1417,12 +1420,11 @@
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('prc_code'),
 						'jou_date'=>$this->input->post('prc_tgl'),
-						'jou_info'=>$this->input->post('po_info'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
 		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
-		    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->PRC_COA;
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$hpp,
@@ -1432,7 +1434,7 @@
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				$joudet2 = array(
 						'jou_id'=>$get->JOU_ID,
-						'coa_id'=>$this->input->post('inv_coasupp'),
+						'coa_id'=>$dbt,
 						'joudet_debit'=>0,
 						'joudet_credit'=>$this->input->post('prc_gtotal'),
 						);
@@ -1450,11 +1452,10 @@
 						'jou_code'=>$joucode,
 						'jou_reff'=>$this->input->post('prc_code'),
 						'jou_date'=>$this->input->post('prc_tgl'),
-						'jou_info'=>$this->input->post('po_info'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
-		    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->PRC_COA;
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$hpp,
@@ -1464,7 +1465,7 @@
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				$joudet2 = array(
 						'jou_id'=>$jouid,
-						'coa_id'=>$this->input->post('inv_coasupp'),
+						'coa_id'=>$dbt,
 						'joudet_debit'=>0,
 						'joudet_credit'=>$this->input->post('prc_gtotal'),
 						);
