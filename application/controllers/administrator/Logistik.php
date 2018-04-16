@@ -1261,6 +1261,7 @@
 	                'supp_id' => $this->input->post('supp_id'),
 	                'loc_id' => $this->input->post('loc_id'),
 	                'po_sts' => '1',
+	                'po_code' => $this->input->post('po_code'),
 	                'po_date' => $this->input->post('po_tgl'),
 	                'po_ordnum' => $this->input->post('po_so'),
 	                'po_term' => $this->input->post('po_term'),

@@ -885,7 +885,7 @@
         function drop_coa()
         {
             $.ajax({
-            url : "http://localhost/mtpd/index.php/administrator/Master/getcoa",
+            url : "<?php echo site_url('administrator/Master/getcoa')?>",
             type: "GET",
             dataType: "JSON",
             success: function(data)

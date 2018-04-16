@@ -84,9 +84,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <button type="button" onclick="test()" class="btn btn-primary">Test</button>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                     <div class="tab-pane fade" id="2">
