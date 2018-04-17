@@ -530,6 +530,35 @@
 			echo json_encode($output);
 		}
 
+		public function srch_prcbystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_prcbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRC_CODE;
+				$row[] = $dat->PO_CODE;
+				$row[] = $dat->APPR_CODE;
+				$row[] = $dat->PRC_DATE;
+				$row[] = $dat->LOC_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prclgtchk('."'".$dat->PRC_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_prcbysts->count_all(),
+							"recordsFiltered" => $this->s_prcbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
 		public function pick_prclgtgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_procurement',array('prc_id' => $id));
