@@ -18,5 +18,15 @@
 			$que = $this->db->get('his_inv');
 			return $que->row();
 		}
+
+		//Fungsi ambil nilai jumlah detail kas masuk
+		public function get_sumcashindet($id)
+		{
+			$this->db->select('sum(cshdetin_amount) as amount');
+		    $this->db->from('cashin_det');
+	    	$this->db->where('csh_id',$id);
+	    	$get = $this->db->get()->row();
+	    	return $get->amount;
+		}
 	}
 ?>

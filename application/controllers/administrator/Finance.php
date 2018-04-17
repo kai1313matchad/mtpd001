@@ -1240,50 +1240,45 @@
 
 		public function ajax_simpan_cash_in()
 		{
-			// $appr = null;
-			// if($this->input->post('appr_id') != null)
-			// {
-			// 	$appr = $this->input->post('appr_id');
-			// }
+			$cd = $this->input->post('kas_kode_customer');
+			$cst = (substr($cd,0,4) != 'CST-')?NULL:$this->input->post('kas_customer_id');
+			$csti = (substr($cd,0,4) != 'CSTI')?NULL:$this->input->post('kas_customer_id');
 			$tgl = date('Y-m-d');
 			$data = array(	                
-	                // 'user_id' => $this->input->post('user_id'),
-	                // 'appr_id' => $appr,
-				    'USER_ID' => '1',
-                    'CSH_CODE' => $this->input->post('kas_nomor'),
-                    'CUST_ID' => $this->input->post('kas_customer_id'),
-	                'COA_ID' => $this->input->post('acc_id'),
-	                'CURR_ID' => $this->input->post('curr_id'),
-	                'CSH_STS' => '1',
-	                'CSH_date' => $tgl,
-	                // 'po_ordnum' => $this->input->post('po_so'),
-	                // 'po_term' => $this->input->post('po_term'),
-	                'CSH_INFO' => $this->input->post('kas_info'),
-	                'CSH_ACC' => $this->input->post('kas_acc')
-	                // 'po_sub' => $this->input->post('po_subs'),
-	                // 'po_gtotal' => $this->input->post('po_subs')	                
+				'user_id' => $this->input->post('user_id'),
+				'csh_code' => $this->input->post('kas_nomor'),
+                'cust_id' => $cst,
+                'cstin_id' => $csti,
+	            'coa_id' => $this->input->post('acc_id'),
+				'curr_id' => $this->input->post('curr_id'),
+				'csh_sts' => '1',
+				'csh_date' => $this->input->post('kas_tgl'),
+				'csh_info' => $this->input->post('kas_info'),
+				'csh_acc' => $this->input->post('kas_acc')
 	            );
-	        // $update = $this->crud->save('trx_cash_in',$data);
 	        $update = $this->crud->update('trx_cash_in',$data,array('csh_id'=>$this->input->post('kas_id')));
 	        //cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('kas_nomor'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
+	    	$infos = 'Kas Masuk '.$this->input->post('kas_info');
+	    	$getsum = $this->finance->get_sumcashindet($this->input->post('kas_id'));
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
 		    			'branch_id'=>$this->input->post('user_branch'),
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('kas_nomor'),
-						'jou_date'=>$tgl,
-						'jou_info'=>$this->input->post('kas_info'),
+						'jou_date'=>$this->input->post('kas_tgl'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
 		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
-
+		    	//Input Detail Jurnal Debet
 		    	$this->db->select('sum(cshdetin_amount) as amount');
 		    	$this->db->from('cashin_det');
 	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
@@ -1292,28 +1287,29 @@
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$this->input->post('acc_id'),
-						'joudet_debit'=>$get1->amount,
+						// 'joudet_debit'=>$get1->amount,
+						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0,
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-
-				$this->db->from('cashin_det');
-	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
-	    	    $que2 = $this->db->get();
+				//Input Detail Jurnal Kredit
+				// $this->db->from('cashin_det');
+				//$this->db->where('csh_id',$this->input->post('kas_id'));
+	    	    $que2 = $this->db->get_where('cashin_dett',array('csh_id'=>$this->input->post('kas_id')));
 	    	    $get2 = $que2->result();
-	    	    foreach($get2 as $dat) {
-						$joudet2 = array(
-								'jou_id'=>$get->JOU_ID,
-								'coa_id'=>$dat->COA_ID,
-								'joudet_debit'=>0,
-								'joudet_credit'=>$dat->CSHDETIN_AMOUNT
-								);
-						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	    foreach($get2 as $dat) 
+	    	    {
+					$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$dat->COA_ID,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->CSHDETIN_AMOUNT
+						);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 			    }
 	    	}
 	    	else
 	    	{
-	    		//simpan jurnal
 		    	$gen = $this->gen->gen_numjou();
 				$jouid = $gen['insertId'];
 				$joucode = $gen['jou_code'];
@@ -1322,40 +1318,42 @@
 						'user_id'=>$this->input->post('user_id'),
 						'jou_code'=>$joucode,
 						'jou_reff'=>$this->input->post('kas_nomor'),
-						'jou_date'=>$tgl,
-						'jou_info'=>$this->input->post('kas_info'),
+						'jou_date'=>$this->input->post('kas_tgl'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
-
-		    	$this->db->select('sum(cshdetin_amount) as amount');
-		    	$this->db->from('cashin_det');
-	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
-	    	    $que1 = $this->db->get();
-	    	    $get1 = $que1->row();
+		    	//Input Detail Jurnal Debet
+		    	// $this->db->select('sum(cshdetin_amount) as amount');
+		    	// $this->db->from('cashin_det');
+	    	 //    $this->db->where('csh_id',$this->input->post('kas_id'));
+	    	 //    $que1 = $this->db->get();
+	    	 //    $get1 = $que1->row();
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$this->input->post('acc_id'),
-						'joudet_debit'=>$get1->amount,
+						// 'joudet_debit'=>$get1->amount,
+						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0,
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-
-				$this->db->from('cashin_det');
-	    	    $this->db->where('csh_id',$this->input->post('kas_id'));
-	    	    $que2 = $this->db->get();
+				//Input Detail Jurnal Kredit
+				// $this->db->from('cashin_det');
+				//$this->db->where('csh_id',$this->input->post('kas_id'));
+				$que2 = $this->db->get_where('cashin_dett',array('csh_id'=>$this->input->post('kas_id')));
 	    	    $get2 = $que2->result();
-	    	    foreach($get2 as $dat) {
+	    	    foreach($get2 as $dat) 
+	    	    {
 					$joudet2 = array(
-							'jou_id'=>$jouid,
-							'coa_id'=>$dat->COA_ID,
-							'joudet_debit'=>0,
-							'joudet_credit'=>$dat->CSHDETIN_AMOUNT
-							);
+						'jou_id'=>$jouid,
+						'coa_id'=>$dat->COA_ID,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->CSHDETIN_AMOUNT
+						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 				}
 	    	}
-	        echo json_encode(array("status" => TRUE,"test"=>$get2));
+	        echo json_encode(array("status" => TRUE));
 		}
 
 		public function ajax_simpan_cash_in_detail()
@@ -2144,10 +2142,12 @@
 
         public function ajax_pick_cust($id)
 		{
-			if (substr($id,0,4)!='CSTI'){
+			if (substr($id,0,4)!='CSTI')
+			{
 			     $data = $this->crud->get_by_id('master_customer',array('CUST_CODE' => $id));
 			}
-			if (substr($id,0,4)=='CSTI'){
+			if (substr($id,0,4)=='CSTI')
+			{
 			     $data = $this->crud->get_by_id2('master_cust_intern','master_person',array('master_cust_intern.CSTIN_CODE' => $id),'master_cust_intern.PERSON_ID = master_person.PERSON_ID');
 			}
         	echo json_encode($data);
