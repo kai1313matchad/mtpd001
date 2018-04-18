@@ -59,19 +59,14 @@
 			$gen = $this->gen->gen_numinvo();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['invo_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'INV/1712/000001';
-			// $data['status'] = TRUE;
 			echo json_encode($data);
 		}
 
         public function gen_cashin()
 		{
-			// $data['id'] = '16';
 			$gen = $this->gen->gen_numcashin();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['csh_code'];
-			// $data['kode'] = 'KM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -81,8 +76,6 @@
 			$gen = $this->gen->gen_numcashout();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['csho_code'];
-			// $data['id'] = '8';
-			// $data['kode'] = 'KK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -92,8 +85,6 @@
 			$gen = $this->gen->gen_numbankin();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['bnk_code'];
-			// $data['id'] = '6';
-			// $data['kode'] = 'BM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -103,8 +94,6 @@
 			$gen = $this->gen->gen_numbankout();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['bnko_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'BK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -114,8 +103,6 @@
 			$gen = $this->gen->gen_giroin();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['grin_code'];
-			// $data['id'] = '5';
-			// $data['kode'] = 'GM/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -125,8 +112,6 @@
 			$gen = $this->gen->gen_giroout();
 			$data['id'] = $gen['insertId'];
 			$data['kode'] = $gen['grout_code'];
-			// $data['id'] = '1';
-			// $data['kode'] = 'GK/1712/000001';
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}
@@ -365,7 +350,6 @@
 			$data['title']='Match Terpadu - Dashboard Report';
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
-			// $data['bank'] = $this->crud->get_bank();
 			$data['isi']='menu/administrator/finance/fin_/dash_report';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
@@ -724,8 +708,6 @@
 		public function pageprint_bfaktur($id)
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
-			// $data['datestart'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
-			// $data['dateend'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['id'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -907,13 +889,9 @@
 				$no++;
 				$row = array();
 				$row[] = $no;
-				// $row[] = $dat->a;
-				// $row[] = $dat->b;
-				// $row[] = $dat->c;
 				$row[] = $dat->CUST_CODE;
 				$row[] = $dat->CUST_NAME;
-				$row[] = $dat->CUST_ADDRESS;				
-				// $row[] = $dat->CUST_CITY;				
+				$row[] = $dat->CUST_ADDRESS;
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->CUST_CODE."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -1244,7 +1222,7 @@
 			$cst = (substr($cd,0,4) != 'CST-')?NULL:$this->input->post('kas_customer_id');
 			$csti = (substr($cd,0,4) != 'CSTI')?NULL:$this->input->post('kas_customer_id');
 			$tgl = date('Y-m-d');
-			$data = array(	                
+			$data = array(
 				'user_id' => $this->input->post('user_id'),
 				'csh_code' => $this->input->post('kas_nomor'),
                 'cust_id' => $cst,
@@ -1287,15 +1265,12 @@
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$this->input->post('acc_id'),
-						// 'joudet_debit'=>$get1->amount,
 						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0,
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
-				// $this->db->from('cashin_det');
-				//$this->db->where('csh_id',$this->input->post('kas_id'));
-	    	    $que2 = $this->db->get_where('cashin_dett',array('csh_id'=>$this->input->post('kas_id')));
+	    	    $que2 = $this->db->get_where('cashin_det',array('csh_id'=>$this->input->post('kas_id')));
 	    	    $get2 = $que2->result();
 	    	    foreach($get2 as $dat) 
 	    	    {
@@ -1324,23 +1299,15 @@
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
 		    	//Input Detail Jurnal Debet
-		    	// $this->db->select('sum(cshdetin_amount) as amount');
-		    	// $this->db->from('cashin_det');
-	    	 //    $this->db->where('csh_id',$this->input->post('kas_id'));
-	    	 //    $que1 = $this->db->get();
-	    	 //    $get1 = $que1->row();
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$this->input->post('acc_id'),
-						// 'joudet_debit'=>$get1->amount,
 						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0,
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
-				// $this->db->from('cashin_det');
-				//$this->db->where('csh_id',$this->input->post('kas_id'));
-				$que2 = $this->db->get_where('cashin_dett',array('csh_id'=>$this->input->post('kas_id')));
+				$que2 = $this->db->get_where('cashin_det',array('csh_id'=>$this->input->post('kas_id')));
 	    	    $get2 = $que2->result();
 	    	    foreach($get2 as $dat) 
 	    	    {
@@ -1358,24 +1325,24 @@
 
 		public function ajax_simpan_cash_in_detail()
 		{
-			$tgl = date('Y-m-d');
             $data = array(
-                    'CSH_ID' => $this->input->post('kas_id'),
-                    'COA_ID' => $this->input->post('acc_id_detail'),
-                    'CASHINDET_INVID' => $this->input->post('invoice_id'),
-                    'CSHINDET_REFF' => $this->input->post('no_jual'),
-                    'CSHINDET_INFO' => $this->input->post('ket_detail'),
-                    'CSHDETIN_AMOUNT' => $this->input->post('nominal')
+                    'csh_id' => $this->input->post('kas_id'),
+                    'coa_id' => $this->input->post('acc_id_detail'),
+                    'cashindet_invid' => $this->input->post('invoice_id'),
+                    'cshindet_reff' => $this->input->post('no_jual'),
+                    'cshindet_info' => $this->input->post('ket_detail'),
+                    'cshdetin_amount' => $this->input->post('nominal')
                 );
             $buku = array(
-            	    'USER_ID' => '1',
-            	    'CSH_ID' => $this->input->post('kas_id'),
-            	    'CSH_CODE' => $this->input->post('kas_nomor'),
-            	    'CSH_DATE' => $tgl,
-            	    'COA_ID' => $this->input->post('acc_id_detail'),
-            	    'ACC' => $this->input->post('acc_detail'),
-            	    'CSH_INFO' => $this->input->post('ket_detail'),
-            	    'CSH_AMOUNT' => $this->input->post('nominal')
+            	    'user_id' => $this->input->post('user_id'),
+            	    'branch_id'=>$this->input->post('user_branch'),
+            	    'csh_id' => $this->input->post('kas_id'),
+            	    'csh_code' => $this->input->post('kas_nomor'),
+            	    'csh_date' => $this->input->post('kas_tgl'),
+            	    'coa_id' => $this->input->post('acc_id_detail'),
+            	    'acc' => $this->input->post('acc_detail'),
+            	    'csh_info' => $this->input->post('ket_detail'),
+            	    'csh_amount' => $this->input->post('nominal')
             );
             $update = $this->crud->save('cashin_det',$data);
             $bk = $this->crud->save('buku_kas',$buku);
@@ -1385,6 +1352,8 @@
 		public function ajax_hapus_cash_in_detail($id)
 		{
             $hapus = $this->crud->delete_by_id('cashin_det',array('cshindet_id'=>$id));
+            $idbukukas = $this->finance->get_idbukukas($this->input->post('user_branch'),$this->input->post('kas_nomor'),$this->input->post('acc_id_detail'));
+            $hapusbukukas = $this->crud->delete_by_id('buku_kas',array('cshbook_id'=>$idbukukas));
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -2144,11 +2113,11 @@
 		{
 			if (substr($id,0,4)!='CSTI')
 			{
-			     $data = $this->crud->get_by_id('master_customer',array('CUST_CODE' => $id));
+			    $data = $this->crud->get_by_id('master_customer',array('CUST_CODE' => $id));
 			}
 			if (substr($id,0,4)=='CSTI')
 			{
-			     $data = $this->crud->get_by_id2('master_cust_intern','master_person',array('master_cust_intern.CSTIN_CODE' => $id),'master_cust_intern.PERSON_ID = master_person.PERSON_ID');
+			    $data = $this->crud->get_by_id2('master_cust_intern','master_person',array('master_cust_intern.CSTIN_CODE' => $id),'master_cust_intern.PERSON_ID = master_person.PERSON_ID');
 			}
         	echo json_encode($data);
 		}
@@ -3364,10 +3333,19 @@
 	    public function open_cashin($id)
 		{
 			$user = $this->input->post('user_name');
-			$get = $this->db->get_where('trx_cash_in',array('csh_id'=>$id));
-			$code = $get->row()->CSH_CODE;
 			$dt = array('csh_sts'=>'0');
 			$update = $this->crud->update('trx_cash_in',$dt,array('csh_id' => $id));
+			$his = $this->finance->getlog_cashin($id);
+			$dthis = array(
+					'csh_id' => $id,
+					'hischin_sts' => 'Open by User '.$user,
+					'hischin_old' => $his->HISCHIN_STS,
+					'hischin_new' => 'Open By User '.$user,
+					'hischin_info' => 'Open Record by Kas Masuk form',
+					'hischin_date' => date('Y-m-d'),
+					'hischin_upcount' => $his->HISCHIN_UPCOUNT+1
+				);
+			$this->db->insert('his_cashin',$dthis);
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

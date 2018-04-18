@@ -895,7 +895,6 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			// $brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
 			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_invbysts->get_datatables($id,$brc);
 			$data = array();
@@ -1070,6 +1069,12 @@
 		public function pick_cust($id)
 		{
 			$data = $this->crud->get_by_id('master_customer',array('cust_id' => $id));
+        	echo json_encode($data);
+		}
+
+		public function pick_custint($id)
+		{
+			$data = $this->crud->get_by_id2('master_cust_intern a','master_person b',array('a.cstin_id'=>$id),'a.person_id = b.person_id');
         	echo json_encode($data);
 		}
 
@@ -1507,12 +1512,40 @@
 			echo json_encode($output);
 		}
 
-		//Search Kas Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Invoice
+		// public function srch_invbystschk()
+		// {
+		// 	$id = $this->input->post('sts');
+		// 	$br = $this->input->post('brch');
+		// 	$brc = 'a.branch_id = '.$br;
+		// 	$list = $this->s_invbysts->get_datatables($id,$brc);
+		// 	$data = array();
+		// 	$no = $_POST['start'];
+		// 	foreach ($list as $dat) {
+		// 		$no++;
+		// 		$row = array();
+		// 		$row[] = $no;
+		// 		$row[] = $dat->INV_CODE;
+		// 		$row[] = $dat->INC_CODE.' - '.$dat->INC_NAME;
+		// 		$row[] = $dat->INV_DATE;
+		// 		$row[] = $dat->CUST_NAME;
+		// 		$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_invchk('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+		// 		$data[] = $row;
+		// 	}
+		// 	$output = array(
+		// 					"draw" => $_POST['draw'],
+		// 					"recordsTotal" => $this->s_invbysts->count_all(),
+		// 					"recordsFiltered" => $this->s_invbysts->count_filtered($id,$brc),
+		// 					"data" => $data,
+		// 			);			
+		// 	echo json_encode($output);
+		// }
+
+		//Search Kas Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Kas Masuk
 		public function srch_cash_in_bysts()
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_cashinbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -1543,6 +1576,34 @@
 					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashinedit('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 					$data[] = $row;
 				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashinbysts->count_all(),
+							"recordsFiltered" => $this->s_cashinbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_cash_in_bystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_cashinbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSH_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSH_DATE;				
+				$row[] = $dat->CSH_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashinchk('."'".$dat->CSH_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],

@@ -19,6 +19,15 @@
 			return $que->row();
 		}
 
+		//Fungsi ambil log histori untuk Kas Masuk
+		public function getlog_cashin($id)
+		{
+			$this->db->where('csh_id',$id);
+			$this->db->where('hischin_upcount = (select max(hischin_upcount) from his_cashin where csh_id = '.$id.')');
+			$que = $this->db->get('his_cashin');
+			return $que->row();
+		}
+
 		//Fungsi ambil nilai jumlah detail kas masuk
 		public function get_sumcashindet($id)
 		{
@@ -27,6 +36,16 @@
 	    	$this->db->where('csh_id',$id);
 	    	$get = $this->db->get()->row();
 	    	return $get->amount;
+		}
+
+		//Fungsi ambil id untuk hapus data buku kas
+		public function get_idbukukas($brc,$code,$coa)
+		{
+			$this->db->where('branch_id',$brc);
+			$this->db->where('csh_code',$code);
+			$this->db->where('coa_id',$coa);
+			$get = $this->db->get('buku_kas')->row();
+			return $ret = $get->CSHBOOK_ID;
 		}
 	}
 ?>

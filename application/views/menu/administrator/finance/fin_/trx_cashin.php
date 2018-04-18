@@ -35,6 +35,11 @@
                             <span class="glyphicon glyphicon-edit"> Edit</span>
                         </a>
                     </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" onclick="check_cash_in()" class="btn btn-block btn-primary">
+                            <span class="glyphicon glyphicon-edit"> Lihat</span>
+                        </a>
+                    </div>
                     <div class="col-sm-2" <?php echo (($this->session->userdata('user_level') != '3')?'':'style="display:none"');?>>
                         <a href="javascript:void(0)" onclick="open_cash_in()" class="btn btn-block btn-primary">
                             <span class="glyphicon glyphicon-open"> Open</span>
@@ -1006,6 +1011,34 @@
                 ],
             });
         }
+        function check_cash_in()
+        {
+            $('#modal_cash_in_edit').modal('show');
+            $('.modal-title').text('Cari Kas Masuk');
+            table = $('#dtb_cash_in_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],                
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_in_bystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },                
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function pick_cashinopen(id)
         {
             $.ajax({
@@ -1022,7 +1055,7 @@
                     }
                     else
                     {
-                        alert('Record Invoice masih digunakan di transaksi '+data.string);
+                        alert('Record Kas Masuk masih digunakan di transaksi '+data.string);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -1045,7 +1078,9 @@
                     sts=1;
                     pick_acc(data.COA_ID);
                     $('[name="kas_info"]').val(data.CSH_INFO);
-                    pick_cust(data.CUST_ID);
+                    cust = (data.CUST_ID != null)?data.CUST_ID:data.CSTIN_ID;
+                    md = (data.CUST_ID != null)?'0':'1';
+                    pick_custedit(md,cust);
                     pick_curr(data.CURR_ID)
                     kas_masuk_detail(data.CSH_ID);
                     $('#modal_cash_in_edit').modal('hide');                    
@@ -1055,6 +1090,73 @@
                     alert('Error get data from ajax');
                 }
             });
+        }
+        function pick_cashinchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_cashingb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="kas_id"]').val(data.CSH_ID);
+                    $('[name="kas_nomor"]').val(data.CSH_CODE);
+                    $('[name="kas_tgl"]').val(data.CSH_DATE);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="kas_info"]').val(data.CSH_INFO);
+                    cust = (data.CUST_ID != null)?data.CUST_ID:data.CSTIN_ID;
+                    md = (data.CUST_ID != null)?'0':'1';
+                    pick_custedit(md,cust);
+                    pick_curr(data.CURR_ID)
+                    kas_masuk_detail(data.CSH_ID);
+                    $('.btnCh').css({'display':'none'});
+                    $('#modal_cash_in_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_custedit(md,id)
+        {
+            if(md != '0')
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Searchdata/pick_custint/')?>" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data)
+                    {   
+                        $('[name="kas_kode_customer"]').val(data.CSTIN_CODE);
+                        $('[name="kas_nama_customer"]').val(data.PERSON_NAME);
+                        $('[name="kas_customer_id"]').val(data.CSTIN_ID);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+            }
+            else
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Searchdata/pick_cust/')?>" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data)
+                    {   
+                        $('[name="kas_kode_customer"]').val(data.CUST_CODE);
+                        $('[name="kas_nama_customer"]').val(data.CUST_NAME);
+                        $('[name="kas_customer_id"]').val(data.CUST_ID);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+            }
         }
     </script>
 </body>
