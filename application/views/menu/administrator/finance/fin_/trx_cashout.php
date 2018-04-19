@@ -1327,6 +1327,37 @@
                 }
             });
         }
+        function pick_cashoutedit(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_cashoutgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="kas_id"]').val(data.CSHO_ID);
+                    $('[name="kas_nomor"]').val(data.CSHO_CODE);
+                    $('[name="kas_tgl"]').val(data.CSHO_DATE);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="kas_info"]').val(data.CSHO_INFO);
+                    pick_appr(data.CSHO_APPR);
+                    pick_supp(data.CSHO_SUPP);
+                    $('[name="kas_info"]').val(data.CSHO_INFO);
+                    pick_dept(data.DEPT_ID);
+                    pick_anggaran(data.CSHO_BUDGET);
+                    $('[name="head_taxnumber"]').val(data.CSHO_TAXHEADCODE);
+                    $('[name="taxnumber"]').val(data.CSHO_TAXCODE);
+                    pick_curr(data.CURR_ID);
+                    kas_keluar_detail(data.CSHO_ID);
+                    $('#modal_cash_out_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
     </script>
 </body>
 </html>
