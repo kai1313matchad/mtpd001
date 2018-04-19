@@ -964,7 +964,6 @@
 			echo json_encode($output);
 		}
 
-
 		public function pick_invgb($id)
 		{
 			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
@@ -1512,34 +1511,6 @@
 			echo json_encode($output);
 		}
 
-		// public function srch_invbystschk()
-		// {
-		// 	$id = $this->input->post('sts');
-		// 	$br = $this->input->post('brch');
-		// 	$brc = 'a.branch_id = '.$br;
-		// 	$list = $this->s_invbysts->get_datatables($id,$brc);
-		// 	$data = array();
-		// 	$no = $_POST['start'];
-		// 	foreach ($list as $dat) {
-		// 		$no++;
-		// 		$row = array();
-		// 		$row[] = $no;
-		// 		$row[] = $dat->INV_CODE;
-		// 		$row[] = $dat->INC_CODE.' - '.$dat->INC_NAME;
-		// 		$row[] = $dat->INV_DATE;
-		// 		$row[] = $dat->CUST_NAME;
-		// 		$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_invchk('."'".$dat->INV_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
-		// 		$data[] = $row;
-		// 	}
-		// 	$output = array(
-		// 					"draw" => $_POST['draw'],
-		// 					"recordsTotal" => $this->s_invbysts->count_all(),
-		// 					"recordsFiltered" => $this->s_invbysts->count_filtered($id,$brc),
-		// 					"data" => $data,
-		// 			);			
-		// 	echo json_encode($output);
-		// }
-
 		//Search Kas Masuk Berdasarkan Status Untuk Edit dan Buka Record di halaman Kas Masuk
 		public function srch_cash_in_bysts()
 		{
@@ -1619,7 +1590,7 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_cashoutbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -1650,6 +1621,34 @@
 					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashoutedit('."'".$dat->CSHO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 					$data[] = $row;
 				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_cashoutbysts->count_all(),
+							"recordsFiltered" => $this->s_cashoutbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_cash_out_bystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_cashoutbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->CSHO_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->CSHO_DATE;				
+				$row[] = $dat->CSHO_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cashoutchk('."'".$dat->CSHO_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],

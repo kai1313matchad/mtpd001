@@ -1243,6 +1243,34 @@
                 ],
             });
         }
+        function check_cash_out()
+        {
+            $('#modal_cash_out_edit').modal('show');
+            $('.modal-title').text('Cari Kas Keluar');
+            table = $('#dtb_cash_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_cash_out_bystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function pick_cashoutopen(id)
         {
             $.ajax({

@@ -38,6 +38,16 @@
 	    	return $get->amount;
 		}
 
+		//Fungsi ambil nilai jumlah detail kas keluar
+		public function get_sumcashoutdet($id)
+		{
+			$this->db->select('sum(cshodet_amount) as amount');
+		    $this->db->from('cashout_det');
+	    	$this->db->where('csho_id',$id);
+	    	$get = $this->db->get()->row();
+	    	return $get->amount;
+		}
+
 		//Fungsi ambil id untuk hapus data buku kas
 		public function get_idbukukas($brc,$code,$coa)
 		{
