@@ -28,6 +28,15 @@
 			return $que->row();
 		}
 
+		//Fungsi ambil log histori untuk Kas Masuk
+		public function getlog_cashout($id)
+		{
+			$this->db->where('csho_id',$id);
+			$this->db->where('hiscsho_upcount = (select max(hiscsho_upcount) from his_cashout where csho_id = '.$id.')');
+			$que = $this->db->get('his_cashout');
+			return $que->row();
+		}
+
 		//Fungsi ambil nilai jumlah detail kas masuk
 		public function get_sumcashindet($id)
 		{

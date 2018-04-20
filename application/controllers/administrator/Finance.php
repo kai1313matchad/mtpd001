@@ -1354,19 +1354,23 @@
 		public function ajax_simpan_cash_out()
 		{
 			$dpt = ($this->input->post('dept_id') != '')?$this->input->post('dept_id'):NULL;
+			$supp = ($this->input->post('supp_id') != '')?$this->input->post('supp_id'):NULL;
+			$appr = ($this->input->post('appr_id') != '')?$this->input->post('appr_id'):NULL;
+			$bdg = ($this->input->post('anggaran_id') != '')?$this->input->post('anggaran_id'):NULL;
 			$data = array(
 	                'user_id' => $this->input->post('user_id'),
                     'csho_code' => $this->input->post('kas_nomor'),
                    	'csho_date' => $this->input->post('kas_tgl'),
-                    'csho_appr' => $this->input->post('appr_id'),
-                    'csho_supp' => $this->input->post('supp_id'),
+                    'csho_appr' => $appr,
+                    'csho_supp' => $supp,
                     'dept_id' => $dpt,
 	                'coa_id' => $this->input->post('acc_id'),
 	                'curr_id' => $this->input->post('curr_id'),
 	                'csho_taxheadcode' => $this->input->post('head_taxnumber'),
 	                'csho_taxcode' => $this->input->post('taxnumber'),
 	                'csho_sts' => '1',
-	                'csho_info' => $this->input->post('kas_keterangan')	                
+	                'csho_info' => $this->input->post('kas_keterangan'),
+	                'csho_budget' => $bdg
 	            );
 	        $update = $this->crud->update('trx_cash_out',$data,array('csho_id'=>$this->input->post('kas_id')));
 	        //cek jurnal
@@ -3327,10 +3331,19 @@
 		public function open_cashout($id)
 		{
 			$user = $this->input->post('user_name');
-			$get = $this->db->get_where('trx_cash_out',array('csho_id'=>$id));
-			$code = $get->row()->CSHO_CODE;
 			$dt = array('csho_sts'=>'0');
 			$update = $this->crud->update('trx_cash_out',$dt,array('csho_id' => $id));
+			$his = $this->finance->getlog_cashout($id);
+			$dthis = array(
+					'csho_id' => $id,
+					'hiscsho_sts' => 'Open by User '.$user,
+					'hiscsho_old' => $his->HISCSHO_STS,
+					'hiscsho_new' => 'Open By User '.$user,
+					'hiscsho_info' => 'Open Record by Kas Keluar form',
+					'hiscsho_date' => date('Y-m-d'),
+					'hiscsho_upcount' => $his->HISCSHO_UPCOUNT+1
+				);
+			$this->db->insert('his_cashout',$dthis);
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

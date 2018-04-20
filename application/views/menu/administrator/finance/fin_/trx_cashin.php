@@ -1072,6 +1072,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_kas')[0].reset();
                     $('[name="kas_id"]').val(data.CSH_ID);
                     $('[name="kas_nomor"]').val(data.CSH_CODE);
                     $('[name="kas_tgl"]').val(data.CSH_DATE);
@@ -1099,6 +1100,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_kas')[0].reset();
                     $('[name="kas_id"]').val(data.CSH_ID);
                     $('[name="kas_nomor"]').val(data.CSH_CODE);
                     $('[name="kas_tgl"]').val(data.CSH_DATE);

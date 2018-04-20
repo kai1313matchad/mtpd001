@@ -1304,17 +1304,18 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_kas')[0].reset();
                     $('[name="kas_id"]').val(data.CSHO_ID);
                     $('[name="kas_nomor"]').val(data.CSHO_CODE);
                     $('[name="kas_tgl"]').val(data.CSHO_DATE);
                     sts=1;
                     pick_acc(data.COA_ID);
+                    $('[name="kas_keterangan"]').val(data.CSHO_INFO);
+                    if(data.CSHO_APPR != null){pick_appr(data.CSHO_APPR);}
+                    if(data.CSHO_SUPP != null){pick_supp(data.CSHO_SUPP);}
                     $('[name="kas_info"]').val(data.CSHO_INFO);
-                    pick_appr(data.CSHO_APPR);
-                    pick_supp(data.CSHO_SUPP);
-                    $('[name="kas_info"]').val(data.CSHO_INFO);
-                    pick_dept(data.DEPT_ID);
-                    pick_anggaran(data.CSHO_BUDGET);
+                    if(data.DEPT_ID != null){pick_dept(data.DEPT_ID);}
+                    if(data.CSHO_BUDGET != null){pick_anggaran(data.CSHO_BUDGET);}
                     $('[name="head_taxnumber"]').val(data.CSHO_TAXHEADCODE);
                     $('[name="taxnumber"]').val(data.CSHO_TAXCODE);
                     pick_curr(data.CURR_ID);
@@ -1327,7 +1328,7 @@
                 }
             });
         }
-        function pick_cashoutedit(id)
+        function pick_cashoutchk(id)
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_cashoutgb/')?>" + id,
@@ -1335,12 +1336,13 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_kas')[0].reset();
                     $('[name="kas_id"]').val(data.CSHO_ID);
                     $('[name="kas_nomor"]').val(data.CSHO_CODE);
                     $('[name="kas_tgl"]').val(data.CSHO_DATE);
                     sts=1;
                     pick_acc(data.COA_ID);
-                    $('[name="kas_info"]').val(data.CSHO_INFO);
+                    $('[name="kas_keterangan"]').val(data.CSHO_INFO);
                     pick_appr(data.CSHO_APPR);
                     pick_supp(data.CSHO_SUPP);
                     $('[name="kas_info"]').val(data.CSHO_INFO);
@@ -1350,6 +1352,7 @@
                     $('[name="taxnumber"]').val(data.CSHO_TAXCODE);
                     pick_curr(data.CURR_ID);
                     kas_keluar_detail(data.CSHO_ID);
+                    $('.btnCh').css({'display':'none'});
                     $('#modal_cash_out_edit').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
