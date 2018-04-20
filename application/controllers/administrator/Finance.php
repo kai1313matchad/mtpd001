@@ -1492,32 +1492,18 @@
 
 		public function ajax_simpan_bank_in()
 		{
-			// $appr = null;
-			// if($this->input->post('appr_id') != null)
-			// {
-			// 	$appr = $this->input->post('appr_id');
-			// }
 			$tgl = date('Y-m-d');
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
-	                // 'appr_id' => $appr,
-				    // 'USER_ID' => '1',
-                    'BNK_CODE' => $this->input->post('bank_nomor'),
-                    // 'CSHO_APPR' => $this->input->post('kas_approval'),
-                    'BANK_ID' => $this->input->post('kode_bank'),
-                    'COA_ID' => $this->input->post('acc_id'),
-                    'CUST_ID' => $this->input->post('bank_customer_id'),
-	                
-	                'CURR_ID' => $this->input->post('curr_id'),
-	                'BNK_STS' => '1',
-	                'BNK_DATE' => $tgl,
-	                // 'po_ordnum' => $this->input->post('po_so'),
-	                // 'po_term' => $this->input->post('po_term'),
-	                'BNK_INFO' => $this->input->post('bank_info')
-	                // 'po_sub' => $this->input->post('po_subs'),
-	                // 'po_gtotal' => $this->input->post('po_subs')	                
+                    'bnk_code' => $this->input->post('bank_nomor'),
+                    'bank_id' => $this->input->post('kode_bank'),
+                    'coa_id' => $this->input->post('acc_id'),
+                    'cust_id' => $this->input->post('bank_customer_id'),
+	                'curr_id' => $this->input->post('curr_id'),
+	                'bnk_sts' => '1',
+	                'bnk_date' => $tgl,
+	                'bnk_info' => $this->input->post('bank_info')              
 	            );
-	        // $update = $this->crud->save('trx_bankin',$data);
 	        $update = $this->crud->update('trx_bankin',$data,array('bnk_id'=>$this->input->post('bank_id')));
 	        //cek jurnal
 	    	$this->db->from('account_journal');
