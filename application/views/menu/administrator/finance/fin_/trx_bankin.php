@@ -1,5 +1,5 @@
 <!-- Page Content -->
-        <style>
+        <!-- <style>
               #myDIV1 {
                     width: 100%;
                     padding: 50px 0;
@@ -28,7 +28,7 @@
                     /*background-color: lightblue;*/
                     /*margin-top: 5px;*/
               }
-        </style>
+        </style> -->
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">

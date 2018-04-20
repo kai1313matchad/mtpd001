@@ -422,6 +422,7 @@
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
+                                <tbody id="tb_content"></tbody>
                             </table>
                         </div>
                     </div>
@@ -711,27 +712,66 @@
                 }
             });
         }
+        // function srch_cust()
+        // {
+        //     $('#modal_cust').modal('show');
+        //     $('.modal-title').text('Cari Customer');
+        //     table = $('#dtb_cust').DataTable({
+        //         "info": false,
+        //         "destroy": true,
+        //         "responsive": true,
+        //         "processing": true,
+        //         "serverSide": true,
+        //         "order": [],
+        //         "ajax": {
+        //             // "url": "<?php echo site_url('administrator/Finance/ajax_srch_cust')?>",
+        //             "url": "<?php echo site_url('administrator/Searchdata/srch_custall')?>",
+        //             "type": "POST",
+        //         },
+        //         "columnDefs": [
+        //         { 
+        //             "targets": [ 0 ],
+        //             "orderable": false,
+        //         },
+        //         ],
+        //     });
+        // }
         function srch_cust()
         {
             $('#modal_cust').modal('show');
             $('.modal-title').text('Cari Customer');
-            table = $('#dtb_cust').DataTable({
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/srch_custall')?>",
+                type: "GET",
+                // data: $('#form_inv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td class="text-center">'+(i+1)+'</td>'),
+                            $('<td class="text-center">'+data[i]["code"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["name"]+'</td>'),
+                            $('<td class="text-center">'+data[i]["address"]+'</td>'),
+                            $('<td class="text-center"><a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('+"'"+data[i]["code"]+"'"+')">Pilih</a></td>')
+                        ).appendTo('#tb_content');
+                    }
+                    dt_cust();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function dt_cust()
+        {
+            $('#dtb_cust').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_cust')?>",
-                    "type": "POST",
-                },
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
+
             });
         }
         function pick_cust(id)

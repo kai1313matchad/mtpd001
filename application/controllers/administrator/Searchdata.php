@@ -10,6 +10,7 @@
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
 			$this->load->model('datatables/search/Dt_srchsupp','s_supp');
 			$this->load->model('datatables/search/Dt_srchcust','s_cust');
+			$this->load->model('datatables/search/Dt_srchcustall','s_custall');
 			$this->load->model('datatables/search/Dt_srchgovsts','s_govsts');
 			$this->load->model('datatables/search/Dt_srchpermittype','s_permittype');
 			$this->load->model('datatables/search/Dt_srchbranch','s_branch');
@@ -1075,6 +1076,40 @@
 		{
 			$data = $this->crud->get_by_id2('master_cust_intern a','master_person b',array('a.cstin_id'=>$id),'a.person_id = b.person_id');
         	echo json_encode($data);
+		}
+
+		//Search Master Customer All
+		public function srch_custall1()
+		{
+			$list = $this->s_custall->get_datatables();
+			// $que = $this->db->query("select cust_code as code, cust_name as name, cust_address as address from master_customer where cust_dtsts = '1' union all select a.cstin_code as code, b.person_name as name, b.person_address as address from master_cust_intern a join master_person b on b.person_id = a.person_id;");
+			// $list = $que->result();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->code;
+				$row[] = $dat->name;
+				$row[] = $dat->address;
+				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_cust('."'".$dat->code."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_custall->count_all(),
+							"recordsFiltered" => $this->s_custall->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_custall()
+		{
+			$que = $this->db->query("select cust_code as code, cust_name as name, cust_address as address from master_customer where cust_dtsts = '1' union all select a.cstin_code as code, b.person_name as name, b.person_address as address from master_cust_intern a join master_person b on b.person_id = a.person_id;");
+			$list = $que->result();
+			echo json_encode($list);
 		}
 
 		//Search Master Cabang
