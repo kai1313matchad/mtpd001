@@ -1699,7 +1699,7 @@
 		{
 			$id = $this->input->post('sts');
 			$br = $this->input->post('brch');
-			$brc = ($this->input->post('chk') != '0')? 'd.branch_id = '.$br : 'd.branch_id = '.$br.' OR d.branch_id IS null';
+			$brc = 'a.branch_id = '.$br;
 			$list = $this->s_bankinbysts->get_datatables($id,$brc);
 			$data = array();
 			$no = $_POST['start'];
@@ -1730,6 +1730,34 @@
 					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankinedit('."'".$dat->BNK_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
 					$data[] = $row;
 				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_bankinbysts->count_all(),
+							"recordsFiltered" => $this->s_bankinbysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_bank_in_bystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_bankinbysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->BNK_CODE;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = $dat->BNK_DATE;				
+				$row[] = $dat->BNK_INFO;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bankinchk('."'".$dat->BNK_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],

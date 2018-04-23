@@ -1458,7 +1458,6 @@
 
 		public function ajax_simpan_cash_out_detail()
 		{
-			$tgl = date('Y-m-d');
             $data = array(
                     'csho_id' => $this->input->post('kas_id'),
                     'coa_id' => $this->input->post('acc_id_detail'),
@@ -1469,6 +1468,7 @@
                 );
             $buku = array(
             	    'user_id' => $this->input->post('user_id'),
+            	    'branch_id'=>$this->input->post('user_branch'),
             	    'csh_id' => $this->input->post('kas_id'),
             	    'csh_code' => $this->input->post('kas_nomor'),
             	    'csh_date' => $this->input->post('kas_tgl'),
@@ -1492,68 +1492,67 @@
 
 		public function ajax_simpan_bank_in()
 		{
-			$tgl = date('Y-m-d');
+			$cd = $this->input->post('bank_kode_customer');
+			$cst = (substr($cd,0,4) != 'CST-')?NULL:$this->input->post('bank_customer_id');
+			$csti = (substr($cd,0,4) != 'CSTI')?NULL:$this->input->post('bank_customer_id');
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
                     'bnk_code' => $this->input->post('bank_nomor'),
                     'bank_id' => $this->input->post('kode_bank'),
                     'coa_id' => $this->input->post('acc_id'),
-                    'cust_id' => $this->input->post('bank_customer_id'),
+                    'cust_id' => $cst,
+                    'cstin_id' => $csti,
 	                'curr_id' => $this->input->post('curr_id'),
 	                'bnk_sts' => '1',
-	                'bnk_date' => $tgl,
+	                'bnk_date' => $this->input->post('bank_tgl'),
 	                'bnk_info' => $this->input->post('bank_info')              
 	            );
 	        $update = $this->crud->update('trx_bankin',$data,array('bnk_id'=>$this->input->post('bank_id')));
 	        //cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('bank_nomor'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
+	    	$infos = 'Bank Masuk '.$this->input->post('bank_info');
+	    	$getsum = $this->finance->get_sumbankindet($this->input->post('bank_id'));
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
 		    			'branch_id'=>$this->input->post('user_branch'),
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('bank_nomor'),
-						'jou_date'=>$tgl,
-						'jou_info'=>$this->input->post('bank_info'),
+						'jou_date'=>$this->input->post('bank_tgl'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
 		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
-
-		    	$this->db->select('sum(bnkdet_amount) as amount');
-		    	$this->db->from('bankin_det');
-	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
-	    	    $que1 = $this->db->get();
-	    	    $get1 = $que1->row();
+		    	//Input Detail Jurnal Debet
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$this->input->post('acc_id'),
-						'joudet_debit'=>$get1->amount,
+						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-
-				$this->db->from('bankin_det');
-	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
-	    	    $que2 = $this->db->get();
+				//Input Detail Jurnal Kredit
+	    	    $que2 = $this->db->get_where('bankin_det',array('bnk_id'=>$this->input->post('bank_id')));
 	    	    $get2 = $que2->result();
-	    	    foreach($get2 as $dat) {
-						$joudet2 = array(
-								'jou_id'=>$get->JOU_ID,
-								'coa_id'=>$dat->COA_ID,
-								'joudet_debit'=>0,
-								'joudet_credit'=>$dat->BNKDET_AMOUNT
-								);
-						$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	    foreach($get2 as $dat)
+	    	    {
+					$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$dat->COA_ID,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->BNKDET_AMOUNT
+						);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 			    }
 	    	}
 	    	else
 	    	{
-	    		//simpan jurnal
 		    	$gen = $this->gen->gen_numjou();
 				$jouid = $gen['insertId'];
 				$joucode = $gen['jou_code'];
@@ -1562,36 +1561,30 @@
 						'user_id'=>$this->input->post('user_id'),
 						'jou_code'=>$joucode,
 						'jou_reff'=>$this->input->post('bank_nomor'),
-						'jou_date'=>$tgl,
-						'jou_info'=>$this->input->post('bank_info'),
+						'jou_date'=>$this->input->post('bank_tgl'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
-
-		    	$this->db->select('sum(bnkdet_amount) as amount');
-		    	$this->db->from('bankin_det');
-	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
-	    	    $que1 = $this->db->get();
-	    	    $get1 = $que1->row();
+		    	//Input Detail Jurnal Debet
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$this->input->post('acc_id'),
-						'joudet_debit'=>$get1->amount,
+						'joudet_debit'=>$getsum,
 						'joudet_credit'=>0
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-
-				$this->db->from('bankin_det');
-	    	    $this->db->where('bnk_id',$this->input->post('bank_id'));
-	    	    $que2 = $this->db->get();
+				//Input Detail Jurnal Kredit
+				$que2 = $this->db->get_where('bankin_det',array('bnk_id'=>$this->input->post('bank_id')));
 	    	    $get2 = $que2->result();
-	    	    foreach($get2 as $dat) {
+	    	    foreach($get2 as $dat)
+	    	    {
 					$joudet2 = array(
-							'jou_id'=>$jouid,
-							'coa_id'=>$dat->COA_ID,
-							'joudet_debit'=>0,
-							'joudet_credit'=>$dat->BNKDET_AMOUNT
-							);
+						'jou_id'=>$jouid,
+						'coa_id'=>$dat->COA_ID,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->BNKDET_AMOUNT
+						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
 				}
 	    	}
@@ -1600,33 +1593,33 @@
 
 		public function ajax_simpan_bank_in_detail1()
 		{
-			$tgl = date('Y-m-d');
             $data = array(
-                    'BNK_ID' => $this->input->post('bank_id'),
-                    'BNKTRX_TYPE' => $this->input->post('bank_type1'),
-                    'BNKTRX_NUM' => $this->input->post('bank_no_giro1'),
-                    'BNKTRX_DATE' => $this->input->post('bank_giro_tgl'),
-                    'BNKTRX_AMOUNT' => $this->input->post('nominal1')
+                'bnk_id' => $this->input->post('bank_id'),
+                'bnktrx_type' => $this->input->post('bank_type1'),
+                'bnktrx_num' => $this->input->post('bank_no_giro1'),
+                'bnktrx_date' => $this->input->post('bank_giro_tgl'),
+                'bnktrx_amount' => $this->input->post('nominal1')
                 );
             $buku = array(
-             	    'USER_ID' => '1',
-             	    'BANK_ID' => $this->input->post('kode_bank'),
-            	    'BNK_CODE' => $this->input->post('bank_nomor'),
-            	    'GR_NUMBER' => $this->input->post('bank_no_giro1'),
-                    'CUST_SUPP_ID' => $this->input->post('bank_customer_id'),
-                    'RECEIVE_DATE' => $tgl,
-                    'GR_DATE' => $this->input->post('bank_giro_tgl'),
-            	    'GR_AMOUNT' => $this->input->post('nominal1'),
-            	    'CAIR_STS' => 0
+             	'user_id' => $this->input->post('user_id'),
+             	'branch_id'=>$this->input->post('user_branch'),
+             	'bank_id' => $this->input->post('kode_bank'),
+            	'bnk_code' => $this->input->post('bank_nomor'),
+            	'gr_number' => $this->input->post('bank_no_giro1'),
+                'cust_supp_id' => $this->input->post('bank_customer_id'),
+                'receive_date' => date('Y-m-d'),
+                'gr_date' => $this->input->post('bank_giro_tgl'),
+            	'gr_amount' => $this->input->post('nominal1'),
+            	'cair_sts' => 0
             );
             $update = $this->crud->save('bankin_trxdet',$data);
-            // $id = $this->input->post('bank_id');
-            // $dt = $this->crud->get_by_id('bankin_trxdet',array('BNK_ID' => $id));
             $bnktrx= $this->db->insert_id();
             $type = $this->input->post('bank_type1');
-            if ($type=='G'){
+            if ($type=='G')
+            {
                 $giro = array( 
-            	    'BNKTRX_ID' => $bnktrx
+            	    'bnktrx_id' => $bnktrx,
+            	    'gir_reffcode' => $this->input->post('bank_no_giro1')
                     );
             }
             $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
@@ -1636,28 +1629,27 @@
 
 		public function ajax_simpan_bank_in_detail2()
 		{
-			$tgl = date('Y-m-d');
             $data = array(
-                    'BNK_ID' => $this->input->post('bank_id'),
-                    'COA_ID' => $this->input->post('acc_id_detail'),
-                    'BNKDET_INVID' => $this->input->post('invoice_id'),
-                    'BNKDET_NUM' => $this->input->post('bank_no_giro2'),
-                    'BNKDET_TYPE' => $this->input->post('bank_type2'),
-                    'BNKDET_REFF' => $this->input->post('no_jual'),
-                    'BNKDET_INFO' => $this->input->post('ket_detail'),
-                    'BNKDET_AMOUNT' => $this->input->post('nominal2')
+                'bnk_id' => $this->input->post('bank_id'),
+                'coa_id' => $this->input->post('acc_id_detail'),
+                'bnkdet_invid' => $this->input->post('invoice_id'),
+                'bnkdet_num' => $this->input->post('bank_no_giro2'),
+                'bnkdet_type' => $this->input->post('bank_type2'),
+                'bnkdet_reff' => $this->input->post('no_jual'),
+                'bnkdet_info' => $this->input->post('ket_detail'),
+                'bnkdet_amount' => $this->input->post('nominal2')
                 );
             $buku = array(
-             	    'USER_ID' => '1',
-             	    'BNK_ID' => $this->input->post('bank_id'),
-            	    'BNK_CODE' => $this->input->post('bank_nomor'),
-            	    'BNK_DATE' => $tgl,
-            	    'COA_ID' => $this->input->post('acc_id_detail'),
-            	    'ACC' => $this->input->post('acc_detail'),
-            	    'BNK_INFO' => $this->input->post('ket_detail'),
-            	    'BNK_AMOUNT' => $this->input->post('nominal2')
+             	'user_id' => $this->input->post('user_id'),
+             	'branch_id'=>$this->input->post('user_branch'),
+             	'bnk_id' => $this->input->post('bank_id'),
+            	'bnk_code' => $this->input->post('bank_nomor'),
+            	'bnk_date' => $this->input->post('bank_tgl'),
+            	'coa_id' => $this->input->post('acc_id_detail'),
+            	'acc' => $this->input->post('acc_detail'),
+            	'bnk_info' => $this->input->post('ket_detail'),
+            	'bnk_amount' => $this->input->post('nominal2')
             );
-
             $update = $this->crud->save('bankin_det',$data);
             $bk = $this->crud->save('buku_bank',$buku);
 	        echo json_encode(array("status" => TRUE)); 
@@ -1665,12 +1657,20 @@
 
 		public function ajax_hapus_bank_in_detail1($id)
 		{
+			$get = $this->db->get_where('bankin_trxdet',array('bnktrx_id'=>$id))->row();
+			$idbukugiro = $this->finance->get_idbukugiro($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->BNKTRX_NUM);
+			$hapusbukugiro = $this->crud->delete_by_id('buku_giro',array('grbook_id'=>$idbukugiro));
+			$idgirorc = $this->finance->get_idgiroinrc($id,$get->BNKTRX_NUM);
+			$hapusgiroinrc = $this->crud->delete_by_id('giroin_record',array('gir_id'=>$idgirorc));
             $hapus = $this->crud->delete_by_id('bankin_trxdet',array('bnktrx_id'=>$id));
-	        echo json_encode(array("status" => TRUE)); 
+	        echo json_encode(array("status" => TRUE, "get" => $get)); 
 		}
 
 		public function ajax_hapus_bank_in_detail2($id)
 		{
+			$get = $this->db->get_where('bankin_det',array('bnkdet_id'=>$id))->row();
+			$idbukubank = $this->finance->get_idbukubank($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->COA_ID);
+            $hapusbukubank = $this->crud->delete_by_id('buku_bank',array('bnkbook_id'=>$idbukubank));
             $hapus = $this->crud->delete_by_id('bankin_det',array('bnkdet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
@@ -3337,10 +3337,19 @@
 		public function open_bankin($id)
 		{
 			$user = $this->input->post('user_name');
-			$get = $this->db->get_where('trx_bankin',array('bnk_id'=>$id));
-			$code = $get->row()->BNK_CODE;
 			$dt = array('bnk_sts'=>'0');
 			$update = $this->crud->update('trx_bankin',$dt,array('bnk_id' => $id));
+			$his = $this->finance->getlog_bankin($id);
+			$dthis = array(
+					'bnk_id' => $id,
+					'hisbnk_sts' => 'Open by User '.$user,
+					'hisbnk_old' => $his->HISBNK_STS,
+					'hisbnk_new' => 'Open By User '.$user,
+					'hisbnk_info' => 'Open Record by Bank Masuk form',
+					'hisbnk_date' => date('Y-m-d'),
+					'hisbnk_upcount' => $his->HISBNK_UPCOUNT+1
+				);
+			$this->db->insert('his_bankin',$dthis);
 			$data['status'] = TRUE;
 			echo json_encode($data);
 		}

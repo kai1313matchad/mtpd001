@@ -37,6 +37,15 @@
 			return $que->row();
 		}
 
+		//Fungsi ambil log histori untuk Bank Masuk
+		public function getlog_bankin($id)
+		{
+			$this->db->where('bnk_id',$id);
+			$this->db->where('hisbnk_upcount = (select max(hisbnk_upcount) from his_bankin where bnk_id = '.$id.')');
+			$que = $this->db->get('his_bankin');
+			return $que->row();
+		}
+
 		//Fungsi ambil nilai jumlah detail kas masuk
 		public function get_sumcashindet($id)
 		{
@@ -57,6 +66,16 @@
 	    	return $get->amount;
 		}
 
+		//Fungsi ambil nilai jumlah detail bank masuk
+		public function get_sumbankindet($id)
+		{
+			$this->db->select('sum(bnkdet_amount) as amount');
+		    $this->db->from('bankin_det');
+	    	$this->db->where('bnk_id',$id);
+	    	$get = $this->db->get()->row();
+	    	return $get->amount;
+		}
+
 		//Fungsi ambil id untuk hapus data buku kas
 		public function get_idbukukas($brc,$code,$coa)
 		{
@@ -65,6 +84,35 @@
 			$this->db->where('coa_id',$coa);
 			$get = $this->db->get('buku_kas')->row();
 			return $ret = $get->CSHBOOK_ID;
+		}
+
+		//Fungsi ambil id untuk hapus data buku bank
+		public function get_idbukubank($brc,$code,$coa)
+		{
+			$this->db->where('branch_id',$brc);
+			$this->db->where('bnk_code',$code);
+			$this->db->where('coa_id',$coa);
+			$get = $this->db->get('buku_bank')->row();
+			return $ret = $get->BNKBOOK_ID;
+		}
+
+		//Fungsi ambil id untuk hapus data buku giro
+		public function get_idbukugiro($brc,$code,$gr)
+		{
+			$this->db->where('branch_id',$brc);
+			$this->db->where('bnk_code',$code);
+			$this->db->where('gr_number',$gr);
+			$get = $this->db->get('buku_giro')->row();
+			return $ret = $get->GRBOOK_ID;
+		}
+
+		//Fungsi ambil id untuk hapus data record giro masuk
+		public function get_idgiroinrc($code,$gr)
+		{
+			$this->db->where('bnktrx_id',$code);
+			$this->db->where('gir_reffcode',$gr);
+			$get = $this->db->get('giroin_record')->row();
+			return $ret = $get->GIR_ID;
 		}
 	}
 ?>

@@ -286,6 +286,7 @@
                                                             <th class="text-center">Akun</th>
                                                             <th class="text-center">Tipe</th>
                                                             <th class="text-center">No Giro/Transfer</th>
+                                                            <th class="text-center">Reff</th>
                                                             <th class="text-center">Keterangan</th>
                                                             <th class="text-center">Nominal</th>
                                                             <th class="text-center">Actions</th>
@@ -297,7 +298,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-2 text-center">
-                                            <a href="javascript:void(0)" onclick="save_cash_in()" class="btn btn-block btn-primary btn-default btnCh">
+                                            <a href="javascript:void(0)" onclick="save_bank_in()" class="btn btn-block btn-primary btn-default btnCh">
                                                 <span class="glyphicon glyphicon-floppy-disk"></span>
                                                 Simpan
                                             </a>
@@ -510,7 +511,7 @@
                                         <th>Kode Bank Masuk</th>
                                         <th>Nama Account</th>
                                         <th>Tanggal</th>  
-                                        <th>Keterangan</th>                                      
+                                        <th>Keterangan</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead>
@@ -1443,6 +1444,34 @@
                 ],
             });
         }
+        function check_bank_in()
+        {
+            $('#modal_bank_in_edit').modal('show');
+            $('.modal-title').text('Cari Bank Masuk');
+            table = $('#dtb_bank_in_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_bank_in_bystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function pick_bankinopen(id)
         {
             $.ajax({
@@ -1476,6 +1505,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_bank')[0].reset();
                     $('[name="bank_id"]').val(data.BNK_ID);
                     $('[name="bank_nomor"]').val(data.BNK_CODE);
                     $('[name="bank_tgl"]').val(data.BNK_DATE);
@@ -1483,7 +1513,9 @@
                     sts=1;
                     pick_acc(data.COA_ID);
                     $('[name="bank_info"]').val(data.BNK_INFO);
-                    pick_cust(data.CUST_ID);
+                    cust = (data.CUST_ID != null)?data.CUST_ID:data.CSTIN_ID;
+                    md = (data.CUST_ID != null)?'0':'1';
+                    pick_custedit(md,cust);
                     pick_curr(data.CURR_ID)
                     bank_masuk_detail1(data.BNK_ID);
                     bank_masuk_detail2(data.BNK_ID);
@@ -1494,6 +1526,76 @@
                     alert('Error get data from ajax');
                 }
             });
+        }
+        function pick_bankinchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bankingb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('#form_bank')[0].reset();
+                    $('[name="bank_id"]').val(data.BNK_ID);
+                    $('[name="bank_nomor"]').val(data.BNK_CODE);
+                    $('[name="bank_tgl"]').val(data.BNK_DATE);
+                    pick_bank(data.BANK_ID);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    $('[name="bank_info"]').val(data.BNK_INFO);
+                    cust = (data.CUST_ID != null)?data.CUST_ID:data.CSTIN_ID;
+                    md = (data.CUST_ID != null)?'0':'1';
+                    pick_custedit(md,cust);
+                    pick_curr(data.CURR_ID)
+                    bank_masuk_detail1(data.BNK_ID);
+                    bank_masuk_detail2(data.BNK_ID);
+                    $('.btnCh').css({'display':'none'});
+                    $('#modal_bank_in_edit').modal('hide');                    
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_custedit(md,id)
+        {
+            if(md != '0')
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Searchdata/pick_custint/')?>" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data)
+                    {   
+                        $('[name="bank_kode_customer"]').val(data.CSTIN_CODE);
+                        $('[name="bank_nama_customer"]').val(data.PERSON_NAME);
+                        $('[name="bank_customer_id"]').val(data.CSTIN_ID);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+            }
+            else
+            {
+                $.ajax({
+                    url : "<?php echo site_url('administrator/Searchdata/pick_cust/')?>" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data)
+                    {   
+                        $('[name="bank_kode_customer"]').val(data.CUST_CODE);
+                        $('[name="bank_nama_customer"]').val(data.CUST_NAME);
+                        $('[name="bank_customer_id"]').val(data.CUST_ID);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+            }
         }
     </script>
 </body>
