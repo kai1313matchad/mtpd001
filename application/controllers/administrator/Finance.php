@@ -1677,59 +1677,55 @@
 
 		public function ajax_simpan_bank_out()
 		{
-			// $appr = null;
-			// if($this->input->post('appr_id') != null)
-			// {
-			// 	$appr = $this->input->post('appr_id');
-			// }
-			$tgl = date('Y-m-d');
+			$appr = ($this->input->post('appr_id') != '')?$this->input->post('appr_id'):NULL;
+			$supp = ($this->input->post('supp_id') != '')?$this->input->post('supp_id'):NULL;
+			$loc = ($this->input->post('loc_id') != '')?$this->input->post('loc_id'):NULL;
+			$dept = ($this->input->post('dept_id') != '')?$this->input->post('dept_id'):NULL;
+			$bdg = ($this->input->post('anggaran_id') != '')?$this->input->post('anggaran_id'):NULL;
 			$data = array(	                
 	                'user_id' => $this->input->post('user_id'),
-				    // 'USER_ID' => '1',
-                    'BNKO_CODE' => $this->input->post('bank_nomor'),
-                    'BANK_ID' => $this->input->post('kode_bank'),
-                    'COA_ID' => $this->input->post('acc_id'),
-                    'BNKO_SUPP' => $this->input->post('supp_id'),
-                    'BNKO_APPR' => $this->input->post('bank_nomor_approval'),
-                    'BNKO_BUDGET' => $this->input->post('bank_anggaran'),
-	                'CURR_ID' => $this->input->post('curr_id'),
-	                'BNKO_TAXHEADCODE' => $this->input->post('head_taxnumber'),
-	                'BNKO_TAXCODE' => $this->input->post('taxnumber'),
-	                'BNKO_STS' => '1',
-	                'BNKO_DATE' => $tgl,
-	                'BNKO_INFO' => $this->input->post('bank_info')               
+                    'bnko_code' => $this->input->post('bank_nomor'),
+                    'bank_id' => $this->input->post('kode_bank'),
+                    'coa_id' => $this->input->post('acc_id'),
+                    'curr_id' => $this->input->post('curr_id'),
+                    'dept_id' => $dept,
+                    'bnko_supp' => $supp,
+                    'bnko_loc' => $loc,
+                    'bnko_appr' => $appr,
+                    'bnko_budget' => $bdg,
+	                'bnko_taxheadcode' => $this->input->post('head_taxnumber'),
+	                'bnko_taxcode' => $this->input->post('taxnumber'),
+	                'bnko_sts' => '1',
+	                'bnko_date' => $this->input->post('bank_tgl'),
+	                'bnko_info' => $this->input->post('bank_info')               
 	            );
-	        // $update = $this->crud->save('trx_bankout',$data);
 	        $update = $this->crud->update('trx_bankout',$data,array('bnko_id'=>$this->input->post('bank_id')));
-	         //cek jurnal
+	        //cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('bank_nomor'));
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
+	    	$infos = 'Bank Keluar '.$this->input->post('bank_info');
+	    	$getsum = $this->finance->get_sumbankoutdet($this->input->post('kas_id'));
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
 		    			'branch_id'=>$this->input->post('user_branch'),
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('bank_nomor'),
-						'jou_date'=>$tgl,
-						'jou_info'=>$this->input->post('bank_info'),
+						'jou_date'=>$this->input->post('bank_tgl'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
 		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
-
-		    	$this->db->select('sum(bnkodet_amount) as amount');
-		    	$this->db->from('bankout_det');
-	    	    $this->db->where('bnko_id',$this->input->post('bank_id'));
-	    	    $que1 = $this->db->get();
-	    	    $get1 = $que1->row();
+		    	//Input Detail Jurnal Debet
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$this->input->post('acc_id'),
 						'joudet_debit'=>0,
-						'joudet_credit'=>$get1->amount
+						'joudet_credit'=>$getsum
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 
@@ -1806,6 +1802,7 @@
                 );
             $buku = array(
              	    'USER_ID' => '1',
+             	    'branch_id'=>$this->input->post('user_branch'),
              	    'BNK_ID' => $this->input->post('bank_id'),
              	    'BANK_ID' => $this->input->post('kode_bank'),
             	    'BNK_CODE' => $this->input->post('bank_nomor'),

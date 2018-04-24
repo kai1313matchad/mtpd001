@@ -118,7 +118,7 @@
                                             <button type="button" class="btn btn-info btn-block" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span></button>
                                             <input class="form-control" type="hidden" name="acc_id">
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="bank_acc" readonly>
                                         </div>
                                         <div class="col-sm-4">

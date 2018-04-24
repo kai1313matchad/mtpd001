@@ -76,6 +76,16 @@
 	    	return $get->amount;
 		}
 
+		//Fungsi ambil nilai jumlah detail bank keluar
+		public function get_sumbankoutdet($id)
+		{
+			$this->db->select('sum(bnkodet_amount) as amount');
+		    $this->db->from('bankout_det');
+	    	$this->db->where('bnko_id',$id);
+	    	$get = $this->db->get()->row();
+	    	return $get->amount;
+		}
+
 		//Fungsi ambil id untuk hapus data buku kas
 		public function get_idbukukas($brc,$code,$coa)
 		{
