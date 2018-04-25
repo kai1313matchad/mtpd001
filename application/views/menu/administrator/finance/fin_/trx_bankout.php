@@ -59,9 +59,9 @@
                             <li class="active">
                                 <a href="#myKas" data-toggle="tab">Bank Keluar</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#2" data-toggle="tab">Detail Bank Keluar</a>
-                            </li>
+                            </li> -->
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_bank">
                             <div class="tab-content">
@@ -360,7 +360,7 @@
                                         </div>
                                     </div>
                                 </div>      
-                                <div class="tab-pane fade" id="2">
+                                <!-- <div class="tab-pane fade" id="2">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
                                             <h2>Data Bank Keluar</h2>
@@ -546,7 +546,7 @@
                                         </button>
                                     </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -1708,6 +1708,34 @@
                 ],
             });
         }
+        function check_bank_out()
+        {
+            $('#modal_bank_out_edit').modal('show');
+            $('.modal-title').text('Cari Bank Keluar');
+            table = $('#dtb_bank_out_edit').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_bank_out_bystschk')?>",
+                    "type": "POST",
+                    "data": function(data){
+                        data.sts = '1';
+                        data.brch = $('[name="user_branch"]').val();
+                        data.chk = '1';
+                    },
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
         function pick_bankoutopen(id)
         {
             $.ajax({
@@ -1719,7 +1747,7 @@
                 {
                     if(data.status)
                     {
-                        alert('Record Bank Masuk Sukses Dibuka');
+                        alert('Record Bank Keluar Sukses Dibuka');
                         $('#modal_bank_out_edit').modal('hide');
                     }
                     else
@@ -1741,14 +1769,16 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    $('#form_bank')[0].reset();
                     $('[name="bank_id"]').val(data.BNKO_ID);
                     $('[name="bank_nomor"]').val(data.BNKO_CODE);
                     $('[name="bank_tgl"]').val(data.BNKO_DATE);
                     pick_bank(data.BANK_ID);
                     sts=1;
                     pick_acc(data.COA_ID);
-                    $('[name="bank_nomor_approval"]').val(data.BNKO_APPR);
-                    pick_supp(data.SUPP_ID);
+                    pick_appr(data.BNKO_APPR);
+                    pick_supp(data.BNKO_SUPP);
+                    pick_loc(data.BNKO_LOC);
                     $('[name="bank_info"]').val(data.BNKO_INFO);
                     pick_dept(data.DEPT_ID);
                     $('[name="bank_anggaran"]').val(data.BNKO_BUDGET);
@@ -1757,6 +1787,41 @@
                     pick_curr(data.CURR_ID)
                     bank_keluar_detail1(data.BNKO_ID);
                     bank_keluar_detail2(data.BNKO_ID);
+                    $('#modal_bank_out_edit').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_bankoutchk(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_bankoutgb/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('#form_bank')[0].reset();
+                    $('[name="bank_id"]').val(data.BNKO_ID);
+                    $('[name="bank_nomor"]').val(data.BNKO_CODE);
+                    $('[name="bank_tgl"]').val(data.BNKO_DATE);
+                    pick_bank(data.BANK_ID);
+                    sts=1;
+                    pick_acc(data.COA_ID);
+                    pick_appr(data.BNKO_APPR);
+                    pick_supp(data.BNKO_SUPP);
+                    pick_loc(data.BNKO_LOC);
+                    $('[name="bank_info"]').val(data.BNKO_INFO);
+                    pick_dept(data.DEPT_ID);
+                    $('[name="bank_anggaran"]').val(data.BNKO_BUDGET);
+                    $('[name="head_taxnumber"]').val(data.BNKO_TAXHEADCODE);
+                    $('[name="taxnumber"]').val(data.BNKO_TAXCODE);
+                    pick_curr(data.CURR_ID)
+                    bank_keluar_detail1(data.BNKO_ID);
+                    bank_keluar_detail2(data.BNKO_ID);
+                    $('.btnCh').css({'display':'none'});
                     $('#modal_bank_out_edit').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

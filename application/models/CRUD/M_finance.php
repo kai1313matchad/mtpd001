@@ -46,6 +46,15 @@
 			return $que->row();
 		}
 
+		//Fungsi ambil log histori untuk Bank keluar
+		public function getlog_bankout($id)
+		{
+			$this->db->where('bnko_id',$id);
+			$this->db->where('hisbnko_upcount = (select max(hisbnko_upcount) from his_bankout where bnko_id = '.$id.')');
+			$que = $this->db->get('his_bankout');
+			return $que->row();
+		}
+
 		//Fungsi ambil nilai jumlah detail kas masuk
 		public function get_sumcashindet($id)
 		{
@@ -123,6 +132,15 @@
 			$this->db->where('gir_reffcode',$gr);
 			$get = $this->db->get('giroin_record')->row();
 			return $ret = $get->GIR_ID;
+		}
+
+		//Fungsi ambil id untuk hapus data record giro keluar
+		public function get_idgirooutrc($code,$gr)
+		{
+			$this->db->where('bnktrxo_id',$code);
+			$this->db->where('gor_reffcode',$gr);
+			$get = $this->db->get('giroout_record')->row();
+			return $ret = $get->GOR_ID;
 		}
 	}
 ?>
