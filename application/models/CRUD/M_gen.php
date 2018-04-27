@@ -343,12 +343,12 @@
 		{
 			$brc = $this->session->userdata('user_branch');
 			// $res = $this->gen_num_('trx_po_ga','poga_code','POG');
-			$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'POG');
+			$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'OB');
 			$check = $this->db->get_where('trx_po_ga',array('poga_code' => $res));
 			if($check->num_rows() > 0)
 			{
 				// $res = $this->gen_num_('trx_po_ga','poga_code','POG');
-				$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'POG');
+				$res = $this->gen_numbybrc_('trx_po_ga','poga_code',$brc,'OB');
 			}
 			$data = array(
 					'poga_code'=>$res,
@@ -376,12 +376,12 @@
 		{
 			$brc = $this->session->userdata('user_branch');
 			// $res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
-			$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'BLG');
+			$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'PB');
 			$check = $this->db->get_where('trx_prc_ga',array('prcga_code' => $res));
 			if($check->num_rows() > 0)
 			{
 				// $res = $this->gen_num_('trx_prc_ga','prcga_code','BLG');
-				$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'BLG');
+				$res = $this->gen_numbybrc_('trx_prc_ga','prcga_code',$brc,'PB');
 			}
 			$data = array(
 					'prcga_code'=>$res,

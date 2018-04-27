@@ -7,6 +7,7 @@
 			parent::__construct();
 			$this->load->model('CRUD/M_crud','crud');
 			$this->load->model('CRUD/M_gen','gen');
+			$this->load->model('CRUD/M_genaff','genaff');
 			$this->load->model('datatables/Dt_pogadet','gdpo');
 			$this->load->model('datatables/Dt_srchgd','srch_gd');
 			$this->load->model('datatables/Dt_srchgdusg','srch_gdusg');
@@ -457,20 +458,53 @@
 		public function ajax_simpanpo()
 		{
 			$data = array(	                
-	                'user_id' => $this->input->post('user_id'),
-	                'curr_id' => $this->input->post('curr_id'),
-	                'supp_id' => $this->input->post('supp_id'),
-	                'poga_sts' => '1',
-	                'poga_date' => $this->input->post('po_tgl'),
-	                'poga_ordnum' => $this->input->post('po_so'),
-	                'poga_term' => $this->input->post('po_term'),
-	                'poga_info' => $this->input->post('po_info'),
-	                'poga_sub' => $this->input->post('po_subs'),
-	                'poga_gtotal' => $this->input->post('po_subs')	                
+		            'user_id' => $this->input->post('user_id'),
+		            'curr_id' => $this->input->post('curr_id'),
+		            'supp_id' => $this->input->post('supp_id'),
+		            'poga_sts' => '1',
+		            'poga_code' => $this->input->post('po_code'),
+		            'poga_date' => $this->input->post('po_tgl'),
+		            'poga_ordnum' => $this->input->post('po_so'),
+		            'poga_term' => $this->input->post('po_term'),
+		            'poga_info' => $this->input->post('po_info'),
+		            'poga_sub' => $this->input->post('po_subs'),
+		            'poga_gtotal' => $this->input->post('po_subs')
 	            );
 	        $update = $this->crud->update('trx_po_ga',$data,array('poga_id' => $this->input->post('po_id')));
+	        $this->logupd_poga_save($this->input->post('po_id'),$this->input->post('user_name'));
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_poga_save($id,$user)
+	    {
+	    	$his = $this->genaff->getlog_poga($id);
+	    	if ($his->HISPOGA_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'poga_id' => $id,
+						'hispoga_sts' => 'Posted by User '.$user,
+						'hispoga_old' => $his->HISPOGA_STS,
+						'hispoga_new' => 'Posted By User '.$user,
+						'hispoga_info' => 'Original Save by PO GA form',
+						'hispoga_date' => date('Y-m-d'),
+						'hispoga_upcount' => $his->HISPOGA_UPCOUNT+1
+					);
+				$this->db->insert('his_poga',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'poga_id' => $id,
+						'hispoga_sts' => 'Posted by User '.$user,
+						'hispoga_old' => $his->HISPOGA_STS,
+						'hispoga_new' => 'Posted By User '.$user,
+						'hispoga_info' => 'Update by '.$user.' from PO GA form',
+						'hispoga_date' => date('Y-m-d'),
+						'hispoga_upcount' => $his->HISPOGA_UPCOUNT
+					);
+				$this->db->insert('his_poga',$data);
+	    	}
+	    }
 
 		public function ajax_del_brgpo($id)
 	    {
@@ -496,6 +530,7 @@
 	                'prcga_gtotal' => $this->input->post('prc_gtotal')	                
 	            );
 	        $update = $this->crud->update('trx_prc_ga',$data,array('prcga_id' => $this->input->post('prc_id')));
+	        $this->logupd_prcga_save($this->input->post('prc_id'),$this->input->post('user_name'));
 	        //cek jurnal
 	    	$this->db->from('account_journal');
 	    	$this->db->where('jou_reff',$this->input->post('prc_code'));
@@ -566,6 +601,37 @@
 	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
+
+		public function logupd_prcga_save($id,$user)
+	    {
+	    	$his = $this->genaff->getlog_prcga($id);
+	    	if ($his->HISPRCGA_UPCOUNT == '0') 
+	    	{
+	    		$data = array(
+						'prcga_id' => $id,
+						'hisprcga_sts' => 'Posted by User '.$user,
+						'hisprcga_old' => $his->HISPRCGA_STS,
+						'hisprcga_new' => 'Posted By User '.$user,
+						'hisprcga_info' => 'Original Save by Pembelian GA form',
+						'hisprcga_date' => date('Y-m-d'),
+						'hisprcga_upcount' => $his->HISPRCGA_UPCOUNT+1
+					);
+				$this->db->insert('his_prcga',$data);
+	    	}
+	    	else
+	    	{
+	    		$data = array(
+						'prcga_id' => $id,
+						'hisprcga_sts' => 'Posted by User '.$user,
+						'hisprcga_old' => $his->HISPRCGA_STS,
+						'hisprcga_new' => 'Posted By User '.$user,
+						'hisprcga_info' => 'Update by '.$user.' from Pembelian GA form',
+						'hisprcga_date' => date('Y-m-d'),
+						'hisprcga_upcount' => $his->HISPRCGA_UPCOUNT
+					);
+				$this->db->insert('his_prcga',$data);
+	    	}
+	    }
 
 		public function ajax_simpan_adj()
 		{
@@ -1414,6 +1480,86 @@
 			$this->db->group_by('a.usgga_id');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
+			echo json_encode($data);
+		}
+
+		public function open_gapo($id)
+		{
+			$user = $this->input->post('user_name');
+			$string = array();
+			$prc = $this->genaff->check_po('trx_prc_ga',$id,'prcga_sts');
+			if($prc > 0)
+			{
+				$string[] = 'Pembelian GA';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('poga_sts'=>'0');
+				$update = $this->crud->update('trx_po_ga',$dt,array('poga_id' => $id));
+				$his = $this->genaff->getlog_poga($id);
+				$dthis = array(
+						'poga_id' => $id,
+						'hispoga_sts' => 'Open by User '.$user,
+						'hispoga_old' => $his->HISPOGA_STS,
+						'hispoga_new' => 'Open By User '.$user,
+						'hispoga_info' => 'Open Record by PO GA form',
+						'hispoga_date' => date('Y-m-d'),
+						'hispoga_upcount' => $his->HISPOGA_UPCOUNT+1
+					);
+				$this->db->insert('his_poga',$dthis);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
+		public function open_gaprc($id)
+		{
+			$user = $this->input->post('user_name');
+			$get = $this->db->get_where('trx_prc_ga',array('prcga_id'=>$id));
+			$code = $get->row()->PRCGA_CODE;
+			$string = array();
+			$retprc = $this->genaff->check_prc('prcga_ret',$id,'rtprcga_sts');
+			if($retprc > 0)
+			{
+				$string[] = 'Retur Pembelian GA';
+			}
+			$bankout = $this->genaff->check_prc('bankout_det',array('bnkodet_reff'=>$code),null);
+			if($bankout > 0)
+			{
+				$string[] = 'Bank Keluar';
+			}
+			$bankout = $this->genaff->check_prc('cashout_det',array('cshodet_reff'=>$code),null);
+			if($bankout > 0)
+			{
+				$string[] = 'Kas Keluar';
+			}
+			if(sizeof($string) > 0)
+			{
+				$data['status'] = FALSE;
+				$data['string'] = implode(', ',$string);
+			}
+			else
+			{
+				$dt = array('prcga_sts'=>'0');
+				$update = $this->crud->update('trx_prc_ga',$dt,array('prcga_id' => $id));
+				$his = $this->genaff->getlog_prcga($id);
+				$dthis = array(
+						'prcga_id' => $id,
+						'hisprcga_sts' => 'Open by User '.$user,
+						'hisprcga_old' => $his->HISPRCGA_STS,
+						'hisprcga_new' => 'Open By User '.$user,
+						'hisprcga_info' => 'Open Record by Pembelian GA form',
+						'hisprcga_date' => date('Y-m-d'),
+						'hisprcga_upcount' => $his->HISPRCGA_UPCOUNT+1
+					);
+				$this->db->insert('his_prcga',$dthis);
+				$data['status'] = TRUE;
+			}
 			echo json_encode($data);
 		}
 	}

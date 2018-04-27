@@ -29,7 +29,9 @@
 			$this->load->model('datatables/search/Dt_srchpapprbysts','s_papprbysts');
 			$this->load->model('datatables/search/Dt_srchinvbysts','s_invbysts');
 			$this->load->model('datatables/search/Dt_srchpobysts','s_pobysts');
+			$this->load->model('datatables/search/Dt_srchpogabysts','s_pogabysts');
 			$this->load->model('datatables/search/Dt_srchprcbysts','s_prcbysts');
+			$this->load->model('datatables/search/Dt_srchprcgabysts','s_prcgabysts');
 			$this->load->model('datatables/search/Dt_srchrtprcbysts','s_rtprcbysts');
 			$this->load->model('datatables/search/Dt_srchusgbysts','s_usgbysts');
 			$this->load->model('datatables/search/Dt_srchrtusgbysts','s_rtusgbysts');
@@ -777,6 +779,160 @@
 		public function pick_bapploggb($id)
 		{
 			$data = $this->crud->get_by_id('trx_bapplog',array('balg_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search PO Berdasarkan Status Untuk Edit dan Buka Record di halaman PO GA
+		public function srch_pogabysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_pogabysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->POGA_CODE;
+					$row[] = $dat->POGA_DATE;
+					$row[] = $dat->SUPP_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_pogaopen('."'".$dat->POGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->POGA_CODE;
+					$row[] = $dat->POGA_DATE;
+					$row[] = $dat->SUPP_NAME;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_pogaedit('."'".$dat->POGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_pogabysts->count_all(),
+							"recordsFiltered" => $this->s_pogabysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_pogabystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_pogabysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->POGA_CODE;
+				$row[] = $dat->POGA_DATE;
+				$row[] = $dat->SUPP_NAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_pogachk('."'".$dat->POGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_pogabysts->count_all(),
+							"recordsFiltered" => $this->s_pogabysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_pogagb($id)
+		{
+			$data = $this->crud->get_by_id('trx_po_ga',array('poga_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Pembelian Berdasarkan Status Untuk Edit dan Buka Record di halaman Pembelian GA
+		public function srch_prcgabysts()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_prcgabysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			if($this->input->post('chk') != '0')
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PRCGA_CODE;
+					$row[] = $dat->POGA_CODE;
+					$row[] = $dat->PRCGA_DATE;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prcgaopen('."'".$dat->PRCGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			else
+			{
+				foreach ($list as $dat) {
+					$no++;
+					$row = array();
+					$row[] = $no;
+					$row[] = $dat->PRCGA_CODE;
+					$row[] = $dat->POGA_CODE;
+					$row[] = $dat->PRCGA_DATE;
+					$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prcgaedit('."'".$dat->PRCGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+					$data[] = $row;
+				}
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_prcgabysts->count_all(),
+							"recordsFiltered" => $this->s_prcgabysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function srch_prcgabystschk()
+		{
+			$id = $this->input->post('sts');
+			$br = $this->input->post('brch');
+			$brc = 'a.branch_id = '.$br;
+			$list = $this->s_prcgabysts->get_datatables($id,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRCGA_CODE;
+				$row[] = $dat->POGA_CODE;
+				$row[] = $dat->PRCGA_DATE;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prcgachk('."'".$dat->PRCGA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_prcgabysts->count_all(),
+							"recordsFiltered" => $this->s_prcgabysts->count_filtered($id,$brc),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_prcgagb($id)
+		{
+			$data = $this->crud->get_by_id('trx_prc_ga',array('prcga_id' => $id));
 			echo json_encode($data);
 		}
 
