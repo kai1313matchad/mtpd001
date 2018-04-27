@@ -302,7 +302,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Reff</label>
                                             <div class="col-sm-2">
-                                                <button type="button" class="btn btn-info btn-block" onclick="srch_inv()"><span class="glyphicon glyphicon-search"></span></button>
+                                                <button type="button" class="btn btn-info btn-block" onclick="srch_prc()"><span class="glyphicon glyphicon-search"></span></button>
                                             </div>
                                             <div class="col-sm-5">
                                                 <input class="form-control" type="text" name="no_beli">
