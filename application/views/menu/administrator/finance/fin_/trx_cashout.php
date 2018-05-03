@@ -574,6 +574,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h4>Pembelian Logistik</h4>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <table id="dtb_pembelian" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
@@ -588,7 +593,28 @@
                                 </thead>
                             </table>
                         </div>
-                    </div>                  
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h4>Pembelian GA</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <table id="dtb_pembelian_ga" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomor Beli</th>
+                                        <th>Nomor PO</th>
+                                        <th>Nomor Invoice</th>
+                                        <th>Tanggal</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
@@ -935,16 +961,36 @@
         {
             $('#modal_pembelian').modal('show');
             $('.modal-title').text('Cari Pembelian');
-            var id = $('[name="supp_id"]').val();
+            var id = ($('[name="supp_id"]').val()!='')?$('[name="supp_id"]').val():0;
             table = $('#dtb_pembelian').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
+                "pageLength": 5,
                 "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_prc/')?>" + id,
+                    "type": "POST",
+                },
+                "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+            table2 = $('#dtb_pembelian_ga').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "pageLength": 5,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Searchdata/srch_prcgabysupp/')?>"+id,
                     "type": "POST",
                 },
                 "columnDefs": [
@@ -958,7 +1004,7 @@
         function pick_prc(id)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_prc/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_prc/')?>"+id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -966,6 +1012,25 @@
                     $('[name="no_beli"]').val(data.PRC_CODE);
                     $('[name="nominal"]').val(data.PRC_GTOTAL);
                     $('[name="id_beli"]').val(data.PRC_ID);
+                    $('#modal_pembelian').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_prcgabysupp(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_prcgabysupp/')?>"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="no_beli"]').val(data.PRCGA_CODE);
+                    $('[name="nominal"]').val(data.PRCGA_GTOTAL);
+                    $('[name="id_beli"]').val(data.PRCGA_ID);
                     $('#modal_pembelian').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

@@ -3198,15 +3198,15 @@
 				$row[] = $no;
 				$row[] = $dat->PRC_CODE;
 				$row[] = $dat->PO_CODE;
-				$row[] = $dat->PRC_INVOICE;				
+				$row[] = $dat->PRC_INVOICE;
 				$row[] = $dat->PRC_DATE;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prc('."'".$dat->PRC_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
 			$output = array(
 							"draw" => $_POST['draw'],
-							"recordsTotal" => $this->srch_prc->count_all($id),
-							"recordsFiltered" => $this->srch_prc->count_filtered($id),
+							"recordsTotal" => $this->srch_prcbyid->count_all($id),
+							"recordsFiltered" => $this->srch_prcbyid->count_filtered($id),
 							"data" => $data,
 					);			
 			echo json_encode($output);

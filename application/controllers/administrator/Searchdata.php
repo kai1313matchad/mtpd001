@@ -32,6 +32,7 @@
 			$this->load->model('datatables/search/Dt_srchpogabysts','s_pogabysts');
 			$this->load->model('datatables/search/Dt_srchprcbysts','s_prcbysts');
 			$this->load->model('datatables/search/Dt_srchprcgabysts','s_prcgabysts');
+			$this->load->model('datatables/search/Dt_srchprcgabysupp','s_prcgabysupp');
 			$this->load->model('datatables/search/Dt_srchrtprcbysts','s_rtprcbysts');
 			$this->load->model('datatables/search/Dt_srchusgbysts','s_usgbysts');
 			$this->load->model('datatables/search/Dt_srchrtusgbysts','s_rtusgbysts');
@@ -2230,6 +2231,38 @@
 		{
 			$data = $this->crud->get_by_id('trx_tax_invoice',array('tinv_id' => $id));
 			echo json_encode($data);
+		}
+
+		//Search Pembelian GA berdasarkan supplier
+		public function srch_prcgabysupp($id)
+		{
+			$list = $this->s_prcgabysupp->get_datatables($id);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->PRCGA_CODE;
+				$row[] = $dat->POGA_CODE;
+				$row[] = $dat->PRCGA_INV;				
+				$row[] = $dat->PRCGA_DATE;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_prcgabysupp('."'".$dat->PRCGA_ID."'".')">Pilih</a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_prcgabysupp->count_all($id),
+							"recordsFiltered" => $this->s_prcgabysupp->count_filtered($id),
+							"data" => $data,
+					);
+			echo json_encode($output);
+		}
+
+		public function pick_prcgabysupp($id)
+		{
+			$data = $this->crud->get_by_id2('trx_prc_ga a','trx_po_ga b',array('prcga_id' => $id),'b.poga_id = a.poga_id');
+        	echo json_encode($data);
 		}
 	}
 ?>

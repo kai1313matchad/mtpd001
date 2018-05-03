@@ -1,11 +1,11 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	class Dt_srchprcbyid extends CI_Model 
+	class Dt_srchprcgabysupp extends CI_Model 
 	{
-		var $table = 'trx_procurement';
-		var $column_order = array(null,'prc_code','po_code','prc_invoice','prc_date');
-		var $column_search = array('prc_code','po_code','prc_invoice','prc_date');
-		var $order = array('prc_id' => 'desc');
+		var $table = 'trx_prc_ga a';
+		var $column_order = array(null,'prcga_code','poga_code','prcga_inv','prcga_date');
+		var $column_search = array('prcga_code','poga_code','prcga_inv','prcga_date');
+		var $order = array('prcga_id' => 'desc');
 		public function __construct()
 		{
 			parent::__construct();		
@@ -13,8 +13,8 @@
 		private function _get_datatables_query($id)
 		{		
 			$this->db->from($this->table);
-			$this->db->join('trx_po','trx_po.po_id = trx_procurement.po_id');	
-			$this->db->where('trx_po.supp_id',$id);
+			$this->db->join('trx_po_ga b','b.poga_id = a.poga_id');	
+			$this->db->where('b.supp_id',$id);
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
