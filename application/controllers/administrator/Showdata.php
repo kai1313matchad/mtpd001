@@ -28,6 +28,7 @@
 			$this->load->model('datatables/showdata/Dt_showledger','ledger');
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
 			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
+			$this->load->model('datatables/showdata/Dt_showrptaccrcv','rpt_accrcv');
 			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
 			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
 			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
@@ -945,6 +946,30 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->showusgtopick->count_all(),
 							"recordsFiltered" => $this->showusgtopick->count_filtered($id),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Kartu Piutang
+		public function showrpt_accrcv()
+		{
+			$list = $this->rpt_accrcv->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->kode;
+				$row[] = $dat->nama;
+				$row[] = $dat->total;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_accrcv->count_all(),
+							"recordsFiltered" => $this->rpt_accrcv->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

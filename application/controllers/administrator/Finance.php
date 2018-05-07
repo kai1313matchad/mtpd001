@@ -246,6 +246,16 @@
 			echo json_encode($data);
 		}
 
+		public function rpt_accrcv()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_accrcv';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function cash_in()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
