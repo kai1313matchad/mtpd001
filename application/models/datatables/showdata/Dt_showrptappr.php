@@ -2,10 +2,9 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	class Dt_showrptappr extends CI_Model 
 	{
-
 		var $table = 'trx_approvalbill a';
-		var $column_order = array(null,'appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
-		var $column_search = array('appr_code','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
+		var $column_order = array(null,'appr_code','appr_date','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
+		var $column_search = array('appr_code','appr_date','appr_contract_end','loc_name','cust_name','appr_branch','appr_tot_income');
 		var $order = array('appr_date' => 'desc');
 		public function __construct()
 		{
@@ -29,15 +28,16 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) 
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from($this->table);
 			$this->db->join('master_location b','b.loc_id = a.loc_id');
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
 			$i = 0;
 			foreach ($this->column_search as $item)

@@ -8,7 +8,7 @@
     <meta name="Author" content="Kaisha Satrio">
     <title><?php echo $title;?></title>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">   
+    <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.css')?>" rel="stylesheet">
     <!-- sbadmin -->
@@ -28,8 +28,9 @@
         body 
         {
             background-color: white;
+            font-family: 'Times New Roman';
         }
-        .bg-table
+        /*.bg-table
         {
             min-height: 1000px;
         }
@@ -50,10 +51,69 @@
         tr.subgroup,
         tr.subgroup {
            background-color: cornsilk !important;
-        }
+        }*/
         .row-start
         {
             display: none;
+        }
+        .table th
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 16px;
+        }
+        .table td
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 14px;
+        }
+        .logos
+        {
+            padding-top: 10px;
+        }
+
+        @media print
+        {
+            @page
+            {
+                margin: 0px;
+            }
+            h2
+            {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            h3
+            {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            h4
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .table th
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 16px;
+            }
+            .table td
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -69,10 +129,10 @@
             <input type="hidden" name="rpt_type" value="<?php echo $rpt_type; ?>">
         </form>        
         <div class="row">
-            <div class="col-sm-3 col-xs-3">
-                <!-- <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png"> -->
+            <div class="col-sm-2 col-xs-2">
+                <img class="img-responsive logos" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-8 col-xs-8">
                 <h2 class="text-center"><u>LAPORAN <span name="rptappr_type2"></span> APPROVAL BILLBOARD <span name="rptappr_type"></span> </u></h2>
                 <h3 class="text-center" name="rptappr_branch"></h3>
                 <h4 class="text-center" name="rptappr_period"></h4>
@@ -312,64 +372,43 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
         $(document).ready(function()
         {
             check_();
-            $('[name="rptappr_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            $('[name="rptappr_period"]').text(moment($('[name="date_start"]').val()).locale('id').format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY'));
             if($('[name="branch"]').val() != '')
             {
                 pick_branch($('[name="branch"]').val());
             }
         });
-
         function check_()
         {
             var tp = $('[name="rpt_type"]').val();
-            // $('[name="rptappr_type"]').text('PER PER');
             if(tp == '1')
             {
                 $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER NOMOR');
-                gen_tp1(0);
+                gen_tp1(0,'appr_code');
             }
             if(tp == '2')
             {
                 $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER LOKASI');
-                gen_tp1(3);
+                gen_tp1(3,'loc_id');
             }
             if(tp == '3')
             {
                 $('#tp1').removeClass('row-start');
                 $('[name="rptappr_type"]').text('PER CUSTOMER');
-                gen_tp1(2);
+                gen_tp1(2,'cust_id');
             }
             if(tp == '4')
             {
                 $('#tp2').removeClass('row-start');
                 $('[name="rptappr_type"]').text('TANPA PO');
-                gen_tp2();
+                gen_tp2('appr_code');
             }
             if(tp == '5')
             {
@@ -412,14 +451,13 @@
                 $('#tp7').removeClass('row-start');
                 $('[name="rptappr_type"]').text('');
                 $('[name="rptappr_type2"]').text('JATUH TEMPO');
-                gen_tp7();
+                gen_tp7('appr_code');
             }
         }
-
-        function gen_tp1(v)
+        function gen_tp1(v,order)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1/')?>"+order,
                 type: "POST",
                 data: $('#form_rptappr').serialize(),
                 dataType: "JSON",
@@ -429,12 +467,12 @@
                     {
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).locale('id').format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
-                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            $('<td class="text-center chgnum">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
                             ).appendTo('#tb_content_tp1');
                     }
                     for (var i = 0; i < data['b'].length; i++)
@@ -442,6 +480,7 @@
                         $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
                     }
                     dt_tp1(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -449,11 +488,10 @@
                 }
             });
         }
-
-        function gen_tp2()
+        function gen_tp2(order)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1/')?>"+order,
                 type: "POST",
                 data: $('#form_rptappr').serialize(),
                 dataType: "JSON",
@@ -463,7 +501,7 @@
                     {
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>')
                             ).appendTo('#tb_content_tp2');
@@ -476,7 +514,6 @@
                 }
             });
         }
-
         function gen_tp3a(v)
         {
             $.ajax({
@@ -493,7 +530,7 @@
                         var sisa = parseInt(tot) - parseInt(sub);
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["inv"]+'</td>'),
@@ -511,7 +548,6 @@
                 }
             });
         }
-
         function gen_tp3b(v)
         {
             $.ajax({
@@ -526,13 +562,14 @@
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["BRANCH_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            $('<td class="text-center chgnum">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
                             ).appendTo('#tb_content_tp3b');
                     }
                     dt_tp3b(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -540,7 +577,6 @@
                 }
             });
         }
-
         function gen_tp4(v)
         {
             $.ajax({
@@ -555,12 +591,12 @@
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["SALES_CODE"]+' - '+data['a'][i]["PERSON_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).locale('id').format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center" name="tdijin'+data['a'][i]["APPR_ID"]+'"></td>'),
-                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            $('<td class="text-center chgnum">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
                             ).appendTo('#tb_content_tp4');
                     }
                     for (var i = 0; i < data['b'].length; i++)
@@ -568,6 +604,7 @@
                         $('[name="tdijin'+data['b'][i]["appr_id"]+'"]').text(data['b'][i]["ijin"]);
                     }
                     dt_tp4(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -575,7 +612,6 @@
                 }
             });
         }
-
         function gen_tp5(v)
         {
             $.ajax({
@@ -588,13 +624,14 @@
                     for (var i = 0; i < data['a'].length; i++)
                     {
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+data['a'][i]["BRANCH_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["SALES_CODE"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["PERSON_NAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["APPR_TOT_INCOME"]+'</td>')
+                            $('<td class="text-center">'+data['a'][i]["BRC"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CODE"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["NAME"]+'</td>'),
+                            $('<td class="text-center chgnum">'+data['a'][i]["TOTAL"]+'</td>')
                             ).appendTo('#tb_content_tp5');
                     }
                     dt_tp5(v);
+                    $('td.chgnum').number(true);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -602,7 +639,6 @@
                 }
             });
         }
-
         function gen_tp6(v1,v2)
         {
             $.ajax({
@@ -618,7 +654,7 @@
                         var bapp = (data['a'][i]["BAPP_CODE"] == null) ? '-' : data['a'][i]["BAPP_CODE"];
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
                             $('<td class="text-center">'+po+'</td>'),
@@ -633,11 +669,10 @@
                 }
             });
         }
-
-        function gen_tp7()
+        function gen_tp7(order)
         {
             $.ajax({
-                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1')?>",
+                url : "<?php echo site_url('administrator/Marketing/gen_rptappr_t1/')?>"+order,
                 type: "POST",
                 data: $('#form_rptappr').serialize(),
                 dataType: "JSON",
@@ -647,10 +682,10 @@
                     {
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["APPR_CODE"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_DATE"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CUST_NAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["LOC_NAME"]+' - '+data['a'][i]["LOC_ADDRESS"]+', '+data['a'][i]["LOC_CITY"]+'</td>'),
-                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).format('DD-MMMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(data['a'][i]["APPR_CONTRACT_START"]).locale('id').format('DD-MMMM-YYYY')+' s/d '+moment(data['a'][i]["APPR_CONTRACT_END"]).locale('id').format('DD-MMMM-YYYY')+'</td>'),
                             ).appendTo('#tb_content_tp7');
                     }
                     dt_tp7();
@@ -661,7 +696,6 @@
                 }
             });
         }
-
         function tes()
         {
             $.ajax({
@@ -706,7 +740,6 @@
                 }
             });
         }
-
         function dt_tp1(v)
         {
             $('#dtb_rptappr_t1').DataTable({
@@ -728,7 +761,6 @@
                 },
             });
         }
-
         function dt_tp2()
         {
             $('#dtb_rptappr_t2').DataTable({
@@ -745,7 +777,6 @@
                 ordering: false
             });
         }
-
         function dt_tp3a(v)
         {
             $('#dtb_rptappr_t3a').DataTable({
@@ -767,7 +798,6 @@
                 },
             });
         }
-
         function dt_tp3b(v)
         {
             $('#dtb_rptappr_t3b').DataTable({
@@ -802,7 +832,6 @@
                 },
             });
         }
-
         function dt_tp4(v)
         {
             $('#dtb_rptappr_t4').DataTable({
@@ -824,7 +853,6 @@
                 },
             });
         }
-
         function dt_tp5(v)
         {
             $('#dtb_rptappr_t5').DataTable({
@@ -846,7 +874,6 @@
                 },
             });
         }
-
         function dt_tp6(v)
         {
             $('#dtb_rptappr_t6').DataTable({
@@ -864,7 +891,6 @@
                 ordering: false
             });
         }
-
         function dt_tp7()
         {
             $('#dtb_rptappr_t7').DataTable({
@@ -881,7 +907,6 @@
                 ordering: false
             });
         }
-
         function dt_journal()
         {
             $('#dtb_rptbalsh').DataTable({
@@ -921,7 +946,6 @@
                 }
             });
         }
-
         function dt_journal2()
         {
             $('#dtb_rptbalsh').DataTable({
@@ -987,7 +1011,6 @@
                 }
             });
         }
-
         function pick_branch(id)
         {
             $.ajax({

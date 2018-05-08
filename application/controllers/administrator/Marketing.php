@@ -238,13 +238,13 @@
 			$data['location'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
 			$data['sales'] = ($this->uri->segment(9) == 'null') ? '' : $this->uri->segment(9);
 			$data['rpt_type'] = ($this->uri->segment(10) == 'null') ? '' : $this->uri->segment(10);
-			$data['title']='Match Terpadu - Dashboard Marketing';
+			$data['title']='Match Terpadu - Laporan Marketing';
 			$data['menu']='marketing';
 			$data['menulist']='report_marketing';
 			$this->load->view('menu/administrator/marketing/print_reportappr_t1',$data);
 		}
 
-		public function gen_rptappr_t1()
+		public function gen_rptappr_t1($order)
 		{
 			if ($this->input->post('custid')) 
 			{
@@ -262,16 +262,18 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null) 
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from('trx_approvalbill a');
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$this->db->order_by('a.'.$order);
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			if ($this->input->post('custid'))
@@ -290,9 +292,10 @@
 			{
 				$this->db->like('f.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('b.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('b.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null) 
+			{
+				$this->db->where('b.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('b.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->select('group_concat(c.prmttyp_name SEPARATOR ", ") as ijin,a.apprprmt_id, b.appr_code, b.appr_id');
 			$this->db->from('appr_permit_det a');
@@ -301,7 +304,7 @@
 			$this->db->join('master_location d','d.loc_id = b.loc_id');			
 			$this->db->join('master_customer e','e.cust_id = b.cust_id');
 			$this->db->join('master_user f','f.user_id = b.user_id');
-			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->join('master_branch g','g.branch_id = b.branch_id');
 			$this->db->join('master_sales h','h.sales_id = b.sales_id');
 			$this->db->group_by('a.appr_id');
 			$que2 = $this->db->get();
@@ -327,7 +330,7 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null ) {
 				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
         		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
 			}
@@ -360,9 +363,10 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->select('a.*,c.*,b.*,group_concat(h.inv_code SEPARATOR ", ") as inv, sum(g.invdet_amount) as sub');
 			$this->db->from('inv_details g');
@@ -371,8 +375,9 @@
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$this->db->order_by('a.appr_code');
 			$this->db->group_by('a.appr_id');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
@@ -397,19 +402,19 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from('trx_approvalbill a');
-			// $this->db->join('inv_details g','g.appr_id = a.appr_id');
-			// $this->db->join('trx_invoice h','h.inv_id = g.inv_id');
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
 			$this->db->where('a.appr_id NOT IN (select appr_id from inv_details)');
+			$this->db->order_by('appr_code');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			echo json_encode($data);
@@ -433,17 +438,19 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from('trx_approvalbill a');
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
 			$this->db->join('master_person g','g.person_id = f.person_id');
+			$this->db->order_by('sales_code');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			if ($this->input->post('custid'))
@@ -462,9 +469,10 @@
 			{
 				$this->db->like('f.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('b.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('b.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('b.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('b.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->select('group_concat(c.prmttyp_name SEPARATOR ", ") as ijin,a.apprprmt_id, b.appr_code, b.appr_id');
 			$this->db->from('appr_permit_det a');
@@ -473,7 +481,7 @@
 			$this->db->join('master_location d','d.loc_id = b.loc_id');			
 			$this->db->join('master_customer e','e.cust_id = b.cust_id');
 			$this->db->join('master_user f','f.user_id = b.user_id');
-			$this->db->join('master_branch g','g.branch_id = f.branch_id');
+			$this->db->join('master_branch g','g.branch_id = b.branch_id');
 			$this->db->join('master_sales h','h.sales_id = b.sales_id');
 			$this->db->group_by('a.appr_id');
 			$que2 = $this->db->get();
@@ -499,17 +507,21 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
+			$this->db->select('e.BRANCH_NAME as BRC, f.SALES_CODE as CODE, g.PERSON_NAME as NAME, sum(a.APPR_TOT_INCOME) as TOTAL');
 			$this->db->from('trx_approvalbill a');
 			$this->db->join('master_location b','b.loc_id = a.loc_id');			
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
 			$this->db->join('master_person g','g.person_id = f.person_id');
+			$this->db->order_by('f.sales_code');
+			$this->db->group_by('a.sales_id');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			echo json_encode($data);
@@ -534,9 +546,10 @@
 			{
 				$this->db->like('d.branch_id', $this->input->post('branch') );
 			}
-			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end') != null ) {
-				$this->db->where('a.appr_contract_end >=', $this->input->post('tgl_start'));
-        		$this->db->where('a.appr_contract_end <=', $this->input->post('tgl_end'));  
+			if ($this->input->post('tgl_start') != null AND $this->input->post('tgl_end')!=null )
+			{
+				$this->db->where('a.appr_date >=', $this->input->post('tgl_start'));
+        		$this->db->where('a.appr_date <=', $this->input->post('tgl_end'));  
 			}
 			$this->db->from('trx_approvalbill a');
 			$this->db->join('trx_bapp g','g.appr_id = a.appr_id',$j);
@@ -544,8 +557,9 @@
 			$this->db->join('master_location b','b.loc_id = a.loc_id');
 			$this->db->join('master_customer c','c.cust_id = a.cust_id');
 			$this->db->join('master_user d','d.user_id = a.user_id');
-			$this->db->join('master_branch e','e.branch_id = d.branch_id');
+			$this->db->join('master_branch e','e.branch_id = a.branch_id');
 			$this->db->join('master_sales f','f.sales_id = a.sales_id');
+			$this->db->order_by('a.appr_code');
 			$que = $this->db->get();
 			$data['a'] = $que->result();
 			echo json_encode($data);

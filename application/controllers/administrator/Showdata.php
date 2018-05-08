@@ -179,6 +179,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->APPR_CODE;
+				$row[] = date_format(date_create($dat->APPR_DATE),"d-M-Y");
 				$row[] = date_format(date_create($dat->APPR_CONTRACT_END),"d-M-Y");
 				$row[] = $dat->LOC_NAME.' - '.$dat->LOC_ADDRESS.', '.$dat->LOC_CITY;
 				$row[] = $dat->CUST_NAME;				
