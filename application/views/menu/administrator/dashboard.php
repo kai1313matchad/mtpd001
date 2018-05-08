@@ -241,7 +241,7 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
     <script>
         $(document).ready(function() 
         {

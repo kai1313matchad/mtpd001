@@ -9,6 +9,7 @@
 			$this->load->model('datatables/search/Dt_srchdept','s_dept');
 			$this->load->model('datatables/search/Dt_srchbank','s_bank');
 			$this->load->model('datatables/search/Dt_srchsupp','s_supp');
+			$this->load->model('datatables/search/Dt_srchcoa','s_coa');
 			$this->load->model('datatables/search/Dt_srchcust','s_cust');
 			$this->load->model('datatables/search/Dt_srchcustall','s_custall');
 			$this->load->model('datatables/search/Dt_srchgovsts','s_govsts');
@@ -1303,6 +1304,36 @@
 		public function pick_invppn($id)
 		{
 			$data = $this->crud->get_by_id('trx_invoice',array('inv_id' => $id));
+			echo json_encode($data);
+		}
+
+		//Search Master COA
+		public function srch_coa()
+		{
+			$list = $this->s_coa->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;				
+				$row[] = $dat->COA_ACC;
+				$row[] = $dat->COA_ACCNAME;
+				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_coagb('."'".$dat->COA_ID."'".')"><span class="glyphicon glyphicon-check"></span> </a>';
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->s_coa->count_all(),
+							"recordsFiltered" => $this->s_coa->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		public function pick_coagb($id)
+		{
+			$data = $this->crud->get_by_id('chart_of_account',array('coa_id' => $id));
 			echo json_encode($data);
 		}
 

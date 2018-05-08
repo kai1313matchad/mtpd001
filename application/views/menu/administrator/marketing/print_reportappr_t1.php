@@ -81,7 +81,8 @@
         {
             @page
             {
-                margin: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
             }
             h2
             {
@@ -372,7 +373,7 @@
         </div>
     </div>
     <!-- jQuery -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
     <script>
         $(document).ready(function()
         {

@@ -256,6 +256,79 @@
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
+		public function rpt_cash()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_cash';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_rptcash()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['coa'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_reportcash',$data);
+		}
+
+		public function gen_rptcash()
+		{
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('coa_id'))
+			{
+				$this->db->where('c.coa_id', $this->input->post('coa_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end')!=null )
+			{
+				$this->db->where('a.csh_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.csh_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('b.*, a.CSH_DATE, a.CSH_CODE, c.COA_ACC, c.COA_ACCNAME, a.CSH_INFO, sum(d.CSHDETIN_AMOUNT) as DEBET');
+			$this->db->from('trx_cash_in a');
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('cashin_det d','d.csh_id = a.csh_id');
+			$this->db->group_by('a.csh_id');
+			$this->db->order_by('a.csh_date');
+			$que = $this->db->get();
+			$data['a'] = $que->result();
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('coa_id'))
+			{
+				$this->db->where('c.coa_id', $this->input->post('coa_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end')!=null )
+			{
+				$this->db->where('a.csho_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.csho_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('b.*, a.CSHO_DATE, a.CSHO_CODE, c.COA_ACC, c.COA_ACCNAME, a.CSHO_INFO, sum(d.CSHODET_AMOUNT) as CREDIT');
+			$this->db->from('trx_cash_out a');
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('cashout_det d','d.csho_id = a.csho_id');
+			$this->db->group_by('a.csho_id');
+			$this->db->order_by('a.csho_date');
+			$queb = $this->db->get();
+			$data['b'] = $queb->result();
+			echo json_encode($data);
+		}
+
 		public function cash_in()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
