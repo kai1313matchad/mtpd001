@@ -173,6 +173,20 @@
 			echo json_encode($data);
 		}
 
+		public function save_notafin()
+		{
+			$nota = $this->input->post('os_nota');
+			$getnota = $this->db->get_where('chart_of_account',array('coa_id'=>$nota));
+			$notaname = $getnota->row()->COA_ACCNAME;
+			$d_up = array(
+					'notafin_acc'=>$nota,
+					'notafin_accname'=>$notaname
+					);
+			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function test()
 		{
 			$tb = 'trx_approvalbill';

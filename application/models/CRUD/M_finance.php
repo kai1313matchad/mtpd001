@@ -142,5 +142,37 @@
 			$get = $this->db->get('giroout_record')->row();
 			return $ret = $get->GOR_ID;
 		}
+
+		public function get_cashsaldosum($table,$sumfield,$tabledet,$idjoin,$datefield,$brc,$coa,$date)
+		{
+			$this->db->select($sumfield);
+			$this->db->from($table);
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join($tabledet,$idjoin);
+			$this->db->where('b.branch_id', $brc);
+			$this->db->where('a.coa_id', $coa);
+			$this->db->where($datefield, $date);
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$data = ($que->num_rows() != NULL)?$que->row()->SUM:0;
+			return $data;
+		}
+
+		public function get_notafinsum($table,$sumfield,$tabledet,$idjoin,$datefield,$brc,$coa,$date)
+		{
+			$this->db->select($sumfield);
+			$this->db->from($table);
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join($tabledet,$idjoin);
+			$this->db->where('b.branch_id', $brc);
+			$this->db->where('d.coa_id', $coa);
+			$this->db->where($datefield, $date);
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$data = ($que->num_rows() != NULL)?$que->row()->SUM:0;
+			return $data;
+		}
 	}
 ?>

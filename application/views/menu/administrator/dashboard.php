@@ -192,6 +192,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Setting - Rekening/Akun Nota Gantung Untuk Transaksi Finance</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id="form_notafin" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Nota Gantung</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_nota" id="os_nota" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan</label>
+                                                <div class="col-xs-6">
+                                                    <textarea name="stg_infonotafin" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-offset-3 col-xs-6">
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="sub_notafin()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="4"><br>
                         <form class="form-horizontal" id="form_useraccess">
@@ -250,6 +281,7 @@
             drop_user();
             drop_coa('os_prccoadeb');
             drop_coa('os_prccoacrd');
+            drop_coa('os_nota');
             drop_bank();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
@@ -271,6 +303,7 @@
                 {
                     $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
                     $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG);
+                    $('[name="stg_infonotafin"]').val('Akun Nota Gantung : '+data.NOTAFIN_ACCNAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -352,6 +385,24 @@
                 url : "<?php echo site_url('Dashboard/save_bankinfo/')?>",
                 type: "POST",
                 data: $('#form_bankinv').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert('Data Berhasil Disimpan');
+                    os_data();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');                    
+                }
+            });
+        }
+        function sub_notafin()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/save_notafin/')?>",
+                type: "POST",
+                data: $('#form_notafin').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {

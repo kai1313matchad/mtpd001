@@ -280,6 +280,20 @@
 			$this->load->view('menu/administrator/finance/print_reportcash',$data);
 		}
 
+		public function print_rptdcash()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['coa'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_reportdcash',$data);
+		}
+
 		public function gen_rptcash()
 		{
 			if ($this->input->post('branch'))
@@ -326,6 +340,39 @@
 			$this->db->order_by('a.csho_date');
 			$queb = $this->db->get();
 			$data['b'] = $queb->result();
+			$data['c'] = $this->finance->get_cashsaldosum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
+			$data['d'] = $this->finance->get_cashsaldosum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
+			$get = $this->db->get_where('other_settings',array('os_id'=>'1'));
+			$notafin = $get->row()->NOTAFIN_ACC;			
+			$data['e'] = $this->finance->get_notafinsum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
+			$data['f'] = $this->finance->get_notafinsum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
+			echo json_encode($data);
+		}
+
+		public function gen_rptcashsaldostr()
+		{
+			$this->db->select('sum(d.CSHDETIN_AMOUNT) as SUMD');
+			$this->db->from('trx_cash_in a');
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('cashin_det d','d.csh_id = a.csh_id');
+			$this->db->where('b.branch_id', $this->input->post('branch'));
+			$this->db->where('c.coa_id', $this->input->post('coa_id'));
+			$this->db->where('a.csh_date <', $this->input->post('date_start'));
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$data['a'] = $que->row();
+			$this->db->select('sum(d.CSHODET_AMOUNT) as SUMC');
+			$this->db->from('trx_cash_out a');
+			$this->db->join('master_branch b','b.branch_id = a.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('cashout_det d','d.csho_id = a.csho_id');
+			$this->db->where('b.branch_id', $this->input->post('branch'));
+			$this->db->where('c.coa_id', $this->input->post('coa_id'));
+			$this->db->where('a.csho_date <', $this->input->post('date_start'));
+			$this->db->group_by('a.coa_id');
+			$queb = $this->db->get();
+			$data['b'] = $queb->row();
 			echo json_encode($data);
 		}
 

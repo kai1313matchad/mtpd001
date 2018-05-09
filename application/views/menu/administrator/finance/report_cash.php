@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Client</label>
+                            <label class="col-sm-3 control-label">Akun</label>
                             <div class="col-sm-1">
                                 <a href="javascript:void(0)" onclick="srch_acc()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
@@ -245,7 +245,20 @@
             }
             else if(n == 2)
             {
-                alert('Kas Harian');
+                var m = $('[name="rptcash_coaid"]').val();
+                if(m != '')
+                {
+                    var seg1 = $('[name="rptcash_coaid"]').val()?$('[name="rptcash_coaid"]').val():'null';
+                    var seg2 = $('[name="rptcash_datestart"]').val()?$('[name="rptcash_datestart"]').val():'null';
+                    var seg3 = $('[name="rptcash_dateend"]').val()?$('[name="rptcash_dateend"]').val():'null';
+                    var seg4 = $('[name="rptcash_branchid"]').val()?$('[name="rptcash_branchid"]').val():'null';
+                    var seg5 = n;
+                    window.open ( "<?php echo site_url('administrator/Finance/print_rptdcash/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+                }
+                else
+                {
+                    alert('Kas Harian Harus Pilih Rekening');
+                }                
             }
             else
             {
