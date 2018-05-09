@@ -28,30 +28,66 @@
         body 
         {
             background-color: white;
-            font-family: 'times new roman';
-            font-size: 12px;
+            font-family: 'times new roman';            
         }
-        .bg-table
+        .table th
         {
-            min-height: 1000px;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 16px;
         }
-        .bt-border
+        .table td
         {
-            border-bottom: solid 2px black;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 14px;
         }
-        .border-pay
+        .logos
         {
-            border: solid 2px black;
-            min-height: 50px;
+            padding-top: 10px;
         }
-        tr.group,
-        tr.group:hover {
-            background-color: #ddd !important;
-        }
-
-        tr.subgroup,
-        tr.subgroup {
-           background-color: cornsilk !important;
+        @media print
+        {
+            @page
+            {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            h2
+            {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            h3
+            {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            h4
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .table th
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 16px;
+            }
+            .table td
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -65,7 +101,7 @@
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img class="img-responsive logos" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN LABA RUGI</u></h2>
