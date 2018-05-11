@@ -376,6 +376,30 @@
 			echo json_encode($data);
 		}
 
+		public function rpt_bank()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_bank';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function print_rptbank()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['coa'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_reportbank',$data);
+		}
+
 		public function cash_in()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
