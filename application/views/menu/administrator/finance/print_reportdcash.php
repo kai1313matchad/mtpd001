@@ -39,6 +39,10 @@
             vertical-align: middle !important;
             text-align: center;
         }
+        .minus
+        {
+            color: red !important;
+        }
         .table th
         {
             border: solid 1px black !important;
@@ -289,6 +293,15 @@
                     var sum_deb =  Math.abs($('[name="sum_debit"]').text());
                     var sum_cre = Math.abs($('[name="sum_credit"]').text());
                     var sal_end = (sal_str+sum_deb)*1-sum_cre;
+                    if(sal_str < 0)
+                    {
+                        $('[name="saldostr_debit"]').addClass('minus');                     
+                    }
+                    if(sal_end < 0)
+                    {
+                        $('[name="saldoend_credit"]').addClass('minus');
+                        $('[name="saldo_cashier"]').addClass('minus');
+                    };
                     var ctrl_deb = (sal_str+sum_deb)*1;
                     var ctrl_cre = (sal_end+sum_cre)*1;
                     var nota_deb = data['e'];
