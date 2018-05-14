@@ -599,8 +599,8 @@
 				$row[] = $dat->JOU_DATE;
 				$row[] = $dat->JOU_REFF;
 				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
-				$row[] = $dat->JOUDET_DEBIT;
-				$row[] = $dat->JOUDET_CREDIT;
+				$row[] = number_format($dat->JOUDET_DEBIT);
+				$row[] = number_format($dat->JOUDET_CREDIT);
 				$data[] = $row;
 			}
 			$output = array(

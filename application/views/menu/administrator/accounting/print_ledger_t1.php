@@ -29,29 +29,79 @@
         {
             background-color: white;
             font-family: 'times new roman';
-            font-size: 12px;
         }
-        .bg-table
+        .logos
         {
-            min-height: 1000px;
+            padding-top: 10px;
         }
-        .bt-border
+        .table th
         {
-            border-bottom: solid 2px black;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 16px;
         }
-        .border-pay
+        .table td
         {
-            border: solid 2px black;
-            min-height: 50px;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 14px;
         }
         tr.group,
-        tr.group:hover {
+        tr.group:hover
+        {
             background-color: #ddd !important;
         }
-
         tr.subgroup,
-        tr.subgroup {
+        tr.subgroup
+        {
            background-color: cornsilk !important;
+        }
+        @media print
+        {
+            @page
+            {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            h2
+            {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            h3
+            {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            h4
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .table th
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 16px;
+            }
+            .table td
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 14px;
+            }
+            .buttons-excel
+            {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -65,7 +115,7 @@
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img class="img-responsive logos" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN BUKU BESAR</u></h2>
@@ -112,7 +162,7 @@
         $(document).ready(function()
         {
             pick_ledger();
-            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).format('DD-MMM-YYYY'));
+            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).locale('id').format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY'));
             var brc = $('[name="branch"]').val();
             if(brc != '')
             {
@@ -135,7 +185,7 @@
                     for (var i = 0; i < data.length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td class="text-center">'+data[i]["JOU_DATE"]+'</td>'),
+                            $('<td class="text-center">'+moment(data[i]["JOU_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]+'</td>'),
                             $('<td class="text-center">'+data[i]["JOU_CODE"]+'</td>'),
                             $('<td class="text-center">'+data[i]["JOU_REFF"]+'</td>'),
@@ -163,6 +213,7 @@
                 columnDefs:
                 [                    
                     {visible: false, targets: 1},
+                    {type: 'date-dd-mmm-yyyy', targets: 0},
                     {orderable: false, targets: '_all'}
                 ],
                 order: [[1, 'asc']],
@@ -194,6 +245,19 @@
                     },
                     dataSrc: 1
                 },
+                dom: 'Bfrtip',
+                buttons: 
+                {
+                    dom: 
+                    {
+                        button: 
+                        {
+                            tag: 'button',
+                            className: 'btn btn-sm btn-info'
+                        }
+                    },
+                    buttons: ['excelHtml5']
+                }
             });
         }
         function pick_branch(id)

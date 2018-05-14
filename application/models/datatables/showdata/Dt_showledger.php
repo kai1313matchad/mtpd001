@@ -29,6 +29,7 @@
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
 			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->order_by('b.jou_date');
 			$i = 0;
 			foreach ($this->column_search as $item)
 			{
