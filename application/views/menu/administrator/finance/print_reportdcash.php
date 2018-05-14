@@ -103,6 +103,10 @@
                 padding-bottom: 0 !important;
                 font-size: 14px;
             }
+            .buttons-excel
+            {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -363,6 +367,19 @@
                     {type: 'date-dd-mmm-yyyy', targets: 0},
                     {orderable: false, targets: '_all'}
                 ],
+                dom: 'Bfrtip',
+                buttons: 
+                {
+                    dom: 
+                    {
+                        button: 
+                        {
+                            tag: 'button',
+                            className: 'btn btn-sm btn-info'
+                        }
+                    },
+                    buttons: ['excelHtml5']
+                },
                 drawCallback: function(settings)
                 {
                     var api = this.api(), data;

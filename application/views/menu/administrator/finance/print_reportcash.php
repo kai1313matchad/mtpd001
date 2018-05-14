@@ -94,6 +94,10 @@
                 padding-bottom: 0 !important;
                 font-size: 14px;
             }
+            .buttons-excel
+            {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -272,6 +276,19 @@
                     },
                     dataSrc: v
                 },
+                dom: 'Bfrtip',
+                buttons: 
+                {
+                    dom: 
+                    {
+                        button: 
+                        {
+                            tag: 'button',
+                            className: 'btn btn-sm btn-info'
+                        }
+                    },
+                    buttons: ['excelHtml5']
+                }
             });
             $('th').removeClass('sorting_asc');
             $('th').removeClass('sorting_desc');
