@@ -400,6 +400,23 @@
 			$this->load->view('menu/administrator/finance/print_reportbank',$data);
 		}
 
+		public function gen_rptbank()
+		{
+			$brc = ($this->input->post('branch'))?$this->input->post('branch'):NULL;
+			$coa = ($this->input->post('coa_id'))?$this->input->post('coa_id'):NULL;
+			$datestr = ($this->input->post('date_start'))?$this->input->post('date_start'):NULL;
+			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
+			$data['a'] = $this->finance->get_trxbankin($brc,$coa,$datestr,$dateend);
+			$data['b'] = $this->finance->get_trxbankout($brc,$coa,$datestr,$dateend);
+			// $data['c'] = $this->finance->get_cashsaldosum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
+			// $data['d'] = $this->finance->get_cashsaldosum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
+			// $get = $this->db->get_where('other_settings',array('os_id'=>'1'));
+			// $notafin = $get->row()->NOTAFIN_ACC;			
+			// $data['e'] = $this->finance->get_notafinsum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
+			// $data['f'] = $this->finance->get_notafinsum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
+			echo json_encode($data);
+		}
+
 		public function cash_in()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
@@ -1311,7 +1328,7 @@
 				$row[] = $no;
 				$row[] = $dat->BANK_CODE;
 				$row[] = $dat->BANK_NAME;
-				$row[] = $dat->COA_ACC;
+				$row[] = $dat->BANK_ACC.' A/N '.$dat->BANK_ACCNAME.', Cabang '.$dat->BANK_BRANCH.', '.$dat->BANK_PRODTYPE.', '.$dat->BANK_INFO;
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_bank('."'".$dat->BANK_ID."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -1775,9 +1792,9 @@
             	    'bnktrx_id' => $bnktrx,
             	    'gir_reffcode' => $this->input->post('bank_no_giro1')
                     );
+                $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
+                $bg = $this->crud->save('buku_giro',$buku);
             }
-            $simpan_giroin_record = $this->crud->save('giroin_record',$giro);
-            $bg = $this->crud->save('buku_giro',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -1812,10 +1829,13 @@
 		public function ajax_hapus_bank_in_detail1($id)
 		{
 			$get = $this->db->get_where('bankin_trxdet',array('bnktrx_id'=>$id))->row();
-			$idbukugiro = $this->finance->get_idbukugiro($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->BNKTRX_NUM);
-			$hapusbukugiro = $this->crud->delete_by_id('buku_giro',array('grbook_id'=>$idbukugiro));
-			$idgirorc = $this->finance->get_idgiroinrc($id,$get->BNKTRX_NUM);
-			$hapusgiroinrc = $this->crud->delete_by_id('giroin_record',array('gir_id'=>$idgirorc));
+			if($get->BNKTRX_TYPE == 'G')
+			{
+				$idbukugiro = $this->finance->get_idbukugiro($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->BNKTRX_NUM);
+				$hapusbukugiro = $this->crud->delete_by_id('buku_giro',array('grbook_id'=>$idbukugiro));
+				$idgirorc = $this->finance->get_idgiroinrc($id,$get->BNKTRX_NUM);
+				$hapusgiroinrc = $this->crud->delete_by_id('giroin_record',array('gir_id'=>$idgirorc));
+			}			
             $hapus = $this->crud->delete_by_id('bankin_trxdet',array('bnktrx_id'=>$id));
 	        echo json_encode(array("status" => TRUE, "get" => $get)); 
 		}
@@ -1966,9 +1986,9 @@
             	    'bnktrxo_id' => $bnktrx,
             	    'gor_reffcode' => $this->input->post('bank_no_giro1')
                     );
+                $simpan_giroout_record = $this->crud->save('giroout_record',$giro);
+            	$bg = $this->crud->save('buku_giro',$buku);
             }
-            $simpan_giroout_record = $this->crud->save('giroout_record',$giro);
-            $bg = $this->crud->save('buku_giro',$buku);
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
@@ -2003,10 +2023,13 @@
 		public function ajax_hapus_bank_out_detail1($id)
 		{
 			$get = $this->db->get_where('bankout_trxdet',array('bnktrxo_id'=>$id))->row();
-			$idbukugiro = $this->finance->get_idbukugiro($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->BNKTRXO_NUM);
-			$hapusbukugiro = $this->crud->delete_by_id('buku_giro',array('grbook_id'=>$idbukugiro));
-			$idgirorc = $this->finance->get_idgirooutrc($id,$get->BNKTRXO_NUM);
-			$hapusgirooutrc = $this->crud->delete_by_id('giroout_record',array('gor_id'=>$idgirorc));
+			if($get->BNKTRXO_TYPE == 'G')
+			{
+				$idbukugiro = $this->finance->get_idbukugiro($this->input->post('user_branch'),$this->input->post('bank_nomor'),$get->BNKTRXO_NUM);
+				$hapusbukugiro = $this->crud->delete_by_id('buku_giro',array('grbook_id'=>$idbukugiro));
+				$idgirorc = $this->finance->get_idgirooutrc($id,$get->BNKTRXO_NUM);
+				$hapusgirooutrc = $this->crud->delete_by_id('giroout_record',array('gor_id'=>$idgirorc));
+			}			
             $hapus = $this->crud->delete_by_id('bankout_trxdet',array('bnktrxo_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}

@@ -96,14 +96,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label class="col-sm-3 control-label">Tanggal</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="bank_tgl" value="<?php echo date("d/m/Y"); ?>" readonly>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Akun Bank</label>
+                                        <label class="col-sm-3 control-label">Kode Bank</label>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info btn-block" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span></button>
                                         </div>
@@ -113,12 +107,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No Akun</label>
+                                        <label class="col-sm-3 control-label">Akun Debet</label>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn btn-info btn-block" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span></button>
                                             <input class="form-control" type="hidden" name="acc_id">
                                         </div>
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-3">
                                             <input class="form-control" type="text" name="bank_acc" readonly>
                                         </div>
                                         <div class="col-sm-4">
@@ -173,7 +167,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">No. Giro</label>
+                                            <label class="col-sm-2 control-label">No. Giro/Transfer</label>
                                             <div class="col-sm-7">
                                                 <input type="text" class="form-control" name="bank_no_giro1">
                                             </div>
@@ -245,7 +239,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">No. Giro</label>
+                                            <label class="col-sm-2 control-label">No. Giro/Transfer</label>
                                             <div class="col-sm-7">
                                                 <input type="text" class="form-control" name="bank_no_giro2">
                                             </div>
@@ -311,181 +305,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="tab-pane fade" id="2">
-                                    <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Bank Masuk</h2>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction(1)"><i class="glyphicon glyphicon-plus"></i> Tambah Giro/Transfer</button>
-                                        </div>
-                                    </div><br>
-                                    <div id="myDIV1">
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Type</label>
-                                             <div class="col-sm-4">
-                                                  <select class="form-control" type="text" name="bank_type1">
-                                                          <option value="G">Giro</option>
-                                                          <option value="T">Transfer</option>
-                                                  </select>
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">No.Giro/Transfer</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="bank_no_giro1">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Tanggal</label>
-                                             <div class="col-sm-4">
-                                             <input class="form-control" type="date" name="bank_giro_tgl" value="<?php echo date("d/m/Y"); ?>">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Nominal</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control curr-num" type="text" name="nominal1">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_bank_in_detail1()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_bank_in_detail1" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center">No</th>
-                                                        <th class="text-center">Type</th>
-                                                        <th class="text-center">No. Giro/Transfer</th>
-                                                        <th class="text-center">Tgl Giro</th>
-                                                        <th class="text-center">Nominal</th>
-                                                        <th class="text-center">Actions</th>
-                                                    </tr>                            
-                                                </thead>                        
-                                         </table>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction(2)"><i class="glyphicon glyphicon-plus"></i> Tambah Giro/Transfer Detail</button>
-                                        </div>
-                                    </div><br>
-                                    <div id="myDIV2">
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Account</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="acc_detail" readonly>
-                                             </div>
-                                             <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_acc2('2')"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                             </div>
-                                             <input class="form-control" type="hidden" name="acc_id_detail">
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Type</label>
-                                             <div class="col-sm-4">
-                                                  <select class="form-control" type="text" name="bank_type2">
-                                                          <option value="G">Giro</option>
-                                                          <option value="T">Transfer</option>
-                                                  </select>
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">No.Giro/Transfer</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="bank_no_giro2">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Reff</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="no_jual">
-                                             </div>
-                                             <div class="col-sm-1">
-                                                    <button type="button" class="btn btn-info" onclick="srch_inv()"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                             </div>
-                                             <input class="form-control" type="hidden" name="invoice_id">
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Keterangan</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="ket_detail">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="col-sm-3 control-label">Nominal</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control curr-num" type="text" name="nominal2">
-                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_bank_in_detail2()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_bank_in_detail2" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                                 <thead>
-                                                    <tr>
-                                                        <th class="text-center">
-                                                            No
-                                                        </th>
-                                                        <th class="text-center">
-                                                            No Acc
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Type
-                                                        </th>
-                                                        <th class="text-center">
-                                                            No. Giro/Transfer
-                                                        </th>
-                                                        <th class="text-center">
-                                                            No Jual
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Keterangan
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Nominal
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Actions
-                                                        </th>
-                                                    </tr>                            
-                                                </thead>                        
-                                         </table>
-                                    </div>
-                                     <div class="form-group">
-                                            <label class="col-sm-3 control-label">Mata Uang || Rate</label>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_name" readonly>
-                                                <input type="hidden" name="curr_id" value="">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" name="curr_rate" readonly>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a href="javascript:void(0)" onclick="srch_curr()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span> Cari</a>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="total">
-                                            </div>
-                                            <div class="col-sm-4">
-                                                  <input type="hidden" class="form-control" type="text" name="curr_id">
-                                            </div>
-                                    </div> 
-                                    <div id="mySave" class="row">
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_bank_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
-                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
-                                                <i class="glyphicon glyphicon-print"></i>
-                                                Cetak
-                                        </button>
-                                    </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -566,23 +385,16 @@
             </div>
         </div>
     </div>
-    <!-- modal account selesai -->
-      <!-- Modal Kode Bank -->
+    <!-- Modal Kode Bank -->
     <div class="modal fade" id="modal_bank" name="modal_bank" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/bank_in') ; ?>" method="post">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dtb_bank" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -591,24 +403,18 @@
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Kode Account</th>
+                                        <th>Info</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead> 
                             </table>
                         </div>
                         </div>
-                    </div>                  
+                    </div>
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
-                </form>
             </div>
         </div>
     </div>
-    <!-- modal bank selesai -->
     <!-- Modal Customer -->
     <div class="modal fade" id="modal_cust" role="dialog">
         <div class="modal-dialog" role="document">
@@ -641,7 +447,6 @@
             </div>
         </div>
     </div>
-    <!-- modal customer selesai -->
     <!-- Modal Currency -->
     <div class="modal fade" id="modal_curr" role="dialog">
         <div class="modal-dialog" role="document">
@@ -673,25 +478,18 @@
             </div>
         </div>
     </div>
-    <!-- modal customer selesai -->
     <!-- Modal Invoice -->
     <div class="modal fade" id="modal_inv" name="modal_inv" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/f_pjk') ; ?>" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Cari Invoice</h4>
-                    </div>
-                    <div class="modal-body">
-                        <!-- <input type="text" class="form-control" name="dept"> -->
-                        <div class="row">
-                            <!-- <input type="text" name="id_meeting" >
-                            <input type="text" name="title" >
-                            <input type="text" name="tgl" >
-                            <input type="text" name="jam" > -->
-                            <div class="col-sm-12 col-xs-12 table-responsive">
-                                <div class="maxh">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Cari Invoice</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <div class="maxh">
                                 <table id="dtb_inv" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
@@ -703,17 +501,14 @@
                                             <th>Pilih</th>
                                         </tr>
                                     </thead>
-                                            
                                 </table>
                             </div>
-                            </div>
-                        </div>                  
-                    </div>
-                </form>
+                        </div>
+                    </div>                  
+                </div>
             </div>
         </div>
-    </div>
-    <!-- modal invoice selesai -->   
+    </div>    
     <!-- jQuery -->
     <?php include 'application/views/layout/administrator/jspack.php' ?>
     <script>
@@ -721,10 +516,12 @@
         {
             $('#myDIV1').css({'display':'none'});
             $('#myDIV2').css({'display':'none'});
-            $('[name="bank_no_giro1"]').on('input',function(){
+            $('[name="bank_no_giro1"]').on('input',function()
+            {
                 $('[name="bank_no_giro2"]').val($('[name="bank_no_giro1"]').val());
             });
-            $('[name="bank_no_giro2"]').on('input',function(){
+            $('[name="bank_no_giro2"]').on('input',function()
+            {
                 $('[name="bank_no_giro1"]').val($('[name="bank_no_giro2"]').val());
             });
             $('[name="nominal1"]').on('input',function(){
@@ -966,7 +763,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bank_kode"]').val(data.BANK_CODE);
+                    $('[name="bank_kode"]').val(data.BANK_CODE+' - '+data.BANK_NAME);
                     $('[name="kode_bank"]').val(data.BANK_ID);
                     $('#modal_bank').modal('hide');
                 },
@@ -976,29 +773,6 @@
                 }
             });
         }
-        // function srch_cust()
-        // {
-        //     $('#modal_cust').modal('show');
-        //     $('.modal-title').text('Cari Customer');
-        //     table = $('#dtb_cust').DataTable({
-        //         "info": false,
-        //         "destroy": true,
-        //         "responsive": true,
-        //         "processing": true,
-        //         "serverSide": true,
-        //         "order": [],
-        //         "ajax": {
-        //             "url": "<?php echo site_url('administrator/Finance/ajax_srch_cust')?>",
-        //             "type": "POST",
-        //         },
-        //         "columnDefs": [
-        //         { 
-        //             "targets": [ 0 ],
-        //             "orderable": false,
-        //         },
-        //         ],
-        //     });
-        // }
         function srch_cust()
         {
             $('#modal_cust').modal('show');
