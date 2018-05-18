@@ -350,16 +350,16 @@
 	            $data['error_string'][] = 'Username Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
-	        if($this->input->post('username') != '')
-	        {
-	        	$this->form_validation->set_rules('username', 'Username', 'is_unique[master_user.USER_NAME]');
-	        	if($this->form_validation->run() == FALSE)
-		        {
-		        	$data['inputerror'][] = 'username';
-		            $data['error_string'][] = 'Username Tidak Boleh Sama';
-		            $data['status'] = FALSE;
-		        }
-	        }
+	        // if($this->input->post('username') != '')
+	        // {
+	        // 	$this->form_validation->set_rules('username', 'Username', 'is_unique[master_user.USER_NAME]');
+	        // 	if($this->form_validation->run() == FALSE)
+		       //  {
+		       //  	$data['inputerror'][] = 'username';
+		       //      $data['error_string'][] = 'Username Tidak Boleh Sama';
+		       //      $data['status'] = FALSE;
+		       //  }
+	        // }
 	        if($this->input->post('checku') == '0')
 	        {
 	        	if($this->input->post('password') == '')

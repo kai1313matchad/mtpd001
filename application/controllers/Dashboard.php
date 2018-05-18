@@ -187,6 +187,25 @@
 			echo json_encode($data);
 		}
 
+		public function save_giroacc()
+		{
+			$accrcv = $this->input->post('os_giroaccrcv');
+			$debt = $this->input->post('os_girodebt');
+			$getaccrcv = $this->db->get_where('chart_of_account',array('coa_id'=>$accrcv));
+			$accrcvname = $getaccrcv->row()->COA_ACCNAME;
+			$getdebt = $this->db->get_where('chart_of_account',array('coa_id'=>$debt));
+			$debtname = $getdebt->row()->COA_ACCNAME;
+			$d_up = array(
+					'accrcvgiro_acc'=>$accrcv,
+					'accrcvgiro_accname'=>$accrcvname,
+					'debtgiro_acc'=>$debt,
+					'debtgiro_accname'=>$debtname
+					);
+			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
+			$data['status'] = TRUE;
+			echo json_encode($data);
+		}
+
 		public function test()
 		{
 			$tb = 'trx_approvalbill';

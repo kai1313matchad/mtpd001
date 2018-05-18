@@ -95,6 +95,16 @@
 	    	return $get->amount;
 		}
 
+		//Fungsi ambil nilai jumlah detail giro masuk
+		public function get_sumgrindet($id)
+		{
+			$this->db->select('sum(grindet_amount) as amount');
+		    $this->db->from('giroin_det');
+	    	$this->db->where('grin_id',$id);
+	    	$get = $this->db->get()->row();
+	    	return $get->amount;
+		}
+
 		//Fungsi ambil id untuk hapus data buku kas
 		public function get_idbukukas($brc,$code,$coa)
 		{

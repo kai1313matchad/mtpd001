@@ -1351,7 +1351,7 @@
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->BNKTRX_NUM;
-				$row[] = $dat->BNKTRX_AMOUNT;
+				$row[] = number_format($dat->BNKTRX_AMOUNT);
 				$row[] = '<a href="javascript:void(0)" title="Pilih Data" class="btn btn-sm btn-info btn-responsive" onclick="pick_giroin('."'".$dat->BNKTRX_NUM."'".')">Pilih</a>';
 				$data[] = $row;
 			}
@@ -2045,51 +2045,123 @@
 
 		public function ajax_simpan_giro_in()
 		{
-			// $appr = null;
-			// if($this->input->post('appr_id') != null)
-			// {
-			// 	$appr = $this->input->post('appr_id');
-			// }
-			$data = array(	                
+			$data = array(
 	                'user_id' => $this->input->post('user_id'),
-	                // 'appr_id' => $appr,
-				    // 'USER_ID' => '1',
-                    'GRIN_CODE' => $this->input->post('giro_nomor'),
-                    'BANK_ID' => $this->input->post('giro_bank_id'),
-                 //    'CUST_ID' => $this->input->post('kas_customer_id'),
-	                // 'COA_ID' => $this->input->post('acc_id'),
-	                // 'CURR_ID' => $this->input->post('curr_id'),
-	                'GRIN_STS' => '1',
-	                'GRIN_DATE' => $this->input->post('giro_tgl'),
-	                // 'po_ordnum' => $this->input->post('po_so'),
-	                // 'po_term' => $this->input->post('po_term'),
-	                'GRIN_INFO' => $this->input->post('giro_info')
-	                // 'po_sub' => $this->input->post('po_subs'),
-	                // 'po_gtotal' => $this->input->post('po_subs')	                
+                    'grin_code' => $this->input->post('giro_nomor'),
+                    'bank_id' => $this->input->post('giro_bank_id'),
+	                'grin_sts' => '1',
+	                'grin_date' => $this->input->post('giro_tgl'),
+	                'grin_info' => $this->input->post('giro_info')	                
 	            );
-	        // $update = $this->crud->save('trx_giro_in',$data);
 	        $update = $this->crud->update('trx_giro_in',$data,array('grin_id'=>$this->input->post('giro_id')));
+	        //cek jurnal
+	    	$this->db->from('account_journal');
+	    	$this->db->where('jou_reff',$this->input->post('giro_nomor'));
+	    	$this->db->where('branch_id',$this->input->post('user_branch'));
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	$coabank = $this->input->post('giro_bank_acc_id');
+	    	$coagiro = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->ACCRCVGIRO_ACC;
+	    	$infos = 'Pencairan Giro ke '.$this->input->post('giro_nama_bank').', '.$this->input->post('kas_info');
+	    	$getsum = $this->finance->get_sumgrindet($this->input->post('giro_id'));
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_reff'=>$this->input->post('giro_nomor'),
+						'jou_date'=>$this->input->post('giro_tgl'),
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	//Input Detail Jurnal Debet
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$coagiro,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$getsum,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				//Input Detail Jurnal Kredit
+	    	    $que2 = $this->db->get_where('giroin_det',array('grin_id'=>$this->input->post('giro_id')));
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) 
+	    	    {
+					$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$coabank,
+						'joudet_debit'=>$dat->GRINDET_AMOUNT,
+						'joudet_credit'=>0
+						);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+					$dtgirorec = array(
+						'gir_dtsts' => '1'
+					);
+					$upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
+			    }
+	    	}
+	    	else
+	    	{
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$this->input->post('user_branch'),
+						'user_id'=>$this->input->post('user_id'),
+						'jou_code'=>$joucode,
+						'jou_reff'=>$this->input->post('giro_nomor'),
+						'jou_date'=>$this->input->post('giro_tgl'),
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+		    	//Input Detail Jurnal Debet
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$coagiro,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$getsum,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				//Input Detail Jurnal Kredit
+				$que2 = $this->db->get_where('giroin_det',array('grin_id'=>$this->input->post('giro_id')));
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) 
+	    	    {
+					$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$coabank,
+						'joudet_debit'=>$dat->GRINDET_AMOUNT,
+						'joudet_credit'=>0
+						);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+					$dtgirorec = array(
+						'gir_dtsts' => '1'
+					);
+					$upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
+				}
+	    	}
 	        echo json_encode(array("status" => TRUE));
 		}
 
 		public function ajax_simpan_giro_in_detail()
 		{
-			$tgl = date('Y-m-d');
             $data = array(
-                    'GRIN_ID' => $this->input->post('giro_id'),
-                    'GIR_ID' => $this->input->post('gir_id'),
-                    // 'COA_ID' => $this->input->post('acc_id_detail'),
-                    // 'CSHINDET_REFF' => $this->input->post('no_jual'),
-                    'GRINDET_DATE' => $this->input->post('tgl_giro'),
-                    'GRINDET_CODE' => $this->input->post('nomor_giro'),
-                    'GRINDET_AMOUNT' => $this->input->post('nominal')
+                    'grin_id' => $this->input->post('giro_id'),
+                    'gir_id' => $this->input->post('gir_id'),
+                    'grindet_date' => $this->input->post('tgl_giro'),
+                    'grindet_code' => $this->input->post('nomor_giro'),
+                    'grindet_amount' => $this->input->post('nominal')
                 );
             $buku = array(
-            		'CAIR_DATE' => $tgl,
-            		'GR_CODE' => $this->input->post('giro_nomor'),
-            		'CAIR_STS' => '1'
+            		'cair_date' => $this->input->post('tgl_giro'),
+            		'gr_code' => $this->input->post('giro_nomor'),
+            		'cair_sts' => '1'
             	    );
-            $id = array('GR_NUMBER' => $this->input->post('nomor_giro'));
+            $id = array('gr_number' => $this->input->post('nomor_giro'));
             $update = $this->crud->save('giroin_det',$data);
             $cair = $this->crud->update('buku_giro',$buku,$id);
 	        echo json_encode(array("status" => TRUE)); 

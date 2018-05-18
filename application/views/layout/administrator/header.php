@@ -107,10 +107,10 @@
                                     <a <?php if ($menulist == 'bankout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bank_out') ?>"><i class="fa <?php if ($menulist == 'bankout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Bank Keluar</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'bgin') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_in') ?>"><i class="fa <?php if ($menulist == 'bgin') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Giro Masuk</a>
+                                    <a <?php if ($menulist == 'bgin') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_in') ?>"><i class="fa <?php if ($menulist == 'bgin') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Pencairan Giro Masuk</a>
                                 </li>
                                 <li>
-                                    <a <?php if ($menulist == 'bgout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_out') ?>"><i class="fa <?php if ($menulist == 'bgout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Giro Keluar</a>
+                                    <a <?php if ($menulist == 'bgout') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/bg_out') ?>"><i class="fa <?php if ($menulist == 'bgout') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Pencairan Giro Keluar</a>
                                 </li>
                                 <!-- <li>
                                     <a <?php if ($menulist == 'fpjk') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Finance/f_pjk') ?>"><i class="fa <?php if ($menulist == 'fpjk') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Faktur Pajak</a>

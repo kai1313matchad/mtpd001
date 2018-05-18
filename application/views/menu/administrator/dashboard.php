@@ -223,6 +223,44 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Setting - Rekening/Akun Transaksi Giro</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id="form_giroacc" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Piutang Giro</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_giroaccrcv" id="os_giroaccrcv" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Hutang Giro</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_girodebt" id="os_girodebt" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan</label>
+                                                <div class="col-xs-6">
+                                                    <textarea name="stg_infogiroacc" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-offset-3 col-xs-6">
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="sub_giroacc()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="4"><br>
                         <form class="form-horizontal" id="form_useraccess">
@@ -282,6 +320,8 @@
             drop_coa('os_prccoadeb');
             drop_coa('os_prccoacrd');
             drop_coa('os_nota');
+            drop_coa('os_giroaccrcv');
+            drop_coa('os_girodebt');
             drop_bank();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
@@ -304,6 +344,7 @@
                     $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
                     $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG);
                     $('[name="stg_infonotafin"]').val('Akun Nota Gantung : '+data.NOTAFIN_ACCNAME);
+                    $('[name="stg_infogiroacc"]').val('Akun Piutang Giro : '+data.ACCRCVGIRO_ACCNAME+'\n'+'Akun Hutang Giro : '+data.DEBTGIRO_ACCNAME);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -403,6 +444,24 @@
                 url : "<?php echo site_url('Dashboard/save_notafin/')?>",
                 type: "POST",
                 data: $('#form_notafin').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert('Data Berhasil Disimpan');
+                    os_data();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error adding / update data');                    
+                }
+            });
+        }
+        function sub_giroacc()
+        {
+            $.ajax({
+                url : "<?php echo site_url('Dashboard/save_giroacc/')?>",
+                type: "POST",
+                data: $('#form_giroacc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {

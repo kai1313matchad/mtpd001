@@ -1,32 +1,9 @@
 <!-- Page Content -->
-        <style>
-              #myDIV {
-                    width: 100%;
-                    padding: 50px 0;
-                    text-align: center;
-                    background-color: lightblue;
-                    margin-top: 20px;
-              }
-              #myKas {
-                    width: 100%;
-                    /*padding: 50px 0;*/
-                    text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
-              }
-              #mySave {
-                    width: 100%;
-                    /*padding: 50px 0;*/
-                    text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
-              }
-        </style>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Giro Masuk</h1>
+                        <h1 class="page-header">Pencairan Giro Masuk</h1>
                     </div>                    
                 </div>
                 <div class="row">
@@ -47,12 +24,13 @@
                             <li class="active">
                                 <a href="#myGiro" data-toggle="tab">Giro Masuk</a>
                             </li>
-                            <li>
-                                <a href="#2" data-toggle="tab">Detail Giro Masuk</a>
-                            </li>
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_giro">
                             <div class="tab-content">
+                                <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                 <div class="tab-pane fade in active" id="myGiro">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
@@ -60,130 +38,133 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">No Giro Masuk </label>
+                                        <label class="col-sm-3 control-label">No Giro Masuk</label>
                                         <div class="col-sm-1">
                                             <a id="genbtn" href="javascript:void(0)" onclick="gen_giroin()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-7">
                                             <input type="text" class="form-control" name="giro_nomor">
+                                            <input type="hidden" value='0' class="form-control" name="giro_id">
                                         </div>
-                                        <input type="hidden" value='0' class="form-control" name="giro_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="giro_tgl" value="<?php echo date("d/m/Y"); ?>" readonly>
+                                        <div class="col-sm-8">
+                                            <div class='input-group date dtp' id='dtp1'>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input type='text' class="form-control input-group-addon" name="giro_tgl" value="<?= date('Y-m-d')?>" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Bank</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-block btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span></button>
+                                        </div>
+                                        <div class="col-sm-3">
                                             <input class="form-control" type="text" name="giro_kode_bank" readonly>
                                         </div>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="giro_nama_bank" readonly>
                                         </div>
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                        </div>
                                         <input class="form-control" type="hidden" name="giro_bank_id">
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Acc </label>
-                                        <div class="col-sm-4">
+                                        <label class="col-sm-3 control-label">Akun</label>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info btn-block" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span></button>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="giro_bank_acc" readonly>
+                                            <input class="form-control" type="hidden" name="giro_bank_acc_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="giro_info">
+                                        <div class="col-sm-8">
+                                            <textarea name="giro_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
-                                </div>      
-                                <div class="tab-pane fade" id="2">
                                     <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Giro Masuk</h2>
+                                        <label class="col-sm-3 control-label">Detail Giro Masuk</label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline"><input type="radio" onclick="hide_()" id="det_radio0" name="det_radio">Tampilkan</label>
+                                            <label class="radio-inline"><input type="radio" onclick="hide_()" id="det_radio1" name="det_radio">Sembunyikan</label>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Giro Masuk</button>
-                                        </div>
-                                    </div><br>
-                                    <div id="myDIV">
+                                    <div id="det_cashin" class="col-sm-offset-3">
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Giro</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nomor_giro">
-                                             </div>
-                                             <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_giroin()"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                             </div>
-                                             <input class="form-control" type="hidden" name="gir_id">
+                                            <label class="col-sm-2 control-label">No Giro</label>
+                                            <div class="col-sm-2">
+                                                <button type="button" class="btn btn-block btn-info" onclick="srch_giroin()"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" name="nomor_giro" readonly>
+                                                <input type="hidden" name="gir_id">
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">Tanggal Giro</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="date" name="tgl_giro">
-                                             </div>
+                                            <label class="col-sm-2 control-label">Tanggal Giro</label>
+                                            <div class="col-sm-7">
+                                                <div class='input-group date dtp' id='dtp1'>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    <input type='text' class="form-control input-group-addon" name="tgl_giro" value="<?= date('Y-m-d')?>" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">Nominal</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control curr-num" type="text" name="nominal" readonly>
-                                             </div>
+                                            <label class="col-sm-2 control-label">Nominal</label>
+                                            <div class="col-sm-7">
+                                                <input class="form-control curr-num" type="text" name="nominal" readonly>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_giro_in_detail()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <div class="col-sm-offset-2 col-sm-4">
+                                                <a href="javascript:void(0)" onclick="save_giro_in_detail()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                                <table id="dtb_giro_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Nomor Giro</th>
+                                                            <th class="text-center">Tanggal Giro</th>
+                                                            <th class="text-center">Nominal</th>
+                                                            <th class="text-center">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_giro_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                                 <thead>
-                                                    <tr>
-                                                        <th class="text-center">
-                                                            No
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Nomor Giro
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Tanggal Giro
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Nominal
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Actions
-                                                        </th>
-                                                    </tr>                            
-                                                </thead>                        
-                                         </table>
-                                    </div>
-                                    <div id="mySave" class="row">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_giro_in()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
-                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
-                                                <i class="glyphicon glyphicon-print"></i>
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="save_giro_in()" class="btn btn-block btn-primary btn-default btnCh">
+                                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                                Simpan
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <a href="javascript:void(0)" onclick="printPre()" class="btn btn-block btn-info btn-default">
+                                                <span class="glyphicon glyphicon-print"></span>
                                                 Cetak
-                                        </button>
-                                    </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
     </div>
-
     <!-- Modal Search -->
     <div class="modal fade" id="modal_giro_in_edit" name="modal_giro_in_edit" role="dialog">
         <div class="modal-dialog" role="document">
@@ -216,32 +197,25 @@
             </div>
         </div>
     </div>
-
-     <!-- Modal Kode Bank -->
+    <!-- Modal Kode Bank -->
     <div class="modal fade" id="modal_bank" name="modal_bank" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/bank_in') ; ?>" method="post">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
-                            <table id="dtb_giro_in_edit" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                            <table id="dtb_bank" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Kode Account</th>
+                                        <th>Info</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead> 
@@ -250,32 +224,19 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
-                </form>
             </div>
         </div>
     </div>
-    <!-- modal bank selesai -->
-
-     <!-- Modal Kode Giro -->
+    <!-- Modal Kode Giro -->
     <div class="modal fade" id="modal_giro" name="modal_giro" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/giro_in') ; ?>" method="post">
+            <div class="modal-content">            
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dtb_giro" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -292,54 +253,47 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
-                </form>
             </div>
         </div>
     </div>
-    <!-- modal giro selesai -->
-    
+    <!-- Modal Acc -->
+    <div class="modal fade" id="modal_account" name="modal_account" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <div class="maxh">
+                            <table id="dtb_acc" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        </div>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
-    <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
-    <!-- Bootstrap Core JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>     -->
-    <!-- Metis Menu Plugin JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script> -->
-    <!-- Custom Theme JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script> -->
-    <!-- Datatables -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.bootstrap.min.js"></script> -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.responsive.js"></script> -->
-    <!-- Addon -->
-    <!-- <script src="http://localhost/mtpd/assets/addons/extra.js"></script> -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
-</body>
-</html>
-<script>
-$(document).ready(function() {
-    $('#myDIV').css({'display':'none'});
-    // $('[name="kas_mu"]').change(function(){
-    //     curr($('select :selected').val());
-    // })
-    var id = $('[name="giro_id"]').val();
-    giro_masuk_detail(id);
-})
-
-    function myFunction() 
-    {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-    }
-
-    function gen_giroin()
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
+    <script>
+        $(document).ready(function()
+        {
+            var id = $('[name="giro_id"]').val();
+            giro_masuk_detail(id);
+        })
+        function gen_giroin()
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/gen_giroin')?>",
@@ -350,8 +304,6 @@ $(document).ready(function() {
                     $('[name="giro_id"]').val(data.id);
                     $('[name="giro_nomor"]').val(data.kode);
                     $('#genbtn').attr('disabled',true);
-                    // termapp(data.id);
-                    // costapp(data.id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -359,21 +311,63 @@ $(document).ready(function() {
                 }
             });
         }
-
-    function srch_bank()
+        function srch_bank()
         {
             $('#modal_bank').modal('show');
-            $('.modal-title').text('Cari Bank');            
+            $('.modal-title').text('Cari Bank');
             table = $('#dtb_bank').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_bank')?>",
-                    "type": "POST",                
+                    "type": "POST",
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_bank(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="giro_kode_bank"]').val(data.BANK_CODE);
+                    $('[name="giro_nama_bank"]').val(data.BANK_NAME);
+                    $('[name="giro_bank_id"]').val(data.BANK_ID);
+                    pick_acc(data.COA_ID);
+                    $('#modal_bank').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function srch_acc()
+        {
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc2/')?>",
+                    "type": "POST",
                 },                
                 "columnDefs": [
                 { 
@@ -383,29 +377,36 @@ $(document).ready(function() {
                 ],
             });
         }
-
-    function pick_bank(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="giro_kode_bank"]').val(data.BANK_CODE);
-                $('[name="giro_nama_bank"]').val(data.BANK_NAME);
-                $('[name="giro_bank_id"]').val(data.BANK_ID);
-                pick_acc(data.COA_ID);
-                $('#modal_bank').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function srch_giroin()
+        function pick_acc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="giro_bank_acc"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
+                    $('[name="giro_bank_acc_id"]').val(data.COA_ID);
+                    if (sts=='1')
+                    {
+                        $('[name="bank_acc"]').val(data.COA_ACC);
+                        $('[name="bank_acc_info"]').val(data.COA_ACCNAME);
+                        $('[name="acc_id"]').val(data.COA_ID);
+                    }
+                    else
+                    {
+                        $('[name="acc_detail"]').val(data.COA_ACC +" - "+ data.COA_ACCNAME);
+                        $('[name="acc_id_detail"]').val(data.COA_ID);
+                    } 
+                    $('#modal_account').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function srch_giroin()
         {
             $('#modal_giro').modal('show');
             $('.modal-title').text('Cari Giro');            
@@ -425,55 +426,39 @@ $(document).ready(function() {
                     "targets": [ 0 ],
                     "orderable": false,
                 },
+                {
+                    "targets": ['_all'],
+                    "className": 'text-center'
+                },
                 ],
             });
         }
-
-    function pick_giroin(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_giroin/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="nomor_giro"]').val(data.BNKTRX_NUM);
-                $('[name="nominal"]').val(data.BNKTRX_AMOUNT);
-                $('[name="gir_id"]').val(data.GIR_ID);
-                $('#modal_giro').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    
-    function pick_acc(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="giro_bank_acc"]').val(data.COA_ACC);       
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function printPre()
+        function pick_giroin(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_giroin/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="nomor_giro"]').val(data.BNKTRX_NUM);
+                    $('[name="nominal"]').val(data.BNKTRX_AMOUNT);
+                    $('[name="gir_id"]').val(data.GIR_ID);
+                    $('#modal_giro').modal('hide');                 
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function printPre()
         {
             var ids = $('[name=giro_id]').val();
             window.open ( "<?php echo site_url('administrator/Finance/pageprint_gm/')?>"+ids,'_blank');
         }
-
-    function save_giro_in()
-        {            
+        function save_giro_in()
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_giro_in')?>",
                 type: "POST",
@@ -492,7 +477,7 @@ $(document).ready(function() {
                 }
             });
         }
-    function save_giro_in_detail()
+        function save_giro_in_detail()
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_giro_in_detail')?>",
@@ -514,8 +499,7 @@ $(document).ready(function() {
                 }
             });
         }
-
-         function giro_masuk_detail(id)
+        function giro_masuk_detail(id)
         {
             table = $('#dtb_giro_in_detail').DataTable({
                 "info": false,
@@ -536,9 +520,8 @@ $(document).ready(function() {
                 ],
             });
         }
-
         function delete_grindet(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_hapus_giro_in_detail')?>/"+id,
                 type: "POST",
@@ -559,7 +542,6 @@ $(document).ready(function() {
                 }
             });
         }
-
         function edit_giro_in()
         {
             $('#modal_giro_in_edit').modal('show');
@@ -641,7 +623,6 @@ $(document).ready(function() {
                 }
             });
         }
-
         function pick_giroinedit(id)
         {
             $.ajax({
@@ -666,4 +647,6 @@ $(document).ready(function() {
                 }
             });
         }
-</script>
+    </script>
+</body>
+</html>
