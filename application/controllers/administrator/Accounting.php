@@ -30,6 +30,16 @@
 			echo json_encode($data);
 		}
 
+		public function saldo_acc()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
+			$data['title']='Match Terpadu - Dashboard Accounting';
+			$data['menu']='accounting';
+			$data['menulist']='saldoacc';
+			$data['isi']='menu/administrator/accounting/acc_saldo';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
 		public function journal_acc()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'ACC');
@@ -782,6 +792,16 @@
 			$que = $this->db->get();
 			$data = $que->row();
 			echo json_encode($data);
+		}
+
+		public function save_saldoacc()
+		{
+			$data = array(
+				'coa_debit'=>$this->input->post('sal_accdebetsum'),
+				'coa_credit'=>$this->input->post('sal_acccreditsum')
+			);
+			$update = $this->crud->update('chart_of_account',$data,array('coa_id'=>$this->input->post('salstr_acc')));
+			echo json_encode(array("status" => TRUE));
 		}
 	}
 ?>

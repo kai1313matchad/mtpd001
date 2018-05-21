@@ -208,6 +208,9 @@
                                     <a <?php if ($menulist == 'dash_account') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting')?>"><i class="fa <?php if ($menulist == 'dash_account') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Dashboard</a>
                                 </li>
                                 <li>
+                                    <a <?php if ($menulist == 'saldoacc') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/saldo_acc')?>"><i class="fa <?php if ($menulist == 'saldoacc') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Saldo Awal</a>
+                                </li>
+                                <li>
                                     <a <?php if ($menulist == 'journal') {echo 'class=active';} ?> href="<?php echo base_url('administrator/Accounting/journal_acc')?>"><i class="fa <?php if ($menulist == 'journal') {echo 'fa-circle';} else {echo 'fa-circle-o';}?> fa-fw"></i> Jurnal Umum</a>
                                 </li>
                                 <li>

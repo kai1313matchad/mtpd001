@@ -10,6 +10,7 @@
 			$this->load->model('datatables/showdata/Dt_custintern','master_custintern');
 			$this->load->model('datatables/showdata/Dt_govsts','master_govsts');
 			$this->load->model('datatables/showdata/Dt_coapartp','coa_partp');
+			$this->load->model('datatables/showdata/Dt_saldocoa','saldo_coa');
 			$this->load->model('datatables/showdata/Dt_cashindet','det_cashin');
 			$this->load->model('datatables/showdata/Dt_cashoutdet','det_cashout');
 			$this->load->model('datatables/showdata/Dt_budgetdet','det_budget');
@@ -971,6 +972,30 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_accrcv->count_all(),
 							"recordsFiltered" => $this->rpt_accrcv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Saldo COA
+		public function showcoa_saldo()
+		{
+			$list = $this->saldo_coa->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = number_format($dat->COA_DEBIT);
+				$row[] = number_format($dat->COA_CREDIT);
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->saldo_coa->count_all(),
+							"recordsFiltered" => $this->saldo_coa->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);
