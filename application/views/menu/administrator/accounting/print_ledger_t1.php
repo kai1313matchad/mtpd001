@@ -182,16 +182,28 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-                    for (var i = 0; i < data.length; i++)
+                    for (var i = 0; i < data['a'].length; i++)
                     {
                         var $tr = $('<tr>').append(
-                            $('<td class="text-center">'+moment(data[i]["JOU_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
-                            $('<td class="text-center">'+data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_CODE"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_REFF"]+'</td>'),
-                            $('<td class="text-center">'+data[i]["JOU_INFO"]+'</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_DEBIT"])+'</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data[i]["JOUDET_CREDIT"])+'</td>')
+                            $('<td class="text-center">'+moment(data['a'][i]["JOU_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["JOU_CODE"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["JOU_REFF"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["JOU_INFO"]+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_DEBIT"])+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_CREDIT"])+'</td>')
+                            ).appendTo('#tb_content');
+                    }
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td class="text-center">'+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center"></td>'),
+                            $('<td class="text-center"></td>'),
+                            $('<td class="text-center">Saldo Awal</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_DEBIT"])+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_CREDIT"])+'</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
@@ -209,7 +221,6 @@
                 searching: false,                
                 bLengthChange: false,
                 paging: false,
-                // responsive: true,
                 columnDefs:
                 [                    
                     {visible: false, targets: 1},
