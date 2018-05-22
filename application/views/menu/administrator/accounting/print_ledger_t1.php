@@ -182,6 +182,19 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    var newdate = moment($('[name="date_start"]').val()).subtract(1, 'days');
+                    for (var i = 0; i < data['b'].length; i++)
+                    {
+                        var $tr = $('<tr>').append(
+                            $('<td class="text-center">'+moment(newdate).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center"></td>'),
+                            $('<td class="text-center"></td>'),
+                            $('<td class="text-center">Saldo Awal</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_DEBIT"])+'</td>'),
+                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_CREDIT"])+'</td>')
+                            ).appendTo('#tb_content');
+                    }
                     for (var i = 0; i < data['a'].length; i++)
                     {
                         var $tr = $('<tr>').append(
@@ -192,18 +205,6 @@
                             $('<td class="text-center">'+data['a'][i]["JOU_INFO"]+'</td>'),
                             $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_DEBIT"])+'</td>'),
                             $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_CREDIT"])+'</td>')
-                            ).appendTo('#tb_content');
-                    }
-                    for (var i = 0; i < data['b'].length; i++)
-                    {
-                        var $tr = $('<tr>').append(
-                            $('<td class="text-center">'+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY')+'</td>'),
-                            $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
-                            $('<td class="text-center"></td>'),
-                            $('<td class="text-center"></td>'),
-                            $('<td class="text-center">Saldo Awal</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_DEBIT"])+'</td>'),
-                            $('<td class="text-right">'+'Rp '+money_conv(data['b'][i]["COA_CREDIT"])+'</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_journal();

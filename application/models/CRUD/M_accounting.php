@@ -48,6 +48,16 @@
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
 			$this->db->group_by('a.coa_id');
 			$que = $this->db->get();
+			// $res = $que->result();
+			// $data = array();
+			// foreach ($res as $dat)
+			// {
+			// 	$this->db->select();
+			// 	$this->db->from('jou_details a');
+			// 	$this->db->join();
+			// 	$data[]=array('a'=>$dat->COA_ID,'b'=>$dat->COA_ACCNAME);
+			// }
+			// return $data;
 			return $que->result();
 		}
 	}
