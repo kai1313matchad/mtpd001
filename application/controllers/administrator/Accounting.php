@@ -214,6 +214,7 @@
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->accounting->gen_ledger($brc,$coa,$datestart,$dateend);
 			$data['b'] = $this->accounting->gen_saldostr($brc,$coa,$datestart,$dateend);
+			
 			// if ($this->input->post('coaid')) 
 			// {
 			// 	$this->db->where('a.coa_id', $this->input->post('coaid') );
