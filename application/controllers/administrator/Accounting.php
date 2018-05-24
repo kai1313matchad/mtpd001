@@ -214,25 +214,6 @@
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->accounting->gen_ledger($brc,$coa,$datestart,$dateend);
 			$data['b'] = $this->accounting->gen_saldostr($brc,$coa,$datestart,$dateend);
-			
-			// if ($this->input->post('coaid')) 
-			// {
-			// 	$this->db->where('a.coa_id', $this->input->post('coaid') );
-			// }
-			// if ($this->input->post('branch')) 
-			// {
-			// 	$this->db->where('b.branch_id', $this->input->post('branch') );
-			// }
-			// if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-			// 	$this->db->where('b.jou_date >=', $this->input->post('date_start'));
-   //      		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
-			// }
-			// $this->db->from('jou_details a');
-			// $this->db->join('account_journal b','b.jou_id = a.jou_id');
-			// $this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			// $this->db->join('master_branch d','d.branch_id = b.branch_id');
-			// $que = $this->db->get();
-			// $data = $que->result();
 			echo json_encode($data);
 		}
 

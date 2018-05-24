@@ -29,29 +29,79 @@
         {
             background-color: white;
             font-family: 'times new roman';
-            font-size: 12px;
         }
-        .bg-table
+        .logos
         {
-            min-height: 1000px;
+            padding-top: 10px;
         }
-        .bt-border
+        .table th
         {
-            border-bottom: solid 2px black;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 16px;
         }
-        .border-pay
+        .table td
         {
-            border: solid 2px black;
-            min-height: 50px;
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            font-size: 14px;
         }
         tr.group,
-        tr.group:hover {
+        tr.group:hover
+        {
             background-color: #ddd !important;
         }
-
         tr.subgroup,
-        tr.subgroup {
+        tr.subgroup
+        {
            background-color: cornsilk !important;
+        }
+        @media print
+        {
+            @page
+            {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            h2
+            {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            h3
+            {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            h4
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .table th
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 16px;
+            }
+            .table td
+            {
+                border: solid 1px black !important;
+                margin: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                font-size: 14px;
+            }
+            .buttons-excel
+            {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -78,51 +128,27 @@
                 <table id="dtb_rptldg" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="col-sm-3 text-center">
-                                Rekening
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Saldo Awal
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Mutasi
-                            </th>
-                            <th colspan="2" class="text-center">
-                                Saldo Akhir
-                            </th>
+                            <th rowspan="2" class="col-sm-3 text-center">Rekening</th>
+                            <th colspan="2" class="text-center">Saldo Awal</th>
+                            <th colspan="2" class="text-center">Mutasi</th>
+                            <th colspan="2" class="text-center">Saldo Akhir</th>
                         </tr>
                         <tr>
-                            <th class="text-center">
-                                Debet
-                            </th>
-                            <th class="text-center">
-                                Kredit
-                            </th>
-                            <th class="text-center">
-                                Debet
-                            </th>
-                            <th class="text-center">
-                                Kredit
-                            </th>
-                            <th class="text-center">
-                                Debet
-                            </th>
-                            <th class="text-center">
-                                Kredit
-                            </th>
+                            <th class="text-center">Debet</th>
+                            <th class="text-center">Kredit</th>
+                            <th class="text-center">Debet</th>
+                            <th class="text-center">Kredit</th>
+                            <th class="text-center">Debet</th>
+                            <th class="text-center">Kredit</th>
                         </tr>
                     </thead>
                     <tbody id="tb_content"></tbody>
                     <tfoot>
-                        <th class="text-right">
-                            Total Mutasi
-                        </th>
+                        <th class="text-right">Total Mutasi</th>
                         <th></th>
                         <th></th>
-                        <th class="text-right" name="td1">                            
-                        </th>
-                        <th class="text-right" name="td2">                            
-                        </th>
+                        <th class="text-right" name="td1"></th>
+                        <th class="text-right" name="td2"></th>
                         <th></th>
                         <th></th>
                     </tfoot>
@@ -131,12 +157,12 @@
         </div>
     </div>
     <!-- jQuery -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
     <script>
         $(document).ready(function()
         {
             pick_ledger();
-            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).format('DD-MMM-YYYY'));
+            $('[name="rptldg_period"]').text(moment($('[name="date_start"]').val()).locale('id').format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY'));
             var brc = $('[name="branch"]').val();
             if(brc != '')
             {
@@ -170,8 +196,8 @@
                     }
                     for (var i = 0; i < data['b'].length; i++)
                     {
-                        $('[name="ssd'+data['b'][i]["COA_ACC"]+'"]').text(data['b'][i]["ssd"]);
-                        $('[name="ssc'+data['b'][i]["COA_ACC"]+'"]').text(data['b'][i]["ssc"]);
+                        $('[name="ssd'+data['b'][i]["COA_ACC"]+'"]').text((data['b'][i]["ssd"]*1)+(data['b'][i]["COA_DEBIT"]*1));
+                        $('[name="ssc'+data['b'][i]["COA_ACC"]+'"]').text((data['b'][i]["ssc"]*1)+(data['b'][i]["COA_CREDIT"]*1));
                     }
                     for (var i = 0; i < data['a'].length; i++)
                     {

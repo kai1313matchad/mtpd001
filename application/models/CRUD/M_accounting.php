@@ -11,7 +11,7 @@
 			}
 			if($coa != NULL)
 			{
-				$this->db->where('b.coa_id',$coa);
+				$this->db->where('a.coa_id',$coa);
 			}
 			if ($datestr != NULL AND $dateend != NULL)
 			{
@@ -34,7 +34,7 @@
 			}
 			if($coa != NULL)
 			{
-				$this->db->where('b.coa_id',$coa);
+				$this->db->where('a.coa_id',$coa);
 			}
 			if ($datestr != NULL AND $dateend != NULL)
 			{
