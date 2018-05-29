@@ -660,6 +660,7 @@
     <script>
         $(document).ready(function() 
         {
+            $('#det_radio0').prop('checked',true);
             $('#myDIV').css({'display':'none'});
             // $('[name="kas_mu"]').change(function(){
             //     curr($('select :selected').val());
