@@ -214,8 +214,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Detail Bank Masuk</label>
                                         <div class="col-sm-8">
-                                            <label class="radio-inline"><input type="radio" onclick="hidebm_()" id="det_radio0" name="det_radio">Tampilkan</label>
-                                            <label class="radio-inline"><input type="radio" onclick="hidebm_()" id="det_radio1" name="det_radio">Sembunyikan</label>
+                                            <label class="radio-inline"><input type="radio" onclick="hidebm_()" id="det_radioa0" name="det_radioa">Tampilkan</label>
+                                            <label class="radio-inline"><input type="radio" onclick="hidebm_()" id="det_radioa1" name="det_radioa">Sembunyikan</label>
                                         </div>
                                     </div>
                                     <div id="det_bankmasuk" class="col-sm-offset-3">
@@ -514,6 +514,8 @@
     <script>
         $(document).ready(function() 
         {
+            $('#det_radio0').prop('checked',true);
+            $('#det_radioa0').prop('checked',true);
             $('#myDIV1').css({'display':'none'});
             $('#myDIV2').css({'display':'none'});
             $('[name="bank_no_giro1"]').on('input',function()
@@ -534,6 +536,28 @@
             bank_masuk_detail1(id);
             bank_masuk_detail2(id);
         })
+        function hidebm_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_bankmasuk').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_bankmasuk').css({'display':'block'});
+            }
+        }
+        function hidegiro_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_giro').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_giro').css({'display':'block'});
+            }
+        }
         var sts;
         function edit_sch(id)
         {

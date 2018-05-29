@@ -290,9 +290,21 @@
     <script>
         $(document).ready(function()
         {
+            $('#det_radio0').prop('checked',true);
             var id = $('[name="giro_id"]').val();
             giro_masuk_detail(id);
         })
+        function hide_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_cashin').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_cashin').css({'display':'block'});
+            }
+        }
         function gen_giroin()
         {
             $.ajax({

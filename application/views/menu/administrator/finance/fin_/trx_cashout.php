@@ -667,6 +667,17 @@
             var id = $('[name="kas_id"]').val();
             kas_keluar_detail(id);
         })
+        function hide_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_cashout').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_cashout').css({'display':'block'});
+            }
+        }
         var sts;
         function edit_sch(id)
         {
