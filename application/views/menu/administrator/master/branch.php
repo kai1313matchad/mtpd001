@@ -35,7 +35,10 @@
                                 </th>
                                 <th class="text-center">
                                     No.Tlp
-                                </th>                                
+                                </th>
+                                <th>
+                                    Logo
+                                </th>
                                 <th class="text-center">
                                     Actions
                                 </th>
@@ -129,7 +132,16 @@
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                        </div>                  
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Logo</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control" name="logo" id="logo">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <input type="hidden" name="id" value="">
                         <input type="hidden" name="tb" value="">
                         <input type="hidden" name="sts" value="">
@@ -235,7 +247,7 @@
     <!-- /Modal View -->
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
     <script>
         $(document).ready(function() 
         {
@@ -362,10 +374,22 @@
                 url = "<?php echo site_url('administrator/Master/ajax_update_brc')?>";
             }
 
+            var fd = new FormData();
+            var file_data = $('#logo').prop('files')[0];
+            fd.append("file", file_data);
+            var other_data = $('#form').serializeArray();
+            $.each(other_data,function(key,input)
+            {
+                fd.append(input.name,input.value);
+            });
+
             $.ajax({
                 url : url,
                 type: "POST",
-                data: $('#form').serialize(),
+                // data: $('#form').serialize(),
+                contentType: false,
+                processData: false,
+                data: fd,
                 dataType: "JSON",
                 success: function(data)
                 {

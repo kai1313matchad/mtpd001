@@ -1,27 +1,4 @@
 <!-- Page Content -->
-        <style>
-              #myDIV {
-                    width: 100%;
-                    padding: 50px 0;
-                    text-align: center;
-                    background-color: lightblue;
-                    margin-top: 20px;
-              }
-              #myKas {
-                    width: 100%;
-                    /*padding: 50px 0;*/
-                    text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
-              }
-              #mySave {
-                    width: 100%;
-                    /*padding: 50px 0;*/
-                    text-align: center;
-                    /*background-color: lightblue;*/
-                    /*margin-top: 5px;*/
-              }
-        </style>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
@@ -47,12 +24,13 @@
                             <li class="active">
                                 <a href="#myGiro" data-toggle="tab">Giro Keluar</a>
                             </li>
-                            <li>
-                                <a href="#2" data-toggle="tab">Detail Giro Keluar</a>
-                            </li>
                         </ul>
                         <form action="#" method="post" class="form-horizontal" id="form_giro">
                             <div class="tab-content">
+                                <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
+                                <input type="hidden" name="user_branch" value="<?= $this->session->userdata('user_branch')?>">
+                                <input type="hidden" name="user_name" value="<?= $this->session->userdata('user_name')?>">
+                                <input type="hidden" name="user_brcsts" value="<?= $this->session->userdata('branch_sts')?>">
                                 <div class="tab-pane fade in active" id="myGiro">
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-3 text-center">
@@ -64,113 +42,120 @@
                                         <div class="col-sm-1">
                                             <a id="genbtn" href="javascript:void(0)" onclick="gen_giroout()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span></a>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-7">
                                             <input type="text" class="form-control" name="giro_nomor">
+                                            <input type="hidden" value='0' class="form-control" name="giro_id">
                                         </div>
-                                        <input type="hidden" value='0' class="form-control" name="giro_id">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tanggal</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="giro_tgl" value="<?php echo date("d/m/Y"); ?>" readonly>
+                                        <div class="col-sm-8">
+                                            <div class='input-group date dtp' id='dtp1'>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <input type='text' class="form-control input-group-addon" name="giro_tgl" value="<?= date('Y-m-d')?>" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Bank</label>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-block btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span></button>
+                                        </div>
+                                        <div class="col-sm-3">
                                             <input class="form-control" type="text" name="giro_kode_bank" readonly>
                                         </div>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="giro_nama_bank" readonly>
                                         </div>
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info" onclick="srch_bank()"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                        </div>
                                         <input class="form-control" type="hidden" name="giro_bank_id">
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Acc </label>
-                                        <div class="col-sm-4">
+                                        <label class="col-sm-3 control-label">Akun</label>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-info btn-block" onclick="srch_acc()"><span class="glyphicon glyphicon-search"></span></button>
+                                        </div>
+                                        <div class="col-sm-7">
                                             <input class="form-control" type="text" name="giro_bank_acc" readonly>
+                                            <input class="form-control" type="hidden" name="giro_bank_acc_id">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Keterangan</label>
-                                        <div class="col-sm-4">
-                                            <input class="form-control" type="text" name="giro_info">
+                                        <div class="col-sm-8">
+                                            <textarea name="giro_info" class="form-control" rows="2" style="resize: vertical;"></textarea>
                                         </div>
                                     </div>
-                                </div>      
-                                <div class="tab-pane fade" id="2">
                                     <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3 text-center">
-                                            <h2>Data Giro Keluar</h2>
+                                        <label class="col-sm-3 control-label">Detail Giro Masuk</label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline"><input type="radio" onclick="hide_()" id="det_radio0" name="det_radio">Tampilkan</label>
+                                            <label class="radio-inline"><input type="radio" onclick="hide_()" id="det_radio1" name="det_radio">Sembunyikan</label>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <button type="button" class="btn btn-success" onclick="myFunction()"><i class="glyphicon glyphicon-plus"></i> Tambah Giro Keluar</button>
-                                        </div>
-                                    </div><br>
-                                    <div id="myDIV">
+                                    <div id="det_cashin" class="col-sm-offset-3">
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">No Giro</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="text" name="nomor_giro">
-                                             </div>
-                                             <div class="col-sm-1">
-                                                  <button type="button" class="btn btn-info" onclick="srch_giroout()"><span class="glyphicon glyphicon-search"></span> Cari</button>
-                                             </div>
-                                             <input class="form-control" type="hidden" name="gor_id"> 
+                                            <label class="col-sm-2 control-label">No Giro</label>
+                                            <div class="col-sm-2">
+                                                <button type="button" class="btn btn-block btn-info" onclick="srch_giroout()"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" name="nomor_giro" readonly>
+                                                <input type="hidden" name="gor_id">
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">Tanggal Giro</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control" type="date" name="tgl_giro">
-                                             </div>
+                                            <label class="col-sm-2 control-label">Tanggal Giro</label>
+                                            <div class="col-sm-7">
+                                                <div class='input-group date dtp' id='dtp1'>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    <input type='text' class="form-control input-group-addon" name="tgl_giro" value="<?= date('Y-m-d')?>" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                             <label class="col-sm-3 control-label">Nominal</label>
-                                             <div class="col-sm-4">
-                                                  <input class="form-control curr-num" type="text" name="nominal" readonly>
-                                             </div>
+                                            <label class="col-sm-2 control-label">Nominal</label>
+                                            <div class="col-sm-7">
+                                                <input class="form-control curr-num" type="text" name="nominal" readonly>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="save_giro_out_detail()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
+                                            <div class="col-sm-offset-2 col-sm-4">
+                                                <a href="javascript:void(0)" onclick="save_giro_out_detail()" class="btn btn-sm btn-primary btnCh"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                                <table id="dtb_giro_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Nomor Giro</th>
+                                                            <th class="text-center">Tanggal Giro</th>
+                                                            <th class="text-center">Nominal</th>
+                                                            <th class="text-center">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 table-responsive">
-                                         <table id="dtb_giro_out_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                                 <thead>
-                                                    <tr>
-                                                        <th class="text-center">
-                                                            No
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Nomor Giro
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Tanggal Giro
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Nominal
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Actions
-                                                        </th>
-                                                    </tr>                            
-                                                </thead>                        
-                                         </table>
-                                    </div>
-                                    <div id="mySave" class="row">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="save_giro_out()"><i class="glyphicon glyphicon-floppy-save"></i> Simpan</button>
-                                        <button type="button" class="btn btn-success" onclick="printPre()" class="btn btn-block btn-info btn-default">
-                                                <i class="glyphicon glyphicon-print"></i>
+                                        <div class="col-sm-offset-3 col-sm-2 text-center">
+                                            <a href="javascript:void(0)" onclick="save_giro_out()" class="btn btn-block btn-primary btn-default btnCh">
+                                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                                Simpan
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <a href="javascript:void(0)" onclick="printPre()" class="btn btn-block btn-info btn-default">
+                                                <span class="glyphicon glyphicon-print"></span>
                                                 Cetak
-                                        </button>
-                                    </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

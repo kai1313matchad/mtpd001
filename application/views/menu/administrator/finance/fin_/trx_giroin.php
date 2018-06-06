@@ -74,7 +74,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Akun</label>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-info btn-block" onclick="srch_acc('1')"><span class="glyphicon glyphicon-search"></span></button>
+                                            <button type="button" class="btn btn-info btn-block" onclick="srch_acc()"><span class="glyphicon glyphicon-search"></span></button>
                                         </div>
                                         <div class="col-sm-7">
                                             <input class="form-control" type="text" name="giro_bank_acc" readonly>

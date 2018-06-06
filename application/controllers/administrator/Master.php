@@ -1063,6 +1063,7 @@
 
 		public function ajax_brc()
 		{
+			$url = base_url();
 			$list = $this->master_brc->get_datatables();
 			$data = array();
 			$no = $_POST['start'];
@@ -1075,6 +1076,7 @@
 				$row[] = $dat->BRANCH_ADDRESS;			
 				$row[] = $dat->BRANCH_CITY;
 				$row[] = $dat->BRANCH_PHONE;
+				$row[] = '<img src="'.$url.'assets/img/branchlogo/'.$dat->BRANCH_LOGO.'" class="img-responsive">';
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_brc('."'".$dat->BRANCH_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_brc('."'".$dat->BRANCH_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_brc('."'".$dat->BRANCH_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}
@@ -1109,7 +1111,17 @@
 	                'branch_dtsts' => $this->input->post('sts')
 	            );
 	        $insert = $this->crud->save($table,$data);
-	        echo json_encode(array("status" => TRUE));
+	        $id = $this->db->insert_id();
+	        if (!empty($_FILES)) 
+			{
+				$name = $this->input->post('code');
+				$this->img_conf($name);
+				$this->upload->do_upload('file');
+				$logo = $this->upload->data();
+				$dtup = array ('branch_logo'=>$logo['file_name']);
+				$update = $this->crud->update($table,$data,array('branch_id'=>$id));
+			}
+	        echo json_encode(array("status" => TRUE, 'error' => $this->upload->display_errors()));
 	    }
 
 	    public function ajax_update_brc()
@@ -1128,7 +1140,18 @@
 	                'branch_dtsts' => $this->input->post('sts')
 	            );
 	    	$update = $this->crud->update($table,$data,array('branch_id' => $this->input->post('id')));
-	        echo json_encode(array("status" => TRUE));
+	    	if (!empty($_FILES)) 
+			{
+				$imgpath = $this->db->get_where('master_branch',array('branch_id'=>$this->input->post('id')))->row()->BRANCH_LOGO;
+				@unlink('./assets/img/branchlogo/'.$imgpath);
+				$name = $this->input->post('code');
+				$this->img_conf($name);
+				$this->upload->do_upload('file');
+				$logo = $this->upload->data();
+				$dtup = array ('branch_logo'=>$logo['file_name']);
+				$update = $this->crud->update($table,$dtup,array('branch_id'=>$this->input->post('id')));
+			}
+	        echo json_encode(array("status" => TRUE, "filename"=>$logo['file_name']));
 	    }
 
 	    public function ajax_delete_brc($id)
@@ -3169,5 +3192,16 @@
 	            exit();
 	        }
 	    }
+
+	    //Image Config
+	    public function img_conf($name)
+		{
+			$nmfile='logo_'.$name.'_';
+			$config['upload_path']='./assets/img/branchlogo/';			
+			$config['allowed_types']='jpg|jpeg|png';
+			$config['max_size']='3000';
+			$config['file_name']=$nmfile;
+			$this->upload->initialize($config);
+		}
 	}
 ?>
