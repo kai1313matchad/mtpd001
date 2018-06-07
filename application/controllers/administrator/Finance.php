@@ -2164,11 +2164,21 @@
             $id = array('gr_number' => $this->input->post('nomor_giro'));
             $update = $this->crud->save('giroin_det',$data);
             $cair = $this->crud->update('buku_giro',$buku,$id);
+            $dtgirorec = array(
+						'gir_dtsts' => '1'
+					);
+			$upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$this->input->post('gir_id')));
 	        echo json_encode(array("status" => TRUE)); 
 		}
 
 		public function ajax_hapus_giro_in_detail($id)
 		{
+			$gircode = $this->db->get_where('giroin_det',array('grindet_id'=>$id))->row()->GRINDET_CODE;
+			$girid = $this->db->get_where('giroin_record',array('gir_reffcode'=>$gircode))->row()->GIR_ID;
+			$dtgirorec = array(
+						'gir_dtsts' => '0'
+					);
+			$upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$girid));
             $hapus = $this->crud->delete_by_id('giroin_det',array('grindet_id'=>$id));
 	        echo json_encode(array("status" => TRUE)); 
 		}
