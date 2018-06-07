@@ -290,6 +290,16 @@
 	            $data['error_string'][] = 'Nama Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
 	        }
+	        if($this->input->post('check') == '0')
+	        {
+	        	$this->form_validation->set_rules('nama', 'Nama', 'is_unique[master_person.PERSON_NAME]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'nama';
+		            $data['error_string'][] = 'Nama Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
+	        }
 	        if($this->input->post('notlp') == '')
 	        {
 	            $data['inputerror'][] = 'notlp';
@@ -349,6 +359,16 @@
 	            $data['inputerror'][] = 'username';
 	            $data['error_string'][] = 'Username Tidak Boleh Kosong';
 	            $data['status'] = FALSE;
+	        }
+	        if($this->input->post('checku') == '0')
+	        {
+	        	$this->form_validation->set_rules('username', 'Username', 'is_unique[master_user.USER_NAME]');
+	        	if($this->form_validation->run() == FALSE)
+		        {
+		        	$data['inputerror'][] = 'username';
+		            $data['error_string'][] = 'Username Tidak Boleh Sama';
+		            $data['status'] = FALSE;
+		        }
 	        }
 	        // if($this->input->post('username') != '')
 	        // {
@@ -1110,17 +1130,15 @@
 	                'branch_fax' => $this->input->post('fax'),
 	                'branch_dtsts' => $this->input->post('sts')
 	            );
-	        $insert = $this->crud->save($table,$data);
-	        $id = $this->db->insert_id();
-	        if (!empty($_FILES)) 
-			{
-				$name = $this->input->post('code');
+	        if (!empty($_FILES))
+	        {
+	        	$name = $this->input->post('code');
 				$this->img_conf($name);
 				$this->upload->do_upload('file');
 				$logo = $this->upload->data();
-				$dtup = array ('branch_logo'=>$logo['file_name']);
-				$update = $this->crud->update($table,$data,array('branch_id'=>$id));
-			}
+	        	$data['branch_logo'] = $logo['file_name'];
+	        }
+	        $insert = $this->crud->save($table,$data);
 	        echo json_encode(array("status" => TRUE, 'error' => $this->upload->display_errors()));
 	    }
 
@@ -1151,7 +1169,7 @@
 				$dtup = array ('branch_logo'=>$logo['file_name']);
 				$update = $this->crud->update($table,$dtup,array('branch_id'=>$this->input->post('id')));
 			}
-	        echo json_encode(array("status" => TRUE, "filename"=>$logo['file_name']));
+	        echo json_encode(array("status" => TRUE));
 	    }
 
 	    public function ajax_delete_brc($id)

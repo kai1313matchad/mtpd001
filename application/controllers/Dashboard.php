@@ -100,7 +100,7 @@
 
 		public function get_user()
 		{
-			$get = $this->db->get_where('master_user',array('user_dtsts'=>'1'));
+			$get = $this->db->from('master_user')->where('user_dtsts','1')->order_by('user_name')->get();
 			$data = $get->result();
 			echo json_encode($data);
 		}
