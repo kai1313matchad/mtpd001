@@ -2281,9 +2281,9 @@
 		{
             $data = array(
                     'grout_id' => $this->input->post('giro_id'),
-                    'gir_id' => $this->input->post('gor_id'),
+                    'gor_id' => $this->input->post('gor_id'),
                     'groutdet_date' => $this->input->post('tgl_giro'),
-                    'groutdet_code' => $this->input->post('giro_nomor'),
+                    'groutdet_code' => $this->input->post('nomor_giro'),
                     'groutdet_amount' => $this->input->post('nominal')
                 );
             $buku = array(
@@ -2295,7 +2295,7 @@
             $update = $this->crud->save('giroout_det',$data);
             $cair = $this->crud->update('buku_giro',$buku,$id);
             $dtgirorec = array(
-						'gir_dtsts' => '1'
+						'gor_dtsts' => '1'
 					);
 			$upgirorec = $this->crud->update('giroout_record',$dtgirorec,array('gor_id'=>$this->input->post('gor_id')));
 	        echo json_encode(array("status" => TRUE)); 
@@ -2304,13 +2304,13 @@
 		public function ajax_hapus_giro_out_detail($id)
 		{
 			$gorcode = $this->db->get_where('giroout_det',array('groutdet_id'=>$id))->row()->GROUTDET_CODE;
-			$gorid = $this->db->get_where('giroout_record',array('gor_id'=>$gorcode))->row()->GOR_ID;
+			$gorid = $this->db->get_where('giroout_record',array('gor_reffcode'=>$gorcode))->row()->GOR_ID;
 			$dtgirorec = array(
-						'gir_dtsts' => '0'
+						'gor_dtsts' => '0'
 					);
 			$upgirorec = $this->crud->update('giroout_record',$dtgirorec,array('gor_id'=>$gorid));
             $hapus = $this->crud->delete_by_id('giroout_det',array('groutdet_id'=>$id));
-	        echo json_encode(array("status" => TRUE)); 
+	        echo json_encode(array("status" => TRUE, "gor"=>$gorcode)); 
 		}
 
 		public function ajax_simpan_tax()
