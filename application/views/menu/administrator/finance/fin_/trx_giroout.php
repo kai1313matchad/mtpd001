@@ -129,7 +129,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12 col-xs-12 table-responsive">
-                                                <table id="dtb_giro_in_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                <table id="dtb_giro_out_detail" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                     <thead>
                                                         <tr>
                                                             <th class="text-center">No</th>
@@ -168,8 +168,7 @@
         </div>
         <!-- /#page-wrapper -->
     </div>
-
-     <!-- Modal Search -->
+    <!-- Modal Search -->
     <div class="modal fade" id="modal_giro_out_edit" name="modal_giro_out_edit" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -201,23 +200,16 @@
             </div>
         </div>
     </div>
-
-     <!-- Modal Kode Bank -->
+    <!-- Modal Kode Bank -->
     <div class="modal fade" id="modal_bank" name="modal_bank" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/bank_out') ; ?>" method="post">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dtb_bank" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -226,7 +218,7 @@
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Kode Account</th>
+                                        <th>Info</th>
                                         <th>Pilih</th>
                                     </tr>
                                 </thead> 
@@ -235,32 +227,19 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
-                </form>
             </div>
         </div>
     </div>
-    <!-- modal bank selesai -->
-
-     <!-- Modal Kode Giro -->
+    <!-- Modal Kode Giro -->
     <div class="modal fade" id="modal_giro" name="modal_giro" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form id="formku" action="<?php echo base_url('Finance/giro_out') ; ?>" method="post">
+            <div class="modal-content">            
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Item</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- <input type="text" class="form-control" name="dept"> -->
                     <div class="row">
-                        <!-- <input type="text" name="id_meeting" >
-                        <input type="text" name="title" >
-                        <input type="text" name="tgl" >
-                        <input type="text" name="jam" > -->
                         <div class="col-sm-12 col-xs-12 table-responsive">
                             <div class="maxh">
                             <table id="dtb_giro" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -277,54 +256,47 @@
                         </div>
                     </div>                  
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" onclick="kirim_email()" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span> Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
-                </div> -->
-                </form>
             </div>
         </div>
     </div>
-    <!-- modal giro selesai -->
-
+    <!-- Modal Acc -->
+    <div class="modal fade" id="modal_account" name="modal_account" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 table-responsive">
+                            <div class="maxh">
+                            <table id="dtb_acc" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Pilih</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        </div>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
-    <!-- <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script> -->
-    <!-- Bootstrap Core JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>     -->
-    <!-- Metis Menu Plugin JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script> -->
-    <!-- Custom Theme JavaScript -->
-    <!-- <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script> -->
-    <!-- Datatables -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.bootstrap.min.js"></script> -->
-    <!-- <script src="http://localhost/mtpd/assets/datatables/js/dataTables.responsive.js"></script> -->
-    <!-- Addon -->
-    <!-- <script src="http://localhost/mtpd/assets/addons/extra.js"></script> -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
-</body>
-</html>
-<script>
-$(document).ready(function() {
-    $('#myDIV').css({'display':'none'});
-    // $('[name="kas_mu"]').change(function(){
-    //     curr($('select :selected').val());
-    // })
-    var id = $('[name="giro_id"]').val();
-    giro_keluar_detail(id);
-})
-
-    function myFunction() 
-    {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-    }
-
-    function gen_giroout()
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
+    <script>
+        $(document).ready(function()
+        {
+            var id = $('[name="giro_id"]').val();
+            giro_keluar_detail(id);
+        })
+        function gen_giroout()
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/gen_giroout')?>",
@@ -335,8 +307,6 @@ $(document).ready(function() {
                     $('[name="giro_id"]').val(data.id);
                     $('[name="giro_nomor"]').val(data.kode);
                     $('#genbtn').attr('disabled',true);
-                    // termapp(data.id);
-                    // costapp(data.id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -344,8 +314,7 @@ $(document).ready(function() {
                 }
             });
         }
-
-    function srch_bank()
+        function srch_bank()
         {
             $('#modal_bank').modal('show');
             $('.modal-title').text('Cari Bank');            
@@ -355,11 +324,11 @@ $(document).ready(function() {
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_bank')?>",
-                    "type": "POST",                
-                },                
+                    "type": "POST",
+                },
                 "columnDefs": [
                 { 
                     "targets": [ 0 ],
@@ -368,42 +337,82 @@ $(document).ready(function() {
                 ],
             });
         }
-
-    function pick_bank(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="giro_kode_bank"]').val(data.BANK_CODE);
-                $('[name="giro_nama_bank"]').val(data.BANK_NAME);
-                $('[name="giro_bank_id"]').val(data.BANK_ID);
-                pick_acc(data.COA_ID);
-                $('#modal_bank').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function srch_giroout()
+        function pick_bank(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bank/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="giro_kode_bank"]').val(data.BANK_CODE);
+                    $('[name="giro_nama_bank"]').val(data.BANK_NAME);
+                    $('[name="giro_bank_id"]').val(data.BANK_ID);
+                    pick_acc(data.COA_ID);
+                    $('#modal_bank').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function srch_giroout()
         {
             $('#modal_giro').modal('show');
-            $('.modal-title').text('Cari Giro');            
+            $('.modal-title').text('Cari Giro');
             table = $('#dtb_giro').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Finance/ajax_srch_giroout')?>",
-                    "type": "POST",                
+                    "type": "POST",
+                },
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ],
+                    "orderable": false,
+                },
+                ],
+            });
+        }
+        function pick_giroout(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_giroout/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="nomor_giro"]').val(data.BNKTRXO_NUM);
+                    $('[name="nominal"]').val(data.BNKTRXO_AMOUNT);
+                    $('[name="gor_id"]').val(data.GOR_ID);
+                    $('#modal_giro').modal('hide');                 
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function srch_acc()
+        {
+            $('#modal_account').modal('show');
+            $('.modal-title').text('Cari Account');
+            table = $('#dtb_acc').DataTable({
+                "info": false,
+                "destroy": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?php echo site_url('administrator/Finance/ajax_srch_acc2/')?>",
+                    "type": "POST",
                 },                
                 "columnDefs": [
                 { 
@@ -413,52 +422,31 @@ $(document).ready(function() {
                 ],
             });
         }
-
-    function pick_giroout(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_giroout/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="nomor_giro"]').val(data.BNKTRXO_NUM);
-                $('[name="nominal"]').val(data.BNKTRXO_AMOUNT);
-                $('[name="gor_id"]').val(data.GOR_ID);
-                $('#modal_giro').modal('hide');                 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-    
-    function pick_acc(id)
-    {
-        $.ajax({
-            url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data)
-            {   
-                $('[name="giro_bank_acc"]').val(data.COA_ACC);       
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
-    function printPre()
+        function pick_acc(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_acc/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="giro_bank_acc"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
+                    $('[name="giro_bank_acc_id"]').val(data.COA_ID);
+                    $('#modal_account').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function printPre()
         {
             var ids = $('[name=giro_id]').val();
             window.open ( "<?php echo site_url('administrator/Finance/pageprint_gk/')?>"+ids,'_blank');
         }
-
-    function save_giro_out()
-        {            
+        function save_giro_out()
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_giro_out')?>",
                 type: "POST",
@@ -477,8 +465,7 @@ $(document).ready(function() {
                 }
             });
         }
-
-    function save_giro_out_detail()
+        function save_giro_out_detail()
         {            
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_simpan_giro_out_detail')?>",
@@ -500,8 +487,7 @@ $(document).ready(function() {
                 }
             });
         }
-
-         function giro_keluar_detail(id)
+        function giro_keluar_detail(id)
         {
             table = $('#dtb_giro_out_detail').DataTable({
                 "info": false,
@@ -509,10 +495,10 @@ $(document).ready(function() {
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Showdata/showdetail_giroout')?>/"+id,
-                    "type": "POST",                
+                    "type": "POST",
                 },
                 "columnDefs": [
                 { 
@@ -522,9 +508,8 @@ $(document).ready(function() {
                 ],
             });
         }
-
         function delete_groutdet(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Finance/ajax_hapus_giro_out_detail')?>/"+id,
                 type: "POST",
@@ -545,7 +530,6 @@ $(document).ready(function() {
                 }
             });
         }
-
         function edit_giro_out()
         {
             $('#modal_giro_out_edit').modal('show');
@@ -556,7 +540,7 @@ $(document).ready(function() {
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Searchdata/srch_giro_out_bysts')?>",
                     "type": "POST",
@@ -584,7 +568,7 @@ $(document).ready(function() {
                 "responsive": true,
                 "processing": true,
                 "serverSide": true,
-                "order": [],                
+                "order": [],
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Searchdata/srch_giro_out_bysts')?>",
                     "type": "POST",
@@ -627,7 +611,6 @@ $(document).ready(function() {
                 }
             });
         }
-
         function pick_girooutedit(id)
         {
             $.ajax({
@@ -652,4 +635,6 @@ $(document).ready(function() {
                 }
             });
         }
-</script>
+    </script>
+</body>
+</html>

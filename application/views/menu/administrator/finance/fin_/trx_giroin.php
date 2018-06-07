@@ -399,17 +399,6 @@
                 {
                     $('[name="giro_bank_acc"]').val(data.COA_ACC+' - '+data.COA_ACCNAME);
                     $('[name="giro_bank_acc_id"]').val(data.COA_ID);
-                    if (sts=='1')
-                    {
-                        $('[name="bank_acc"]').val(data.COA_ACC);
-                        $('[name="bank_acc_info"]').val(data.COA_ACCNAME);
-                        $('[name="acc_id"]').val(data.COA_ID);
-                    }
-                    else
-                    {
-                        $('[name="acc_detail"]').val(data.COA_ACC +" - "+ data.COA_ACCNAME);
-                        $('[name="acc_id_detail"]').val(data.COA_ID);
-                    } 
                     $('#modal_account').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
