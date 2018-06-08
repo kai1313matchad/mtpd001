@@ -94,7 +94,7 @@
                                             <label class="radio-inline"><input type="radio" onclick="hide_()" id="det_radio1" name="det_radio">Sembunyikan</label>
                                         </div>
                                     </div>
-                                    <div id="det_cashin" class="col-sm-offset-3">
+                                    <div id="det_cashout" class="col-sm-offset-3">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">No Giro</label>
                                             <div class="col-sm-2">
@@ -293,9 +293,21 @@
     <script>
         $(document).ready(function()
         {
+            $('#det_radio0').prop('checked',true);
             var id = $('[name="giro_id"]').val();
             giro_keluar_detail(id);
         })
+        function hide_()
+        {
+            if($('#det_radio1').is(':checked'))
+            {
+                $('#det_cashout').css({'display':'none'});
+            }
+            if($('#det_radio0').is(':checked'))
+            {
+                $('#det_cashout').css({'display':'block'});
+            }
+        }
         function gen_giroout()
         {
             $.ajax({

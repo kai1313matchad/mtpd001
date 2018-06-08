@@ -15,85 +15,40 @@
     <link href="<?php echo base_url('assets/sbadmin/css/sb-admin-2.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/datatables/css/responsive.dataTables.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> -->
-    <!-- <link href="<?php echo base_url('assets/addons/select2-bootstrap.css')?>" rel="stylesheet"> -->
+    <link href="<?php echo base_url('assets/datatables/css/dataTables.responsive.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url('assets/addons/select2-bootstrap.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet">
-    <style>
-        body
-        {
-            background: white;
-            font-family:"times new roman";
+    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
+    <style type="text/css">
+        body {
+          background: rgb(204,204,204);
+          font-size: 10px;
+        }        
+        page {          
+          background: white;
+          display: block;
+          margin: 0 auto;
+          margin-bottom: 0.5cm;
+          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
         }
-        .row-content
-        {            
-            min-height: 350px;
+        page[size="A4"] {  
+          width: 21cm;
+          height: 14.85cm;
         }
-        .table th
-        {
-            border: solid 1px black !important;
-            margin: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
+        page[size="A4"][layout="portrait"] {
+          width: 29.7cm;
+          height: 21cm;  
         }
-        .table td
-        {
-            border: solid 1px black !important;
-            margin: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
+        @media print {
+          body, page {
+            margin: 0;
+            box-shadow: 0;
+          }
         }
-        .head-font
-        {
-            font-family:"times new roman";
-            font-size: 18px;
-        }
-        .content-font
-        {
-            font-family: "Arial";
-            font-size: 15px;
-        }
-        .foot-font
-        {
-            font-family:"times new roman";
-            font-size: 16px;
-        }
-
-        @media print
-        {            
-            h3, h4 
-            {
-                font-size: 14px;
-            }
-            .logo
-            {
-                width: 60%;
-                height: auto;
-            }
-            .row-content
-            {                
-                min-height: 220px;
-            }
-            .head-font
-            {
-                font-family:"times new roman";
-                font-size: 12px;
-            }
-            .content-font
-            {
-                font-family: "times new roman";
-                font-size: 12px;
-            }
-            .foot-font
-            {
-                font-family:"times new roman";
-                font-size: 10px;
-            }
-        }
-    </style>
+    </style> 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -102,112 +57,142 @@
     <![endif]-->
 </head>
 <body>
-    <div class="container">
+    <!-- <page size="A4"> -->
+    <div id="ygdiprint">
         <input type="hidden" name="km_id" value="<?php echo $id;?>">
         <input type="hidden" name="cust_id" value="<?php echo $id;?>">
-        <!--<div class="container-fluid"> -->               
-            <!--<hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">-->
-        <div class="row">
-            <div class="col-xs-4">
-                <img class="logo" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
-            </div>
-            <div class="col-xs-4 text-center">
+        <div class="container-fluid">                
+            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
+            <div class="text-center">
                 <h3><strong><u>BUKTI KAS MASUK</u></strong></h3>
                 <h3 style="margin-top:-10px">No.<span name="no_km"></span></h3>
                 <span name="acc_header"></span>
             </div>
-        </div>
-            <!--<hr>-->
-        <div class="row">
-            <div class="col-xs-4 head-font">
-                <address>
-                    <!-- <strong>Dari:</strong><br> -->
-                    <strong>Match Advertising</strong><br>
-                    JL. Lesti No.42, Surabaya 60241<br>
-                    Telp. (031) 567 8346 (Hunting)<br>
-                    Fax. (031) 568 0646<br>
-                    Email : info@match-advertising.com<br>
-                    <!-- Website : www.match-advertising.com<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    www.matchadonline.com -->
-                </address>
-            </div>
-            <div class="col-xs-4 head-font">
-                <address>
-                    <strong>Kepada :</strong><br>
-                    <span name="kas_custname"></span><br>
-                    <span name="kas_custaddr"></span>&nbsp;<span name="kas_custcity"></span><br>
-                    <span name="kas_custphone"></span><br>
-                    <span name="kas_custinfo"></span>
-                </address>
-            </div>
-            <div class="col-xs-4 head-font">
-                <address>
-                    <span>Tanggal :</span>&nbsp;<span name="kas_tgl"></span> 
-                    <!-- <strong>Info:</strong><br> 
-                    Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
-                    <span name="km_info"></span> -->
-                </address>
-            </div>
-        </div>
-        <div class="row row-content content-font">
-            <div class="col-sm-12 col-xs-12 table-responsive">
-                <input type="hidden" name="kas_total">
-                <input type="hidden" name="kas_info">
-                <input type="hidden" name="kas_terbilang">
-                <input type="hidden" name="curr_name">
-                <table id="tb_km" class="table table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th class="col-sm-2 col-xs-2">Perkiraan</th>
-                            <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
-                            <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_content">                                              
-                    </tbody>
-                </table>
-            </div>
-            <div class="row foot-font">
-                <div class="col-xs-3 text-center">
-                     Pembukuan
-                </div>
-                <div class="col-xs-2 text-center">
-                     Mengetahui
-                </div>
-                <div class="col-xs-2 text-center">
-                     Menyetujui
-                </div>
-                <div class="col-xs-2 text-center">
-                     Kasir
-                </div>
-                <div class="col-xs-3 text-center">
-                     Yang Menyerahkan
-                </div>
-            </div>   
-            <br><br><br>
+            <hr>
             <div class="row">
-                <div class="col-xs-3 text-center">
-                       (.................)  (.................)
+                <div class="col-xs-4">
+                    <address>
+                        <!-- <strong>Dari:</strong><br> -->
+                        <strong>Match Advertising</strong><br>
+                        JL. Lesti No.42, Surabaya 60241<br>
+                        Telp. (031) 567 8346 (Hunting)<br>
+                        Fax. (031) 568 0646<br>
+                        Email : info@match-advertising.com<br>
+                        Website : www.match-advertising.com<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        www.matchadonline.com
+                    </address>
                 </div>
-                <div class="col-xs-2 text-center">
-                       (.................)
+                <div class="col-xs-4">
+                    <address>
+                        <strong>Kepada :</strong><br>
+                        <span name="kas_custname"></span><br>
+                        <span name="kas_custaddr"></span>&nbsp;<span name="kas_custcity"></span><br>
+                        <span name="kas_custphone"></span><br>
+                        <span name="kas_custinfo"></span>
+                    </address>
                 </div>
-                <div class="col-xs-2 text-center">
-                       (.................)
-                </div>
-                <div class="col-xs-2 text-center">
-                       (.................)
-                </div>
-                <div class="col-xs-3 text-center">
-                       (.................)
+                <div class="col-xs-4">
+                    <address>
+                        <span>Tanggal :</span>&nbsp;<span name="kas_tgl"></span> 
+                        <!-- <strong>Info:</strong><br> 
+                        Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
+                        <span name="km_info"></span> -->
+                    </address>
                 </div>
             </div>
-        </div>        
-        <!--</div>-->
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <!-- <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Kas Masuk Summary</strong></h3>
+                        </div> -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <input type="hidden" name="kas_total">
+                                <input type="hidden" name="kas_info">
+                                <input type="hidden" name="kas_terbilang">
+                                <input type="hidden" name="curr_name">
+                                <table id="tb_km" class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-sm-2 col-xs-2">Perkiraan</th>
+                                            <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
+                                            <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
+                                            <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb_content">
+                                        <!-- <tr>
+                                            <td style="border-top: 2px solid;"></td>
+                                            <td style="border-top: 2px solid;"></td>
+                                            <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
+                                            <td style="border-top: 2px solid;"><strong>Harga</strong></td>
+                                        </tr> -->                                                
+                                    </tbody>
+                                </table>
+                            </div> 
+                            <div class="row">
+                                <div class="col-xs-3 text-center">
+                                     Pembukuan
+                                </div>
+                                <div class="col-xs-2 text-center">
+                                     Mengetahui
+                                </div>
+                                <div class="col-xs-2 text-center">
+                                     Menyetujui
+                                </div>
+                                <div class="col-xs-2 text-center">
+                                     Kasir
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                     Yang Menyerahkan
+                                </div>
+                            </div>   
+                            <br><br><br>
+                            <div class="row">
+                                 <div class="col-xs-3 text-center">
+                                       (.................)  (.................)
+                                 </div>
+                                 <div class="col-xs-2 text-center">
+                                       (.................)
+                                 </div>
+                                <div class="col-xs-2 text-center">
+                                       (.................)
+                                </div>
+                                <div class="col-xs-2 text-center">
+                                       (.................)
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                       (.................)
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
     </div>
+    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    <!--</page> -->
+    
+
+    
     <!-- jQuery -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
+    <!-- Datetime -->
+    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
+    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
+    <!-- Datatables -->
+    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
     <script>
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
@@ -457,4 +442,6 @@
         return false;
     }
     </script>
+    
 </body>
+</html>
