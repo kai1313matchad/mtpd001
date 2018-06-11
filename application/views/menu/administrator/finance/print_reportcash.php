@@ -112,7 +112,7 @@
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
-                <img class="img-responsive logos" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN BUKU KAS</u></h2>
@@ -209,8 +209,8 @@
                             $('<td class="text-center">'+moment(data['a'][i]["CSH_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["CSH_CODE"]+data['a'][i]["BRANCH_INIT"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
-                            $('<td class="text-center">'+data['a'][i]["CSH_INFO"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["DEBET"]+'</td>'),
+                            $('<td class="text-center">'+data['a'][i]["CSHINDET_INFO"]+'</td>'),
+                            $('<td class="text-right chgnum">'+data['a'][i]["CSHDETIN_AMOUNT"]+'</td>'),
                             $('<td class="text-right chgnum">0</td>')
                             ).appendTo('#tb_content');
                     }
@@ -221,9 +221,9 @@
                             $('<td class="text-center">'+moment(data['b'][i]["CSHO_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['b'][i]["CSHO_CODE"]+data['b'][i]["BRANCH_INIT"]+'</td>'),
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
-                            $('<td class="text-center">'+data['b'][i]["CSHO_INFO"]+'</td>'),
+                            $('<td class="text-center">'+data['b'][i]["CSHODET_INFO"]+'</td>'),
                             $('<td class="text-right chgnum">0</td>'),
-                            $('<td class="text-right chgnum">'+data['b'][i]["CREDIT"]+'</td>')
+                            $('<td class="text-right chgnum">'+data['b'][i]["CSHODET_AMOUNT"]+'</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_tp1(2);
@@ -302,6 +302,8 @@
                 success: function(data)
                 {   
                     $('[name="rptcash_branch"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -296,50 +296,12 @@
 
 		public function gen_rptcash()
 		{
-			if ($this->input->post('branch'))
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('coa_id'))
-			{
-				$this->db->where('c.coa_id', $this->input->post('coa_id') );
-			}
-			if ($this->input->post('date_start') != null AND $this->input->post('date_end')!=null )
-			{
-				$this->db->where('a.csh_date >=', $this->input->post('date_start'));
-        		$this->db->where('a.csh_date <=', $this->input->post('date_end'));
-			}
-			$this->db->select('b.*, a.CSH_DATE, a.CSH_CODE, c.COA_ACC, c.COA_ACCNAME, a.CSH_INFO, sum(d.CSHDETIN_AMOUNT) as DEBET');
-			$this->db->from('trx_cash_in a');
-			$this->db->join('master_branch b','b.branch_id = a.branch_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('cashin_det d','d.csh_id = a.csh_id');
-			$this->db->group_by('a.csh_id');
-			$this->db->order_by('a.csh_date');
-			$que = $this->db->get();
-			$data['a'] = $que->result();
-			if ($this->input->post('branch'))
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('coa_id'))
-			{
-				$this->db->where('c.coa_id', $this->input->post('coa_id') );
-			}
-			if ($this->input->post('date_start') != null AND $this->input->post('date_end')!=null )
-			{
-				$this->db->where('a.csho_date >=', $this->input->post('date_start'));
-        		$this->db->where('a.csho_date <=', $this->input->post('date_end'));
-			}
-			$this->db->select('b.*, a.CSHO_DATE, a.CSHO_CODE, c.COA_ACC, c.COA_ACCNAME, a.CSHO_INFO, sum(d.CSHODET_AMOUNT) as CREDIT');
-			$this->db->from('trx_cash_out a');
-			$this->db->join('master_branch b','b.branch_id = a.branch_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('cashout_det d','d.csho_id = a.csho_id');
-			$this->db->group_by('a.csho_id');
-			$this->db->order_by('a.csho_date');
-			$queb = $this->db->get();
-			$data['b'] = $queb->result();
+			$brc = ($this->input->post('branch'))?$this->input->post('branch'):NULL;
+			$coa = ($this->input->post('coa_id'))?$this->input->post('coa_id'):NULL;
+			$datestr = ($this->input->post('date_start'))?$this->input->post('date_start'):NULL;
+			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
+			$data['a'] = $this->finance->get_trxcashin($brc,$coa,$datestr,$dateend);
+			$data['b'] = $this->finance->get_trxcashout($brc,$coa,$datestr,$dateend);
 			$data['c'] = $this->finance->get_cashsaldosum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
 			$data['d'] = $this->finance->get_cashsaldosum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
 			$get = $this->db->get_where('other_settings',array('os_id'=>'1'));
@@ -408,12 +370,6 @@
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->finance->get_trxbankin($brc,$coa,$datestr,$dateend);
 			$data['b'] = $this->finance->get_trxbankout($brc,$coa,$datestr,$dateend);
-			// $data['c'] = $this->finance->get_cashsaldosum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
-			// $data['d'] = $this->finance->get_cashsaldosum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
-			// $get = $this->db->get_where('other_settings',array('os_id'=>'1'));
-			// $notafin = $get->row()->NOTAFIN_ACC;			
-			// $data['e'] = $this->finance->get_notafinsum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
-			// $data['f'] = $this->finance->get_notafinsum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$notafin,$this->input->post('date_start'));
 			echo json_encode($data);
 		}
 
