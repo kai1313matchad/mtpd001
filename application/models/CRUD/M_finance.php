@@ -222,38 +222,67 @@
 			}
 			if($coa != NULL)
 			{
-				$this->db->where('a.coa_id',$coa);
+				$this->db->where('b.coa_id',$coa);
 			}
 			if ($datestr != NULL AND $dateend != NULL)
 			{
-				$this->db->where('b.jou_date >=', $datestr);
-        		$this->db->where('b.jou_date <=', $dateend);
+				$this->db->where('b.csh_date >=', $datestr);
+        		$this->db->where('b.csh_date <=', $dateend);
 			}
 			$date_ = $datestr;
 			$this->db->select('c.COA_ID, c.COA_ACC, c.COA_ACCNAME, c.COA_DEBIT, c.COA_CREDIT');
-			$this->db->from('jou_details a');
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->from('cashin_det a');
+			$this->db->join('trx_cash_in b','b.csh_id = a.csh_id');
+			$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
-			$this->db->group_by('a.coa_id');
+			$this->db->group_by('b.coa_id');
 			$que = $this->db->get();
 			$res = $que->result();
 			$data = array();
 			foreach ($res as $dat)
 			{
-				$get = $this->get_saldostr_($dat->COA_ID,$datestr);
+				$get = $this->get_saldostrcashin_($dat->COA_ID,$datestr);
+				$get2 = $this->get_saldostrcashout_($dat->COA_ID,$datestr);
 				$data[]=array(
 					'COA_ACC'=>$dat->COA_ACC,
 					'COA_ACCNAME'=>$dat->COA_ACCNAME,
 					'SUM_DEBIT'=>($get['SUM_DEBIT'] != NULL)?$get['SUM_DEBIT']:'0',
-					'SUM_CREDIT'=>($get['SUM_CREDIT'] != NULL)?$get['SUM_CREDIT']:'0',
+					'SUM_CREDIT'=>($get2['SUM_CREDIT'] != NULL)?$get2['SUM_CREDIT']:'0',
 					'COA_DEBIT'=>$dat->COA_DEBIT,
 					'COA_CREDIT'=>$dat->COA_CREDIT
-					// 'COA_ID'=>$dat->COA_ID
 				);
 			}
 			return $data;
-			// return $que->result();
+		}
+
+		public function get_saldostrcashin_($coa,$date)
+		{
+			$this->db->select('c.COA_ACC, c.COA_ACCNAME, SUM(a.CSHDETIN_AMOUNT) as SUM_DEBIT, c.COA_DEBIT, c.COA_CREDIT');
+			$this->db->from('cashin_det a');
+			$this->db->join('trx_cash_in b','b.csh_id = a.csh_id');
+			$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->where('b.csh_date <', $date);
+			$this->db->where('b.coa_id', $coa);
+			$this->db->group_by('b.coa_id');
+			$query = $this->db->get();
+			$get = $query->row_array();
+			return $get;
+		}
+
+		public function get_saldostrcashout_($coa,$date)
+		{
+			$this->db->select('c.COA_ACC, c.COA_ACCNAME, SUM(a.CSHODET_AMOUNT) as SUM_CREDIT, c.COA_DEBIT, c.COA_CREDIT');
+			$this->db->from('cashout_det a');
+			$this->db->join('trx_cash_out b','b.csho_id = a.csho_id');
+			$this->db->join('chart_of_account c','c.coa_id = b.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->where('b.csho_date <', $date);
+			$this->db->where('b.coa_id', $coa);
+			$this->db->group_by('b.coa_id');
+			$query = $this->db->get();
+			$get = $query->row_array();
+			return $get;
 		}
 
 		public function get_cashsaldosum($table,$sumfield,$tabledet,$idjoin,$datefield,$brc,$coa,$date)

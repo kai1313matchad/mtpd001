@@ -202,6 +202,24 @@
                 dataType: "JSON",
                 success: function(data)
                 {
+                    var newdate = moment($('[name="date_start"]').val()).subtract(1, 'days');
+                    for (var i = 0; i < data['g'].length; i++)
+                    {
+                        $sal_deb = data['g'][i]['COA_DEBIT'];
+                        $sal_cre = data['g'][i]['COA_CREDIT'];
+                        $sum_deb = data['g'][i]['SUM_DEBIT'];
+                        $sum_cre = data['g'][i]['SUM_CREDIT'];
+                        $deb = ($sal_deb*1)+($sum_deb*1);
+                        $cre = ($sal_cre*1)+($sum_cre*1);
+                        var $tr = $('<tr>').append(
+                            $('<td class="text-center">'+moment(newdate).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            $('<td class="text-center"></td>'),
+                            $('<td class="text-center">'+data['g'][i]["COA_ACC"]+' - '+data['g'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">Saldo Awal</td>'),
+                            $('<td class="text-right chgnum">'+$deb+'</td>'),
+                            $('<td class="text-right chgnum">'+$cre+'</td>')
+                            ).appendTo('#tb_content');
+                    }
                     for (var i = 0; i < data['a'].length; i++)
                     {
                         var tr = $('<tr>').append(

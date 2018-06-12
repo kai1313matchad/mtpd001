@@ -254,8 +254,6 @@
                 pick_branch($('[name="branch"]').val());
             }
             pick_coagb($('[name="coa_id"]').val());
-            // gen_cashsaldoawal();
-            // $('td.chgnum').number(true);
         });
         function gen_cash()
         {

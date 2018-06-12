@@ -302,6 +302,7 @@
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->finance->get_trxcashin($brc,$coa,$datestr,$dateend);
 			$data['b'] = $this->finance->get_trxcashout($brc,$coa,$datestr,$dateend);
+			$data['g'] = $this->finance->gen_saldostr($brc,$coa,$datestr,$dateend);
 			$data['c'] = $this->finance->get_cashsaldosum('trx_cash_in a','sum(d.CSHDETIN_AMOUNT) as SUM','cashin_det d','d.csh_id = a.csh_id','a.csh_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
 			$data['d'] = $this->finance->get_cashsaldosum('trx_cash_out a','sum(d.CSHODET_AMOUNT) as SUM','cashout_det d','d.csho_id = a.csho_id','a.csho_date <',$this->input->post('branch'),$this->input->post('coa_id'),$this->input->post('date_start'));
 			$get = $this->db->get_where('other_settings',array('os_id'=>'1'));
