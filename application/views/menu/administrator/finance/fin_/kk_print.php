@@ -22,33 +22,78 @@
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
-    <style type="text/css">
-        body {
-          background: rgb(204,204,204);
-          font-size: 10px;
-        }        
-        page {          
-          background: white;
-          display: block;
-          margin: 0 auto;
-          margin-bottom: 0.5cm;
-          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    <style>
+        body
+        {
+            background: white;
+            font-family:"times new roman";
         }
-        page[size="A4"] {  
-          width: 21cm;
-          height: 14.85cm; 
+        .row-content
+        {            
+            min-height: 350px;
         }
-        page[size="A4"][layout="portrait"] {
-          width: 29.7cm;
-          height: 21cm;  
+        .table th
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
-        @media print {
-          body, page {
-            margin: 0;
-            box-shadow: 0;
-          }
+        .table td
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
-    </style> 
+        .head-font
+        {
+            font-family:"times new roman";
+            font-size: 18px;
+        }
+        .content-font
+        {
+            font-family: "times new roman";
+            font-size: 15px;
+        }
+        .foot-font
+        {
+            font-family:"times new roman";
+            font-size: 16px;
+        }
+
+        @media print
+        {            
+            h3, h4 
+            {
+                font-size: 14px;
+            }
+            .logo
+            {
+                width: 60%;
+                height: auto;
+            }
+            .row-content
+            {                
+                min-height: 220px;
+            }
+            .head-font
+            {
+                font-family:"times new roman";
+                font-size: 12px;
+            }
+            .content-font
+            {
+                font-family: "times new roman";
+                font-size: 12px;
+            }
+            .foot-font
+            {
+                font-family:"times new roman";
+                font-size: 10px;
+            }
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,123 +102,114 @@
     <![endif]-->
 </head>
 <body>
-    <page size="A4">
-    <div id="ygdiprint">
+    <!--<page size="A4">-->
+    <!--<div id="ygdiprint">-->
+    <div class="container">
         <input type="hidden" name="kk_id" value="<?php echo $id;?>">
         <input type="hidden" name="supp_id" value="<?php echo $id;?>">
-        <div class="container-fluid">                
-            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
-            <div class="text-center">
-                        <h3><strong><u>BUKTI KAS KELUAR</u></strong></h3>
-                        <h3 style="margin-top:-10px">No.<span name="no_kk"></span></h3>
-                        <span name="acc_header"></span>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <address>
-                                <!-- <strong>Dari:</strong><br> -->
-                                <strong>Match Advertising</strong><br>
-                                JL. Lesti No.42, Surabaya 60241<br>
-                                Telp. (031) 567 8346 (Hunting)<br>
-                                Fax. (031) 568 0646<br>
-                                Email : info@match-advertising.com<br>
-                                Website : www.match-advertising.com<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                www.matchadonline.com
-                            </address>
-                        </div>
-                        <div class="col-xs-4">
-                            <address>
-                                <strong>Kepada :</strong><br>
-                                <span name="kas_suppname"></span><br>
-                                <span name="kas_suppaddr"></span>&nbsp;<span name="kas_suppcity"></span><br>
-                                <span name="kas_suppphone"></span><br>
-                                <span name="kas_suppinfo"></span>
-                            </address>
-                        </div>
-                        <div class="col-xs-4">
-                            <address>
-                                <span>Tanggal :</span>&nbsp;<span name="kas_tgl"></span> 
-                                <!-- <strong>Info:</strong><br> 
-                                Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
-                                <span name="km_info"></span> -->
-                            </address>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="panel panel-default">
-                                <!-- <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Kas Masuk Summary</strong></h3>
-                                </div> -->
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <input type="hidden" name="kas_total">
-                                        <input type="hidden" name="kas_info">
-                                        <input type="hidden" name="kas_terbilang">
-                                        <input type="hidden" name="curr_name">
-                                        <table id="tb_km" class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-sm-2 col-xs-2">Perkiraan</th>
-                                                    <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
-                                                    <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
-                                                    <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb_content">
-                                                <!-- <tr>
-                                                    <td style="border-top: 2px solid;"></td>
-                                                    <td style="border-top: 2px solid;"></td>
-                                                    <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
-                                                    <td style="border-top: 2px solid;"><strong>Harga</strong></td>
-                                                </tr> -->                                                
-                                            </tbody>
-                                        </table>
-                                    </div> 
-                                    <div class="row">
-                                        <div class="col-xs-3 text-center">
-                                             Pembukuan
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Mengetahui
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Menyetujui
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Kasir
-                                        </div>
-                                        <div class="col-xs-3 text-center">
-                                             Yang Menyerahkan
-                                        </div>
-                                    </div>   
-                                    <br><br><br>
-                                    <div class="row">
-                                         <div class="col-xs-3 text-center">
-                                               (.................)  (.................)
-                                         </div>
-                                         <div class="col-xs-2 text-center">
-                                               (.................)
-                                         </div>
-                                        <div class="col-xs-2 text-center">
-                                               (.................)
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                               (.................)
-                                        </div>
-                                        <div class="col-xs-3 text-center">
-                                               (.................)
-                                        </div>
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>        
+        <div class="row">
+            <div class="col-xs-4">
+                <img id="img_logo" class="img-responsive logo" src="">
+            </div>
+            <div class="col-xs-4 text-center">
+                <h3><strong><u>BUKTI KAS KELUAR</u></strong></h3>
+                <h3 style="margin-top:-10px">No.<span name="no_kk"></span></h3>
+                <span name="acc_header"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <address>
+                    <!-- <strong>Dari:</strong><br> -->
+                    <strong>Match Advertising</strong><br>
+                    JL. Lesti No.42, Surabaya 60241<br>
+                    Telp. (031) 567 8346 (Hunting)<br>
+                    Fax. (031) 568 0646<br>
+                    Email : info@match-advertising.com<br>
+                </address>
+            </div>
+            <div class="col-xs-4">
+                <address>
+                    <strong>Kepada :</strong><br>
+                    <span name="kas_suppname"></span><br>
+                    <span name="kas_suppaddr"></span>&nbsp;<span name="kas_suppcity"></span><br>
+                    <span name="kas_suppphone"></span><br>
+                    <span name="kas_suppinfo"></span>
+                </address>
+            </div>
+            <div class="col-xs-4">
+                <address>
+                    <span>Tanggal :</span>&nbsp;<span name="kas_tgl"></span> 
+                    <!-- <strong>Info:</strong><br> 
+                    Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
+                    <span name="km_info"></span> -->
+                </address>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12 table-responsive">
+            <input type="hidden" name="kas_total">
+            <input type="hidden" name="kas_info">
+            <input type="hidden" name="kas_terbilang">
+            <input type="hidden" name="curr_name">
+            <table id="tb_km" class="table table-condensed">
+            <div class="table-responsive">                     
+                <thead>
+                    <tr>
+                        <th class="col-sm-2 col-xs-2">Perkiraan</th>
+                        <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
+                        <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
+                        <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
+                    </tr>
+                </thead>
+                <tbody id="tb_content">
+                    <!-- <tr>
+                        <td style="border-top: 2px solid;"></td>
+                        <td style="border-top: 2px solid;"></td>
+                        <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
+                        <td style="border-top: 2px solid;"><strong>Harga</strong></td>
+                    </tr> -->                                                
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-3 text-center">
+                     Pembukuan
+                </div>
+                <div class="col-xs-2 text-center">
+                     Mengetahui
+                </div>
+                <div class="col-xs-2 text-center">
+                     Menyetujui
+                </div>
+                <div class="col-xs-2 text-center">
+                     Kasir
+                </div>
+                <div class="col-xs-3 text-center">
+                     Yang Menyerahkan
+                </div>
+            </div>   
+            <br><br><br>
+            <div class="row">
+                 <div class="col-xs-3 text-center">
+                       (.................)  (.................)
+                 </div>
+                 <div class="col-xs-2 text-center">
+                       (.................)
+                 </div>
+                <div class="col-xs-2 text-center">
+                       (.................)
+                </div>
+                <div class="col-xs-2 text-center">
+                       (.................)
+                </div>
+                <div class="col-xs-3 text-center">
+                       (.................)
+                </div>
+            </div> 
+            <?php include 'application/views/layout/administrator/jspack.php' ?>
         </div>
     </div>
-    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    <!--</div>-->
+    <!-- <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button> -->
     </page>
     
 

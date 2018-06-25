@@ -22,33 +22,78 @@
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
-    <style type="text/css">
-        body {
-          background: rgb(204,204,204);
-          font-size: 10px;
-        }        
-        page {          
-          background: white;
-          display: block;
-          margin: 0 auto;
-          margin-bottom: 0.5cm;
-          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    <style>
+        body
+        {
+            background: white;
+            font-family:"times new roman";
         }
-        page[size="A4"] {  
-          width: 21cm;
-          height: 14.85cm;
+        .row-content
+        {            
+            min-height: 350px;
         }
-        page[size="A4"][layout="portrait"] {
-          width: 29.7cm;
-          height: 21cm;  
+        .table th
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
-        @media print {
-          body, page {
-            margin: 0;
-            box-shadow: 0;
-          }
+        .table td
+        {
+            border: solid 1px black !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
-    </style> 
+        .head-font
+        {
+            font-family:"times new roman";
+            font-size: 18px;
+        }
+        .content-font
+        {
+            font-family: "times new roman";
+            font-size: 15px;
+        }
+        .foot-font
+        {
+            font-family:"times new roman";
+            font-size: 16px;
+        }
+
+        @media print
+        {            
+            h3, h4 
+            {
+                font-size: 14px;
+            }
+            .logo
+            {
+                width: 60%;
+                height: auto;
+            }
+            .row-content
+            {                
+                min-height: 220px;
+            }
+            .head-font
+            {
+                font-family:"times new roman";
+                font-size: 12px;
+            }
+            .content-font
+            {
+                font-family: "times new roman";
+                font-size: 12px;
+            }
+            .foot-font
+            {
+                font-family:"times new roman";
+                font-size: 10px;
+            }
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,121 +102,119 @@
     <![endif]-->
 </head>
 <body>
-    <page size="A4">
-    <div id="ygdiprint">
+    <!-- <page size="A4">
+    <div id="ygdiprint"> -->
+    <div class="container">
         <input type="hidden" name="gm_id" value="<?php echo $id;?>">
         <input type="hidden" name="cust_id" value="<?php echo $id;?>">
-        <div class="container-fluid">                
-            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
-            <div class="text-center">
-                        <h3><strong><u>BUKTI GIRO MASUK</u></strong></h3>
-                        <h3 style="margin-top:-10px">No.<span name="no_gm"></span></h3>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <address>
-                                <strong>Match Advertising</strong><br>
-                                JL. Lesti No.42, Surabaya 60241<br>
-                                Telp. (031) 567 8346 (Hunting)<br>
-                                Fax. (031) 568 0646<br>
-                                Email : info@match-advertising.com<br>
-                                Website : www.match-advertising.com<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                www.matchadonline.com
-                            </address>
-                        </div>
-                        <!-- <div class="col-xs-4">
-                            <address>
-                                <strong>Kepada :</strong><br>
-                                <span name="giro_custname"></span><br>
-                                <span name="giro_custaddr"></span>&nbsp;<span name="bank_girocity"></span><br>
-                                <span name="giro_custphone"></span><br>
-                                <span name="giro_custinfo"></span>
-                            </address>
-                        </div> -->
-                        <div class="col-xs-4">
-                            <address>
-                                <span>Tanggal :</span>&nbsp;<span name="giro_tgl"></span> 
-                            </address>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <input type="hidden" name="gir_id">
-                                        <input type="hidden" name="bnktrx_id">
-                                        <input type="hidden" name="bnk_id">
-                                        <input type="hidden" name="cust_id">
-                                        <input type="hidden" name="giro_custname">
-                                        <input type="hidden" name="giro_total">
-                                        <input type="hidden" name="giro_info">
-                                        <input type="hidden" name="giro_terbilang">
-                                        <input type="hidden" name="curr_name">
-                                        <table id="tb_gm" class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-sm-4 col-xs-4">Customer</th>
-                                                    <th class="col-sm-3 col-xs-3 text-center">No. Giro</th>
-                                                    <th class="col-sm-2 col-xs-2 text-center">Tgl. Giro</th>
-                                                    <th class="col-sm-3 col-xs-3 text-center">Jumlah</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb_content">
-                                                <!-- <tr>
-                                                    <td style="border-top: 2px solid;"></td>
-                                                    <td style="border-top: 2px solid;"></td>
-                                                    <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
-                                                    <td style="border-top: 2px solid;"><strong>Harga</strong></td>
-                                                </tr> -->
-                                            </tbody>
-                                        </table>
-                                    </div>      
-                                    <div class="row">
-                                        <div class="col-xs-3 text-center">
-                                             Pembukuan
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Mengetahui
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Menyetujui
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                             Kasir
-                                        </div>
-                                        <div class="col-xs-3 text-center">
-                                             Penerima
-                                        </div>
-                                    </div>   
-                                    <br><br><br>
-                                    <div class="row">
-                                         <div class="col-xs-3 text-center">
-                                               (.................)  (.................)
-                                         </div>
-                                         <div class="col-xs-2 text-center">
-                                               (.................)
-                                         </div>
-                                        <div class="col-xs-2 text-center">
-                                               (.................)
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                               (.................)
-                                        </div>
-                                        <div class="col-xs-3 text-center">
-                                               (.................)
-                                        </div>
-                                    </div>                               
-                                </div>
-                            </div>
-                        </div>
-                    </div>        
+        <div class="row">
+            <div class="col-xs-4">
+                <img id="img_logo" class="img-responsive logo" src="">
+            </div>
+            <div class="col-xs-4 text-center">
+                <h3><strong><u>BUKTI GIRO MASUK</u></strong></h3>
+                <h3 style="margin-top:-10px">No.<span name="no_gm"></span></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <address>
+                    <strong>Match Advertising</strong><br>
+                    JL. Lesti No.42, Surabaya 60241<br>
+                    Telp. (031) 567 8346 (Hunting)<br>
+                    Fax. (031) 568 0646<br>
+                    Email : info@match-advertising.com<br>
+                    Website : www.match-advertising.com<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    www.matchadonline.com
+                </address>
+            </div>
+            <!-- <div class="col-xs-4">
+                <address>
+                    <strong>Kepada :</strong><br>
+                    <span name="giro_custname"></span><br>
+                    <span name="giro_custaddr"></span>&nbsp;<span name="bank_girocity"></span><br>
+                    <span name="giro_custphone"></span><br>
+                    <span name="giro_custinfo"></span>
+                </address>
+            </div> -->
+            <div class="col-xs-4">
+                <address>
+                    <span>Tanggal :</span>&nbsp;<span name="giro_tgl"></span> 
+                </address>
+            </div>
+        </div>
+        <div class="row row-content content-font">
+            <div class="table-responsive">
+                <input type="hidden" name="gir_id">
+                <input type="hidden" name="bnktrx_id">
+                <input type="hidden" name="bnk_id">
+                <input type="hidden" name="cust_id">
+                <input type="hidden" name="giro_custname">
+                <input type="hidden" name="giro_total">
+                <input type="hidden" name="giro_info">
+                <input type="hidden" name="giro_terbilang">
+                <input type="hidden" name="curr_name">
+                <table id="tb_gm" class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-4 col-xs-4">Customer</th>
+                            <th class="col-sm-3 col-xs-3 text-center">No. Giro</th>
+                            <th class="col-sm-2 col-xs-2 text-center">Tgl. Giro</th>
+                            <th class="col-sm-3 col-xs-3 text-center">Jumlah</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content">
+                        <!-- <tr>
+                            <td style="border-top: 2px solid;"></td>
+                            <td style="border-top: 2px solid;"></td>
+                            <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
+                            <td style="border-top: 2px solid;"><strong>Harga</strong></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 text-center">
+                     Pembukuan
+                </div>
+                <div class="col-xs-2 text-center">
+                     Mengetahui
+                </div>
+                <div class="col-xs-2 text-center">
+                     Menyetujui
+                </div>
+                <div class="col-xs-2 text-center">
+                     Kasir
+                </div>
+                <div class="col-xs-3 text-center">
+                     Penerima
+                </div>
+            </div>   
+            <br><br><br>
+            <div class="row">
+                 <div class="col-xs-3 text-center">
+                       (.................)  (.................)
+                 </div>
+                 <div class="col-xs-2 text-center">
+                       (.................)
+                 </div>
+                <div class="col-xs-2 text-center">
+                       (.................)
+                </div>
+                <div class="col-xs-2 text-center">
+                       (.................)
+                </div>
+                <div class="col-xs-3 text-center">
+                       (.................)
+                </div>
+            </div>
         </div>
     </div>
-    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page>
+    <!-- <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    </page> -->
+    <!-- jQuery -->
+    <?php include 'application/views/layout/administrator/jspack.php' ?>
     
 
     
