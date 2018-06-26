@@ -363,15 +363,15 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_custname"]').text(data.CUST_NAME);
-                    $('[name="kas_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="kas_custcity"]').text(data.CUST_CITY);
-                    $('[name="kas_custphone"]').text(data.CUST_PHONE);
+                    $('[name="giro_custname"]').text(data.CUST_NAME);
+                    $('[name="giro_custaddr"]').text(data.CUST_ADDRESS);
+                    $('[name="giro_custcity"]').text(data.CUST_CITY);
+                    $('[name="giro_custphone"]').text(data.CUST_PHONE);
                     // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
                 },
                 error: function (jqXHR, textStatus, errorThrown)

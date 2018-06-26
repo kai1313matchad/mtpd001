@@ -126,7 +126,7 @@
                         Email : info@match-advertising.com<br>
                     </address>
             </div>
-            <div class="col-xs-5 head-font">
+           <!--  <div class="col-xs-5 head-font">
                 <address>
                     <strong>Kepada :</strong><br>
                     <span name="kas_custname"></span><br>
@@ -134,10 +134,10 @@
                     <span name="kas_custphone"></span><br>
                     <span name="kas_custinfo"></span>
                 </address>
-            </div>
+            </div> -->
             <div class="col-xs-3 head-font">
                 <address>
-                    <strong>Tanggal :</strong>&nbsp;<span name="kas_tgl"></span>
+                    <strong>Tanggal :</strong>&nbsp;<span name="giro_tgl"></span>
                 </address>
             </div>
         </div>
@@ -284,6 +284,7 @@
                     // $('[name="appr_id"]').val(data.APPR_ID);
                     // $('[name="cust_id"]').val(data.CUST_ID);
                     $('[name="pass"]').text(data.GROUT_ID);
+
                     // if (($('[name="cust_id"]').val()) != ''){
                     //      pick_cust($('[name="cust_id"]').val());
                     // }
@@ -355,10 +356,10 @@
         }
 
         function pick_cust(id)
-        {
+        {   alert(id);
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
