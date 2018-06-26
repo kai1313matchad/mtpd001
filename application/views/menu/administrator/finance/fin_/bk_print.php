@@ -150,7 +150,7 @@
                 <input type="hidden" name="BNKTRX_AMOUNT">
                 <input type="hidden" name="bank_total">
                 <input type="hidden" name="bank_info">
-                <input type="hidden" name=bank_terbilang">
+                <input type="hidden" name="bank_terbilang">
                 <input type="hidden" name="curr_name">
                 <table id="tb_bm" class="table table-condensed">
                     <thead>
@@ -284,15 +284,15 @@
                     $('[name="no_bk"]').text(data.BNKO_CODE);
                     $('[name="bank_tgl"]').text(data.BNKO_DATE);
                     $('[name="bank_info"]').val(data.BNKO_INFO);
-                    $('[name="supp_id"]').val(data.CUST_ID);
+                    $('[name="supp_id"]').val(data.BNKO_SUPP);
                     $('[name="pass"]').text(data.BNKO_ID);
                     if (($('[name="supp_id"]').val()) != ''){
                          pick_supp($('[name="supp_id"]').val());
                     }
                     pick_sum_total_bk($('[name="bk_id"]').val());
-                    pick_curr(data.SUPP_ID);
+                    pick_curr(data.CURR_ID);
                     pick_bktrxdet($('[name="bk_id"]').val()); 
-                    pick_bkdet($('[name="bk_id"]').val());       
+                    // pick_bkdet($('[name="bk_id"]').val());       
                     $('#modal_bk').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -424,7 +424,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bank_terbilang"]').val(data.terbilang);           
+                    $('[name="bank_terbilang"]').val(data.terbilang);  
+                    pick_bkdet($('[name="bk_id"]').val());          
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

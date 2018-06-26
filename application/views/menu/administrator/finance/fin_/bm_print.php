@@ -153,7 +153,7 @@
                 <input type="hidden" name="BNKTRX_AMOUNT">
                 <input type="hidden" name="bank_total">
                 <input type="hidden" name="bank_info">
-                <input type="hidden" name=bank_terbilang">
+                <input type="hidden" name="bank_terbilang">
                 <input type="hidden" name="curr_name">
                 <table id="tb_bm" class="table table-condensed">
                     <thead>
@@ -294,7 +294,7 @@
                     pick_sum_total_bm($('[name="bm_id"]').val());
                     pick_curr(data.CURR_ID);
                     pick_bmtrxdet($('[name="bm_id"]').val()); 
-                    pick_bmdet($('[name="bm_id"]').val());       
+                    // pick_bmdet($('[name="bm_id"]').val());       
                      
                     // pick_kmdet($('[name="km_id"]').val());
                     // if(data.APPR_ID != null)
@@ -388,15 +388,15 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_custname"]').text(data.CUST_NAME);
-                    $('[name="kas_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="kas_custcity"]').text(data.CUST_CITY);
-                    $('[name="kas_custphone"]').text(data.CUST_PHONE);
+                    $('[name="bank_custname"]').text(data.CUST_NAME);
+                    $('[name="bank_custaddr"]').text(data.CUST_ADDRESS);
+                    $('[name="bank_custcity"]').text(data.CUST_CITY);
+                    $('[name="bank_custphone"]').text(data.CUST_PHONE);
                     // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -434,7 +434,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bank_terbilang"]').val(data.terbilang);           
+                    $('[name="bank_terbilang"]').val(data.terbilang);   
+                    pick_bmdet($('[name="bm_id"]').val());      
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
