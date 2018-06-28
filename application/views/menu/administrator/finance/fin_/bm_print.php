@@ -238,7 +238,7 @@
             id=$('[name="bm_id"]').val();            
             prc = 0; qty = 0; sub = 0;
             pick_bm(id);
-            
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
             // });
@@ -478,7 +478,24 @@
                 }
             });
         }
-
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
         {  
             var num = parseFloat( amount ); //convert to float  

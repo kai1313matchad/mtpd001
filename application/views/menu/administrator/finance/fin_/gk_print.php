@@ -126,15 +126,15 @@
                         Email : info@match-advertising.com<br>
                     </address>
             </div>
-           <!--  <div class="col-xs-5 head-font">
+            <div class="col-xs-5 head-font">
                 <address>
                     <strong>Kepada :</strong><br>
-                    <span name="kas_custname"></span><br>
-                    <span name="kas_custaddr"></span>&nbsp;<span name="kas_custcity"></span><br>
-                    <span name="kas_custphone"></span><br>
-                    <span name="kas_custinfo"></span>
+                    <span name="giro_suppname"></span><br>
+                    <span name="giro_suppaddr"></span>&nbsp;<span name="giro_suppcity"></span><br>
+                    <span name="giro_suppphone"></span><br>
+                    <span name="giro_suppinfo"></span>
                 </address>
-            </div> -->
+            </div>
             <div class="col-xs-3 head-font">
                 <address>
                     <strong>Tanggal :</strong>&nbsp;<span name="giro_tgl"></span>
@@ -235,7 +235,7 @@
             id=$('[name="gk_id"]').val();            
             prc = 0; qty = 0; sub = 0;
             pick_gk(id);
-            
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
             // });
@@ -326,7 +326,7 @@
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["GROUTDET_AMOUNT"],".",",",2))
                             ).appendTo('#tb_content');
                     };
-                    
+                    pick_supp(data[i-1]["SUPP_ID"]);
                     var $tr = $('<tr>').append(
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css('border-top','2px solid').text(''),
@@ -334,18 +334,18 @@
                             $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",".",2))
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
-                            $('<td>').text('Keterangan : '+ info)
+                            $('<td>').text('Keterangan : '+ info),
                             // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(info),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
-                            $('<td>').text('Terbilang : ' + terbi)
+                            $('<td>').text('Terbilang : ' + terbi),
                             // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -355,19 +355,19 @@
             });
         }
 
-        function pick_cust(id)
-        {   alert(id);
+        function pick_supp(id)
+        {   
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="kas_custname"]').text(data.CUST_NAME);
-                    $('[name="kas_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="kas_custcity"]').text(data.CUST_CITY);
-                    $('[name="kas_custphone"]').text(data.CUST_PHONE);
+                    $('[name="giro_suppname"]').text(data.SUPP_NAME);
+                    $('[name="giro_suppaddr"]').text(data.SUPP_ADDRESS);
+                    $('[name="giro_suppcity"]').text(data.SUPP_CITY);
+                    $('[name="giro_suppphone"]').text(data.SUPP_PHONE);
                     // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -432,7 +432,24 @@
                 }
             });
         }
-
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
         {  
             var num = parseFloat( amount ); //convert to float  

@@ -129,15 +129,15 @@
                     www.matchadonline.com
                 </address>
             </div>
-            <!-- <div class="col-xs-4">
+            <div class="col-xs-4">
                 <address>
                     <strong>Kepada :</strong><br>
                     <span name="giro_custname"></span><br>
-                    <span name="giro_custaddr"></span>&nbsp;<span name="bank_girocity"></span><br>
+                    <span name="giro_custaddr"></span>&nbsp;<span name="giro_custcity"></span><br>
                     <span name="giro_custphone"></span><br>
                     <span name="giro_custinfo"></span>
                 </address>
-            </div> -->
+            </div>
             <div class="col-xs-4">
                 <address>
                     <span>Tanggal :</span>&nbsp;<span name="giro_tgl"></span> 
@@ -240,7 +240,7 @@
             id=$('[name="gm_id"]').val();            
             prc = 0; qty = 0; sub = 0;
             pick_gm(id);
-            
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
             // });
@@ -308,7 +308,6 @@
                 }
             });
         }
-
         function pick_gmdet(id)
         {            
             //Ajax Load data from ajax
@@ -330,7 +329,7 @@
                             $('<td>').css('text-align','right').text(formatCurrency(data[i]["GRINDET_AMOUNT"],".",",",2))
                             ).appendTo('#tb_content');
                     };
-                    
+                    pick_cust(data[i-1]["CUST_CODE"]);
                     var $tr = $('<tr>').append(
                             $('<td>').css('border-top','2px solid').text(''),
                             $('<td>').css('border-top','2px solid').text(''),
@@ -338,18 +337,18 @@
                             $('<td>').css({'border-top':'2px solid','font-weight':'bold','text-align':'right'}).text(formatCurrency(total,".",".",2))
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
-                            $('<td>').text('Keterangan : '+ info)
+                            $('<td>').text('Keterangan : '+ info),
                             // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(info),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                     var $tr = $('<tr>').append(
-                            $('<td>').text('Terbilang : ' + terbi)
+                            $('<td>').text('Terbilang : ' + terbi),
                             // $('<td>').css({'font-weight':'bold','text-align':'left'}).text(terbi),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
-                            // $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text(''),
+                            $('<td>').css({'font-weight':'bold','text-align':'right'}).text('')
                             ).appendTo('#tb_content');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -363,7 +362,7 @@
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -436,7 +435,24 @@
                 }
             });
         }
-
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
         {  
             var num = parseFloat( amount ); //convert to float  
