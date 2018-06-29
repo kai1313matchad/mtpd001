@@ -22,78 +22,33 @@
     <link href="<?php echo base_url('assets/addons/extra.css')?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet"> 
-    <style>
-        body
-        {
-            background: white;
-            font-family:"times new roman";
+    <style type="text/css">
+        body {
+          background: rgb(204,204,204);
+          font-size: 10px;
+        }        
+        page {          
+          background: white;
+          display: block;
+          margin: 0 auto;
+          margin-bottom: 0.5cm;
+          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
         }
-        .row-content
-        {            
-            min-height: 350px;
+        page[size="A4"] {  
+          width: 21cm;
+          height: 14.85cm;
         }
-        .table th
-        {
-            border: solid 1px black !important;
-            margin: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
+        page[size="A4"][layout="portrait"] {
+          width: 29.7cm;
+          height: 21cm;  
         }
-        .table td
-        {
-            border: solid 1px black !important;
-            margin: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
+        @media print {
+          body, page {
+            margin: 0;
+            box-shadow: 0;
+          }
         }
-        .head-font
-        {
-            font-family:"times new roman";
-            font-size: 18px;
-        }
-        .content-font
-        {
-            font-family: "times new roman";
-            font-size: 15px;
-        }
-        .foot-font
-        {
-            font-family:"times new roman";
-            font-size: 16px;
-        }
-
-        @media print
-        {            
-            h3, h4 
-            {
-                font-size: 14px;
-            }
-            .logo
-            {
-                width: 60%;
-                height: auto;
-            }
-            .row-content
-            {                
-                min-height: 220px;
-            }
-            .head-font
-            {
-                font-family:"times new roman";
-                font-size: 12px;
-            }
-            .content-font
-            {
-                font-family: "times new roman";
-                font-size: 12px;
-            }
-            .foot-font
-            {
-                font-family:"times new roman";
-                font-size: 10px;
-            }
-        }
-    </style>
+    </style> 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -102,118 +57,124 @@
     <![endif]-->
 </head>
 <body>
-    <!--<page size="A4">-->
-    <!-- <div id="ygdiprint"> -->
-    <div class="container">
-        <input type="hidden" name="bm_id" value="<?php echo $id;?>">
-        <input type="hidden" name="cust_id" value="<?php echo $id;?>">
-        <div class="row">
-            <div class="col-xs-4">
-                <img id="img_logo" class="img-responsive logo" src="">
-            </div>
-            <div class="col-xs-4 text-center">
-                <h3><strong><u>BUKTI BANK MASUK</u></strong></h3>
-                <h3 style="margin-top:-10px">No.<span name="no_bm"></span></h3>
-                <span name="acc_header"></span>
-            </div>
+    <page size="A4">
+    <div id="ygdiprint">
+        <input type="hidden" name="bk_id" value="<?php echo $id;?>">
+        <input type="hidden" name="supp_id" value="<?php echo $id;?>">
+        <div class="container-fluid">                
+            <hr style="border: solid 2px; color: black; margin-top: 0; margin-bottom: 0;">
+            <div class="text-center">
+                        <h3><strong><u>BUKTI BANK KELUAR</u></strong></h3>
+                        <h3 style="margin-top:-10px">No.<span name="no_bk"></span></h3>
+                        <span name="acc_header"></span>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <address>
+                                <!-- <strong>Dari:</strong><br> -->
+                                <strong>Match Advertising</strong><br>
+                                JL. Lesti No.42, Surabaya 60241<br>
+                                Telp. (031) 567 8346 (Hunting)<br>
+                                Fax. (031) 568 0646<br>
+                                Email : info@match-advertising.com<br>
+                                Website : www.match-advertising.com<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                www.matchadonline.com
+                            </address>
+                        </div>
+                        <div class="col-xs-4">
+                            <address>
+                                <strong>Kepada :</strong><br>
+                                <span name="bank_suppname"></span><br>
+                                <span name="bank_suppaddr"></span>&nbsp;<span name="bank_suppcity"></span><br>
+                                <span name="bank_suppphone"></span><br>
+                                <span name="bank_suppinfo"></span>
+                            </address>
+                        </div>
+                        <div class="col-xs-4">
+                            <address>
+                                <span>Tanggal :</span>&nbsp;<span name="bank_tgl"></span> 
+                            </address>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="panel panel-default">
+                                <!-- <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Kas Masuk Summary</strong></h3>
+                                </div> -->
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <input type="hidden" name="BNKTRX_NUM">
+                                        <input type="hidden" name="BNKTRX_DATE">
+                                        <input type="hidden" name="BNKTRX_AMOUNT">
+                                        <input type="hidden" name="bank_total">
+                                        <input type="hidden" name="bank_info">
+                                        <input type="hidden" name=bank_terbilang">
+                                        <input type="hidden" name="curr_name">
+                                        <table id="tb_bm" class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-sm-2 col-xs-2">Perkiraan</th>
+                                                    <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
+                                                    <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_content">
+                                                <!-- <tr>
+                                                    <td style="border-top: 2px solid;"></td>
+                                                    <td style="border-top: 2px solid;"></td>
+                                                    <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
+                                                    <td style="border-top: 2px solid;"><strong>Harga</strong></td>
+                                                </tr> -->                                                
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                    <div class="row">
+                                        <div class="col-xs-3 text-center">
+                                             Pembukuan
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                             Mengetahui
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                             Disetujui
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                             Dibuat
+                                        </div>
+                                        <div class="col-xs-3 text-center">
+                                             Diterima
+                                        </div>
+                                    </div>   
+                                    <br><br><br>
+                                    <div class="row">
+                                         <div class="col-xs-3 text-center">
+                                               (.................)  (.................)
+                                         </div>
+                                         <div class="col-xs-2 text-center">
+                                               (.................)
+                                         </div>
+                                        <div class="col-xs-2 text-center">
+                                               (.................)
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                               (.................)
+                                        </div>
+                                        <div class="col-xs-3 text-center">
+                                               (.................)
+                                        </div>
+                                    </div>                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
         </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <address>
-                    <!-- <strong>Dari:</strong><br> -->
-                    <strong>Match Advertising</strong><br>
-                    JL. Lesti No.42, Surabaya 60241<br>
-                    Telp. (031) 567 8346 (Hunting)<br>
-                    Fax. (031) 568 0646<br>
-                    Email : info@match-advertising.com<br>
-                </address>
-            </div>
-            <div class="col-xs-4">
-                <address>
-                    <strong>Kepada :</strong><br>
-                    <span name="bank_custname"></span><br>
-                    <span name="bank_custaddr"></span>&nbsp;<span name="bank_custcity"></span><br>
-                    <span name="bank_custphone"></span><br>
-                    <span name="bank_custinfo"></span>
-                </address>
-            </div>
-            <div class="col-xs-4">
-                <address>
-                    <span>Tanggal :</span>&nbsp;<span name="bank_tgl"></span> 
-                    <!-- <strong>Info:</strong><br> 
-                    Lokasi <span name="loc_name"></span>, <span name="loc_det"></span><br>
-                    <span name="km_info"></span> -->
-                </address>
-            </div>
-        </div>
-        <div class="row row-content content-font">
-            <div class="col-sm-12 col-xs-12 table-responsive">
-                <input type="hidden" name="BNKTRX_NUM">
-                <input type="hidden" name="BNKTRX_DATE">
-                <input type="hidden" name="BNKTRX_AMOUNT">
-                <input type="hidden" name="bank_total">
-                <input type="hidden" name="bank_info">
-                <input type="hidden" name="bank_terbilang">
-                <input type="hidden" name="curr_name">
-                <table id="tb_bm" class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="col-sm-2 col-xs-2">Perkiraan</th>
-                            <th class="col-sm-7 col-xs-7 text-center">Uraian</th>
-                            <th class="col-sm-2 col-xs-2 text-center">Jumlah</th>
-                            <!-- <th class="col-sm-2 col-xs-2 text-center">Harga</th> -->
-                        </tr>
-                    </thead>
-                    <tbody id="tb_content">
-                        <!-- <tr>
-                            <td style="border-top: 2px solid;"></td>
-                            <td style="border-top: 2px solid;"></td>
-                            <td class="text-center" style="border-top: 2px solid;"><strong>Total</strong></td>
-                            <td style="border-top: 2px solid;"><strong>Harga</strong></td>
-                        </tr> -->                                                
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 text-center">
-                     Pembukuan
-                </div>
-                <div class="col-xs-2 text-center">
-                     Mengetahui
-                </div>
-                <div class="col-xs-2 text-center">
-                     Disetujui
-                </div>
-                <div class="col-xs-2 text-center">
-                     Dibuat
-                </div>
-                <div class="col-xs-3 text-center">
-                     Diterima
-                </div>
-            </div>   
-            <br><br><br>
-            <div class="row">
-                 <div class="col-xs-3 text-center">
-                       (.................)  (.................)
-                 </div>
-                 <div class="col-xs-2 text-center">
-                       (.................)
-                 </div>
-                <div class="col-xs-2 text-center">
-                       (.................)
-                </div>
-                <div class="col-xs-2 text-center">
-                       (.................)
-                </div>
-                <div class="col-xs-3 text-center">
-                       (.................)
-                </div>
-            </div>
-        </div>
-    <!-- </div> -->
-    <!-- <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
-    </page> -->
-    <?php include 'application/views/layout/administrator/jspack.php' ?>
+    </div>
+    <button type="button" id="print" class="btn btn-primary col-md-6 col-md-offset-3" data-toggle="modal" onclick="printContent('ygdiprint'); window.location.reload();return false;"><span class="glyphicon glyphicon-print"></span> Print / Save</button>
+    </page>
+    
 
     
     <!-- jQuery -->
@@ -235,10 +196,10 @@
         var id; var suppid; var prc; var qty; var sub;
         $(document).ready(function()
         {
-            id=$('[name="bm_id"]').val();            
+            id=$('[name="bk_id"]').val();            
             prc = 0; qty = 0; sub = 0;
-            pick_bm(id);
-            pick_branch("<?= $this->session->userdata('user_branch')?>");
+            pick_bk(id);
+            
             // $('[name=po_qty]').on('input', function() {
                 // hitung();
             // });
@@ -247,7 +208,7 @@
         function dtable()
         {
             //datatables        
-            table = $('#dtb_bm').DataTable({
+            table = $('#dtb_bk').DataTable({
                 "info": false,
                 "destroy": true,
                 "responsive": true,
@@ -256,7 +217,7 @@
                 "order": [], //Initial no order.
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('administrator/Finance/ajax_printbm')?>",
+                    "url": "<?php echo site_url('administrator/Finance/ajax_printbk')?>",
                     "type": "POST",                
                 },
                 //Set column definition initialisation properties.
@@ -269,39 +230,32 @@
             });
         }
 
-        function pick_bm(id)
+
+        function pick_bk(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_bm/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bk/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bm_id"]').val(data.BNK_ID);
+                    $('[name="bk_id"]').val(data.BNKO_ID);
                     search_acc(data.COA_ID);
-                    $('[name="bm_code"]').val(data.BNK_CODE);
-                    $('[name="no_bm"]').text(data.BNK_CODE);
-                    $('[name="no_bm"]').text(data.BNK_CODE);
-                    $('[name="bank_tgl"]').text(data.BNK_DATE);
-                    $('[name="bank_info"]').val(data.BNK_INFO);
-                    // $('[name="appr_id"]').val(data.APPR_ID);
-                    $('[name="cust_id"]').val(data.CUST_ID);
-                    $('[name="pass"]').text(data.BNK_ID);
-                    if (($('[name="cust_id"]').val()) != ''){
-                         pick_cust($('[name="cust_id"]').val());
+                    $('[name="bm_code"]').val(data.BNKO_CODE);
+                    $('[name="no_bk"]').text(data.BNKO_CODE);
+                    $('[name="bank_tgl"]').text(data.BNKO_DATE);
+                    $('[name="bank_info"]').val(data.BNKO_INFO);
+                    $('[name="supp_id"]').val(data.CUST_ID);
+                    $('[name="pass"]').text(data.BNKO_ID);
+                    if (($('[name="supp_id"]').val()) != ''){
+                         pick_supp($('[name="supp_id"]').val());
                     }
-                    pick_sum_total_bm($('[name="bm_id"]').val());
-                    pick_curr(data.CURR_ID);
-                    pick_bmtrxdet($('[name="bm_id"]').val()); 
-                    // pick_bmdet($('[name="bm_id"]').val());       
-                     
-                    // pick_kmdet($('[name="km_id"]').val());
-                    // if(data.APPR_ID != null)
-                    // {
-                    //     pick_appr($('[name="appr_id"]').val());
-                    // }
-                    $('#modal_bm').modal('hide');
+                    pick_sum_total_bk($('[name="bk_id"]').val());
+                    pick_curr(data.SUPP_ID);
+                    pick_bktrxdet($('[name="bk_id"]').val()); 
+                    pick_bkdet($('[name="bk_id"]').val());       
+                    $('#modal_bk').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -310,11 +264,11 @@
             });
         }
 
-        function pick_bmdet(id)
+        function pick_bkdet(id)
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_bmdet/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bkdet/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -326,9 +280,8 @@
                     for (var i = 0; i < data.length; i++) {
                       var $tr = $('<tr>').append(
                             $('<td>').text(data[i]["COA_ACC"]+' - '+data[i]["COA_ACCNAME"]),
-                            $('<td>').text(data[i]["BNKDET_INFO"]),
-                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNKDET_AMOUNT"],".",",",2))
-                            // $('<td>').css('text-align','right').text(data[i]["PODET_SUB"])
+                            $('<td>').text(data[i]["BNKODET_INFO"]),
+                            $('<td>').css('text-align','right').text(formatCurrency(data[i]["BNKODET_AMOUNT"],".",",",2))
                             ).appendTo('#tb_content');
                     };
                     
@@ -364,18 +317,18 @@
             });
         }
 
-        function pick_bmtrxdet(id)
+        function pick_bktrxdet(id)
         {            
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_bmtrxdet/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_bktrxdet/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 { 
-                   $('[name="BNKTRX_NUM"]').val(data.BNKTRX_NUM); 
-                   $('[name="BNKTRX_DATE"]').val(data.BNKTRX_DATE); 
-                   $('[name="BNKTRX_AMOUNT"]').val(data.BNKTRX_AMOUNT);
+                   $('[name="BNKTRX_NUM"]').val(data.BNKTRXO_NUM); 
+                   $('[name="BNKTRX_DATE"]').val(data.BNKTRXO_DATE); 
+                   $('[name="BNKTRX_AMOUNT"]').val(data.BNKTRXO_AMOUNT);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -384,20 +337,19 @@
             });
         }
 
-        function pick_cust(id)
+        function pick_supp(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_id/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_supp/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bank_custname"]').text(data.CUST_NAME);
-                    $('[name="bank_custaddr"]').text(data.CUST_ADDRESS);
-                    $('[name="bank_custcity"]').text(data.CUST_CITY);
-                    $('[name="bank_custphone"]').text(data.CUST_PHONE);
-                    // $('[name="inv_suppinfo"]').text(data.SUPP_OTHERCTC);
+                    $('[name="bank_suppname"]').text(data.SUPP_NAME);
+                    $('[name="bank_suppaddr"]').text(data.SUPP_ADDRESS);
+                    $('[name="bank_suppcity"]').text(data.SUPP_CITY);
+                    $('[name="bank_suppphone"]').text(data.SUPP_PHONE);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -406,17 +358,17 @@
             });
         }
 
-        function pick_sum_total_bm(id)
+        function pick_sum_total_bk(id)
         {
             //Ajax Load data from ajax
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_bm/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_sum_bk/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
                 {   
                     $('[name="bank_total"]').val(data.SubTotal);
-                    pick_terbilang_total_bm(data.SubTotal);
+                    pick_terbilang_total_bk(data.SubTotal);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -425,7 +377,7 @@
             });
         }
 
-        function pick_terbilang_total_bm(total)
+        function pick_terbilang_total_bk(total)
         {
             //Ajax Load data from ajax
             $.ajax({
@@ -434,8 +386,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="bank_terbilang"]').val(data.terbilang);   
-                    pick_bmdet($('[name="bm_id"]').val());      
+                    $('[name="bank_terbilang"]').val(data.terbilang);           
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -478,24 +429,7 @@
                 }
             });
         }
-        function pick_branch(id)
-        {
-            $.ajax({
-                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {   
-                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
-                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
-                    $('#img_logo').attr('src', newSrc);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            })
-        }
+
         function formatCurrency(amount, decimalSeparator, thousandsSeparator, nDecimalDigits)
         {  
             var num = parseFloat( amount ); //convert to float  

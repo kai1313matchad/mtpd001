@@ -220,9 +220,12 @@
                     $('[name="no_km"]').text(data.CSH_CODE);
                     $('[name="kas_tgl"]').text(moment(data.CSH_DATE).locale('id').format('DD-MMM-YYYY'));
                     $('[name="kas_info"]').val(data.CSH_INFO);
-                    $('[name="cust_id"]').val(data.CUST_ID);
+                    if (data.CUST_ID != ''){$('[name="cust_id"]').val(data.CUST_ID);};
+                    if (data.CSTIN_ID != ''){$('[name="cust_id"]').val(data.CSTIN_ID);};
                     $('[name="pass"]').text(data.CSH_ID);
-                    (data.CUST_ID != '')?pick_cust(data.CUST_ID):'';
+                    if ((data.CUST_ID != null) || (data.CSTIN_ID != null)){
+                        (data.CUST_ID != null)?pick_cust_ex(data.CUST_ID):pick_cust_in(data.CSTIN_ID);
+                    };
                     pick_sum_total_km($('[name="km_id"]').val());
                     pick_curr(data.CURR_ID);
                 },
@@ -232,10 +235,10 @@
                 }
             });
         }
-        function pick_cust(id)
-        {
+        function pick_cust_ex(id)
+        {   alert(id);
             $.ajax({
-                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust/')?>/" + id,
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_ex/')?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
@@ -244,6 +247,25 @@
                     $('[name="kas_custaddr"]').text(data.CUST_ADDRESS);
                     $('[name="kas_custcity"]').text(data.CUST_CITY);
                     $('[name="kas_custphone"]').text(data.CUST_PHONE);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+        function pick_cust_in(id)
+        {   
+            $.ajax({
+                url : "<?php echo site_url('administrator/Finance/ajax_pick_cust_in/')?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    $('[name="kas_custname"]').text(data.PERSON_NAME);
+                    $('[name="kas_custaddr"]').text(data.PERSON_ADDRESS);
+                    $('[name="kas_custcity"]').text(data.PERSON_CITY);
+                    $('[name="kas_custphone"]').text(data.PERSON_PHONE);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

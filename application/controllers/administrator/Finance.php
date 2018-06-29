@@ -2381,6 +2381,25 @@
         	echo json_encode($data);
 		}
 
+		public function ajax_pick_cust_ex($id)
+		{
+			$data = $this->crud->get_by_id('master_customer',array('CUST_ID' => $id));
+        	echo json_encode($data);
+		}
+
+		public function ajax_pick_cust_in($id)
+		{
+			
+			$data = $this->crud->get_by_id2('master_cust_intern','master_person',array('master_cust_intern.CSTIN_ID' => $id),'master_cust_intern.PERSON_ID = master_person.PERSON_ID');
+        	echo json_encode($data);
+		}
+
+		 public function ajax_pick_cust_id($id)
+		{
+			$data = $this->crud->get_by_id('master_customer',array('CUST_ID' => $id));
+			echo json_encode($data);
+		}		
+
 		public function ajax_pick_anggaran($id)
 		{
 			$data = $this->crud->get_by_id('trx_budget',array('BUD_ID' => $id));
