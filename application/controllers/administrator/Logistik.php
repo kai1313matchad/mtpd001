@@ -1411,7 +1411,11 @@
 	    	$get = $que->row();
 	    	$cou = count($get);
 	    	$hpp = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COA;
+	    	$hppnom = ($this->input->post('prc_gtotal')-($this->input->post('prc_disc')+$this->input->post('prc_ppn')+$this->input->post('prc_cost')));
 	    	$dbt = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COAAG;
+	    	$disc = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COADISC;
+	    	$ppn = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COAPPN;
+	    	$cost = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->PRC_COACOST;
 	    	$infos = 'Jurnal Pembelian dari '.$this->input->post('supp_name');
 	    	if($cou > 0)
 	    	{
@@ -1427,18 +1431,48 @@
 		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
-						'coa_id'=>$hpp,
-						'joudet_debit'=>$this->input->post('prc_gtotal'),
-						'joudet_credit'=>0,
-						);
-				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-				$joudet2 = array(
-						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$dbt,
 						'joudet_debit'=>0,
 						'joudet_credit'=>$this->input->post('prc_gtotal'),
 						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+		    	$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$hppnom,
+						'joudet_credit'=>0,
+						);
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				if($this->input->post('prc_disc')!='0')
+				{
+					$joudet3 = array(
+							'jou_id'=>$get->JOU_ID,
+							'coa_id'=>$disc,
+							'joudet_debit'=>$this->input->post('prc_disc'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet3 = $this->crud->save('jou_details',$joudet3);
+				}
+				if($this->input->post('prc_ppn')!='0')
+				{
+					$joudet4 = array(
+							'jou_id'=>$get->JOU_ID,
+							'coa_id'=>$ppn,
+							'joudet_debit'=>$this->input->post('prc_ppn'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet4 = $this->crud->save('jou_details',$joudet4);
+				}
+				if($this->input->post('prc_cost')!='0')
+				{
+					$joudet5 = array(
+							'jou_id'=>$get->JOU_ID,
+							'coa_id'=>$cost,
+							'joudet_debit'=>$this->input->post('prc_cost'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet5 = $this->crud->save('jou_details',$joudet5);
+				}
 	    	}
 	    	else
 	    	{
@@ -1458,18 +1492,48 @@
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
-						'coa_id'=>$hpp,
-						'joudet_debit'=>$this->input->post('prc_gtotal'),
-						'joudet_credit'=>0,
-						);
-				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
-				$joudet2 = array(
-						'jou_id'=>$jouid,
 						'coa_id'=>$dbt,
 						'joudet_debit'=>0,
 						'joudet_credit'=>$this->input->post('prc_gtotal'),
 						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+		    	$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$hpp,
+						'joudet_debit'=>$hppnom,
+						'joudet_credit'=>0,
+						);
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				if($this->input->post('prc_disc')!='0')
+				{
+					$joudet3 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$disc,
+							'joudet_debit'=>$this->input->post('prc_disc'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet3 = $this->crud->save('jou_details',$joudet3);
+				}
+				if($this->input->post('prc_ppn')!='0')
+				{
+					$joudet4 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$ppn,
+							'joudet_debit'=>$this->input->post('prc_ppn'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet4 = $this->crud->save('jou_details',$joudet4);
+				}
+				if($this->input->post('prc_cost')!='0')
+				{
+					$joudet5 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$cost,
+							'joudet_debit'=>$this->input->post('prc_cost'),
+							'joudet_credit'=>0,
+							);
+					$insjoudet5 = $this->crud->save('jou_details',$joudet5);
+				}
 	    	}
 	        echo json_encode(array("status" => TRUE));
 		}

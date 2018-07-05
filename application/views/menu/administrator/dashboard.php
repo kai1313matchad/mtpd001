@@ -139,6 +139,27 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Diskon</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_prccoadisc" id="os_prccoadisc" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun PPN</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_prccoappn" id="os_prccoappn" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun Biaya</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_prccoacost" id="os_prccoacost" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="control-label col-xs-3">Akun Hutang</label>
                                                 <div class="col-sm-6">
                                                     <select class="form-control text-center" name="os_prccoacrd" id="os_prccoacrd" data-live-search="true">
@@ -148,7 +169,7 @@
                                             <div class="form-group">
                                                 <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan</label>
                                                 <div class="col-xs-6">
-                                                    <textarea name="stg_infoprccoa" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                                    <textarea name="stg_infoprccoa" class="form-control" rows="4" style="resize:vertical;" readonly></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -319,6 +340,9 @@
             drop_user();
             drop_coa('os_prccoadeb');
             drop_coa('os_prccoacrd');
+            drop_coa('os_prccoadisc');
+            drop_coa('os_prccoappn');
+            drop_coa('os_prccoacost');
             drop_coa('os_nota');
             drop_coa('os_giroaccrcv');
             drop_coa('os_girodebt');
@@ -342,7 +366,7 @@
                 success: function(data)
                 {
                     $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
-                    $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG);
+                    $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG+'\n'+'Akun Diskon : '+data.PRC_COANAMEDISC+'\n'+'Akun PPN : '+data.PRC_COANAMEPPN+'\n'+'Akun Biaya : '+data.PRC_COANAMECOST);
                     $('[name="stg_infonotafin"]').val('Akun Nota Gantung : '+data.NOTAFIN_ACCNAME);
                     $('[name="stg_infogiroacc"]').val('Akun Piutang Giro : '+data.ACCRCVGIRO_ACCNAME+'\n'+'Akun Hutang Giro : '+data.DEBTGIRO_ACCNAME);
                 },
