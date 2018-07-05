@@ -191,6 +191,19 @@
                                     <div class="panel-body">
                                         <form id="form_bankinv" class="form-horizontal">
                                             <div class="form-group">
+                                                <label class="control-label col-xs-3">Akun PPN</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control text-center" name="os_bankinvppn" id="os_bankinvppn" data-live-search="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-offset-1 col-xs-2 control-label">Keterangan PPN Invoice</label>
+                                                <div class="col-xs-6">
+                                                    <textarea name="stg_infoinvppn" class="form-control" rows="2" style="resize:vertical;" readonly></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="control-label col-xs-3">Bank</label>
                                                 <div class="col-sm-6">
                                                     <select class="form-control text-center" name="os_bankinfo" id="os_bankinfo" data-live-search="true">
@@ -346,6 +359,7 @@
             drop_coa('os_nota');
             drop_coa('os_giroaccrcv');
             drop_coa('os_girodebt');
+            drop_coa('os_bankinvppn');
             drop_bank();
             $('#user_list').change(function(){
                 check_access($('#user_list option:selected').val());                
@@ -366,6 +380,7 @@
                 success: function(data)
                 {
                     $('[name="stg_infoinvc"]').val(data.PRINT_BANKINVOICE);
+                    $('[name="stg_infoinvppn"]').val('Akun PPN : '+data.INV_COANAMEPPN);
                     $('[name="stg_infoprccoa"]').val('Akun HPP : '+data.PRC_COANAME+'\n'+'Akun Hutang : '+data.PRC_COANAMEAG+'\n'+'Akun Diskon : '+data.PRC_COANAMEDISC+'\n'+'Akun PPN : '+data.PRC_COANAMEPPN+'\n'+'Akun Biaya : '+data.PRC_COANAMECOST);
                     $('[name="stg_infonotafin"]').val('Akun Nota Gantung : '+data.NOTAFIN_ACCNAME);
                     $('[name="stg_infogiroacc"]').val('Akun Piutang Giro : '+data.ACCRCVGIRO_ACCNAME+'\n'+'Akun Hutang Giro : '+data.DEBTGIRO_ACCNAME);

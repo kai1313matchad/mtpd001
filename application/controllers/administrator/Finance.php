@@ -3353,6 +3353,8 @@
 	    	$que = $this->db->get();
 	    	$get = $que->row();
 	    	$cou = count($get);
+	    	$ppn = $this->db->get_where('other_settings',array('os_id'=>'1'))->row()->INV_COAPPN;
+	    	$infos = 'Invoice : '.$this->input->post('inv_cust').' '.$this->input->post('inv_code');
 	    	if($cou > 0)
 	    	{
 	    		$jou = array(
@@ -3360,7 +3362,7 @@
 						'user_id'=>$this->input->post('user_id'),
 						'jou_reff'=>$this->input->post('inv_code'),
 						'jou_date'=>$this->input->post('inv_date'),
-						'jou_info'=>$this->input->post('inv_info'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
@@ -3376,9 +3378,19 @@
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$this->input->post('inv_accincid'),
 						'joudet_debit'=>0,
-						'joudet_credit'=>$this->input->post('inv_gtotappr'),
+						'joudet_credit'=>$this->input->post('inv_subappr'),
 						);
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				if($this->input->post('inv_ppnappr')!='0')
+				{
+					$joudet3 = array(
+							'jou_id'=>$get->JOU_ID,
+							'coa_id'=>$ppn,
+							'joudet_debit'=>0,
+							'joudet_credit'=>$this->input->post('inv_ppnappr'),
+							);
+					$insjoudet3 = $this->crud->save('jou_details',$joudet3);
+				}
 	    	}
 	    	else
 	    	{
@@ -3392,7 +3404,7 @@
 						'jou_code'=>$joucode,
 						'jou_reff'=>$this->input->post('inv_code'),
 						'jou_date'=>$this->input->post('inv_date'),
-						'jou_info'=>$this->input->post('inv_info'),
+						'jou_info'=>$infos,
 						'jou_sts'=>'1'
 		    	);
 		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
@@ -3407,9 +3419,19 @@
 						'jou_id'=>$jouid,
 						'coa_id'=>$this->input->post('inv_accincid'),
 						'joudet_debit'=>0,
-						'joudet_credit'=>$this->input->post('inv_gtotappr'),
+						'joudet_credit'=>$this->input->post('inv_subappr'),
 						);
 				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				if($this->input->post('inv_ppnappr')!='0')
+				{
+					$joudet3 = array(
+							'jou_id'=>$jouid,
+							'coa_id'=>$ppn,
+							'joudet_debit'=>0,
+							'joudet_credit'=>$this->input->post('inv_ppnappr'),
+							);
+					$insjoudet3 = $this->crud->save('jou_details',$joudet3);
+				}
 	    	}
 	    	//Simpan Faktur Pajak
 	    	if($this->input->post('inv_taxhead') || $this->input->post('inv_taxcode'))

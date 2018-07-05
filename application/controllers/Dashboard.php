@@ -180,8 +180,13 @@
 
 		public function save_bankinfo()
 		{
+			$ppn = $this->input->post('os_bankinvppn');			
+			$getppn = $this->db->get_where('chart_of_account',array('coa_id'=>$ppn));
+			$ppnname = $getppn->row()->COA_ACCNAME;
 			$d_up = array(
-					'print_bankinvoice'=>$this->input->post('stg_infoinvc')
+					'print_bankinvoice'=>$this->input->post('stg_infoinvc'),
+					'inv_coappn'=>$ppn,
+					'inv_coanameppn'=>$ppnname
 					);
 			$update = $this->crud->update('other_settings',$d_up,array('os_id'=>'1'));
 			$data['status'] = TRUE;
