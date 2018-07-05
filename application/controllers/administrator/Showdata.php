@@ -954,18 +954,19 @@
 		}
 
 		//Tampil Laporan Kartu Piutang
-		public function showrpt_accrcv()
+		public function showrpt_accrcv()		
 		{
 			$list = $this->rpt_accrcv->get_datatables();
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $dat) {
 				$no++;
+				if ($dat->total != 0) {$tot = $dat->total;} else {$tot = 0;};
 				$row = array();
 				$row[] = $no;
 				$row[] = $dat->kode;
 				$row[] = $dat->nama;
-				$row[] = $dat->total;
+				$row[] = number_format($tot,2);
 				$data[] = $row;
 			}
 			$output = array(
