@@ -69,7 +69,7 @@
         </form>        
         <div class="row">
             <div class="col-sm-3 col-xs-3">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u><span name="rptprc_type"></span> </u></h2>
@@ -204,31 +204,12 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/jquery/jquery-2.2.3.min.js')?>"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>    
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/metisMenu/metisMenu.min.js')?>"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="<?php echo base_url('assets/sbadmin/js/sb-admin-2.js')?>"></script>
-    <!-- Datetime -->
-    <script src="<?php echo base_url('assets/addons/moment.js')?>"></script>
-    <script src="<?php echo base_url('assets/addons/bootstrap-datetimepicker.min.js')?>"></script>
-    <!-- Datatables -->
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.bootstrap.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.responsive.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/dataTables.rowGroup.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.rowGrouping.js')?>"></script>
-    <!-- Number to Money -->
-    <script src="<?php echo base_url('assets/addons/jquery.number.js') ?>"></script>
-    <!-- Addon -->
-    <script src="<?php echo base_url('assets/addons/extra.js')?>"></script>
+    <?php include 'application/views/layout/administrator/jspack.php'; ?>
     <script>
         $(document).ready(function()
         {
             check_();
-            $('[name="rptprc_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
+            $('[name="rptprc_period"]').text(moment($('[name="date_start"]').val()).locale('id').format('DD-MMM-YYYY')+' s/d '+moment($('[name="date_end"]').val()).locale('id').format('DD-MMM-YYYY'));
             if($('[name="branch"]').val() != '')
             {
                 pick_branch($('[name="branch"]').val());
@@ -290,7 +271,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t1')?>",
                 type: "POST",
-                data: $('#form_rptpo').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -324,7 +305,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t1')?>",
                 type: "POST",
-                data: $('#form_rptpo').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -348,7 +329,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2')?>",
                 type: "POST",
-                data: $('#form_rptpappr').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -382,7 +363,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2b/')?>"+v,
                 type: "POST",
-                data: $('#form_rptpappr').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -412,7 +393,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2b/')?>"+v,
                 type: "POST",
-                data: $('#form_rptpappr').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -442,7 +423,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Logistik/gen_rptprc_t2b/')?>"+v,
                 type: "POST",
-                data: $('#form_rptpappr').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -473,7 +454,7 @@
             $.ajax({
                 url : "<?php echo site_url('administrator/Permit/gen_rptpappr_t3')?>",
                 type: "POST",
-                data: $('#form_rptpappr').serialize(),
+                data: $('#form_rptprc').serialize(),
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -705,6 +686,8 @@
                 success: function(data)
                 {   
                     $('[name="rptprc_branch"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
