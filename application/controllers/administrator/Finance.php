@@ -247,7 +247,7 @@
 		}
 
 		public function gen_rptaccrcv()
-		{
+		{  
 			if ($this->input->post('branch'))
 			{
 				$this->db->where('b.branch_id', $this->input->post('branch') );
@@ -283,7 +283,7 @@
 				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
         		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
 			}
-			$this->db->select('c.cust_code as kode, c.cust_name as nama,b.inv_code, sum(a.INVDET_AMOUNT) as total');
+			$this->db->select('d.BRANCH_NAME as BRANCH_NAME,c.cust_code as kode, c.cust_name as nama,b.inv_code, sum(a.INVDET_AMOUNT) as total');
 			$this->db->from('inv_details a');
 			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
 			$this->db->join('master_customer c','c.cust_id = b.cust_id');
@@ -3772,11 +3772,11 @@
 		public function print_rptaccrcv()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
-			$data['branch'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
 			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
-			$data['cust'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
 			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';
@@ -3787,11 +3787,11 @@
 		public function print_rptaccrcvsummary()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
-			$data['branch'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
 			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
 			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
 			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
-			$data['cust'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
 			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
 			$data['title']='Match Terpadu - Dashboard Finance';
 			$data['menu']='finance';

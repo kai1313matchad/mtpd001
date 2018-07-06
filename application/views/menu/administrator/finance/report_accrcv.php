@@ -320,13 +320,13 @@
     <!-- Pick -->
     <script>
         function pick_branch(id)
-        {
+        {  
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {    
                     $('[name="rptaccrcv_branchid"]').val(data.BRANCH_ID);
                     $('[name="rptaccrcv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');

@@ -59,7 +59,6 @@
             <input type="hidden" name="cust_id" value="<?php echo $cust; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
-            <!-- <input type="hidden" name="appr_id" value="<?php echo $appr; ?>"> -->
             <input type="hidden" name="branch" value="<?php echo $branch; ?>">
             <input type="hidden" name="type" value="<?php echo $rpttype; ?>">
         </form>        
@@ -83,16 +82,7 @@
                             </th>
                             <th class="text-center">
                                 Customer
-                            </th>
-                            <!-- <th class="text-center">
-                                Tanggal
-                            </th>      
-                            <th class="text-center">
-                                Keterangan
-                            </th>         
-                            <th class="text-center">
-                                No Reff
-                            </th> -->             
+                            </th>   
                             <th class="text-center">
                                 Masuk
                             </th>
@@ -155,19 +145,20 @@
                     data: $('#form_inv').serialize(),
                     dataType: "JSON",
                     success: function(data)
-                    {
+                    {   
                         $('[name="rptinv_branch"]').text(data[0]["BRANCH_NAME"]);
                         for (var i = 0; i < data.length; i++)
                         {   
                             var $tr = $('<tr>').append(
-                                $('<td>').css('text-align','center').text(data[i]["INV_CODE"]),
+                                $('<td>').css('text-align','center').text(data[i]["kode"]),
                                 $('<td>').css('text-align','center').text(data[i]["nama"]),
                                 $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["total"])),
                                 $('<td>').css('text-align','right').text('Rp '+money_conv('0')),
                                 $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["total"]))
                                 ).appendTo('#tb_content');
                         }
-                        dt_reportinv(0);
+                        //dt_reportinv(0);
+                        //alert(data[0]["BRANCH_NAME"]);
                     },
                     error: function (jqXHR, textStatus, errorThrown)
                     {
