@@ -212,7 +212,11 @@
                 var seg3 = $('[name="rptaccrcv_dateend"]').val()?$('[name="rptaccrcv_dateend"]').val():'null';
                 var seg4 = $('[name="rptaccrcv_branchid"]').val()?$('[name="rptaccrcv_branchid"]').val():'null';
                 var seg5 = n;
-                window.open ( "<?php echo site_url('administrator/Finance/print_rptaccrcv/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+                if (n==1) {
+                    window.open ( "<?php echo site_url('administrator/Finance/print_rptaccrcv/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+                }else {
+                    window.open ( "<?php echo site_url('administrator/Finance/print_rptaccrcvsummary/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4+'/'+seg5,'_blank');
+                }
             }
             else
             {
@@ -251,6 +255,9 @@
                     "targets": [ 0 ],
                     "orderable": false,
                 },
+                {
+                    "className": "text-right", "targets": [3]
+                }
                 ],
             });
         }
@@ -270,7 +277,13 @@
                 "order": [],                
                 "ajax": {
                     "url": "<?php echo site_url('administrator/Searchdata/srch_branch')?>",
-                    "type": "POST",                
+                    "type": "POST",       
+                    "data": function(data){
+                        data.branch = $('[name="rptaccrcv_branchid"]').val();
+                        data.client = $('[name="rptaccrcv_custid"]').val();
+                        data.date_start = $('[name="rptaccrcv_datestart"]').val();
+                        data.date_end = $('[name="rptaccrcv_dateend"]').val();
+                        },         
                 },                
                 "columnDefs": [
                 { 
@@ -307,15 +320,15 @@
     <!-- Pick -->
     <script>
         function pick_branch(id)
-        {
+        {  
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
-                    $('[name="rptinv_branchid"]').val(data.BRANCH_ID);
-                    $('[name="rptinv_branch"]').val(data.BRANCH_NAME);
+                {    
+                    $('[name="rptaccrcv_branchid"]').val(data.BRANCH_ID);
+                    $('[name="rptaccrcv_branch"]').val(data.BRANCH_NAME);
                     $('#modal_branch').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -332,8 +345,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {   
-                    $('[name="rptinv_custid"]').val(data.CUST_ID);
-                    $('[name="rptinv_cust"]').val(data.CUST_NAME);
+                    $('[name="rptaccrcv_custid"]').val(data.CUST_ID);
+                    $('[name="rptaccrcv_cust"]').val(data.CUST_NAME);
                     $('#modal_cust').modal('hide');
                 },
                 error: function (jqXHR, textStatus, errorThrown)

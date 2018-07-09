@@ -246,6 +246,54 @@
 			echo json_encode($data);
 		}
 
+		public function gen_rptaccrcv()
+		{  
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('cust_id'))
+			{
+				$this->db->where('b.cust_id', $this->input->post('cust_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('inv_details a');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->join('master_customer e','e.cust_id = b.cust_id');
+			$this->db->join('master_branch f','f.branch_id = b.branch_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptaccrcvsummary()
+		{
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('cust_id'))
+			{
+				$this->db->where('b.cust_id', $this->input->post('cust_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('d.BRANCH_NAME as BRANCH_NAME,c.cust_code as kode, c.cust_name as nama,b.inv_code, sum(a.INVDET_AMOUNT) as total');
+			$this->db->from('inv_details a');
+			$this->db->join('trx_invoice b','b.inv_id = a.inv_id');
+			$this->db->join('master_customer c','c.cust_id = b.cust_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->group_by('c.cust_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
 		public function rpt_accrcv()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
@@ -3741,6 +3789,36 @@
 			$update = $this->crud->update('trx_tax_invoice',array('tinv' => $id));
 			$data['status'] = TRUE;
 			echo json_encode($data);
+		}
+
+		public function print_rptaccrcv()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_rptaccrcv',$data);
+		}
+
+		public function print_rptaccrcvsummary()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['cust'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_rptaccrcvsummary',$data);
 		}
 	}
 ?>

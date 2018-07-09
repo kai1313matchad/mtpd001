@@ -14,16 +14,20 @@
 		{
 			if ($this->input->post('branch'))
 			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
+				// $this->db->where('b.branch_id', $this->input->post('branch') );
+				$this->db->where('a.branch_id', $this->input->post('branch') );
 			}
 			if ($this->input->post('client'))
 			{
-				$this->db->where('b.cust_id', $this->input->post('client') );
+				// $this->db->where('b.cust_id', $this->input->post('client') );
+				$this->db->where('a.cust_id', $this->input->post('client') );
 			}
 			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) 
 			{
-				$this->db->where('b.inv_date >=', $this->input->post('date_start'));
-        		$this->db->where('b.inv_date <=', $this->input->post('date_end'));
+				// $this->db->where('b.inv_date >=', $this->input->post('date_start'));
+        		// $this->db->where('b.inv_date <=', $this->input->post('date_end'));
+        		$this->db->where('a.inv_date >=', $this->input->post('date_start'));
+        		$this->db->where('a.inv_date <=', $this->input->post('date_end'));
 			}
 			$this->db->select('c.cust_code as kode, c.cust_name as nama, sum(b.INVDET_AMOUNT) as total');
 			$this->db->from($this->table);
