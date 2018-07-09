@@ -223,12 +223,12 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
+                    pick_spelledtotal(data.gt1);
+                    $('[name="inv_grand"]').text(money_conv(data.gt1));                    
                     $('[name="inv_subs"]').text(money_conv(data.sub1));
                     $('[name="inv_ppn"]').text(money_conv(data.ppn1));
-                    $('[name="inv_pph"]').text(money_conv(data.pph1));
-                    $('[name="inv_grand"]').text(money_conv(data.gt1));
-                    pick_spelledtotal(data.gt1);
+                    $('[name="inv_pph"]').text(money_conv(data.pph1));                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

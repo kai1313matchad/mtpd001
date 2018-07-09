@@ -136,7 +136,7 @@
                     <span><strong>Grand Total</strong></span>
                 </div>
                 <div class="col-sm-2 col-xs-2 text-right">
-                    <span name="inv_grand">2,375,000.00</span>
+                    <span name="inv_grand">0.00</span>
                 </div>
             </div>
         </div>
@@ -223,12 +223,12 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
+                    pick_spelledtotal(data.gt1);
+                    $('[name="inv_grand"]').text(money_conv(data.gt1));
                     $('[name="inv_subs"]').text(money_conv(data.sub1));
                     $('[name="inv_ppn"]').text(money_conv(data.ppn1));
                     $('[name="inv_pph"]').text(money_conv(data.pph1));
-                    $('[name="inv_grand"]').text(money_conv(data.gt1));
-                    pick_spelledtotal(data.gt1);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
