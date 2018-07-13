@@ -56,10 +56,9 @@
 <body>
     <div class="container">
         <form id="form_inv">
-            <input type="hidden" name="cust_id" value="<?php echo $cust; ?>">
+            <input type="hidden" name="supp_id" value="<?php echo $supp; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
-            <!-- <input type="hidden" name="appr_id" value="<?php echo $appr; ?>"> -->
             <input type="hidden" name="branch" value="<?php echo $branch; ?>">
             <input type="hidden" name="type" value="<?php echo $rpttype; ?>">
         </form>        
@@ -68,7 +67,7 @@
                 <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN PIUTANG DETAIL</u></h2>
+                <h2 class="text-center"><u>LAPORAN HUTANG SUMMARY</u></h2>
                 <h3 class="text-center" name="rptinv_branch"></h3>
                 <h4 class="text-center" name="rptinv_period"></h4>
             </div>
@@ -79,17 +78,11 @@
                     <thead>
                         <tr>
                             <th class="text-center">
-                                Customer
+                                Kode
                             </th>
                             <th class="text-center">
-                                Tanggal
-                            </th>      
-                            <th class="text-center">
-                                Keterangan
-                            </th>         
-                            <th class="text-center">
-                                No Reff
-                            </th>             
+                                Supplier
+                            </th>   
                             <th class="text-center">
                                 Masuk
                             </th>
@@ -162,29 +155,28 @@
         function pick_rptaccrcv()
         {
             var v = report_type();
-            if(v == 1)
+            if(v == 2)
             {   
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Finance/gen_rptaccrcv')?>",
+                    url : "<?php echo site_url('administrator/Finance/gen_rptaccpaysummary')?>",
                     type: "POST",
                     data: $('#form_inv').serialize(),
                     dataType: "JSON",
                     success: function(data)
-                    {
+                    {   
                         $('[name="rptinv_branch"]').text(data[0]["BRANCH_NAME"]);
                         for (var i = 0; i < data.length; i++)
-                        {
+                        {   
                             var $tr = $('<tr>').append(
-                                $('<td>').css('text-align','center').text(data[i]["CUST_NAME"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_DATE"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_INFO"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_CODE"]),
-                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"])),
+                                $('<td>').css('text-align','center').text(data[i]["kode"]),
+                                $('<td>').css('text-align','center').text(data[i]["nama"]),
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["total"])),
                                 $('<td>').css('text-align','right').text('Rp '+money_conv('0')),
-                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"]))
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["total"]))
                                 ).appendTo('#tb_content');
                         }
-                        dt_reportinv(0);
+                        //dt_reportinv(0);
+                        //alert(data[0]["BRANCH_NAME"]);
                     },
                     error: function (jqXHR, textStatus, errorThrown)
                     {
@@ -231,7 +223,7 @@
                 });
             }
             if(v == 1)
-            {   alert(v);
+            {  
                 $('#dtb_rptinv').DataTable({
                     info: false,
                     searching: false,

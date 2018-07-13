@@ -63,8 +63,8 @@
             <input type="hidden" name="type" value="<?php echo $rpttype; ?>">
         </form>        
         <div class="row">
-            <div class="col-sm-3 col-xs-3">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+            <div class="col-xs-4">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-6 col-xs-6">
                 <h2 class="text-center"><u>LAPORAN PIUTANG SUMMARY</u></h2>
@@ -124,6 +124,7 @@
         $(document).ready(function()
         {
             pick_rptaccrcv();
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             $('[name="rptinv_period"]').text($('[name="date_start"]').val()+' s/d '+$('[name="date_end"]').val());
             report_type();
         });
@@ -133,7 +134,24 @@
             var n = $('[name="type"]').val();
             return n;
         }
-
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function pick_rptaccrcv()
         {
             var v = report_type();
