@@ -30,6 +30,7 @@
 			$this->load->model('datatables/showdata/Dt_showrptjou','rpt_jou');
 			$this->load->model('datatables/showdata/Dt_showrptinv','rpt_inv');
 			$this->load->model('datatables/showdata/Dt_showrptaccrcv','rpt_accrcv');
+			$this->load->model('datatables/showdata/Dt_showrptaccpay','rpt_accpay');
 			$this->load->model('datatables/showdata/Dt_showrpttrialbal','rpt_trialbal');
 			$this->load->model('datatables/showdata/Dt_picostdet','picost_det');
 			$this->load->model('datatables/showdata/Dt_pidocdet','pidoc_det');
@@ -973,6 +974,31 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->rpt_accrcv->count_all(),
 							"recordsFiltered" => $this->rpt_accrcv->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Laporan Kartu Hutang
+		public function showrpt_accpay()		
+		{ 
+			$list = $this->rpt_accpay->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++; 
+				if ($dat->total != 0) {$tot = $dat->total;} else {$tot = 0;};
+				$row = array();
+				$row[] = $no;
+				$row[] = $dat->kode;
+				$row[] = $dat->nama;
+				$row[] = number_format($tot,2);
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_accpay->count_all(),
+							"recordsFiltered" => $this->rpt_accpay->count_filtered(),
 							"data" => $data,
 					);			
 			echo json_encode($output);

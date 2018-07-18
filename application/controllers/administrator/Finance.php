@@ -294,6 +294,56 @@
 			echo json_encode($data);
 		}
 
+		public function gen_rptaccpay()
+		{  
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('supp_id'))
+			{
+				$this->db->where('c.supp_id', $this->input->post('supp_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.prc_date <=', $this->input->post('date_end'));
+			}
+			$this->db->from('prc_details a');
+			$this->db->join('trx_procurement b','b.prc_id = a.prc_id');
+			$this->db->join('trx_po c','c.po_id = b.po_id');
+			$this->db->join('master_supplier e','e.supp_id = c.supp_id');
+			$this->db->join('master_branch f','f.branch_id = b.branch_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
+		public function gen_rptaccpaysummary()
+		{
+			if ($this->input->post('branch'))
+			{
+				$this->db->where('b.branch_id', $this->input->post('branch') );
+			}
+			if ($this->input->post('supp_id'))
+			{
+				$this->db->where('c.supp_id', $this->input->post('supp_id') );
+			}
+			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+				$this->db->where('b.prc_date >=', $this->input->post('date_start'));
+        		$this->db->where('b.prc_date <=', $this->input->post('date_end'));
+			}
+			$this->db->select('f.BRANCH_NAME as BRANCH_NAME,e.supp_code as kode, e.supp_name as nama,b.prc_code, sum(a.PRCDET_SUB) as total');
+			$this->db->from('prc_details a');
+			$this->db->join('trx_procurement b','b.prc_id = a.prc_id');
+			$this->db->join('trx_po c','c.po_id = b.po_id');
+			$this->db->join('master_supplier e','e.supp_id = c.supp_id');
+			$this->db->join('master_branch f','f.branch_id = b.branch_id');
+			$this->db->group_by('c.supp_id');
+			$que = $this->db->get();
+			$data = $que->result();
+			echo json_encode($data);
+		}
+
 		public function rpt_accrcv()
 		{
 			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
@@ -301,6 +351,16 @@
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
 			$data['isi']='menu/administrator/finance/report_accrcv';
+			$this->load->view('layout/administrator/wrapper',$data);
+		}
+
+		public function rpt_accpay()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$data['isi']='menu/administrator/finance/report_accpay';
 			$this->load->view('layout/administrator/wrapper',$data);
 		}
 
@@ -3819,6 +3879,36 @@
 			$data['menu']='finance';
 			$data['menulist']='report_finance';
 			$this->load->view('menu/administrator/finance/print_rptaccrcvsummary',$data);
+		}
+
+		public function print_rptaccpay()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['supp'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_rptaccpay',$data);
+		}
+
+		public function print_rptaccpaysummary()
+		{
+			$this->authsys->trx_check_($_SESSION['user_id'],'FIN');
+			$data['supp'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
+			$data['datestart'] = ($this->uri->segment(5) == 'null') ? '' : $this->uri->segment(5);
+			$data['dateend'] = ($this->uri->segment(6) == 'null') ? '' : $this->uri->segment(6);
+			// $data['appr'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['branch'] = ($this->uri->segment(7) == 'null') ? '' : $this->uri->segment(7);
+			$data['rpttype'] = ($this->uri->segment(8) == 'null') ? '' : $this->uri->segment(8);
+			$data['title']='Match Terpadu - Dashboard Finance';
+			$data['menu']='finance';
+			$data['menulist']='report_finance';
+			$this->load->view('menu/administrator/finance/print_rptaccpaysummary',$data);
 		}
 	}
 ?>

@@ -56,7 +56,7 @@
 <body>
     <div class="container">
         <form id="form_inv">
-            <input type="hidden" name="cust_id" value="<?php echo $cust; ?>">
+            <input type="hidden" name="supp_id" value="<?php echo $supp; ?>">
             <input type="hidden" name="date_start" value="<?php echo $datestart; ?>">
             <input type="hidden" name="date_end" value="<?php echo $dateend; ?>">
             <!-- <input type="hidden" name="appr_id" value="<?php echo $appr; ?>"> -->
@@ -68,7 +68,7 @@
                 <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-6 col-xs-6">
-                <h2 class="text-center"><u>LAPORAN PIUTANG DETAIL</u></h2>
+                <h2 class="text-center"><u>LAPORAN HUTANG DETAIL</u></h2>
                 <h3 class="text-center" name="rptinv_branch"></h3>
                 <h4 class="text-center" name="rptinv_period"></h4>
             </div>
@@ -165,7 +165,7 @@
             if(v == 1)
             {   
                 $.ajax({
-                    url : "<?php echo site_url('administrator/Finance/gen_rptaccrcv')?>",
+                    url : "<?php echo site_url('administrator/Finance/gen_rptaccpay')?>",
                     type: "POST",
                     data: $('#form_inv').serialize(),
                     dataType: "JSON",
@@ -175,13 +175,13 @@
                         for (var i = 0; i < data.length; i++)
                         {
                             var $tr = $('<tr>').append(
-                                $('<td>').css('text-align','center').text(data[i]["CUST_NAME"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_DATE"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_INFO"]),
-                                $('<td>').css('text-align','center').text(data[i]["INV_CODE"]),
-                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"])),
+                                $('<td>').css('text-align','center').text(data[i]["SUPP_NAME"]),
+                                $('<td>').css('text-align','center').text(data[i]["PRC_DATE"]),
+                                $('<td>').css('text-align','center').text(data[i]["PRC_INFO"]),
+                                $('<td>').css('text-align','center').text(data[i]["PRC_CODE"]),
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["PRC_SUB"])),
                                 $('<td>').css('text-align','right').text('Rp '+money_conv('0')),
-                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["INVDET_AMOUNT"]))
+                                $('<td>').css('text-align','right').text('Rp '+money_conv(data[i]["PRC_SUB"]))
                                 ).appendTo('#tb_content');
                         }
                         dt_reportinv(0);
