@@ -56,8 +56,8 @@
     <div class="container">
         <input type="hidden" name="inv_id" value="<?php echo $id; ?>">
         <div class="row">
-            <div class="col-sm-4 col-xs-4">
-                <img src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+            <div class="col-xs-4">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-sm-4 col-xs-4">
                 <h3 class="text-center"><u>INVOICE</u></h3>
@@ -170,9 +170,28 @@
         $(document).ready(function()
         {
             var id = $('[name="inv_id"]').val();
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             pick_invoice(id);
             pick_bankprint();
         });
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function pick_invoice(id)
         {            
             $.ajax({

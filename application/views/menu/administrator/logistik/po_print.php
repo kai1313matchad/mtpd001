@@ -105,7 +105,7 @@
         <input type="hidden" name="idpo" value="<?php echo $id;?>">
         <div class="row">
             <div class="col-xs-4">
-                <img class="logo" src="https://www.matchadonline.com/logo_n_watermark/mobile_1481852222932_2logo4.png">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
             <div class="col-xs-4 text-center">
                 <h3><strong><u>SURAT ORDER</u></strong></h3>
@@ -205,11 +205,30 @@
         {
             id=$('[name="idpo"]').val();            
             prc = 0; qty = 0; sub = 0;
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             pick_po(id);
             $('[name=po_qty]').on('input', function() {
                 // hitung();
             });
         });
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function dtable()
         {
             table = $('#dtb_po').DataTable({

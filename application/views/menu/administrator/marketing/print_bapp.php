@@ -95,8 +95,8 @@
     <div class="container">
         <input type="hidden" name="bapp_id" value="<?php echo $id; ?>">
         <div class="row">
-            <div class="col-sm-6 col-xs-6">
-                <img src="https://www.matchadonline.com/logo_n_watermark/1506304293840_LOGOeCommerce.png" class="img-responsive logo">
+            <div class="col-xs-4">
+                <img id="img_logo" class="img-responsive logo" src="">
             </div>
         </div><br>
         <div class="row">
@@ -273,9 +273,27 @@
         $(document).ready(function()
         {
             var id = $('[name="bapp_id"]').val();
+            pick_branch("<?= $this->session->userdata('user_branch')?>");
             pick_bapp(id);
         });
-
+        function pick_branch(id)
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {   
+                    // $('[name="img_logo"]').text(data.BRANCH_NAME);
+                    var newSrc = "<?php echo base_url()?>/assets/img/branchlogo/"+data.BRANCH_LOGO;
+                    $('#img_logo').attr('src', newSrc);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            })
+        }
         function pick_bapp(id)
         {
             //Ajax Load data from ajax
