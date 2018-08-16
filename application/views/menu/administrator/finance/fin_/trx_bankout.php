@@ -202,7 +202,7 @@
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">Nominal</label>
                                             <div class="col-sm-7">
-                                                <input class="form-control curr-num" type="text" name="nominal1">
+                                                <input class="form-control curr-num-perc" type="text" name="nominal1">
                                             </div>
                                         </div>
                                         <div class="form-group">
