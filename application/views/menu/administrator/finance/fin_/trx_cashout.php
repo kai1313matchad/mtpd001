@@ -220,7 +220,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nominal</label>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control curr-num" name="nominal">
+                                                <input type="text" class="form-control curr-num-perc" name="nominal">
                                             </div>
                                         </div>
                                         <div class="form-group">
