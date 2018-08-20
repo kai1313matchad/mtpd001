@@ -14,6 +14,7 @@
 		private function _get_datatables_query()
 		{
 			$this->db->join('bankin_trxdet b','b.bnktrx_id = a.bnktrx_id');
+			$this->db->where('a.gir_dtsts','0');
 			$this->db->from($this->table);			
 			$i = 0;
 			foreach ($this->column_search as $item)

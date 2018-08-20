@@ -14,6 +14,7 @@
 		private function _get_datatables_query()
 		{
 			$this->db->join('bankout_trxdet b','b.bnktrxo_id = a.bnktrxo_id');
+			$this->db->where('a.gor_dtsts','0');
 			$this->db->from($this->table);			
 			$i = 0;
 			foreach ($this->column_search as $item)
