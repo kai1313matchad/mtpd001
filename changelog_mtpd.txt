@@ -4,7 +4,7 @@
 	CHANGE COLUMN `GOR_DTSTS` `GOR_DTSTS` CHAR(1) NULL DEFAULT '0' AFTER `GOR_BLCSTS`;
 - Revisi model
 	modified:   application/models/datatables/search/Dt_srchgiroinrec.php
-        modified:   application/models/datatables/search/Dt_srchgirooutrec.php
+        	modified:   application/models/datatables/search/Dt_srchgirooutrec.php
 15082018
 - Edit tabel cashin det
 	ALTER TABLE `cashin_det`
