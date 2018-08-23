@@ -225,7 +225,7 @@
             });
         }
         function pick_branch(id)
-        {            
+        {
             $.ajax({
                 url : "<?php echo site_url('administrator/Searchdata/pick_branch/')?>" + id,
                 type: "GET",

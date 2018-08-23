@@ -219,49 +219,12 @@
 
 		public function gen_rptledger2()
 		{
-			if ($this->input->post('coaid')) 
-			{
-				$this->db->where('a.coa_id', $this->input->post('coaid') );
-			}
-			if ($this->input->post('branch')) 
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
-        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
-			}
-			$this->db->select('c.*,b.*,d.*,
-				sum(a.joudet_debit) as md,
-				sum(a.joudet_credit) as mc
-				');
-			$this->db->from('jou_details a');
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('master_branch d','d.branch_id = b.branch_id');
-			$this->db->group_by('a.coa_id');
-			$que = $this->db->get();
-			$data['a'] = $que->result();
-			if ($this->input->post('coaid')) 
-			{
-				$this->db->where('a.coa_id', $this->input->post('coaid') );
-			}
-			if ($this->input->post('branch')) 
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			$this->db->where('b.jou_date <', $this->input->post('date_start'));
-			$this->db->select('c.*,b.*,
-				sum(a.joudet_debit) as ssd,
-				sum(a.joudet_credit) as ssc
-				');
-			$this->db->from('jou_details a');
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('master_branch d','d.branch_id = b.branch_id');
-			$this->db->group_by('a.coa_id');
-			$que2 = $this->db->get();
-			$data['b'] = $que2->result();
+			$brc = ($this->input->post('branch'))?$this->input->post('branch'):NULL;
+			$coa = ($this->input->post('coaid'))?$this->input->post('coaid'):NULL;
+			$datestart = ($this->input->post('date_start'))?$this->input->post('date_start'):NULL;
+			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
+			$data['a'] = $this->accounting->gen_ledger2($brc,$coa,$datestart,$dateend);
+			$data['b'] = $this->accounting->gen_saldostr2($brc,$coa,$datestart);
 			echo json_encode($data);
 		}
 
@@ -364,32 +327,32 @@
 
 		public function gen_profitloss()
 		{
-			if ($this->input->post('coaid')) 
-			{
-				$this->db->where('a.coa_id', $this->input->post('coaid') );
-			}
-			if ($this->input->post('branch')) 
-			{
-				$this->db->where('b.branch_id', $this->input->post('branch') );
-			}
-			if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
-				$this->db->where('b.jou_date >=', $this->input->post('date_start'));
-        		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
-			}
-			$this->db->select('
-					c.*,
-					sum(a.joudet_debit - a.joudet_credit) as saldo
-				');
-			$this->db->from('jou_details a');
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('master_branch d','d.branch_id = b.branch_id');
-			$this->db->join('parent_chart e','e.par_id = c.par_id');
-			$this->db->join('parent_type f','f.partp_id = e.partp_id');
-			$this->db->where('f.partp_sts','4');
-			$this->db->group_by('a.coa_id');
-			$que = $this->db->get();
-			$data['a'] = $que->result();
+			// if ($this->input->post('coaid')) 
+			// {
+			// 	$this->db->where('a.coa_id', $this->input->post('coaid') );
+			// }
+			// if ($this->input->post('branch')) 
+			// {
+			// 	$this->db->where('b.branch_id', $this->input->post('branch') );
+			// }
+			// if ($this->input->post('date_start') != null AND $this->input->post('date_end') != null ) {
+			// 	$this->db->where('b.jou_date >=', $this->input->post('date_start'));
+   //      		$this->db->where('b.jou_date <=', $this->input->post('date_end'));
+			// }
+			// $this->db->select('
+			// 		c.*,
+			// 		sum(a.joudet_debit - a.joudet_credit) as saldo
+			// 	');
+			// $this->db->from('jou_details a');
+			// $this->db->join('account_journal b','b.jou_id = a.jou_id');
+			// $this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			// $this->db->join('master_branch d','d.branch_id = b.branch_id');
+			// $this->db->join('parent_chart e','e.par_id = c.par_id');
+			// $this->db->join('parent_type f','f.partp_id = e.partp_id');
+			// $this->db->where('f.partp_sts','4');
+			// $this->db->group_by('a.coa_id');
+			// $que = $this->db->get();
+			$data['a'] = $this->accounting->gen_income($brc,$coa,$datestart,$dateend);
 			if ($this->input->post('coaid')) 
 			{
 				$this->db->where('a.coa_id', $this->input->post('coaid') );

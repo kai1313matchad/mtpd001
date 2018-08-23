@@ -191,35 +191,6 @@
                         $sum_cre = data['b'][i]['SUM_CREDIT'];
                         $deb = ($sal_deb*1)+($sum_deb*1);
                         $cre = ($sal_cre*1)+($sum_cre*1);
-                        // alert($sal_deb);
-                        // if($sal_deb != '0')
-                        // {
-                        //     $sum = ($sal_deb*1)+($sum_deb*1)-($sum_cre);
-                        //     if(($sum*1) > 0)
-                        //     {
-                        //         $deb = $sum;
-                        //         $cre = '0';
-                        //     }
-                        //     else
-                        //     {
-                        //         $deb = '0';
-                        //         $cre = Math.abs($sum);
-                        //     }
-                        // }
-                        // if($sal_cre != '0')
-                        // {
-                        //     $sum = ($sal_cre*1)+($sum_cre*1)-($sum_deb*1);
-                        //     if(($sum*1) > 0)
-                        //     {
-                        //         $deb = '0';
-                        //         $cre = $sum;
-                        //     }
-                        //     else
-                        //     {
-                        //         $deb = Math.abs($sum);
-                        //         $cre = '0';
-                        //     }
-                        // }
                         var $tr = $('<tr>').append(
                             $('<td class="text-center">'+moment(newdate).locale('id').format('DD-MMM-YYYY')+'</td>'),
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
@@ -229,8 +200,6 @@
                             $('<td class="text-right chgnum">'+$deb+'</td>'),
                             $('<td class="text-right chgnum">'+$cre+'</td>')
                             ).appendTo('#tb_content');
-                        // $deb = 0;
-                        // $cre = 0;
                     }
                     for (var i = 0; i < data['a'].length; i++)
                     {
@@ -240,8 +209,6 @@
                             $('<td class="text-center">'+data['a'][i]["JOU_CODE"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["JOU_REFF"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["JOU_INFO"]+'</td>'),
-                            // $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_DEBIT"])+'</td>'),
-                            // $('<td class="text-right">'+'Rp '+money_conv(data['a'][i]["JOUDET_CREDIT"])+'</td>')
                             $('<td class="text-right chgnum">'+data['a'][i]["JOUDET_DEBIT"]+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["JOUDET_CREDIT"]+'</td>')
                             ).appendTo('#tb_content');
