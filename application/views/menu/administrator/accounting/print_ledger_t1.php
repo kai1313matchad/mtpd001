@@ -243,13 +243,13 @@
                         var sum = rows.data().pluck(5)
                         .reduce(function(a,b)
                         {
-                            return a+b.replace(/[^\d]/g, '')*1;
+                            return a+b*1;
                         }, 0);
                         
                         var sum2 = rows.data().pluck(6)
                         .reduce(function(a,b)
                         {
-                            return a+b.replace(/[^\d]/g, '')*1;
+                            return a+b*1;
                         }, 0);
 
                         var sum3 = (sum-sum2)*1;
@@ -276,7 +276,7 @@
                         }
                     },
                     buttons: ['excelHtml5']
-                }
+                }                
             });
         }
         function pick_branch(id)

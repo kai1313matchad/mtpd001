@@ -81,7 +81,7 @@
 			$data = array();
 			foreach ($res as $dat)
 			{
-				$get = $this->get_saldostr_($dat->COA_ID,$datestr);
+				$get = $this->get_saldostr_($dat->COA_ID,$datestr,$brc);
 				$data[]=array(
 					'COA_ACC'=>$dat->COA_ACC,
 					'COA_ACCNAME'=>$dat->COA_ACCNAME,
@@ -94,8 +94,12 @@
 			return $data;
 		}
 
-		public function get_saldostr_($coa,$date)
+		public function get_saldostr_($coa,$date,$brc)
 		{
+			if($brc != NULL)
+			{
+				$this->db->where('b.branch_id',$brc);
+			}
 			$this->db->select('c.COA_ACC, c.COA_ACCNAME, SUM(a.JOUDET_DEBIT) as SUM_DEBIT, SUM(a.JOUDET_CREDIT) as SUM_CREDIT, c.COA_DEBIT, c.COA_CREDIT');
 			$this->db->from('jou_details a');
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
