@@ -214,7 +214,7 @@
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
-                    $('td.chgnum').number(true);
+                    $('td.chgnum').number(true,2);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -229,13 +229,13 @@
                 searching: false,                
                 bLengthChange: false,
                 paging: false,
+                order: [[1, 'asc'],[0, 'asc']],
                 columnDefs:
                 [                    
                     {visible: false, targets: 1},
                     {type: 'date-dd-mmm-yyyy', targets: 0},
                     {orderable: false, targets: '_all'}
-                ],
-                order: [[1, 'asc']],
+                ],                
                 rowGroup:
                 {
                     endRender: function(rows, group)
@@ -253,9 +253,9 @@
                         }, 0);
 
                         var sum3 = (sum-sum2)*1;
-                        sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(sum3))+')';
-                        sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum);
-                        sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(sum2);
+                        sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3)+')';
+                        sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum);
+                        sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum2);
 
                         return $('<tr/>')                        
                         .append( '<td colspan="4"></td>' )
@@ -278,6 +278,8 @@
                     buttons: ['excelHtml5']
                 }                
             });
+            $('th').removeClass('sorting_asc');
+            $('th').removeClass('sorting_desc');
         }
         function pick_branch(id)
         {            

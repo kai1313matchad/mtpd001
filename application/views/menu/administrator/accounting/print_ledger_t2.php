@@ -207,7 +207,7 @@
                         $('[name="sec'+data['a'][i]["COA_ACC"]+'"]').text(sec);
                     }
                     dt_journal();
-                    $('td.chgnum').number(true);
+                    $('td.chgnum').number(true,2);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -259,14 +259,14 @@
                     var api = this.api(), data;
                     total = api.column(3).data().reduce( function (a,b)
                     {
-                        return parseInt(a) + parseInt(b);
+                        return parseFloat(a) + parseFloat(b);
                     }, 0);
                     total2 = api.column(4).data().reduce( function (a,b)
                     {
-                        return parseInt(a) + parseInt(b);
+                        return parseFloat(a) + parseFloat(b);
                     }, 0);
-                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total2);
+                    sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(total);
+                    sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(total2);
                     $('[name="td1"]').text(sum);
                     $('[name="td2"]').text(sum2);
                 }

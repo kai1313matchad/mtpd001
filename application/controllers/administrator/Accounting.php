@@ -352,6 +352,10 @@
 			// $this->db->where('f.partp_sts','4');
 			// $this->db->group_by('a.coa_id');
 			// $que = $this->db->get();
+			$brc = ($this->input->post('branch'))?$this->input->post('branch'):NULL;
+			$coa = ($this->input->post('coaid'))?$this->input->post('coaid'):NULL;
+			$datestart = ($this->input->post('date_start'))?$this->input->post('date_start'):NULL;
+			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->accounting->gen_income($brc,$coa,$datestart,$dateend);
 			if ($this->input->post('coaid')) 
 			{
