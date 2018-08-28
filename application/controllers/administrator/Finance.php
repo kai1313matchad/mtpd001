@@ -2146,8 +2146,8 @@
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$coagiro,
-						'joudet_debit'=>0,
-						'joudet_credit'=>$getsum,
+						'joudet_debit'=>$getsum,
+						'joudet_credit'=>0,
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
@@ -2158,14 +2158,10 @@
 					$joudet2 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$coabank,
-						'joudet_debit'=>$dat->GRINDET_AMOUNT,
-						'joudet_credit'=>0
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->GRINDET_AMOUNT
 						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
-					// $dtgirorec = array(
-					// 	'gir_dtsts' => '1'
-					// );
-					// $upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
 			    }
 	    	}
 	    	else
@@ -2187,8 +2183,8 @@
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$coagiro,
-						'joudet_debit'=>0,
-						'joudet_credit'=>$getsum,
+						'joudet_debit'=>$getsum,
+						'joudet_credit'=>0
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
@@ -2199,14 +2195,10 @@
 					$joudet2 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$coabank,
-						'joudet_debit'=>$dat->GRINDET_AMOUNT,
-						'joudet_credit'=>0
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->GRINDET_AMOUNT
 						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
-					// $dtgirorec = array(
-					// 	'gir_dtsts' => '1'
-					// );
-					// $upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
 				}
 	    	}
 	        echo json_encode(array("status" => TRUE));
@@ -2286,8 +2278,8 @@
 		    	$joudet1 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$coagiro,
-						'joudet_debit'=>0,
-						'joudet_credit'=>$getsum,
+						'joudet_debit'=>$getsum,
+						'joudet_credit'=>0
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
@@ -2298,14 +2290,10 @@
 					$joudet2 = array(
 						'jou_id'=>$get->JOU_ID,
 						'coa_id'=>$coabank,
-						'joudet_debit'=>$dat->GROUTDET_AMOUNT,
-						'joudet_credit'=>0
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->GROUTDET_AMOUNT
 						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
-					// $dtgirorec = array(
-					// 	'gir_dtsts' => '1'
-					// );
-					// $upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
 			    }
 	    	}
 	    	else
@@ -2327,8 +2315,8 @@
 		    	$joudet1 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$coagiro,
-						'joudet_debit'=>0,
-						'joudet_credit'=>$getsum,
+						'joudet_debit'=>$getsum,
+						'joudet_credit'=>0
 						);
 				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
 				//Input Detail Jurnal Kredit
@@ -2339,14 +2327,10 @@
 					$joudet2 = array(
 						'jou_id'=>$jouid,
 						'coa_id'=>$coabank,
-						'joudet_debit'=>$dat->GROUTDET_AMOUNT,
-						'joudet_credit'=>0
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->GROUTDET_AMOUNT
 						);
 					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
-					// $dtgirorec = array(
-					// 	'gir_dtsts' => '1'
-					// );
-					// $upgirorec = $this->crud->update('giroin_record',$dtgirorec,array('gir_id'=>$dat->GIR_ID));
 				}
 	    	}
 	        echo json_encode(array("status" => TRUE));

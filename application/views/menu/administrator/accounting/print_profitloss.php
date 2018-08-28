@@ -164,6 +164,10 @@
                 {
                     for (var i = 0; i < data['a'].length; i++)
                     {
+                        // $sum_deb = data['a'][i]['SUM_DEBIT'];
+                        // $sum_cre = data['a'][i]['SUM_CREDIT'];
+                        // $salstr = ($sum_cre-$sum_deb)*1;
+                        // $sal = (data['a'][i]["saldo"]*1)+($salstr*1);
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
@@ -172,6 +176,10 @@
                     }
                     for (var i = 0; i < data['b'].length; i++)
                     {
+                        // $sum_deb = data['b'][i]['SUM_DEBIT'];
+                        // $sum_cre = data['b'][i]['SUM_CREDIT'];
+                        // $salstr = ($sum_deb-$sum_cre)*1;
+                        // $sal = (data['b'][i]["saldo"]*1)+($salstr*1);
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>'),
@@ -179,7 +187,7 @@
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
-                    $('td.chgnum').number(true);
+                    $('td.chgnum').number(true,2);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -213,9 +221,9 @@
                     }, 0);
                     total3 = Math.abs(total2) - total;
                     (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
-                    sum = $.fn.dataTable.render.number(',','.',0,'Rp ').display(total);
-                    sum2 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total2));
-                    sum3 = $.fn.dataTable.render.number(',','.',0,'Rp ').display(Math.abs(total3));
+                    sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(total);
+                    sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(total2));
+                    sum3 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(total3));
                     $('[name="saldodebit"]').text(sum);
                     $('[name="saldocredit"]').text(sum2);
                     // $('[name="saldostatus"]').text(txt);

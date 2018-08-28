@@ -133,7 +133,7 @@
                             </th>
                             <th class="text-center">
                                 Rekening
-                            </th>
+                            </th>                            
                             <th class="col-xs-2 text-center">
                                 No Jurnal
                             </th>                            
@@ -148,6 +148,9 @@
                             </th>
                             <th class="col-xs-2 text-center">
                                 Kredit
+                            </th>
+                            <th class="text-center">
+                                Tes
                             </th>
                         </tr>
                     </thead>
@@ -192,25 +195,28 @@
                         $deb = ($sal_deb*1)+($sum_deb*1);
                         $cre = ($sal_cre*1)+($sum_cre*1);
                         var $tr = $('<tr>').append(
-                            $('<td class="text-center">'+moment(newdate).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            $('<td class="text-center">'+moment(newdate).locale('id').format('YYYY-MMM-DD')+'</td>'),
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td class="text-center"></td>'),
                             $('<td class="text-center"></td>'),
                             $('<td class="text-center">Saldo Awal</td>'),
                             $('<td class="text-right chgnum">'+$deb+'</td>'),
-                            $('<td class="text-right chgnum">'+$cre+'</td>')
+                            $('<td class="text-right chgnum">'+$cre+'</td>'),
+                            $('<td class="text-center">'+newdate+'</td>')
                             ).appendTo('#tb_content');
                     }
                     for (var i = 0; i < data['a'].length; i++)
                     {
                         var $tr = $('<tr>').append(
                             $('<td class="text-center">'+moment(data['a'][i]["JOU_DATE"]).locale('id').format('DD-MMM-YYYY')+'</td>'),
+                            // $('<td class="text-center">'+data['a'][i]["JOU_DATE"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["JOU_CODE"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["JOU_REFF"]+'</td>'),
                             $('<td class="text-center">'+data['a'][i]["JOU_INFO"]+'</td>'),
                             $('<td class="text-right chgnum">'+data['a'][i]["JOUDET_DEBIT"]+'</td>'),
-                            $('<td class="text-right chgnum">'+data['a'][i]["JOUDET_CREDIT"]+'</td>')
+                            $('<td class="text-right chgnum">'+data['a'][i]["JOUDET_CREDIT"]+'</td>'),
+                            $('<td class="text-right">'+moment(data['a'][i]["JOU_DATE"])+'</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
@@ -229,13 +235,13 @@
                 searching: false,                
                 bLengthChange: false,
                 paging: false,
-                order: [[1, 'asc'],[0, 'asc']],
                 columnDefs:
                 [                    
-                    {visible: false, targets: 1},
+                    {visible: false, targets: [1,7]},
                     {type: 'date-dd-mmm-yyyy', targets: 0},
                     {orderable: false, targets: '_all'}
-                ],                
+                ],
+                order: [[1, 'asc'],[7, 'asc']],
                 rowGroup:
                 {
                     endRender: function(rows, group)
@@ -253,7 +259,7 @@
                         }, 0);
 
                         var sum3 = (sum-sum2)*1;
-                        sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3)+')';
+                        sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(sum3))+')';
                         sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum);
                         sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum2);
 

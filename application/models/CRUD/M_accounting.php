@@ -153,7 +153,7 @@
 				$this->db->where('b.jou_date >=',$datestr);
         		$this->db->where('b.jou_date <=',$dateend);
 			}
-			$this->db->select('c.*,sum(a.joudet_debit - a.joudet_credit) as saldo');
+			$this->db->select('c.*,sum(a.joudet_credit - a.joudet_debit) as saldo');
 			$this->db->from('jou_details a');
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
 			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
@@ -163,7 +163,160 @@
 			$this->db->where('f.partp_sts','4');
 			$this->db->group_by('a.coa_id');
 			$que = $this->db->get();
+			// $res = $que->result();
+			// $data = array();
+			// foreach ($res as $dat)
+			// {
+			// 	$get = $this->get_saldostr_($dat->COA_ID,$datestr,$brc);
+			// 	$data[]=array(
+			// 		'COA_ACC'=>$dat->COA_ACC,
+			// 		'COA_ACCNAME'=>$dat->COA_ACCNAME,
+			// 		'SUM_DEBIT'=>($get['SUM_DEBIT'] != NULL)?$get['SUM_DEBIT']:'0',
+			// 		'SUM_CREDIT'=>($get['SUM_CREDIT'] != NULL)?$get['SUM_CREDIT']:'0',
+			// 		'saldo'=>$dat->saldo
+			// 	);
+			// }
 			return $que->result();
+			// return $data;
+		}
+
+		public function gen_outcome($brc,$coa,$datestr,$dateend)
+		{
+			if($coa != NULL) 
+			{
+				$this->db->where('a.coa_id',$coa);
+			}
+			if($brc != NULL)
+			{
+				$this->db->where('b.branch_id',$brc);
+			}
+			if($datestr != NULL AND $dateend != NULL)
+			{
+				$this->db->where('b.jou_date >=',$datestr);
+        		$this->db->where('b.jou_date <=',$dateend);
+			}
+			$this->db->select('
+					c.*,
+					sum(a.joudet_debit - a.joudet_credit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts','2');
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			// $res = $que->result();
+			// $data = array();
+			// foreach ($res as $dat)
+			// {
+			// 	$get = $this->get_saldostr_($dat->COA_ID,$datestr,$brc);
+			// 	$data[]=array(
+			// 		'COA_ACC'=>$dat->COA_ACC,
+			// 		'COA_ACCNAME'=>$dat->COA_ACCNAME,
+			// 		'SUM_DEBIT'=>($get['SUM_DEBIT'] != NULL)?$get['SUM_DEBIT']:'0',
+			// 		'SUM_CREDIT'=>($get['SUM_CREDIT'] != NULL)?$get['SUM_CREDIT']:'0',
+			// 		'saldo'=>$dat->saldo
+			// 	);
+			// }
+			return $que->result();
+			// return $data;
+		}
+
+		//Fungsi untuk Neraca
+		public function gen_bal1($brc,$coa,$datestr,$dateend)
+		{
+			if($coa) 
+			{
+				$this->db->where('a.coa_id',$coa);
+			}
+			if($brc)
+			{
+				$this->db->where('b.branch_id',$brc);
+			}
+			if($datestr != NULL AND $dateend != NULL)
+			{
+				$this->db->where('b.jou_date >=',$datestr);
+        		$this->db->where('b.jou_date <=',$dateend);
+			}
+			$this->db->select('
+					c.*, e.*,
+					sum(a.joudet_debit - a.joudet_credit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('(f.partp_sts = 1)');
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$res = $que->result();
+			$data = array();
+			foreach ($res as $dat)
+			{
+				$get = $this->get_saldostr_($dat->COA_ID,$datestr,$brc);
+				$data[]=array(
+					'COA_ACC'=>$dat->COA_ACC,
+					'COA_ACCNAME'=>$dat->COA_ACCNAME,
+					'PAR_ACCNAME'=>$dat->PAR_ACCNAME,
+					'SUM_DEBIT'=>($get['SUM_DEBIT'] != NULL)?$get['SUM_DEBIT']:'0',
+					'SUM_CREDIT'=>($get['SUM_CREDIT'] != NULL)?$get['SUM_CREDIT']:'0',
+					'COA_DEBIT'=>$dat->COA_DEBIT,
+					'COA_CREDIT'=>$dat->COA_CREDIT,
+					'saldo'=>$dat->saldo
+				);
+			}
+			return $data;
+		}
+		public function gen_bal2($brc,$coa,$datestr,$dateend)
+		{
+			if($coa) 
+			{
+				$this->db->where('a.coa_id',$coa);
+			}
+			if($brc) 
+			{
+				$this->db->where('b.branch_id',$brc);
+			}
+			if($datestr != NULL AND $dateend != NULL)
+			{
+				$this->db->where('b.jou_date >=',$datestr);
+        		$this->db->where('b.jou_date <=',$dateend);
+			}
+			$this->db->select('
+					c.*, e.*,
+					sum(a.joudet_credit - a.joudet_debit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('(f.partp_sts = 3 or f.partp_sts = 5)');
+			$this->db->group_by('a.coa_id');
+			$que = $this->db->get();
+			$res = $que->result();
+			$data = array();
+			foreach ($res as $dat)
+			{
+				$get = $this->get_saldostr_($dat->COA_ID,$datestr,$brc);
+				$data[]=array(
+					'COA_ACC'=>$dat->COA_ACC,
+					'COA_ACCNAME'=>$dat->COA_ACCNAME,
+					'PAR_ACCNAME'=>$dat->PAR_ACCNAME,
+					'SUM_DEBIT'=>($get['SUM_DEBIT'] != NULL)?$get['SUM_DEBIT']:'0',
+					'SUM_CREDIT'=>($get['SUM_CREDIT'] != NULL)?$get['SUM_CREDIT']:'0',
+					'COA_DEBIT'=>$dat->COA_DEBIT,
+					'COA_CREDIT'=>$dat->COA_CREDIT,
+					'saldo'=>$dat->saldo
+				);
+			}
+			return $data;
 		}
 	}
 ?>
