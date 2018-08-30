@@ -13,7 +13,7 @@
                         </li>
                     </ul>
                     <form class="form-horizontal" id="form_appr" enctype="multipart/form-data">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="1">
                                 <div class="form-group">

@@ -56,7 +56,7 @@
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
-                                            <input id="jou_date" type='text' class="form-control input-group-addon" name="jou_date" value="<?= date('Y-m-d')?>" readonly />
+                                            <input id="jou_date" type='text' class="form-control input-group-addon" name="jou_date" value="<?= date('Y-m-d')?>" />
                                         </div>
                                     </div>
                                 </div>

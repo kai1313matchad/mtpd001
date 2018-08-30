@@ -56,27 +56,27 @@
 
 		public function gen_saldostr($brc,$coa,$datestr,$dateend)
 		{
-			if($brc != NULL)
-			{
-				$this->db->where('b.branch_id',$brc);
-			}
-			if($coa != NULL)
-			{
-				$this->db->where('a.coa_id',$coa);
-			}
-			if ($datestr != NULL AND $dateend != NULL)
-			{
-				$this->db->where('b.jou_date >=', $datestr);
-        		$this->db->where('b.jou_date <=', $dateend);
-			}
-			$date_ = $datestr;
-			$this->db->select('c.COA_ID, c.COA_ACC, c.COA_ACCNAME, c.COA_DEBIT, c.COA_CREDIT');
-			$this->db->from('jou_details a');
-			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
-			$this->db->join('master_branch d','d.branch_id = b.branch_id');
-			$this->db->group_by('a.coa_id');
-			$que = $this->db->get();
+			// if($brc != NULL)
+			// {
+			// 	$this->db->where('b.branch_id',$brc);
+			// }
+			// if($coa != NULL)
+			// {
+			// 	$this->db->where('a.coa_id',$coa);
+			// }
+			// if ($datestr != NULL AND $dateend != NULL)
+			// {
+			// 	$this->db->where('b.jou_date >=', $datestr);
+   //      		$this->db->where('b.jou_date <=', $dateend);
+			// }
+			// $date_ = $datestr;
+			// $this->db->select('c.COA_ID, c.COA_ACC, c.COA_ACCNAME, c.COA_DEBIT, c.COA_CREDIT');
+			// $this->db->from('jou_details a');
+			// $this->db->join('account_journal b','b.jou_id = a.jou_id');
+			// $this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			// $this->db->join('master_branch d','d.branch_id = b.branch_id');
+			// $this->db->group_by('a.coa_id');
+			$que = $this->db->get_where('chart_of_account',array('coa_dtsts'=>'1'));
 			$res = $que->result();
 			$data = array();
 			foreach ($res as $dat)
@@ -103,8 +103,8 @@
 			$this->db->select('c.COA_ACC, c.COA_ACCNAME, SUM(a.JOUDET_DEBIT) as SUM_DEBIT, SUM(a.JOUDET_CREDIT) as SUM_CREDIT, c.COA_DEBIT, c.COA_CREDIT');
 			$this->db->from('jou_details a');
 			$this->db->join('account_journal b','b.jou_id = a.jou_id');
-			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
 			$this->db->where('b.jou_date <', $date);
 			$this->db->where('a.coa_id', $coa);
 			$this->db->group_by('a.coa_id');
