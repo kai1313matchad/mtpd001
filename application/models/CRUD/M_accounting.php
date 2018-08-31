@@ -299,7 +299,7 @@
 			$this->db->join('master_branch d','d.branch_id = b.branch_id');
 			$this->db->join('parent_chart e','e.par_id = c.par_id');
 			$this->db->join('parent_type f','f.partp_id = e.partp_id');
-			$this->db->where('(f.partp_sts = 3 or f.partp_sts = 5)');
+			$this->db->where('(f.partp_sts = 3)');
 			$this->db->group_by('a.coa_id');
 			$que = $this->db->get();
 			$res = $que->result();
@@ -342,6 +342,35 @@
 			$this->db->where('f.partp_sts','4');
 			$que = $this->db->get();
 			return $que->result();
+		}
+		public function gen_out_bal($brc,$datestr,$dateend)
+		{
+			if($brc != NULL)
+			{
+				$this->db->where('b.branch_id',$brc);
+			}
+			if($datestr != NULL AND $dateend != NULL)
+			{
+				$this->db->where('b.jou_date >=',$datestr);
+        		$this->db->where('b.jou_date <=',$dateend);
+			}
+			$this->db->select('
+					c.*,
+					sum(a.joudet_debit - a.joudet_credit) as saldo
+				');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts','2');
+			$que = $this->db->get();
+			return $que->result();
+		}
+		public function jou_check()
+		{
+			
 		}
 	}
 ?>

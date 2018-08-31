@@ -202,7 +202,6 @@
                 searching: false,                
                 bLengthChange: false,
                 paging: false,
-                // responsive: true,
                 columnDefs:
                 [
                     {orderable: false, targets: '_all'}
@@ -213,11 +212,11 @@
                     var api = this.api(), data;
                     total = api.column(1).data().reduce( function (a,b)
                     {
-                        return parseInt(a) + parseInt(b);
+                        return parseFloat(a) + parseFloat(b);
                     }, 0);
                     total2 = api.column(2).data().reduce( function (a,b)
                     {
-                        return parseInt(a) + parseInt(b);
+                        return parseFloat(a) + parseFloat(b);
                     }, 0);
                     total3 = Math.abs(total2) - total;
                     (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';

@@ -212,6 +212,7 @@
                     {visible: false, targets: 0},                    
                     {orderable: false, targets: '_all'}
                 ],
+                order: [[1,'asc']],
                 rowGroup:
                 {
                     endRender: function(rows, group)

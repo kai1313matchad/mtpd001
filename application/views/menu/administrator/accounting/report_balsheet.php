@@ -150,7 +150,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-                    alert('tes');
+                    alert(data['a'][0]["saldo"]);
+                    alert(data['b'][0]["saldo"]);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
