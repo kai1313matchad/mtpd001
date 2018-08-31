@@ -2785,7 +2785,7 @@
 				$row[] = $dat->GD_NAME;
 				$row[] = $dat->GD_UNIT;
 				$row[] = $dat->GD_MEASURE;
-				$row[] = number_format($dat->GD_PRICE);
+				$row[] = number_format($dat->GD_PRICE,2);
 				$row[] = '<a href="javascript:void(0)" title="Lihat Data" class="btn btn-sm btn-info btn-responsive" onclick="lihat_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-eye-open"></span> </a>  <a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>  <a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_gd('."'".$dat->GD_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 				$data[] = $row;
 			}

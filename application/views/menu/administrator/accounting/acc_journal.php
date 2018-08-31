@@ -13,7 +13,7 @@
                         </li>
                     </ul>
                     <form class="form-horizontal" id="form_appr" enctype="multipart/form-data">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id')?>">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="1">
                                 <div class="form-group">
@@ -79,13 +79,13 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="form-control curr-num" name="jou_accdebetsum">
+                                            <input type="text" class="form-control curr-num-perc" name="jou_accdebetsum">
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input type="text" class="form-control curr-num" name="jou_acccreditsum">
+                                            <input type="text" class="form-control curr-num-perc" name="jou_acccreditsum">
                                         </div>
                                     </div>
                                 </div>

@@ -124,7 +124,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control curr-num" type="text" name="harga">
+                                    <input class="form-control curr-num-perc" type="text" name="harga">
                                     <span class="help-block"></span>
                                 </div>
                             </div>

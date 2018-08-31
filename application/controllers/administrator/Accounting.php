@@ -332,7 +332,7 @@
 			$datestart = ($this->input->post('date_start'))?$this->input->post('date_start'):NULL;
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->accounting->gen_income($brc,$coa,$datestart,$dateend);
-			$data['b'] = $this->accounting->gen_outcome($brc,$coa,$datestart,$dateend);			
+			$data['b'] = $this->accounting->gen_outcome($brc,$coa,$datestart,$dateend);
 			echo json_encode($data);
 		}
 
@@ -356,6 +356,17 @@
 			$dateend = ($this->input->post('date_end'))?$this->input->post('date_end'):NULL;
 			$data['a'] = $this->accounting->gen_bal2($brc,$coa,$datestart,$dateend);
 			$data['b'] = $this->accounting->gen_bal1($brc,$coa,$datestart,$dateend);
+			echo json_encode($data);
+		}
+
+		public function test()
+		{
+			$brc = ($this->input->post('balsh_branchid'))?$this->input->post('balsh_branchid'):NULL;
+			$coa = ($this->input->post('balsh_coaid'))?$this->input->post('balsh_coaid'):NULL;
+			$datestart = ($this->input->post('balsh_datestart'))?$this->input->post('balsh_datestart'):NULL;
+			$dateend = ($this->input->post('balsh_dateend'))?$this->input->post('balsh_dateend'):NULL;
+			$data['a'] = $this->accounting->gen_inc_bal($brc,$datestart,$dateend);
+			$data['b'] = $this->accounting->gen_outcome($brc,$coa,$datestart,$dateend);
 			echo json_encode($data);
 		}
 

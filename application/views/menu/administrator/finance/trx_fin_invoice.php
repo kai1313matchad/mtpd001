@@ -1416,16 +1416,27 @@
         }
         function hitung_()
         {
-            var nom1 = $('[name="invdet_sub"]').val();
-            dpp1 = nom1/1.1;
-            ppn1 = dpp1*0.1;
-            $('[name="inv_termsub"]').val(dpp1);
-            $('[name="inv_termppn"]').val(ppn1);
-            var nom2 = $('[name="invdet_brcsub"]').val();
-            dpp2 = nom2/1.1;
-            ppn2 = dpp2*0.1;
-            $('[name="inv_termsubbrc"]').val(dpp2);
-            $('[name="inv_termppnbrc"]').val(ppn2);
+            var ppn = $('[name="inv_termppn"]').val();
+            if(ppn > 0)
+            {
+                var nom1 = $('[name="invdet_sub"]').val();
+                dpp1 = nom1/1.1;
+                ppn1 = dpp1*0.1;
+                $('[name="inv_termsub"]').val(dpp1);
+                $('[name="inv_termppn"]').val(ppn1);
+                var nom2 = $('[name="invdet_brcsub"]').val();
+                dpp2 = nom2/1.1;
+                ppn2 = dpp2*0.1;
+                $('[name="inv_termsubbrc"]').val(dpp2);
+                $('[name="inv_termppnbrc"]').val(ppn2);
+            }
+            else
+            {
+                var nom1 = $('[name="invdet_sub"]').val();
+                $('[name="inv_termsub"]').val(nom1);
+                var nom2 = $('[name="invdet_brcsub"]').val();
+                $('[name="inv_termsubbrc"]').val(nom2);
+            }
         }
         function inputchg()
         {

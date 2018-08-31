@@ -181,7 +181,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Harga Satuan</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control curr-num" type="text" name="gd_price" readonly>
+                                            <input class="form-control curr-num-perc" type="text" name="gd_price" readonly>
                                         </div>
                                         <div class="col-sm-4">
                                             <input class="form-control" type="text" name="gd_unit1" readonly>
@@ -201,7 +201,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Sub Total</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control curr-num" type="text" name="po_sub" readonly>
+                                            <input class="form-control curr-num-perc" type="text" name="po_sub" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -278,7 +278,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Sub Total</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control curr-num" type="text" name="po_subs" readonly>
+                                            <input class="form-control curr-num-perc" type="text" name="po_subs" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Grand Total</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control curr-num" type="text" name="prc_gtotal" readonly>
+                                            <input class="form-control curr-num-perc" type="text" name="prc_gtotal" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">

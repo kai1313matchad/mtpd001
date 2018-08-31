@@ -55,6 +55,11 @@
                                     <span class="glyphicon glyphicon-print"> Cetak</span>
                                 </a>
                             </div>
+                            <div class="col-sm-2">
+                                <button type="button" onclick="test()" class="btn btn-block btn-warning">
+                                    Tes
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -135,6 +140,23 @@
             var seg3 = $('[name="balsh_dateend"]').val()?$('[name="balsh_dateend"]').val():'null';
             var seg4 = $('[name="balsh_branchid"]').val()?$('[name="balsh_branchid"]').val():'null';
             window.open ( "<?php echo site_url('administrator/Accounting/print_balancesheet/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
+        }
+        function test()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/test')?>",
+                type: "POST",
+                data: $('#form_balsh').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    alert('tes');
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
         }
     </script>
     <!-- Showdata -->
