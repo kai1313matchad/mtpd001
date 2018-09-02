@@ -189,6 +189,28 @@
                             $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right"></td>')
                             ).appendTo('#tb_content2');
                     }
+                    for (var i = 0; i < data['c'].length; i++)
+                    {
+                        var salacc = data['c'][i]["saldo"]
+                        var sal = (salacc > 0)?'<td class="text-right chgnum">'+salacc+'</td>':'<td class="text-right red chgnum">'+salacc+'</td>';
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['c'][i]["PAR_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">'+data['c'][i]["COA_ACC"]+' - '+data['c'][i]["COA_ACCNAME"]+'</td>'),
+                            $(sal),
+                            $('<td name="credit'+data['c'][i]["COA_ACC"]+'" class="text-right"></td>')
+                            ).appendTo('#tb_content');
+                    }
+                    for (var i = 0; i < data['d'].length; i++)
+                    {
+                        var salacc = data['d'][i]["saldo"]
+                        var sal = (salacc > 0)?'<td class="text-right chgnum">'+salacc+'</td>':'<td class="text-right red chgnum">'+salacc+'</td>';
+                        var tr = $('<tr>').append(
+                            $('<td class="text-center">'+data['d'][i]["PAR_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">'+data['d'][i]["COA_ACC"]+' - '+data['d'][i]["COA_ACCNAME"]+'</td>'),
+                            $(sal),
+                            $('<td name="credit'+data['d'][i]["COA_ACC"]+'" class="text-right"></td>')
+                            ).appendTo('#tb_content');
+                    }
                     dt_journal();
                     dt_journal2();
                     $('td.chgnum').number(true,2);                    

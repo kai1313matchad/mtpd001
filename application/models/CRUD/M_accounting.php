@@ -368,6 +368,24 @@
 			$que = $this->db->get();
 			return $que->result();
 		}
+		public function gen_saldomodal($brc,$coa,$dateend)
+		{
+			if ($brc != NULL)
+			{
+				$this->db->where('b.branch_id',$brc);
+			}			
+        	$this->db->where('b.jou_date <=',$dateend);
+			$this->db->select('c.COA_ACC, c.COA_ACCNAME, e.PAR_ACCNAME, sum(a.joudet_credit - a.joudet_debit) as saldo');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('c.coa_acc',$coa);
+			$que = $this->db->get();
+			return $que->result();
+		}
 		public function jou_check()
 		{
 			
