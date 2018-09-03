@@ -57,6 +57,13 @@
         {
             color: red;
         }
+        @media print
+        {
+            .red
+            {
+                color: red !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -265,6 +272,8 @@
                     $('[name="saldodebit"]').text(sum);
                 }
             });
+            $('th').removeClass('sorting_asc');
+            $('th').removeClass('sorting_desc');
         }
 
         function dt_journal2()
