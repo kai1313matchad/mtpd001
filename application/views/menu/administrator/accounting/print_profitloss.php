@@ -50,6 +50,10 @@
         {
             padding-top: 10px;
         }
+        .red
+        {
+            color: red;
+        }
         @media print
         {
             @page
@@ -71,6 +75,10 @@
             {
                 font-size: 16px;
                 font-weight: bold;
+            }
+            .red
+            {
+                color: red !important;
             }
             .table th
             {
@@ -168,10 +176,11 @@
                         // $sum_cre = data['a'][i]['SUM_CREDIT'];
                         // $salstr = ($sum_cre-$sum_deb)*1;
                         // $sal = (data['a'][i]["saldo"]*1)+($salstr*1);
+                        $sal = (data['a'][i]["saldo"]>0)?'<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["saldo"]+'</td>':'<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right red chgnum">'+data['a'][i]["saldo"]+'</td>';
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
-                            $('<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["saldo"]+'</td>')
+                            $($sal)
                             ).appendTo('#tb_content');
                     }
                     for (var i = 0; i < data['b'].length; i++)
@@ -180,10 +189,11 @@
                         // $sum_cre = data['b'][i]['SUM_CREDIT'];
                         // $salstr = ($sum_deb-$sum_cre)*1;
                         // $sal = (data['b'][i]["saldo"]*1)+($salstr*1);
+                        $sal = (data['b'][i]["saldo"]>0)?'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>':'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right red chgnum">'+data['b'][i]["saldo"]+'</td>'
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
                             $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>'),
-                            $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>')
+                            $($sal)
                             ).appendTo('#tb_content');
                     }
                     dt_journal();

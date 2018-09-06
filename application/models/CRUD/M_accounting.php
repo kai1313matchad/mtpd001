@@ -227,6 +227,38 @@
 			// return $data;
 		}
 
+		public function gen_realtimeinc($brc,$dateend)
+		{
+			$this->db->select('c.*,sum(a.joudet_credit - a.joudet_debit) as saldo');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts','4');
+			$this->db->where('b.branch_id',$brc);
+        	$this->db->where('b.jou_date <=',$dateend);
+			$que = $this->db->get();
+			return $que->result();
+		}
+
+		public function gen_realtimeout($brc,$dateend)
+		{
+			$this->db->select('c.*,sum(a.joudet_debit - a.joudet_credit) as saldo');
+			$this->db->from('jou_details a');
+			$this->db->join('account_journal b','b.jou_id = a.jou_id');
+			$this->db->join('chart_of_account c','c.coa_id = a.coa_id');
+			$this->db->join('master_branch d','d.branch_id = b.branch_id');
+			$this->db->join('parent_chart e','e.par_id = c.par_id');
+			$this->db->join('parent_type f','f.partp_id = e.partp_id');
+			$this->db->where('f.partp_sts','2');
+			$this->db->where('b.branch_id',$brc);
+        	$this->db->where('b.jou_date <=',$dateend);
+			$que = $this->db->get();
+			return $que->result();
+		}
+
 		//Fungsi untuk Neraca
 		public function gen_bal1($brc,$coa,$datestr,$dateend)
 		{
@@ -386,9 +418,83 @@
 			$que = $this->db->get();
 			return $que->result();
 		}
-		public function jou_check()
+		public function jou_check($user,$brc,$sum,$dateend)
 		{
-			
+			$this->db->from('account_journal');
+	    	$this->db->where('jou_reff','LR'.date('ym'));
+	    	$this->db->where('branch_id',$brc);
+	    	$que = $this->db->get();
+	    	$get = $que->row();
+	    	$cou = count($get);
+	    	$coadeb = $this->db->get_where('chart_of_account',array('COA_ACC'=>'2140003'))->row()->COA_ID;
+	    	$coacre = $this->db->get_where('chart_of_account',array('COA_ACC'=>'2140002'))->row()->COA_ID;
+	    	$infos = 'Jurnal Laba Rugi';
+	    	if($cou > 0)
+	    	{
+	    		$jou = array(
+		    			'branch_id'=>$brc,
+						'user_id'=>$user,
+						'jou_reff'=>'LR'.date('ym'),
+						'jou_date'=>$dateend,
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$get->JOU_ID));
+		    	$this->crud->delete_by_id('jou_details',array('jou_id' => $get->JOU_ID));
+		    	//Input Detail Jurnal Debet
+		    	$joudet1 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$coadeb,
+						'joudet_debit'=>$sum,
+						'joudet_credit'=>0
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				//Input Detail Jurnal Kredit
+				$joudet2 = array(
+						'jou_id'=>$get->JOU_ID,
+						'coa_id'=>$coacre,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$sum
+						);
+				$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+	    	}
+	    	else
+	    	{
+		    	$gen = $this->gen->gen_numjou();
+				$jouid = $gen['insertId'];
+				$joucode = $gen['jou_code'];
+		    	$jou = array(
+		    			'branch_id'=>$brc,
+						'user_id'=>$user,
+						'jou_code'=>$joucode,
+						'jou_reff'=>'LR'.date('ym'),
+						'jou_date'=>$dateend,
+						'jou_info'=>$infos,
+						'jou_sts'=>'1'
+		    	);
+		    	$update = $this->crud->update('account_journal',$jou,array('jou_id'=>$jouid));
+		    	//Input Detail Jurnal Debet
+		    	$joudet1 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$this->input->post('acc_id'),
+						'joudet_debit'=>$getsum,
+						'joudet_credit'=>0,
+						);
+				$insjoudet1 = $this->crud->save('jou_details',$joudet1);
+				//Input Detail Jurnal Kredit
+				$que2 = $this->db->get_where('cashin_det',array('csh_id'=>$this->input->post('kas_id')));
+	    	    $get2 = $que2->result();
+	    	    foreach($get2 as $dat) 
+	    	    {
+					$joudet2 = array(
+						'jou_id'=>$jouid,
+						'coa_id'=>$dat->COA_ID,
+						'joudet_debit'=>0,
+						'joudet_credit'=>$dat->CSHDETIN_AMOUNT
+						);
+					$insjoudet2 = $this->crud->save('jou_details',$joudet2);
+				}
+	    	}
 		}
 	}
 ?>

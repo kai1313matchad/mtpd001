@@ -43,6 +43,7 @@
 			$this->load->model('datatables/showdata/Dt_showrptprcga','rpt_prcga');
 			$this->load->model('datatables/showdata/Dt_showrptusgga','rpt_usgga');
 			$this->load->model('datatables/showdata/Dt_showrptstock','rpt_stock');
+			$this->load->model('datatables/showdata/Dt_hisproloss','rpt_hisproloss');
 		}
 
 		//Tampil Master Departemen
@@ -1023,6 +1024,35 @@
 							"draw" => $_POST['draw'],
 							"recordsTotal" => $this->saldo_coa->count_all(),
 							"recordsFiltered" => $this->saldo_coa->count_filtered(),
+							"data" => $data,
+					);			
+			echo json_encode($output);
+		}
+
+		//Tampil Saldo Laba Rugi
+		public function showphisroloss_saldo()
+		{
+			$brc = $this->session->userdata('user_branch');
+			$coa = '2140003';
+			$list = $this->rpt_hisproloss->get_datatables($coa,$brc);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $dat) {
+				$no++;
+				$row = array();
+				$row[] = $dat->COA_ACC.' - '.$dat->COA_ACCNAME;
+				$row[] = $dat->JOU_DATE;
+				$row[] = $dat->JOU_CODE;
+				$row[] = $dat->JOU_REFF;
+				$row[] = $dat->JOU_INFO;
+				$row[] = $dat->JOUDET_DEBIT;
+				$row[] = $dat->JOUDET_CREDIT;
+				$data[] = $row;
+			}
+			$output = array(
+							"draw" => $_POST['draw'],
+							"recordsTotal" => $this->rpt_hisproloss->count_all(),
+							"recordsFiltered" => $this->rpt_hisproloss->count_filtered($coa,$brc),
 							"data" => $data,
 					);			
 			echo json_encode($output);
