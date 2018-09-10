@@ -192,8 +192,8 @@
                         $sal = (data['b'][i]["saldo"]>0)?'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>':'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right red chgnum">'+data['b'][i]["saldo"]+'</td>'
                         var tr = $('<tr>').append(
                             $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
-                            $('<td name="debet'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>'),
-                            $($sal)
+                            $($sal),
+                            $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>')
                             ).appendTo('#tb_content');
                     }
                     dt_journal();
