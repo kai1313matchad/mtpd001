@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `account_journal` (
   KEY `FK_R53` (`BRANCH_ID`),
   CONSTRAINT `FK_R50` FOREIGN KEY (`USER_ID`) REFERENCES `master_user` (`USER_ID`),
   CONSTRAINT `FK_R53` FOREIGN KEY (`BRANCH_ID`) REFERENCES `master_branch` (`BRANCH_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.account_journal: ~70 rows (approximately)
+-- Dumping data for table mtpd2.account_journal: ~80 rows (approximately)
 /*!40000 ALTER TABLE `account_journal` DISABLE KEYS */;
 INSERT INTO `account_journal` (`JOU_ID`, `BRANCH_ID`, `USER_ID`, `JOU_CODE`, `JOU_STS`, `JOU_REFF`, `JOU_DATE`, `JOU_INFO`, `JOU_DEBIT`, `JOU_CREDIT`) VALUES
 	(1, 1, 1, 'JOU/1801/000001', '1', '', '2018-01-04', 'Bayar Uang Makan', NULL, NULL),
@@ -107,7 +107,13 @@ INSERT INTO `account_journal` (`JOU_ID`, `BRANCH_ID`, `USER_ID`, `JOU_CODE`, `JO
 	(80, 1, 1, 'JOU/1808/000013', '1', '', '2018-08-29', 'azsazsa', NULL, NULL),
 	(81, 1, 1, 'JOU/1808/000014', '1', 'BL/1808/000004', '2018-08-31', 'Jurnal Pembelian dari PT Maju Jaya', NULL, NULL),
 	(82, NULL, NULL, 'JOU/1808/000015', '1', NULL, NULL, 'Jurnal Laba Rugi', NULL, NULL),
-	(83, NULL, NULL, 'JOU/1808/000016', '1', NULL, NULL, 'Jurnal Laba Rugi', NULL, NULL);
+	(83, NULL, NULL, 'JOU/1808/000016', '1', NULL, NULL, 'Jurnal Laba Rugi', NULL, NULL),
+	(84, 1, 1, 'JOU/1809/000001', '1', 'LR-082018', '2018-08-31', 'JURNAL LABA/RUGIBULAN 8 TH 2018', NULL, NULL),
+	(85, NULL, NULL, 'JOU/1809/000002', '0', NULL, NULL, NULL, NULL, NULL),
+	(86, 1, 1, 'JOU/1809/000003', '1', 'LR-072018', '2018-07-31', 'JURNAL LABA/RUGIBULAN 7 TH 2018', NULL, NULL),
+	(88, 1, 1, 'JOU/1809/000005', '1', '', '2018-09-12', 'TES', NULL, NULL),
+	(89, 1, 1, 'JOU/1809/000006', '1', '', '2018-09-12', 'tes', NULL, NULL),
+	(90, 1, 1, 'JOU/1809/000007', '1', 'LR-092018', '2018-09-12', 'Jurnal Laba/Rugi Bulan 09 TH 2018', NULL, NULL);
 /*!40000 ALTER TABLE `account_journal` ENABLE KEYS */;
 
 -- Dumping structure for table mtpd2.appr_cost_det
@@ -1300,7 +1306,7 @@ CREATE TABLE IF NOT EXISTS `his_cashout` (
   CONSTRAINT `FKHISCSHO1` FOREIGN KEY (`CSHO_ID`) REFERENCES `trx_cash_out` (`CSHO_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.his_cashout: ~10 rows (approximately)
+-- Dumping data for table mtpd2.his_cashout: ~9 rows (approximately)
 /*!40000 ALTER TABLE `his_cashout` DISABLE KEYS */;
 INSERT INTO `his_cashout` (`HISCSHO_ID`, `CSHO_ID`, `HISCSHO_STS`, `HISCSHO_OLD`, `HISCSHO_NEW`, `HISCSHO_INFO`, `HISCSHO_DATE`, `HISCSHO_UPCOUNT`) VALUES
 	(7, 26, 'Void By System', 'None', 'None', 'Create By System', '2018-04-02', '0'),
@@ -1483,7 +1489,7 @@ CREATE TABLE IF NOT EXISTS `his_po` (
   CONSTRAINT `FK_R89` FOREIGN KEY (`PO_ID`) REFERENCES `trx_po` (`PO_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.his_po: ~26 rows (approximately)
+-- Dumping data for table mtpd2.his_po: ~23 rows (approximately)
 /*!40000 ALTER TABLE `his_po` DISABLE KEYS */;
 INSERT INTO `his_po` (`HISPO_ID`, `PO_ID`, `HISPO_STS`, `HISPO_OLD`, `HISPO_NEW`, `HISPO_INFO`, `HISPO_DATE`, `HISPO_UPCOUNT`) VALUES
 	(1, 14, 'Void By System', 'None', 'None', 'Create By System', '2018-03-14', '0'),
@@ -1560,7 +1566,7 @@ CREATE TABLE IF NOT EXISTS `his_prc` (
   CONSTRAINT `FK_R90` FOREIGN KEY (`PRC_ID`) REFERENCES `trx_procurement` (`PRC_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.his_prc: ~41 rows (approximately)
+-- Dumping data for table mtpd2.his_prc: ~37 rows (approximately)
 /*!40000 ALTER TABLE `his_prc` DISABLE KEYS */;
 INSERT INTO `his_prc` (`HISPRC_ID`, `PRC_ID`, `HISPRC_STS`, `HISPRC_OLD`, `HISPRC_NEW`, `HISPRC_INFO`, `HISPRC_DATE`, `HISPRC_UPCOUNT`) VALUES
 	(1, 13, 'Void By System', 'None', 'None', 'Create By System', '2018-03-15', '0'),
@@ -1924,9 +1930,9 @@ CREATE TABLE IF NOT EXISTS `jou_details` (
   KEY `FKJOUDET2` (`COA_ID`),
   CONSTRAINT `FKJOUDET1` FOREIGN KEY (`JOU_ID`) REFERENCES `account_journal` (`JOU_ID`),
   CONSTRAINT `FKJOUDET2` FOREIGN KEY (`COA_ID`) REFERENCES `chart_of_account` (`COA_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=284 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=316 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.jou_details: ~141 rows (approximately)
+-- Dumping data for table mtpd2.jou_details: ~156 rows (approximately)
 /*!40000 ALTER TABLE `jou_details` DISABLE KEYS */;
 INSERT INTO `jou_details` (`JOUDET_ID`, `JOU_ID`, `COA_ID`, `JOUDET_DEBIT`, `JOUDET_CREDIT`, `JOUDET_STS`) VALUES
 	(3, 1, 12, 100000.00, 0.00, '0'),
@@ -2074,7 +2080,17 @@ INSERT INTO `jou_details` (`JOUDET_ID`, `JOU_ID`, `COA_ID`, `JOUDET_DEBIT`, `JOU
 	(275, 80, 1, 100000.00, 0.00, '0'),
 	(276, 80, 9, 0.00, 100000.00, '0'),
 	(282, 81, 23, 0.00, 105001.50, '0'),
-	(283, 81, 22, 105001.50, 0.00, '0');
+	(283, 81, 22, 105001.50, 0.00, '0'),
+	(284, 84, 35, 0.00, 117594998.50, '0'),
+	(285, 84, 34, 117594998.50, 0.00, '0'),
+	(286, 86, 35, 0.00, 380940000.00, '0'),
+	(287, 86, 34, 380940000.00, 0.00, '0'),
+	(296, 88, 9, 0.00, 100000.00, '0'),
+	(297, 88, 1, 100000.00, 0.00, '0'),
+	(300, 89, 1, 0.00, 150000.00, '0'),
+	(301, 89, 24, 150000.00, 0.00, '0'),
+	(314, 90, 35, 50000.00, 0.00, '0'),
+	(315, 90, 34, 0.00, 50000.00, '0');
 /*!40000 ALTER TABLE `jou_details` ENABLE KEYS */;
 
 -- Dumping structure for table mtpd2.master_bank
@@ -2773,7 +2789,7 @@ CREATE TABLE IF NOT EXISTS `po_details` (
   CONSTRAINT `FK_R21` FOREIGN KEY (`GD_ID`) REFERENCES `master_goods` (`GD_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.po_details: ~17 rows (approximately)
+-- Dumping data for table mtpd2.po_details: ~16 rows (approximately)
 /*!40000 ALTER TABLE `po_details` DISABLE KEYS */;
 INSERT INTO `po_details` (`PODET_ID`, `PO_ID`, `GD_ID`, `PODET_QTYUNIT`, `PODET_SUB`) VALUES
 	(8, 6, 1, 2.00, 20000.00),
@@ -2872,7 +2888,7 @@ CREATE TABLE IF NOT EXISTS `prc_details` (
   CONSTRAINT `FK_R28` FOREIGN KEY (`GD_ID`) REFERENCES `master_goods` (`GD_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.prc_details: ~17 rows (approximately)
+-- Dumping data for table mtpd2.prc_details: ~16 rows (approximately)
 /*!40000 ALTER TABLE `prc_details` DISABLE KEYS */;
 INSERT INTO `prc_details` (`PRCDET_ID`, `PRC_ID`, `GD_ID`, `PRCDET_QTY`, `PRCDET_SUB`) VALUES
 	(1, 3, 1, 2.00, 20000.00),
@@ -3546,7 +3562,7 @@ CREATE TABLE IF NOT EXISTS `trx_cash_out` (
   CONSTRAINT `FK_R97` FOREIGN KEY (`COA_ID`) REFERENCES `chart_of_account` (`COA_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.trx_cash_out: ~15 rows (approximately)
+-- Dumping data for table mtpd2.trx_cash_out: ~14 rows (approximately)
 /*!40000 ALTER TABLE `trx_cash_out` DISABLE KEYS */;
 INSERT INTO `trx_cash_out` (`CSHO_ID`, `USER_ID`, `BRANCH_ID`, `DEPT_ID`, `COA_ID`, `CURR_ID`, `CSHO_CODE`, `CSHO_DATE`, `CSHO_INFO`, `CSHO_STS`, `CSHO_DTSTS`, `CSHO_TAXHEADCODE`, `CSHO_TAXCODE`, `CSHO_APPR`, `CSHO_SUPP`, `CSHO_BUDGET`) VALUES
 	(15, 1, 1, 2, 15, 1, 'KK/1802/000001', '2018-02-06', NULL, '1', NULL, NULL, NULL, '10', NULL, '4'),
@@ -3788,7 +3804,7 @@ CREATE TABLE IF NOT EXISTS `trx_po` (
   CONSTRAINT `FK_R33` FOREIGN KEY (`USER_ID`) REFERENCES `master_user` (`USER_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.trx_po: ~22 rows (approximately)
+-- Dumping data for table mtpd2.trx_po: ~20 rows (approximately)
 /*!40000 ALTER TABLE `trx_po` DISABLE KEYS */;
 INSERT INTO `trx_po` (`PO_ID`, `USER_ID`, `BRANCH_ID`, `CURR_ID`, `APPR_ID`, `SUPP_ID`, `LOC_ID`, `PO_CODE`, `PO_STS`, `PO_DATE`, `PO_ORDNUM`, `PO_TERM`, `PO_INFO`, `PO_SUB`, `PO_GTOTAL`) VALUES
 	(6, 1, 1, 1, 4, 1, 2, 'PO/1801/000001', '1', '2018-01-29', 'SO9879', '-', 'Langsung bayar', 20000, 20000),
@@ -3928,7 +3944,7 @@ CREATE TABLE IF NOT EXISTS `trx_procurement` (
   CONSTRAINT `FK_R34` FOREIGN KEY (`USER_ID`) REFERENCES `master_user` (`USER_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mtpd2.trx_procurement: ~5 rows (approximately)
+-- Dumping data for table mtpd2.trx_procurement: ~20 rows (approximately)
 /*!40000 ALTER TABLE `trx_procurement` DISABLE KEYS */;
 INSERT INTO `trx_procurement` (`PRC_ID`, `PO_ID`, `USER_ID`, `BRANCH_ID`, `CURR_ID`, `PRC_CODE`, `PRC_DATE`, `PRC_INVOICE`, `PRC_INFO`, `PRC_STS`, `PRC_SUB`, `PRC_DISC`, `PRC_PPN`, `PRC_COST`, `PRC_GTOTAL`) VALUES
 	(3, 6, 1, 1, 1, 'BL/1801/000001', '2018-01-29', 'INV09765', 'Langsung bayar', '0', 20000.00, 0, 0, 10000, 30000.00),
