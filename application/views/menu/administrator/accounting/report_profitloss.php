@@ -184,14 +184,18 @@
         $(document).ready(function()
         {
             dt_his();
-            drop_coa();
+            // drop_coa();
             pick_saldo();
-            $('td.chgnum').number(true,2);            
         });
 
         function filter_trbal()
         {
             $('#dtb_trbal').DataTable().ajax.reload(null,false);
+        }
+
+        function reload()
+        {
+            $('#dtb_histproloss').DataTable().ajax.reload(null,false);
         }
 
         function print_profloss()
@@ -202,36 +206,65 @@
             var seg4 = $('[name="trbal_branchid"]').val()?$('[name="trbal_branchid"]').val():'null';
             window.open ( "<?php echo site_url('administrator/Accounting/print_profitloss/')?>"+seg1+'/'+seg2+'/'+seg3+'/'+seg4,'_blank');
         }
+
+        function post_profloss()
+        {
+            $.ajax({
+                url : "<?php echo site_url('administrator/Accounting/post_profitloss')?>",
+                type: "POST",
+                data: $('#form_posting').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data.status)
+                    {
+                        alert('Sukses Di Posting');
+                        pick_saldo();
+                        reload();
+                    }
+                    else
+                    {
+                        alert('Saldo Sudah Sama');
+                        pick_saldo();
+                        reload();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
     </script>
     <!-- Showdata -->
     <script>
-        function dt_trialbal()
-        {
-            table = $('#dtb_trbal').DataTable({
-                "info": false,
-                "destroy": true,
-                "responsive": true,
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": "<?php echo site_url('administrator/Showdata/showrpt_trialbal')?>",
-                    "type": "POST",
-                    "data": function(data){
-                        data.coaid = $('[name="trbal_coaid"]').val();
-                        data.date_start = $('[name="trbal_datestart"]').val();
-                        data.date_end = $('[name="trbalg_dateend"]').val();
-                        data.branch = $('[name="trbal_branchid"]').val();
-                    },
-                },                
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ],
-                    "orderable": false,
-                },
-                ],
-            });
-        }
+        // function dt_trialbal()
+        // {
+        //     table = $('#dtb_trbal').DataTable({
+        //         "info": false,
+        //         "destroy": true,
+        //         "responsive": true,
+        //         "processing": true,
+        //         "serverSide": true,
+        //         "order": [],
+        //         "ajax": {
+        //             "url": "<?php echo site_url('administrator/Showdata/showrpt_trialbal')?>",
+        //             "type": "POST",
+        //             "data": function(data){
+        //                 data.coaid = $('[name="trbal_coaid"]').val();
+        //                 data.date_start = $('[name="trbal_datestart"]').val();
+        //                 data.date_end = $('[name="trbalg_dateend"]').val();
+        //                 data.branch = $('[name="trbal_branchid"]').val();
+        //             },
+        //         },                
+        //         "columnDefs": [
+        //         { 
+        //             "targets": [ 0 ],
+        //             "orderable": false,
+        //         },
+        //         ],
+        //     });
+        // }
         function dt_his()
         {
             table = $('#dtb_histproloss').DataTable({
@@ -267,7 +300,7 @@
                             return a+b*1;
                         }, 0);
 
-                        var sum3 = (sum-sum2)*1;
+                        var sum3 = (sum2-sum)*1;
                         sum3 = (sum3 > 0) ? $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum3) : '('+$.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(sum3))+')';
                         sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum);
                         sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum2);
@@ -409,21 +442,20 @@
                 }
             });
         }
-        function pick_saldo(id)
+        function pick_saldo()
         {
             $.ajax({
                 url : "<?php echo site_url('administrator/Accounting/gen_saldoprofitloss')?>",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data)
-                {   
+                {
                     saldoposted = data['a'][0]["saldo"];
                     saldoinc = data['b'][0]['saldo'];
                     saldoout = data['c'][0]['saldo'];
-                    saldort = (saldoout-saldoinc)*1;
+                    saldort = (saldoinc-saldoout)*1;
                     $('[name="saldo_rt"]').val(parseFloat(saldort).toFixed(2));
                     $('[name="saldo_rtp"]').val(parseFloat(saldoposted).toFixed(2));
-                    alert(saldort);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

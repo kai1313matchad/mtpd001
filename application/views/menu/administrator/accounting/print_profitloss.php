@@ -118,13 +118,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 col-xs-12 table-responsive">
+            <!-- <div class="col-sm-12 col-xs-12 table-responsive">
                 <table id="dtb_rptldg" class="table table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th class="text-center">
                                 Rekening
-                            </th>                            
+                            </th>
                             <th class="text-center">
                                 Debet
                             </th>
@@ -142,6 +142,44 @@
                         </tr>
                         <tr>                            
                             <th colspan="2" name="saldostatus" class="text-right chgnum">Laba/Rugi</th>
+                            <th name="saldoend" class="text-right chgnum"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div> -->
+            <div class="col-sm-12 col-xs-12 table-responsive">
+                <table id="dtb_rptldg" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Jenis
+                            </th>
+                            <th class="text-center">
+                                Rekening
+                            </th>
+                            <th class="text-center">
+                                Sub-Nominal
+                            </th>
+                            <th class="text-center">
+                                Nominal
+                            </th>
+                            <th class="text-center">
+                                Debet
+                            </th>
+                            <th class="text-center">
+                                Kredit
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_content"></tbody>
+                    <tfoot>
+                        <!-- <tr>
+                            <th class="text-right">Saldo</th>
+                            <th name="saldodebit" class="text-right chgnum"></th>
+                            <th name="saldocredit" class="text-right chgnum"></th>
+                        </tr> -->
+                        <tr>
+                            <th colspan="3" name="saldostatus" class="text-right chgnum">Laba/Rugi</th>
                             <th name="saldoend" class="text-right chgnum"></th>
                         </tr>
                     </tfoot>
@@ -172,26 +210,25 @@
                 {
                     for (var i = 0; i < data['a'].length; i++)
                     {
-                        // $sum_deb = data['a'][i]['SUM_DEBIT'];
-                        // $sum_cre = data['a'][i]['SUM_CREDIT'];
-                        // $salstr = ($sum_cre-$sum_deb)*1;
-                        // $sal = (data['a'][i]["saldo"]*1)+($salstr*1);
                         $sal = (data['a'][i]["saldo"]>0)?'<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['a'][i]["saldo"]+'</td>':'<td name="credit'+data['a'][i]["COA_ACC"]+'" class="text-right red chgnum">'+data['a'][i]["saldo"]+'</td>';
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">Pendapatan</td>'),
+                            $('<td class="text-left">'+data['a'][i]["COA_ACC"]+' - '+data['a'][i]["COA_ACCNAME"]+'</td>'),                            
+                            // $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
+                            $($sal),
+                            $('<td></td>'),
                             $('<td name="debet'+data['a'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>'),
                             $($sal)
                             ).appendTo('#tb_content');
                     }
                     for (var i = 0; i < data['b'].length; i++)
                     {
-                        // $sum_deb = data['b'][i]['SUM_DEBIT'];
-                        // $sum_cre = data['b'][i]['SUM_CREDIT'];
-                        // $salstr = ($sum_deb-$sum_cre)*1;
-                        // $sal = (data['b'][i]["saldo"]*1)+($salstr*1);
                         $sal = (data['b'][i]["saldo"]>0)?'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">'+data['b'][i]["saldo"]+'</td>':'<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right red chgnum">'+data['b'][i]["saldo"]+'</td>'
                         var tr = $('<tr>').append(
-                            $('<td class="text-center">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
+                            $('<td class="text-center">Pengeluaran</td>'),
+                            $('<td class="text-left">'+data['b'][i]["COA_ACC"]+' - '+data['b'][i]["COA_ACCNAME"]+'</td>'),
+                            $($sal),
+                            $('<td></td>'),
                             $($sal),
                             $('<td name="credit'+data['b'][i]["COA_ACC"]+'" class="text-right chgnum">0</td>')
                             ).appendTo('#tb_content');
@@ -214,29 +251,47 @@
                 paging: false,
                 columnDefs:
                 [
+                    {visible: false, targets: [0,4,5]},
                     {orderable: false, targets: '_all'}
                 ],
                 ordering: false,
+                rowGroup:
+                {
+                    endRender: function(rows, group)
+                    {
+                        var sum = rows.data().pluck(2)
+                        .reduce(function(a,b)
+                        {
+                            return parseFloat(a)+parseFloat(b);
+                        }, 0);
+
+                        sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum);
+
+                        return $('<tr/>')                        
+                        .append( '<td>'+group+'</td>' )
+                        .append( '<td class="text-right"></td>')
+                        .append( '<td class="text-right">'+sum+'</td>' );
+                    },
+                    dataSrc: 0
+                },
                 drawCallback: function(settings)
                 {
                     var api = this.api(), data;
-                    total = api.column(1).data().reduce( function (a,b)
+                    total = api.column(4).data().reduce( function (a,b)
                     {
                         return parseFloat(a) + parseFloat(b);
                     }, 0);
-                    total2 = api.column(2).data().reduce( function (a,b)
+                    total2 = api.column(5).data().reduce( function (a,b)
                     {
                         return parseFloat(a) + parseFloat(b);
                     }, 0);
                     total3 = Math.abs(total2) - total;
-                    (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
-                    sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(total);
-                    sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(total2));
+                    // (total3 > 0) ? txt = 'LABA' : txt = 'RUGI';
+                    // sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(total);
+                    // sum2 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(total2));
                     sum3 = $.fn.dataTable.render.number(',','.',2,'Rp ').display(Math.abs(total3));
-                    $('[name="saldodebit"]').text(sum);
-                    $('[name="saldocredit"]').text(sum2);
-                    // $('[name="saldostatus"]').text(txt);
-                    // $('[name="saldoend"]').text(sum3);
+                    // $('[name="saldodebit"]').text(sum);
+                    // $('[name="saldocredit"]').text(sum2);
                     (total3 > 0) ? $('[name="saldoend"]').text(sum3) : $('[name="saldoend"]').text('('+sum3+')');
                 }
             });

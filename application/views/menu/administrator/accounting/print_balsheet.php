@@ -249,12 +249,12 @@
                         var sum = rows.data().pluck(2)
                         .reduce(function(a,b)
                         {
-                            return a+b*1;
+                            return parseFloat(a)+parseFloat(b);
                         }, 0);
 
                         sum = $.fn.dataTable.render.number(',','.',2,'Rp ').display(sum);
 
-                        return $('<tr/>')                        
+                        return $('<tr/>')
                         .append( '<td>'+group+'</td>' )
                         .append( '<td class="text-right"></td>')
                         .append( '<td class="text-right">'+sum+'</td>' );

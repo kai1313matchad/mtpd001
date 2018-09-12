@@ -347,6 +347,24 @@
 			echo json_encode($data);
 		}
 
+		public function post_profitloss()
+		{
+			if(floatval($this->input->post('saldo_rt')) == floatval($this->input->post('saldo_rtp')))
+			{
+				$data['status'] = FALSE;
+			}
+			else
+			{
+				$user = $this->session->userdata('user_id');
+				$brc = $this->session->userdata('user_branch');
+				$sum = floatval($this->input->post('saldo_rt'))-floatval($this->input->post('saldo_rtp'));
+				$dateend = date('Y-m-d');
+				$post = $this->accounting->post_profitloss($user,$brc,$sum,$dateend);
+				$data['status'] = TRUE;
+			}
+			echo json_encode($data);
+		}
+
 		public function print_balancesheet()
 		{
 			$data['coaid'] = ($this->uri->segment(4) == 'null') ? '' : $this->uri->segment(4);
